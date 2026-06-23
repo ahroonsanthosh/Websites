@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#2b1d14" />
   <title>Parkgate Coffee · Tralee, Co. Kerry</title>
-  <meta name="description" content="Parkgate Coffee — voted Best Coffee in Kerry 2023. Speciality coffee, fresh bakes and a warm welcome in the heart of Tralee, Co. Kerry." />
+  <meta name="description" content="Parkgate Coffee — Best of Kerry Awards, Best Coffee. Speciality coffee, fresh bakes and a warm welcome on Prince's Street, Tralee, Co. Kerry." />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Parkgate Coffee · Tralee" />
-  <meta property="og:description" content="Voted Best Coffee in Kerry 2023 🏆 — speciality coffee & fresh bakes in Tralee." />
+  <meta property="og:description" content="🏆 Best of Kerry Awards, Best Coffee — speciality coffee & fresh bakes on Prince's St, Tralee." />
   <meta property="og:type" content="website" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,7 +37,14 @@
   <!-- ===== Header ===== -->
   <header class="nav" id="nav">
     <a href="#home" class="nav__brand" aria-label="Parkgate Coffee home">
-      <span class="nav__brand-mark">☕</span>
+      <svg class="gate-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="18" cy="29" r="4.5"/><circle cx="82" cy="29" r="4.5"/>
+        <rect x="13" y="35" width="10" height="53"/><rect x="77" y="35" width="10" height="53"/>
+        <path d="M28 46 C28 31 50 23 50 23 C50 23 72 31 72 46"/>
+        <path d="M50 23 V11"/><path d="M43.5 13 H56.5"/>
+        <path d="M34 42 V88 M42 38 V88 M50 36 V88 M58 38 V88 M66 42 V88"/>
+        <path d="M30 56 H70 M30 73 H70"/><path d="M9 88 H91"/>
+      </svg>
       <span class="nav__brand-text">Parkgate<em>Coffee</em></span>
     </a>
 
@@ -56,19 +63,19 @@
 
   <main>
     <!-- ===== Hero ===== -->
-    <section class="hero" id="home">
-      <div class="hero__bg" aria-hidden="true"></div>
-      <div class="hero__glow" aria-hidden="true"></div>
+    <section class="hero hero--photo" id="home">
+      <div class="hero__bg" data-img="images/storefront.jpg" aria-hidden="true"></div>
+      <div class="hero__overlay" aria-hidden="true"></div>
 
       <div class="hero__inner">
-        <p class="hero__eyebrow reveal" data-reveal>🏆 Voted Best Coffee in Kerry 2023</p>
+        <p class="hero__eyebrow reveal" data-reveal>🏆 Best of Kerry Awards · Best Coffee</p>
         <h1 class="hero__title">
           <span class="reveal" data-reveal style="--d:.05s">Slow mornings,</span>
           <span class="reveal hero__title-accent" data-reveal style="--d:.16s">serious coffee.</span>
         </h1>
         <p class="hero__lede reveal" data-reveal style="--d:.28s">
-          A neighbourhood roastery and café in the heart of Tralee, Co. Kerry —
-          where every cup is pulled with care and the welcome is always warm.
+          A little black-and-amber coffee house on Prince's Street, Tralee —
+          speciality coffee, fresh bakes and the kind of welcome Kerry is known for.
         </p>
         <div class="hero__actions reveal" data-reveal style="--d:.38s">
           <a href="#menu" class="btn btn--solid">See the menu</a>
@@ -76,9 +83,9 @@
         </div>
 
         <dl class="hero__stats reveal" data-reveal style="--d:.5s">
-          <div><dt>Est.</dt><dd>2018</dd></div>
-          <div><dt>Beans</dt><dd>House roast</dd></div>
-          <div><dt>Bakes</dt><dd>Daily &amp; fresh</dd></div>
+          <div><dt>Beans by</dt><dd>Roasted Brown</dd></div>
+          <div><dt>Bakes</dt><dd>Fresh daily</dd></div>
+          <div><dt>Award</dt><dd>Best of Kerry</dd></div>
         </dl>
       </div>
 
@@ -90,41 +97,42 @@
     <!-- ===== Marquee ===== -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>Speciality coffee</span><span>•</span><span>House roasted</span><span>•</span>
-        <span>Fresh bakes daily</span><span>•</span><span>Brunch all day</span><span>•</span>
-        <span>Tralee, Co. Kerry</span><span>•</span><span>Best in Kerry 2023</span><span>•</span>
-        <span>Speciality coffee</span><span>•</span><span>House roasted</span><span>•</span>
-        <span>Fresh bakes daily</span><span>•</span><span>Brunch all day</span><span>•</span>
-        <span>Tralee, Co. Kerry</span><span>•</span><span>Best in Kerry 2023</span><span>•</span>
+        <span>Speciality coffee</span><span>•</span><span>Beans by Roasted Brown</span><span>•</span>
+        <span>Fresh bakes daily</span><span>•</span><span>Breakfast pots</span><span>•</span>
+        <span>Prince's St, Tralee</span><span>•</span><span>Best of Kerry · Best Coffee</span><span>•</span>
+        <span>Speciality coffee</span><span>•</span><span>Beans by Roasted Brown</span><span>•</span>
+        <span>Fresh bakes daily</span><span>•</span><span>Breakfast pots</span><span>•</span>
+        <span>Prince's St, Tralee</span><span>•</span><span>Best of Kerry · Best Coffee</span><span>•</span>
       </div>
     </div>
 
     <!-- ===== Story ===== -->
     <section class="story" id="story">
       <div class="story__media reveal" data-reveal>
-        <div class="story__img" data-img="https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=900&q=70"></div>
+        <div class="story__img" data-img="images/cup-church.jpg"></div>
         <div class="story__badge">
-          <span>Since</span>
-          <strong>2018</strong>
+          <span>Best of</span>
+          <strong>Kerry</strong>
         </div>
       </div>
       <div class="story__copy">
         <p class="kicker reveal" data-reveal>Our story</p>
         <h2 class="reveal" data-reveal style="--d:.08s">A little café with a serious love of coffee.</h2>
         <p class="reveal" data-reveal style="--d:.16s">
-          Parkgate began with a simple idea: that a great cup of coffee can set the tone
-          for the whole day. We roast in small batches, pour over with patience, and
-          bake everything fresh each morning in our Tralee kitchen.
+          Parkgate is a small, independent coffee house on Prince's Street in the heart
+          of Tralee. We pour speciality coffee with beans from Irish roasters
+          <strong>Roasted&nbsp;Brown</strong>, and bake fresh every morning — from
+          millionaire's shortbread to a proper pear &amp; almond tart.
         </p>
         <p class="reveal" data-reveal style="--d:.24s">
-          Whether you're grabbing a flat white on the way to work or settling in for a
-          slow Sunday brunch, you'll find the same thing every time — proper coffee,
-          good food, and the kind of welcome Kerry is known for.
+          Grab a flat white on your way past, settle in with a breakfast pot, or take
+          a little home — we stock brewing kit and beans too, from AeroPress and Bialetti
+          to KeepCup, Chilly's bottles and Urney chocolates.
         </p>
         <ul class="story__points reveal" data-reveal style="--d:.32s">
-          <li><span>✺</span> Small-batch house roast</li>
-          <li><span>✺</span> Locally sourced milk &amp; bakes</li>
-          <li><span>✺</span> Plant-based options always</li>
+          <li><span>✺</span> Speciality beans by Roasted Brown</li>
+          <li><span>✺</span> Fresh bakes &amp; gluten-free options</li>
+          <li><span>✺</span> Plant-based always · 20c off with a clean KeepCup</li>
         </ul>
       </div>
     </section>
@@ -133,9 +141,9 @@
     <section class="menu" id="menu">
       <header class="section-head">
         <p class="kicker reveal" data-reveal>The menu</p>
-        <h2 class="reveal" data-reveal style="--d:.08s">From the bar &amp; the kitchen</h2>
+        <h2 class="reveal" data-reveal style="--d:.08s">What we pour &amp; bake</h2>
         <p class="section-head__sub reveal" data-reveal style="--d:.16s">
-          A snapshot of what we pour and plate. Specials change with the season —
+          Speciality coffee, proper hot drinks and fresh bakes. Bakery changes daily —
           ask the team what's good today.
         </p>
       </header>
@@ -148,38 +156,46 @@
           <ul>
             <li><span>Espresso</span><span class="dots"></span><span>3.20</span></li>
             <li><span>Flat White</span><span class="dots"></span><span>3.80</span></li>
-            <li><span>Cortado</span><span class="dots"></span><span>3.60</span></li>
-            <li><span>Filter / Batch Brew</span><span class="dots"></span><span>3.40</span></li>
-            <li><span>Mocha</span><span class="dots"></span><span>4.20</span></li>
+            <li><span>Latte</span><span class="dots"></span><span>3.90</span></li>
+            <li><span>Cappuccino</span><span class="dots"></span><span>3.90</span></li>
+            <li><span>Americano</span><span class="dots"></span><span>3.90</span></li>
+            <li><span>Mocha</span><span class="dots"></span><span>4.50</span></li>
           </ul>
         </article>
 
         <article class="menu-card reveal" data-reveal style="--d:.1s">
           <div class="menu-card__head">
-            <h3>Kitchen</h3><span>From €6.50</span>
+            <h3>Not Coffee</h3><span>From €2.00</span>
           </div>
           <ul>
-            <li><span>Sourdough &amp; Eggs</span><span class="dots"></span><span>9.50</span></li>
-            <li><span>Smashed Avocado</span><span class="dots"></span><span>10.50</span></li>
-            <li><span>Brunch Bap</span><span class="dots"></span><span>8.50</span></li>
-            <li><span>Granola &amp; Yoghurt</span><span class="dots"></span><span>6.50</span></li>
-            <li><span>Soup of the Day</span><span class="dots"></span><span>7.00</span></li>
+            <li><span>Hot Chocolate</span><span class="dots"></span><span>4.10</span></li>
+            <li><span>Chai Latte</span><span class="dots"></span><span>3.90</span></li>
+            <li><span>Matcha Latte</span><span class="dots"></span><span>4.30</span></li>
+            <li><span>Tea &amp; Herbal Tea</span><span class="dots"></span><span>2.80</span></li>
+            <li><span>Small Hot Choc</span><span class="dots"></span><span>3.20</span></li>
+            <li><span>Babycino</span><span class="dots"></span><span>2.00</span></li>
           </ul>
         </article>
 
         <article class="menu-card reveal" data-reveal style="--d:.2s">
           <div class="menu-card__head">
-            <h3>Bakery</h3><span>From €3.00</span>
+            <h3>Bakery</h3><span>From €2.00</span>
           </div>
           <ul>
-            <li><span>Butter Croissant</span><span class="dots"></span><span>3.20</span></li>
-            <li><span>Pain au Chocolat</span><span class="dots"></span><span>3.60</span></li>
-            <li><span>Cinnamon Bun</span><span class="dots"></span><span>4.00</span></li>
-            <li><span>Banana Bread</span><span class="dots"></span><span>3.50</span></li>
-            <li><span>Seasonal Tart</span><span class="dots"></span><span>4.50</span></li>
+            <li><span>Pear &amp; Almond Tart</span><span class="dots"></span><span>4.20</span></li>
+            <li><span>Banana &amp; Walnut Loaf</span><span class="dots"></span><span>3.70</span></li>
+            <li><span>Mars Cookie</span><span class="dots"></span><span>3.50</span></li>
+            <li><span>Millionaire's Shortbread <em>gf</em></span><span class="dots"></span><span>2.70</span></li>
+            <li><span>Vegan Snickers Bar</span><span class="dots"></span><span>2.70</span></li>
+            <li><span>Brownie Bites <em>gf</em></span><span class="dots"></span><span>2.00</span></li>
           </ul>
         </article>
       </div>
+
+      <p class="menu__note reveal" data-reveal>
+        Add-ons: extra shot +80c · dairy alternative +60c · syrup +50c · iced +50c ·
+        decaf +20c. &nbsp;Bring a clean KeepCup for <strong>20c off</strong>.
+      </p>
     </section>
 
     <!-- ===== Gallery ===== -->
@@ -189,11 +205,10 @@
         <h2 class="reveal" data-reveal style="--d:.08s">A look inside Parkgate</h2>
       </header>
       <div class="gallery__grid">
-        <figure class="gallery__item gallery__item--tall reveal" data-reveal data-img="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=70"></figure>
-        <figure class="gallery__item reveal" data-reveal style="--d:.08s" data-img="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=800&q=70"></figure>
-        <figure class="gallery__item reveal" data-reveal style="--d:.16s" data-img="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=800&q=70"></figure>
-        <figure class="gallery__item gallery__item--wide reveal" data-reveal style="--d:.24s" data-img="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=70"></figure>
-        <figure class="gallery__item reveal" data-reveal style="--d:.32s" data-img="https://images.unsplash.com/photo-1513267048331-5611cad62e41?auto=format&fit=crop&w=800&q=70"></figure>
+        <figure class="gallery__item gallery__item--tall reveal" data-reveal data-img="images/bakery.jpg" aria-label="Bakery counter at Parkgate Coffee"></figure>
+        <figure class="gallery__item reveal" data-reveal style="--d:.08s" data-img="images/retail.jpg" aria-label="Coffee gear and beans on the retail shelves"></figure>
+        <figure class="gallery__item reveal" data-reveal style="--d:.16s" data-img="images/menu-board.jpg" aria-label="The menu board and counter"></figure>
+        <figure class="gallery__item gallery__item--wide reveal" data-reveal style="--d:.24s" data-img="images/storefront.jpg" aria-label="The Parkgate Coffee storefront at dusk"></figure>
       </div>
     </section>
 
@@ -204,8 +219,8 @@
           <p class="kicker reveal" data-reveal>Visit us</p>
           <h2 class="reveal" data-reveal style="--d:.08s">Come say hello</h2>
           <p class="reveal" data-reveal style="--d:.16s">
-            You'll find us just off the Mall in the centre of Tralee — kettle on,
-            counter stocked, and a seat waiting.
+            You'll find us on Prince's Street, just off the centre of Tralee —
+            machine on, counter stocked, and a seat waiting.
           </p>
 
           <ul class="visit__details reveal" data-reveal style="--d:.24s">
@@ -255,7 +270,8 @@
     <div class="footer__top">
       <div class="footer__brand">
         <span class="nav__brand-text">Parkgate<em>Coffee</em></span>
-        <p>Voted Best Coffee in Kerry 2023 🏆</p>
+        <p>🏆 Best of Kerry Awards · Best Coffee</p>
+        <p>Prince's St, Tralee, Co. Kerry, V92&nbsp;K295</p>
       </div>
       <nav class="footer__nav" aria-label="Footer">
         <a href="#story">Story</a>
