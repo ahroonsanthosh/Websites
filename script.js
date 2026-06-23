@@ -99,53 +99,30 @@
     }, { passive: true });
   }
 
-  /* ---------- Scroll-tilt showcase ---------- */
+  /* ---------- Hero cup card: 3D mouse parallax ---------- */
   const tiltCard = document.querySelector("[data-tilt-card]");
-  const tiltScope = document.querySelector(".showcase__inner");
-  if (tiltCard && tiltScope && !prefersReduced) {
-    const isMobile = () => window.innerWidth <= 768;
-    const clamp = (v) => Math.min(1, Math.max(0, v));
-    const lerp = (a, b, t) => a + (b - a) * t;
-
-    let ticking = false;
-    const update = () => {
-      ticking = false;
-      const rect = tiltScope.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // Progress: 0 as the section enters (top at 85% vh) → 1 as it settles (top at 15% vh)
-      const p = clamp((vh * 0.85 - rect.top) / (vh * 0.7));
-
-      const rotate = lerp(20, 0, p);
-      const scale = isMobile() ? lerp(0.7, 0.9, p) : lerp(1.05, 1, p);
-
-      tiltCard.style.transform =
-        `perspective(1200px) rotateX(${rotate}deg) scale(${scale})`;
+  const hero = document.getElementById("home");
+  const hasHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (tiltCard && hero && !prefersReduced && hasHover) {
+    const baseX = 8, baseY = -12;            // resting tilt (matches CSS)
+    const apply = (rx, ry) => {
+      tiltCard.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     };
-
-    const onTiltScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    };
-
-    // Only listen while the section is near the viewport
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            window.addEventListener("scroll", onTiltScroll, { passive: true });
-            update();
-          } else {
-            window.removeEventListener("scroll", onTiltScroll);
-          }
-        });
-      }, { rootMargin: "100px" });
-      io.observe(tiltScope);
-    } else {
-      window.addEventListener("scroll", onTiltScroll, { passive: true });
-    }
-    window.addEventListener("resize", update);
-    update();
+    let raf = null, nextRx = baseX, nextRy = baseY;
+    hero.addEventListener("mousemove", (e) => {
+      const r = hero.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;   // -0.5 … 0.5
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      nextRx = baseX - py * 10;
+      nextRy = baseY + px * 14;
+      tiltCard.style.transition = "none";                // track the cursor live
+      if (raf) return;
+      raf = requestAnimationFrame(() => { apply(nextRx, nextRy); raf = null; });
+    });
+    hero.addEventListener("mouseleave", () => {
+      tiltCard.style.transition = "";                    // smooth ease back to rest
+      apply(baseX, baseY);
+    });
   }
 
   /* ---------- Footer year ---------- */

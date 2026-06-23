@@ -63,30 +63,46 @@
 
   <main>
     <!-- ===== Hero ===== -->
-    <section class="hero hero--photo" id="home">
-      <div class="hero__bg" data-img="images/storefront.webp" aria-hidden="true"></div>
-      <div class="hero__overlay" aria-hidden="true"></div>
+    <section class="hero" id="home">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__glow" aria-hidden="true"></div>
 
-      <div class="hero__inner">
-        <p class="hero__eyebrow reveal" data-reveal>🏆 Best of Kerry Awards · Best Coffee</p>
-        <h1 class="hero__title">
-          <span class="reveal" data-reveal style="--d:.05s">Slow mornings,</span>
-          <span class="reveal hero__title-accent" data-reveal style="--d:.16s">serious coffee.</span>
-        </h1>
-        <p class="hero__lede reveal" data-reveal style="--d:.28s">
-          A little black-and-amber coffee house on Prince's Street, Tralee —
-          speciality coffee, fresh bakes and the kind of welcome Kerry is known for.
-        </p>
-        <div class="hero__actions reveal" data-reveal style="--d:.38s">
-          <a href="#menu" class="btn btn--solid">See the menu</a>
-          <a href="#visit" class="btn btn--ghost">Plan a visit</a>
+      <div class="hero__grid">
+        <div class="hero__inner">
+          <p class="hero__eyebrow reveal" data-reveal>🏆 Best of Kerry Awards · Best Coffee</p>
+          <h1 class="hero__title">
+            <span class="reveal" data-reveal style="--d:.05s">Slow mornings,</span>
+            <span class="reveal hero__title-accent" data-reveal style="--d:.16s">serious coffee.</span>
+          </h1>
+          <p class="hero__lede reveal" data-reveal style="--d:.28s">
+            A little black-and-amber coffee house on Prince's Street, Tralee —
+            speciality coffee, fresh bakes and the kind of welcome Kerry is known for.
+          </p>
+          <div class="hero__actions reveal" data-reveal style="--d:.38s">
+            <a href="#menu" class="btn btn--solid">See the menu</a>
+            <a href="#visit" class="btn btn--ghost">Plan a visit</a>
+          </div>
+
+          <dl class="hero__stats reveal" data-reveal style="--d:.5s">
+            <div><dt>Beans by</dt><dd>Roasted Brown</dd></div>
+            <div><dt>Bakes</dt><dd>Fresh daily</dd></div>
+            <div><dt>Award</dt><dd>Best of Kerry</dd></div>
+          </dl>
         </div>
 
-        <dl class="hero__stats reveal" data-reveal style="--d:.5s">
-          <div><dt>Beans by</dt><dd>Roasted Brown</dd></div>
-          <div><dt>Bakes</dt><dd>Fresh daily</dd></div>
-          <div><dt>Award</dt><dd>Best of Kerry</dd></div>
-        </dl>
+        <div class="hero__media reveal" data-reveal style="--d:.3s">
+          <div class="showcase__card" data-tilt-card>
+            <div class="showcase__screen">
+              <video
+                class="showcase__video"
+                src="images/cup.mp4"
+                autoplay muted loop playsinline
+                poster="images/cup-church.webp"
+                aria-label="A Parkgate Coffee cup">
+              </video>
+            </div>
+          </div>
+        </div>
       </div>
 
       <a href="#story" class="hero__scroll" aria-label="Scroll to story">
@@ -105,27 +121,6 @@
         <span>Prince's St, Tralee</span><span>•</span><span>Best of Kerry · Best Coffee</span><span>•</span>
       </div>
     </div>
-
-    <!-- ===== Scroll-tilt showcase ===== -->
-    <section class="showcase" id="showcase">
-      <div class="showcase__inner">
-        <div class="showcase__header" data-tilt-header>
-          <p class="kicker">Made for the moment</p>
-          <h2>Every cup,<br><span class="showcase__accent">poured with care.</span></h2>
-        </div>
-        <div class="showcase__card" data-tilt-card>
-          <div class="showcase__screen">
-            <video
-              class="showcase__video"
-              src="images/cup.mp4"
-              autoplay muted loop playsinline
-              poster="images/cup-church.webp"
-              aria-label="A Parkgate Coffee cup">
-            </video>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- ===== Story ===== -->
     <section class="story" id="story">
