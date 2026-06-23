@@ -189,7 +189,7 @@ h1, h2, h3 { font-family: var(--ff-serif); font-weight: 500; line-height: 1.05; 
 /* ============================================================
    Hero
    ============================================================ */
-.hero { position: relative; min-height: 100svh; display: flex; align-items: center; padding: 7rem var(--pad) 4rem; overflow: hidden; }
+.hero { position: relative; min-height: 100svh; display: flex; align-items: center; padding: 5.5rem var(--pad) 8rem; overflow: hidden; }
 .hero__bg {
   position: absolute; inset: 0; z-index: -2;
   background:
