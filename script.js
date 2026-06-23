@@ -99,6 +99,58 @@
     }, { passive: true });
   }
 
+  /* ---------- Scroll-tilt showcase ---------- */
+  const tiltCard = document.querySelector("[data-tilt-card]");
+  const tiltHeader = document.querySelector("[data-tilt-header]");
+  const tiltScope = document.querySelector(".showcase__inner");
+  if (tiltCard && tiltScope && !prefersReduced) {
+    const isMobile = () => window.innerWidth <= 768;
+    const clamp = (v) => Math.min(1, Math.max(0, v));
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const rect = tiltScope.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Progress: 0 as the section enters (top at 85% vh) → 1 as it settles (top at 15% vh)
+      const p = clamp((vh * 0.85 - rect.top) / (vh * 0.7));
+
+      const rotate = lerp(20, 0, p);
+      const scale = isMobile() ? lerp(0.7, 0.9, p) : lerp(1.05, 1, p);
+      const translate = lerp(0, -100, p);
+
+      tiltCard.style.transform =
+        `perspective(1000px) rotateX(${rotate}deg) scale(${scale})`;
+      if (tiltHeader) tiltHeader.style.transform = `translateY(${translate}px)`;
+    };
+
+    const onTiltScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    // Only listen while the section is near the viewport
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            window.addEventListener("scroll", onTiltScroll, { passive: true });
+            update();
+          } else {
+            window.removeEventListener("scroll", onTiltScroll);
+          }
+        });
+      }, { rootMargin: "100px" });
+      io.observe(tiltScope);
+    } else {
+      window.addEventListener("scroll", onTiltScroll, { passive: true });
+    }
+    window.addEventListener("resize", update);
+    update();
+  }
+
   /* ---------- Footer year ---------- */
   const year = document.getElementById("year");
   if (year) year.textContent = new Date().getFullYear();
