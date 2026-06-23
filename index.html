@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#161310" />
+
+  <title>Chez Christophe — French Restaurant &amp; Wood-Fired Pizza, Tralee</title>
+  <meta name="description" content="Chez Christophe — an authentic French restaurant in the heart of Tralee, Co. Kerry. Classic French cooking, daily specials and wood-fired pizza on Courthouse Lane." />
+
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:title" content="Chez Christophe — French Restaurant, Tralee" />
+  <meta property="og:description" content="Authentic French cooking and wood-fired pizza in the heart of Tralee, Co. Kerry." />
+  <meta property="og:locale" content="en_IE" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23161310'/%3E%3Ctext x='50' y='70' font-size='62' text-anchor='middle' fill='%23c9742e' font-family='Georgia,serif'%3EC%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Local-business structured data (real details) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Chez Christophe",
+    "servesCuisine": ["French", "Pizza", "European"],
+    "priceRange": "€€€",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "11 Courthouse Lane",
+      "addressLocality": "Tralee",
+      "addressRegion": "Co. Kerry",
+      "addressCountry": "IE"
+    },
+    "telephone": "+353 87 414 0974",
+    "email": "Chezchristophe3@gmail.com",
+    "sameAs": ["https://www.facebook.com/chezchristophetralee/"]
+  }
+  </script>
+</head>
+<body>
+  <!-- Page-load curtain -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__mark">
+      <span class="loader__line"></span>
+      <span class="loader__word">Chez Christophe</span>
+      <span class="loader__line"></span>
+    </div>
+  </div>
+
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ===================== HEADER / NAV ===================== -->
+  <header class="header" id="header">
+    <a href="#home" class="brand" aria-label="Chez Christophe — home">
+      <span class="brand__icon" aria-hidden="true">♥</span>
+      <span class="brand__name">Chez Christophe</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Primary">
+      <a href="#story" class="nav__link">Story</a>
+      <a href="#menu" class="nav__link">Menu</a>
+      <a href="#pizza" class="nav__link">Pizza</a>
+      <a href="#gallery" class="nav__link">Gallery</a>
+      <a href="#visit" class="nav__link">Visit</a>
+      <a href="#reserve" class="nav__link nav__link--cta">Reserve</a>
+    </nav>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main id="home">
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" aria-label="Welcome">
+      <div class="hero__media" data-parallax>
+        <img
+          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2000&q=80"
+          alt="Warm, candlelit French restaurant dining room"
+          fetchpriority="high" />
+        <div class="hero__scrim"></div>
+      </div>
+
+      <div class="hero__inner">
+        <p class="hero__eyebrow reveal" data-reveal>Tralee · County Kerry</p>
+        <h1 class="hero__title">
+          <span class="line"><span data-reveal-word>A</span> <span data-reveal-word>little</span> <span data-reveal-word>corner</span></span>
+          <span class="line"><span data-reveal-word>of</span> <span data-reveal-word>France</span></span>
+        </h1>
+        <p class="hero__sub reveal" data-reveal>
+          Classic French cooking, daily specials and wood-fired pizza —
+          served with heart on Courthouse Lane.
+        </p>
+        <div class="hero__actions reveal" data-reveal>
+          <a href="#reserve" class="btn btn--solid">Reserve a Table</a>
+          <a href="#menu" class="btn btn--ghost">View the Menu</a>
+        </div>
+      </div>
+
+      <a href="#story" class="hero__scroll" aria-label="Scroll to content">
+        <span class="hero__scroll-line"></span>
+        <span class="hero__scroll-text">Scroll</span>
+      </a>
+    </section>
+
+    <!-- ===================== STORY ===================== -->
+    <section class="story section" id="story">
+      <div class="story__grid">
+        <div class="story__media reveal" data-reveal>
+          <img loading="lazy"
+            src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1100&q=80"
+            alt="Chef plating a French dish in a warm kitchen" />
+          <div class="story__media-accent" aria-hidden="true"></div>
+        </div>
+
+        <div class="story__copy">
+          <p class="eyebrow reveal" data-reveal>Our Story</p>
+          <h2 class="section__title reveal" data-reveal>
+            French soul,<br />Kerry welcome
+          </h2>
+          <p class="reveal" data-reveal>
+            Chez Christophe brings the warmth of a French bistro to the heart
+            of Tralee. From a rich beef bourguignon to a delicate pan-fried
+            turbot, every plate is cooked with classic technique and the best
+            of local Kerry produce.
+          </p>
+          <p class="reveal" data-reveal>
+            And when the mood calls for something simpler, our traditional
+            wood-fired oven turns out crisp, smoky pizza — authentic taste,
+            made fresh and cooked hot, just for you.
+          </p>
+          <div class="story__stats reveal" data-reveal>
+            <div class="stat">
+              <span class="stat__num" data-count="28">0</span><span class="stat__suffix">€</span>
+              <span class="stat__label">Early bird, two courses</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" data-count="12">0</span>
+              <span class="stat__label">Wood-fired pizzas</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" data-count="100">0</span><span class="stat__suffix">%</span>
+              <span class="stat__label">Made fresh to order</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EARLY BIRD BANNER ===================== -->
+    <section class="earlybird" aria-label="Early bird menu">
+      <div class="earlybird__inner reveal" data-reveal>
+        <div class="earlybird__sun" aria-hidden="true">☼</div>
+        <div>
+          <p class="earlybird__label">Early Bird Menu</p>
+          <h2 class="earlybird__title">2 courses €28 &nbsp;·&nbsp; 3 courses €31</h2>
+          <p class="earlybird__note">Available on selected evenings — please ask when booking.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MENU ===================== -->
+    <section class="menu section" id="menu">
+      <div class="section__head">
+        <p class="eyebrow reveal" data-reveal>À la carte &amp; Early Bird</p>
+        <h2 class="section__title reveal" data-reveal>The Menu</h2>
+        <p class="section__lead reveal" data-reveal>
+          Classic French dishes and daily specials. Our card changes with the
+          seasons — please ask your server about today's fish and allergens.
+        </p>
+      </div>
+
+      <div class="menu__tabs reveal" data-reveal role="tablist" aria-label="Menu sections">
+        <button class="menu__tab is-active" data-tab="starters" role="tab" aria-selected="true">Starters</button>
+        <button class="menu__tab" data-tab="mains" role="tab" aria-selected="false">Mains</button>
+        <button class="menu__tab" data-tab="specials" role="tab" aria-selected="false">Specials</button>
+        <button class="menu__tab" data-tab="desserts" role="tab" aria-selected="false">Desserts</button>
+      </div>
+
+      <!-- STARTERS -->
+      <div class="menu__panel is-active" data-panel="starters">
+        <article class="dish">
+          <div class="dish__head"><h3>Soup of the Day</h3></div>
+          <p class="dish__desc">Freshly made each day with warm bread — ask your server.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Duck Liver Pâté</h3></div>
+          <p class="dish__desc">Smooth duck liver pâté with chutney &amp; toast.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Goat Cheese Crostini</h3></div>
+          <p class="dish__desc">Almond-crusted goat cheese with beetroot &amp; orange salad.</p>
+          <span class="dish__tags">V</span>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Tartlet of Parsley &amp; Mature Cheddar</h3></div>
+          <p class="dish__desc">Rocket salad, parma ham &amp; beetroot, ketchup &amp; jalapeño jam.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Salad Paysanne</h3></div>
+          <p class="dish__desc">Bleu d'Auvergne, bacon &amp; brioche crouton.</p>
+        </article>
+      </div>
+
+      <!-- MAINS -->
+      <div class="menu__panel" data-panel="mains">
+        <article class="dish">
+          <div class="dish__head"><h3>Beef Bourguignon</h3></div>
+          <p class="dish__desc">Slow-braised beef in red wine, the French classic.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Char-Grilled Chicken Supreme</h3></div>
+          <p class="dish__desc">With beurre vigneron.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Fillet of Pork</h3></div>
+          <p class="dish__desc">Apple &amp; red pepper, Yorkshire pudding &amp; pepper sauce.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Fish of the Day</h3></div>
+          <p class="dish__desc">Freshly landed — ask your server for today's catch.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Cassolette of Crab Claws &amp; Prawns</h3><span class="dish__price">+€5</span></div>
+          <p class="dish__desc">In a garlic cream sauce.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>10oz Rib-Eye Steak</h3><span class="dish__price">+€5</span></div>
+          <p class="dish__desc">Choice of garlic or peppercorn sauce, homemade fries &amp; salad.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Pasta Option</h3></div>
+          <p class="dish__desc">Available daily — please ask your server.</p>
+        </article>
+      </div>
+
+      <!-- SPECIALS -->
+      <div class="menu__panel" data-panel="specials">
+        <article class="dish">
+          <div class="dish__head"><h3>Venison</h3><span class="dish__price">€31.50</span></div>
+          <p class="dish__desc">Served with a sweet &amp; sour pear, red wine &amp; cranberry sauce.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Pan-Fried Turbot</h3><span class="dish__price">€32.50</span></div>
+          <p class="dish__desc">Prawn beurre blanc, sweet chilli potatoes &amp; sundried tomato pesto.</p>
+        </article>
+        <p class="menu__inline-note">Specials change regularly — these are recent favourites from the board.</p>
+      </div>
+
+      <!-- DESSERTS -->
+      <div class="menu__panel" data-panel="desserts">
+        <article class="dish">
+          <div class="dish__head"><h3>Fruit Tart</h3></div>
+          <p class="dish__desc">A French pâtisserie classic.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Chocolate Fondant</h3></div>
+          <p class="dish__desc">Warm, with a molten centre.</p>
+        </article>
+        <article class="dish">
+          <div class="dish__head"><h3>Selection of Ice-Cream</h3></div>
+          <p class="dish__desc">Ask your server for today's flavours.</p>
+        </article>
+      </div>
+
+      <p class="menu__foot reveal" data-reveal>
+        <small>V — Vegetarian. Full allergen information available on request.
+        Early bird: 2 courses €28 / 3 courses €31.</small>
+      </p>
+    </section>
+
+    <!-- ===================== PIZZA ===================== -->
+    <section class="pizza section" id="pizza">
+      <div class="pizza__head">
+        <p class="eyebrow reveal" data-reveal>Wood-Fired Perfection</p>
+        <h2 class="section__title reveal" data-reveal>The Pizza Oven</h2>
+        <p class="section__lead reveal" data-reveal>
+          Cooked in a traditional wood-fired oven for that authentic taste,
+          crispy crust and smoky flavour. Made fresh, cooked hot — just for you.
+        </p>
+      </div>
+
+      <div class="pizza__grid">
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>Margherita</h3><span>€12</span></div><p>Tomato sauce, mozzarella, basil.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>Pepperoni</h3><span>€14</span></div><p>Tomato sauce, mozzarella, pepperoni slices.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>Mexican Hot</h3><span>€14.50</span></div><p>Pepperoni, jalapeños, honey.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>The Veggie One</h3><span>€17.50</span></div><p>Roast summer vegetables, goat cheese, red onion marmalade.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>MeatFeast</h3><span>€19.50</span></div><p>Bacon, chorizo, ham, smoked chicken, cajun chicken, red onion &amp; mushroom.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>The Rocket</h3><span>€18</span></div><p>Parma ham, rocket, parmesan, fresh tomatoes.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>The Blue Pear Deluxe</h3><span>€17</span></div><p>Bacon, blue cheese, red onion, pear &amp; almonds.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>The Seafood</h3><span>€20</span></div><p>Tuna, prawns, mussels, capers &amp; red onion.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>Hawaiian</h3><span>€18</span></div><p>Ham, cajun chicken &amp; pineapple.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>The Roma</h3><span>€14.50</span></div><p>Ham &amp; mushroom.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>The Traditional</h3><span>€14</span></div><p>Ham &amp; cheese.</p></article>
+        <article class="pizza__card reveal" data-reveal><div class="pizza__top"><h3>The BBQ</h3><span>€15.50</span></div><p>Smoked chicken, roast red onions &amp; peppers.</p></article>
+      </div>
+    </section>
+
+    <!-- ===================== GALLERY ===================== -->
+    <section class="gallery section" id="gallery">
+      <div class="section__head">
+        <p class="eyebrow reveal" data-reveal>A Glimpse Inside</p>
+        <h2 class="section__title reveal" data-reveal>Gallery</h2>
+      </div>
+
+      <div class="gallery__grid">
+        <figure class="gallery__item gallery__item--tall reveal" data-reveal>
+          <img loading="lazy" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80" alt="Warmly lit dining room" />
+        </figure>
+        <figure class="gallery__item reveal" data-reveal>
+          <img loading="lazy" src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=900&q=80" alt="Wood-fired margherita pizza" />
+        </figure>
+        <figure class="gallery__item reveal" data-reveal>
+          <img loading="lazy" src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=900&q=80" alt="A glass of red wine at the bar" />
+        </figure>
+        <figure class="gallery__item gallery__item--wide reveal" data-reveal>
+          <img loading="lazy" src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=1400&q=80" alt="Plated French fine dining dish" />
+        </figure>
+        <figure class="gallery__item reveal" data-reveal>
+          <img loading="lazy" src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=900&q=80" alt="Chocolate fondant dessert" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===================== RESERVE ===================== -->
+    <section class="reserve section" id="reserve">
+      <div class="reserve__panel reveal" data-reveal>
+        <div class="reserve__intro">
+          <p class="eyebrow">Join Us</p>
+          <h2 class="section__title">Reserve a Table</h2>
+          <p>
+            We'd love to have you. Send a request below and we'll confirm by
+            phone or email. For same-day bookings, please call us directly on
+            <a href="tel:+353874140974">087&nbsp;414&nbsp;0974</a>.
+          </p>
+          <ul class="reserve__notes">
+            <li>Larger parties — please call us directly.</li>
+            <li>Mention "early bird" when booking for the set menu.</li>
+          </ul>
+        </div>
+
+        <!-- This form emails via the visitor's mail app. To collect bookings
+             server-side, point `action` at Formspree or your booking system. -->
+        <form class="reserve__form" id="reserveForm" novalidate>
+          <div class="field">
+            <label for="r-name">Name</label>
+            <input id="r-name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="r-email">Email</label>
+              <input id="r-email" name="email" type="email" required autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="r-phone">Phone</label>
+              <input id="r-phone" name="phone" type="tel" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="r-date">Date</label>
+              <input id="r-date" name="date" type="date" required />
+            </div>
+            <div class="field">
+              <label for="r-time">Time</label>
+              <input id="r-time" name="time" type="time" required />
+            </div>
+            <div class="field">
+              <label for="r-guests">Guests</label>
+              <select id="r-guests" name="guests" required>
+                <option value="2">2</option>
+                <option value="1">1</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="r-notes">Anything we should know? <span class="optional">(optional)</span></label>
+            <textarea id="r-notes" name="notes" rows="3" placeholder="Allergies, a celebration, early bird…"></textarea>
+          </div>
+          <button type="submit" class="btn btn--solid btn--full">Request Table</button>
+          <p class="reserve__status" id="reserveStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== VISIT ===================== -->
+    <section class="visit section" id="visit">
+      <div class="visit__grid">
+        <div class="visit__info">
+          <p class="eyebrow reveal" data-reveal>Find Us</p>
+          <h2 class="section__title reveal" data-reveal>Visit</h2>
+
+          <div class="visit__block reveal" data-reveal>
+            <h3>Address</h3>
+            <p>11 Courthouse Lane<br />Tralee, Co. Kerry<br />Ireland</p>
+            <a class="link-underline" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/search/?api=1&query=Chez+Christophe+Courthouse+Lane+Tralee">
+              Open in Google Maps →
+            </a>
+          </div>
+
+          <div class="visit__block reveal" data-reveal>
+            <h3>Get in Touch</h3>
+            <p>
+              <a href="tel:+353874140974">087 414 0974</a><br />
+              <a href="mailto:Chezchristophe3@gmail.com">Chezchristophe3@gmail.com</a>
+            </p>
+            <div class="socials">
+              <a href="https://www.facebook.com/chezchristophetralee/" target="_blank" rel="noopener" aria-label="Facebook" class="social">Facebook</a>
+              <a href="https://www.instagram.com/chez_christophe/" target="_blank" rel="noopener" aria-label="Instagram" class="social">Instagram</a>
+            </div>
+          </div>
+
+          <div class="visit__block reveal" data-reveal>
+            <h3>Opening Hours</h3>
+            <ul class="hours">
+              <li><span>Please confirm hours</span><span>Call 087 414 0974</span></li>
+            </ul>
+            <p class="hours__hint"><small>Send me your opening times and I'll drop them in here.</small></p>
+          </div>
+        </div>
+
+        <div class="visit__map reveal" data-reveal>
+          <iframe
+            title="Map to Chez Christophe, Tralee"
+            src="https://www.google.com/maps?q=Chez+Christophe+Courthouse+Lane+Tralee&output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="brand__name">Chez Christophe</span>
+        <p>French restaurant &amp; wood-fired pizza in the heart of Tralee, Co. Kerry.</p>
+      </div>
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="#story">Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#pizza">Pizza</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#reserve">Reserve</a>
+        <a href="#visit">Visit</a>
+      </nav>
+    </div>
+    <div class="footer__bottom">
+      <p>© <span id="year"></span> Chez Christophe. All rights reserved.</p>
+      <p>11 Courthouse Lane · Tralee · Co. Kerry</p>
+    </div>
+  </footer>
+
+  <a href="#reserve" class="fab" id="fab" aria-label="Reserve a table">Reserve</a>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
