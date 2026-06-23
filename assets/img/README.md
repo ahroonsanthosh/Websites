@@ -1,35 +1,36 @@
 # Your photos go here
 
-The site currently uses tasteful stock placeholders (loaded from Unsplash) so it
-looks finished out of the box. Swap in your own Buttermilk photos like this:
+The site is wired so that **each image first looks for your photo in this folder,
+and automatically falls back to a stock image if the file isn't there yet.**
+So nothing ever looks broken — the moment you add a correctly-named file, your
+real photo appears with no code changes needed.
 
-## 1. Drop your images in this folder
-Recommended files (any high-quality JPG/WebP works):
+## Just drop these files in this folder
 
-| File          | Used for                  | Suggested size        |
-|---------------|---------------------------|-----------------------|
-| `hero.jpg`    | Full-screen hero banner   | 2000×1200 (landscape) |
-| `about.jpg`   | The "Our Story" photo     | 1200×1500 (portrait)  |
-| `gallery-1.jpg` … `gallery-6.jpg` | The gallery grid | ~900×900          |
+Save the photos you sent under these exact names:
 
-Tip: keep each image under ~400 KB for fast loading. Export as **WebP** if you can.
+| Filename         | Your photo                                             | Best shape    |
+|------------------|--------------------------------------------------------|---------------|
+| `hero.jpg`       | Pancakes with the syrup being poured (the hero shot)   | any           |
+| `about.jpg`      | Smashed avocado on sourdough with poached egg          | portrait      |
+| `gallery-1.jpg`  | Pancakes close-up                                       | square        |
+| `gallery-2.jpg`  | Avocado toast (tall tile)                               | portrait/tall |
+| `gallery-3.jpg`  | The salad bar bowls                                     | square        |
+| `gallery-4.jpg`  | Sandwiches & quiches at the counter                    | square        |
+| `gallery-5.jpg`  | A wide table / spread shot (wide tile)                  | landscape     |
+| `gallery-6.jpg`  | Another salad / dish                                    | square        |
 
-## 2. Point the HTML at them
-Open `index.html` and look for the comments that say `SWAP:`.
-Replace each Unsplash URL with your local file, e.g.
+You only have 4 photos right now — that's fine. Name your four favourites and any
+gallery slot you don't fill simply keeps a tasteful stock image. You can also
+reuse the same photo under more than one name.
 
-```html
-<!-- before -->
-<img src="https://images.unsplash.com/photo-...." alt="..." />
-
-<!-- after -->
-<img src="assets/img/hero.jpg" alt="A bright brunch table at Buttermilk" />
-```
-
-Do the same for `about.jpg` and the six gallery images.
-Keep the descriptive `alt` text accurate — it helps Google and screen readers.
+## Tips
+- Keep each file under ~400 KB for fast loading. Export as **WebP** if you can
+  (then use e.g. `hero.webp` and update the `src` in `index.html`).
+- Landscape works best for `hero` and `gallery-5`; portrait suits `about` and
+  `gallery-2`. The site crops them cleanly either way.
 
 ## Logo
 Your logo badge is recreated in CSS as the rotating "Good Food · Good Times" mark,
-so no image file is required. If you'd prefer to use the original logo PNG,
-drop it here as `logo.png` and let me know — I'll wire it in.
+so no image file is required. To use your original logo PNG instead, drop it here
+as `logo.png` and let me know — I'll wire it in.

@@ -47,10 +47,11 @@
   <!-- ===== Hero ===== -->
   <section class="hero" id="top">
     <div class="hero__bg" data-parallax="0.18">
-      <!-- SWAP: replace with your own hero photo at assets/img/hero.jpg -->
+      <!-- Your photo: assets/img/hero.jpg (the pancakes-with-syrup-pour shot). Falls back to stock if missing. -->
       <img
-        src="https://images.unsplash.com/photo-1533920379810-6bedac961555?auto=format&fit=crop&w=2000&q=80"
-        alt="A bright brunch table with pancakes, coffee and fresh fruit"
+        src="assets/img/hero.jpg"
+        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1533920379810-6bedac961555?auto=format&fit=crop&w=2000&q=80';"
+        alt="Buttermilk pancakes topped with fresh berries and maple syrup"
         fetchpriority="high" />
     </div>
     <div class="hero__shapes" aria-hidden="true">
@@ -115,10 +116,11 @@
     <div class="about__grid">
       <div class="about__media reveal" data-reveal>
         <div class="about__media-inner" data-parallax="0.08">
-          <!-- SWAP: assets/img/about.jpg -->
+          <!-- Your photo: assets/img/about.jpg (the smashed-avocado-on-sourdough shot). Falls back to stock if missing. -->
           <img
-            src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=1200&q=80"
-            alt="A sunlit café interior with plants and warm wood tones" />
+            src="assets/img/about.jpg"
+            onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=1200&q=80';"
+            alt="Smashed avocado on toasted sourdough with a poached egg at Buttermilk" />
         </div>
         <span class="about__sticker">Est. in Kerry</span>
       </div>
@@ -303,24 +305,24 @@
       <h2 class="reveal" data-reveal data-delay="80">A Look Around</h2>
     </div>
     <div class="gallery__grid">
-      <!-- SWAP each src with your own photos in assets/img/ -->
+      <!-- Your photos: assets/img/gallery-1.jpg … gallery-6.jpg. Each falls back to stock if missing. -->
       <figure class="gallery__item reveal" data-reveal>
-        <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=900&q=80" alt="Stack of fluffy pancakes with syrup" loading="lazy" />
+        <img src="assets/img/gallery-1.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=900&q=80';" alt="Stack of buttermilk pancakes with berries and syrup" loading="lazy" />
       </figure>
       <figure class="gallery__item gallery__item--tall reveal" data-reveal data-delay="80">
-        <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=80" alt="Avocado toast with poached egg" loading="lazy" />
+        <img src="assets/img/gallery-2.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=80';" alt="Smashed avocado toast with poached egg and roasted tomatoes" loading="lazy" />
       </figure>
       <figure class="gallery__item reveal" data-reveal data-delay="120">
-        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80" alt="A flat white coffee on a wooden table" loading="lazy" />
+        <img src="assets/img/gallery-3.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80';" alt="Fresh salad bar bowls at Buttermilk" loading="lazy" />
       </figure>
       <figure class="gallery__item reveal" data-reveal data-delay="160">
-        <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=900&q=80" alt="A loaded brunch burger with fries" loading="lazy" />
+        <img src="assets/img/gallery-4.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=900&q=80';" alt="Sandwiches and quiches at the counter" loading="lazy" />
       </figure>
       <figure class="gallery__item gallery__item--wide reveal" data-reveal data-delay="200">
-        <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1400&q=80" alt="A spread of brunch dishes shared across a table" loading="lazy" />
+        <img src="assets/img/gallery-5.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1400&q=80';" alt="A spread of brunch dishes shared across a table" loading="lazy" />
       </figure>
       <figure class="gallery__item reveal" data-reveal data-delay="240">
-        <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?auto=format&fit=crop&w=900&q=80" alt="A colourful fresh salad bowl" loading="lazy" />
+        <img src="assets/img/gallery-6.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1466637574441-749b8f19452f?auto=format&fit=crop&w=900&q=80';" alt="A colourful fresh salad bowl" loading="lazy" />
       </figure>
     </div>
   </section>
