@@ -101,7 +101,6 @@
 
   /* ---------- Scroll-tilt showcase ---------- */
   const tiltCard = document.querySelector("[data-tilt-card]");
-  const tiltHeader = document.querySelector("[data-tilt-header]");
   const tiltScope = document.querySelector(".showcase__inner");
   if (tiltCard && tiltScope && !prefersReduced) {
     const isMobile = () => window.innerWidth <= 768;
@@ -118,11 +117,9 @@
 
       const rotate = lerp(20, 0, p);
       const scale = isMobile() ? lerp(0.7, 0.9, p) : lerp(1.05, 1, p);
-      const translate = lerp(0, -100, p);
 
       tiltCard.style.transform =
-        `perspective(1000px) rotateX(${rotate}deg) scale(${scale})`;
-      if (tiltHeader) tiltHeader.style.transform = `translateY(${translate}px)`;
+        `perspective(1200px) rotateX(${rotate}deg) scale(${scale})`;
     };
 
     const onTiltScroll = () => {
