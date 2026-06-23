@@ -102,12 +102,15 @@
     }, { passive: true });
   }
 
-  /* ---------- Hero cup card: 3D mouse parallax ---------- */
+  /* ---------- Hero cup card: 3D tilt ---------- */
   const tiltCard = document.querySelector("[data-tilt-card]");
   const hero = document.getElementById("home");
   const hasHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const clampN = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
   if (tiltCard && hero && !prefersReduced && hasHover) {
-    const baseX = 0, baseY = 0;              // resting flat, straight-on
+    /* Desktop: rests flat, leans toward the cursor */
+    const baseX = 0, baseY = 0;
     const apply = (rx, ry) => {
       tiltCard.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     };
@@ -126,6 +129,22 @@
       tiltCard.style.transition = "";                    // smooth ease back to rest
       apply(baseX, baseY);
     });
+  } else if (tiltCard && hero && !prefersReduced) {
+    /* Touch (no pointer): gentle scroll-driven tilt — flattens as it nears centre */
+    let raf = null;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        const r = tiltCard.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const fromCentre = (r.top + r.height / 2 - vh / 2) / (vh / 2); // -1 … 1
+        const rx = clampN(fromCentre * 12, -8, 12);
+        tiltCard.style.transform = `perspective(1200px) rotateX(${rx}deg)`;
+        raf = null;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   }
 
   /* ---------- Footer year ---------- */
