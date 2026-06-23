@@ -16,7 +16,7 @@
   --muted:      #7a6651;
 
   --ff-serif: "Fraunces", Georgia, serif;
-  --ff-sans:  "Inter", system-ui, sans-serif;
+  --ff-sans:  "Hanken Grotesk", system-ui, sans-serif;
 
   --maxw: 1180px;
   --pad: clamp(1.2rem, 5vw, 5rem);
@@ -349,10 +349,10 @@ h1, h2, h3 { font-family: var(--ff-serif); font-weight: 500; line-height: 1.05; 
 .menu { background: var(--espresso); color: var(--cream); padding: clamp(4.5rem, 10vw, 8rem) var(--pad); }
 .menu .kicker { color: var(--sand); }
 .menu .section-head__sub { color: rgba(244,236,225,.7); }
-.menu__grid { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+.menu__grid { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 2.5vw, 2.2rem); }
 .menu-card {
   background: rgba(244,236,225,.05); border: 1px solid rgba(244,236,225,.12);
-  border-radius: var(--radius); padding: 2rem 1.8rem;
+  border-radius: var(--radius); padding: 2.4rem 2rem 2.2rem;
   transition: transform .5s var(--ease), background .4s, border-color .4s;
 }
 .menu-card:hover { transform: translateY(-8px); background: rgba(244,236,225,.09); border-color: rgba(217,196,171,.4); }
@@ -364,7 +364,7 @@ h1, h2, h3 { font-family: var(--ff-serif); font-weight: 500; line-height: 1.05; 
   transition: transform .8s var(--ease) .2s;
 }
 .menu-card.is-in .menu-card__head::after { transform: scaleX(1); }
-.menu-card__head h3 { font-size: 1.5rem; }
+.menu-card__head h3 { font-size: 1.75rem; }
 .menu-card__head span { font-size: .78rem; text-transform: uppercase; letter-spacing: .14em; color: var(--sand); }
 .menu-card ul { list-style: none; display: grid; gap: .85rem; }
 .menu-card li { display: flex; align-items: baseline; gap: .5rem; font-size: .98rem; }
