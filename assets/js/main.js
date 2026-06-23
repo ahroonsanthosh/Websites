@@ -18,27 +18,50 @@
 
   /* ---------- Reveal engine ---------- */
   const revealEls = document.querySelectorAll('[data-reveal], .reveal-mask, .reveal-img, [data-stagger]');
+  let pendingReveals = Array.prototype.slice.call(revealEls);
+
+  function markIn(el) {
+    if (el.classList.contains("is-in")) return;
+    const delay = parseInt(el.dataset.delay || "0", 10);
+    // stagger children
+    if (el.hasAttribute("data-stagger")) {
+      Array.from(el.children).forEach((child, i) => {
+        child.style.transitionDelay = (delay + i * 80) + "ms";
+      });
+    } else if (delay) {
+      el.style.transitionDelay = delay + "ms";
+    }
+    el.classList.add("is-in");
+  }
+
+  // Fail-safe: reveal anything scrolled into view. This backs up the
+  // IntersectionObserver, which silently never fires on some mobile / in-app
+  // browsers — without it, .reveal-img content (gallery, about, map) can stay
+  // permanently hidden.
+  function revealInView() {
+    if (!pendingReveals.length) return;
+    const vh = window.innerHeight;
+    pendingReveals = pendingReveals.filter((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < vh * 0.92 && rect.bottom > 0) { markIn(el); return false; }
+      return true;
+    });
+  }
+
   if (!("IntersectionObserver" in window)) {
-    revealEls.forEach((el) => el.classList.add("is-in"));
+    revealEls.forEach(markIn);
+    pendingReveals = [];
   } else {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const delay = parseInt(el.dataset.delay || "0", 10);
-        // stagger children
-        if (el.hasAttribute("data-stagger")) {
-          Array.from(el.children).forEach((child, i) => {
-            child.style.transitionDelay = (delay + i * 80) + "ms";
-          });
-        } else if (delay) {
-          el.style.transitionDelay = delay + "ms";
-        }
-        el.classList.add("is-in");
-        io.unobserve(el);
+        markIn(entry.target);
+        io.unobserve(entry.target);
+        pendingReveals = pendingReveals.filter((e) => e !== entry.target);
       });
     }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
     revealEls.forEach((el) => io.observe(el));
+    revealInView(); // reveal whatever is already on screen at load
   }
 
   /* ---------- Mobile nav (Esc to close, focus return, scroll lock) ---------- */
@@ -155,6 +178,8 @@
     const y = window.scrollY;
     const vh = window.innerHeight;
     const docH = document.documentElement.scrollHeight - vh;
+
+    revealInView(); // fail-safe reveal as content scrolls into view
 
     if (nav) nav.classList.toggle("is-scrolled", y > 40);
     if (toTop) toTop.classList.toggle("is-visible", y > 600);
