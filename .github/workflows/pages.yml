@@ -1,0 +1,47 @@
+name: Deploy to GitHub Pages
+
+# Deploys the static site (repository root) to GitHub Pages.
+# Runs on pushes to the working branch and can be triggered manually.
+on:
+  push:
+    branches:
+      - claude/inspiring-franklin-hxbtpn
+      - main
+  workflow_dispatch:
+
+# Permissions needed to deploy to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; cancel in-progress runs for the same ref
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        # enablement: true turns GitHub Pages on automatically on first run
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # The whole repo root is the site (index.html + css/ + js/ + assets/)
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
