@@ -11,6 +11,11 @@ on mobile and for visitors who prefer reduced motion.
 - **Cinematic hero** with parallax photo, floating brand blobs and a rotating
   "Good Food · Good Times" badge.
 - **Animated marquee** of signature dishes.
+- **Scroll-driven video stage** — a sticky section where the video scales up and
+  its clip-path morphs from a rounded pill into a full rectangle as you scroll,
+  with the heading and button easing in. This is a dependency-free vanilla
+  recreation of a React/`motion` "animated video on scroll" component, so it
+  needs no framework. Swap the clip by replacing `assets/video/buttermilk-hero.mp4`.
 - **About** section telling the Buttermilk story.
 - **Tabbed menu** — Brunch · Mains & Fries · Salads & Sandwiches · Kids — with
   full allergen key (transcribed from the printed menu).
