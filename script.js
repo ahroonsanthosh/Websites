@@ -104,7 +104,7 @@
   const hero = document.getElementById("home");
   const hasHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   if (tiltCard && hero && !prefersReduced && hasHover) {
-    const baseX = 8, baseY = -12;            // resting tilt (matches CSS)
+    const baseX = 0, baseY = 0;              // resting flat, straight-on
     const apply = (rx, ry) => {
       tiltCard.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     };
