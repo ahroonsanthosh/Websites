@@ -76,14 +76,17 @@
     links.classList.remove("is-open");
     nav.classList.remove("is-menu-open");
     toggle.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
   };
   toggle.addEventListener("click", () => {
     const open = links.classList.toggle("is-open");
     nav.classList.toggle("is-menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";   // lock scroll behind drawer
   });
   links.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
+  window.addEventListener("resize", () => { if (window.innerWidth > 760) closeMenu(); });
 
   /* ---------- Hero glow parallax ---------- */
   const glow = document.querySelector(".hero__glow");
