@@ -27,16 +27,16 @@ python3 -m http.server 8000   # then visit http://localhost:8000
 ## Photos — drop them in `images/`
 
 The site is wired to load Parkgate's own photos from an `images/` folder.
-Upload these five files (any reasonable JPEG/PNG, ~1600px wide) using exactly
+Upload these five files (any reasonable WebP/JPEG/PNG, ~1600px wide) using exactly
 these names and they appear automatically — no code changes needed:
 
 | Filename | Used for | Suggested shot |
 |----------|----------|----------------|
-| `images/storefront.jpg` | Hero background + gallery | The black shopfront at dusk with the amber window glow |
-| `images/cup-church.jpg` | Story section (portrait) | The Parkgate cup held in front of St John's church |
-| `images/bakery.jpg`     | Gallery (tall)   | The bakery display case |
-| `images/retail.jpg`     | Gallery          | The retail shelves (KeepCup / AeroPress / beans) |
-| `images/menu-board.jpg` | Gallery          | The counter + menu board |
+| `images/storefront.webp` | Hero background + gallery | The black shopfront at dusk with the amber window glow |
+| `images/cup-church.webp` | Story section (portrait) | The Parkgate cup held in front of St John's church |
+| `images/bakery.webp`     | Gallery (tall)   | The bakery display case |
+| `images/retail.webp`     | Gallery          | The retail shelves (KeepCup / AeroPress / beans) |
+| `images/menu-board.webp` | Gallery          | The counter + menu board |
 
 **To upload on GitHub:** open the repo → switch to the working branch →
 **Add file → Upload files** → type `images/` before the first filename to

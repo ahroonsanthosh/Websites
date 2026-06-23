@@ -5,12 +5,12 @@ website loads them automatically:
 
 | Filename | Where it appears |
 |----------|------------------|
-| `storefront.jpg`  | Hero background + gallery (the dusk shopfront) |
-| `cup-church.jpg`  | Story section — portrait (cup in front of the church) |
-| `bakery.jpg`      | Gallery — tall tile (bakery case) |
-| `retail.jpg`      | Gallery (retail shelves) |
-| `menu-board.jpg`  | Gallery (counter + menu board) |
+| `storefront.webp`  | Hero background + gallery (the dusk shopfront) |
+| `cup-church.webp`  | Story section — portrait (cup in front of the church) |
+| `bakery.webp`      | Gallery — tall tile (bakery case) |
+| `retail.webp`      | Gallery (retail shelves) |
+| `menu-board.webp`  | Gallery (counter + menu board) |
 
-Tips: landscape ~1600px wide for gallery/hero, a portrait for `cup-church.jpg`,
-JPEGs around 200–400 KB each keep the site fast. You can replace these any time —
+Tips: landscape ~1600px wide for gallery/hero, a portrait for `cup-church.webp`,
+Images around 200–400 KB each keep the site fast. You can replace these any time —
 just keep the filenames the same.
