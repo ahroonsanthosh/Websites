@@ -1,88 +1,167 @@
 /* =========================================================
-   Buttermilk — interactions
-   Lightweight, dependency-free, mobile-friendly.
+   Buttermilk — interactions (vanilla, dependency-free)
    ========================================================= */
 (function () {
   "use strict";
 
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(pointer: fine)").matches;
+  const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+  const lerp = (a, b, t) => a + (b - a) * t;
 
-  /* ---------- Page loader ---------- */
+  /* ---------- Loader ---------- */
   window.addEventListener("load", function () {
     const loader = document.getElementById("loader");
-    if (loader) setTimeout(() => loader.classList.add("is-done"), 450);
+    if (loader) setTimeout(() => loader.classList.add("is-done"), 420);
+    if (tabInd) positionIndicator(); // fonts loaded → tabs are final width
   });
 
-  /* ---------- Sticky nav state ---------- */
-  const nav = document.getElementById("nav");
-  const toTop = document.getElementById("toTop");
-  const onScroll = () => {
-    const y = window.scrollY;
-    if (nav) nav.classList.toggle("is-scrolled", y > 40);
-    if (toTop) toTop.classList.toggle("is-visible", y > 600);
-  };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  /* ---------- Mobile menu ---------- */
-  const toggle = document.getElementById("navToggle");
-  const links = document.getElementById("navLinks");
-  const closeMenu = () => {
-    toggle.classList.remove("is-open");
-    links.classList.remove("is-open");
-    toggle.setAttribute("aria-expanded", "false");
-  };
-  if (toggle && links) {
-    toggle.addEventListener("click", () => {
-      const open = links.classList.toggle("is-open");
-      toggle.classList.toggle("is-open", open);
-      toggle.setAttribute("aria-expanded", String(open));
-    });
-    links.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
-  }
-
-  /* ---------- Scroll reveal ---------- */
-  const revealEls = document.querySelectorAll("[data-reveal]");
-  if (prefersReduced || !("IntersectionObserver" in window)) {
+  /* ---------- Reveal engine ---------- */
+  const revealEls = document.querySelectorAll('[data-reveal], .reveal-mask, .reveal-img, [data-stagger]');
+  if (!("IntersectionObserver" in window)) {
     revealEls.forEach((el) => el.classList.add("is-in"));
   } else {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target;
-            const delay = parseInt(el.dataset.delay || "0", 10);
-            setTimeout(() => el.classList.add("is-in"), delay);
-            io.unobserve(el);
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
-    );
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const delay = parseInt(el.dataset.delay || "0", 10);
+        // stagger children
+        if (el.hasAttribute("data-stagger")) {
+          Array.from(el.children).forEach((child, i) => {
+            child.style.transitionDelay = (delay + i * 80) + "ms";
+          });
+        } else if (delay) {
+          el.style.transitionDelay = delay + "ms";
+        }
+        el.classList.add("is-in");
+        io.unobserve(el);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
     revealEls.forEach((el) => io.observe(el));
   }
 
-  /* ---------- Menu tabs ---------- */
-  const tabs = document.querySelectorAll(".menu__tab");
-  const panels = document.querySelectorAll(".menu__panel");
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const target = tab.dataset.tab;
-      tabs.forEach((t) => {
-        const active = t === tab;
-        t.classList.toggle("is-active", active);
-        t.setAttribute("aria-selected", String(active));
-      });
-      panels.forEach((p) => p.classList.toggle("is-active", p.dataset.panel === target));
+  /* ---------- Mobile nav (Esc to close, focus return, scroll lock) ---------- */
+  const nav = document.getElementById("nav");
+  const toggle = document.getElementById("navToggle");
+  const links = document.getElementById("navLinks");
+  const setMenu = (open) => {
+    links.classList.toggle("is-open", open);
+    toggle.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  if (toggle && links) {
+    toggle.addEventListener("click", () => setMenu(!links.classList.contains("is-open")));
+    links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && links.classList.contains("is-open")) { setMenu(false); toggle.focus(); }
     });
-  });
+  }
 
-  /* ---------- Parallax (rAF-throttled) ---------- */
+  /* ---------- Menu tabs: sliding indicator + ARIA keyboard ---------- */
+  const tablist = document.getElementById("menuTabs");
+  const tabInd = document.getElementById("tabInd");
+  const tabs = tablist ? Array.from(tablist.querySelectorAll(".menu__tab")) : [];
+  const panels = document.querySelectorAll(".menu__panel");
+
+  function positionIndicator() {
+    const active = tablist.querySelector(".menu__tab.is-active");
+    if (!active || !tabInd) return;
+    tabInd.style.width = active.offsetWidth + "px";
+    tabInd.style.transform = `translateX(${active.offsetLeft}px)`;
+  }
+  function selectTab(tab, focus) {
+    tabs.forEach((t) => {
+      const active = t === tab;
+      t.classList.toggle("is-active", active);
+      t.setAttribute("aria-selected", String(active));
+      t.tabIndex = active ? 0 : -1;
+    });
+    panels.forEach((p) => {
+      const show = p.dataset.panel === tab.dataset.tab;
+      p.classList.toggle("is-active", show);
+      p.hidden = !show;
+    });
+    positionIndicator();
+    if (focus) tab.focus();
+  }
+  if (tabs.length) {
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => selectTab(tab));
+      tab.addEventListener("keydown", (e) => {
+        let idx = null;
+        if (e.key === "ArrowRight") idx = (i + 1) % tabs.length;
+        else if (e.key === "ArrowLeft") idx = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === "Home") idx = 0;
+        else if (e.key === "End") idx = tabs.length - 1;
+        if (idx !== null) { e.preventDefault(); selectTab(tabs[idx], true); tabs[idx].scrollIntoView({ inline: "center", block: "nearest" }); }
+      });
+    });
+    positionIndicator();
+    window.addEventListener("resize", positionIndicator);
+    tablist.addEventListener("scroll", positionIndicator, { passive: true });
+  }
+
+  /* ---------- Magnetic buttons (desktop only) ---------- */
+  if (finePointer && !reduced) {
+    document.querySelectorAll("[data-magnetic]").forEach((el) => {
+      const strength = 0.3;
+      el.addEventListener("pointermove", (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        el.style.transform = `translate(${(dx * strength).toFixed(1)}px, ${(dy * strength).toFixed(1)}px)`;
+      });
+      el.addEventListener("pointerleave", () => { el.style.transform = ""; });
+    });
+  }
+
+  /* ---------- Scrollspy: current nav link ---------- */
+  const navLinkEls = Array.from(document.querySelectorAll("[data-navlink]"));
+  const sections = navLinkEls.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if (sections.length && "IntersectionObserver" in window) {
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const id = "#" + entry.target.id;
+        navLinkEls.forEach((a) => a.classList.toggle("is-current", a.getAttribute("href") === id));
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    sections.forEach((s) => spy.observe(s));
+  }
+
+  /* ---------- Scroll-video stage ---------- */
+  const svTrack = document.querySelector("[data-scrollvid]");
+  const svInset = svTrack && svTrack.querySelector("[data-sv-inset]");
+  const svVideo = svTrack && svTrack.querySelector("[data-sv-video]");
+  const svCopy = svTrack && svTrack.querySelector("[data-sv-copy]");
+  const svCta = svTrack && svTrack.querySelector("[data-sv-cta]");
+  if (svTrack && reduced) {
+    if (svVideo) svVideo.style.transform = "scale(1)";
+    if (svInset) svInset.style.clipPath = "inset(0% 0% 0% 0% round 16px)";
+    [svCopy, svCta].forEach((el) => { if (el) { el.style.transform = "none"; el.style.opacity = "1"; } });
+  }
+
+  /* ---------- Unified rAF scroll loop ---------- */
+  const progress = document.getElementById("progress");
+  const toTop = document.getElementById("toTop");
   const parallaxEls = document.querySelectorAll("[data-parallax]");
-  if (!prefersReduced && parallaxEls.length) {
-    let ticking = false;
-    const update = () => {
-      const vh = window.innerHeight;
+  const marquee = document.querySelector("[data-marquee]");
+  let ticking = false;
+
+  function frame() {
+    const y = window.scrollY;
+    const vh = window.innerHeight;
+    const docH = document.documentElement.scrollHeight - vh;
+
+    if (nav) nav.classList.toggle("is-scrolled", y > 40);
+    if (toTop) toTop.classList.toggle("is-visible", y > 600);
+    if (progress) progress.style.width = (docH > 0 ? (y / docH) * 100 : 0) + "%";
+
+    if (!reduced) {
+      // parallax layers
       parallaxEls.forEach((el) => {
         const rect = el.getBoundingClientRect();
         if (rect.bottom < 0 || rect.top > vh) return;
@@ -90,78 +169,47 @@
         const offset = (rect.top + rect.height / 2 - vh / 2) * -speed;
         el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
       });
-      ticking = false;
-    };
-    const requestTick = () => {
-      if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
-    };
-    window.addEventListener("scroll", requestTick, { passive: true });
-    window.addEventListener("resize", requestTick);
-    update();
-  }
 
-  /* ---------- Scroll-driven video stage ----------
-     Vanilla recreation of the animated-video-on-scroll component.
-     Maps scroll progress over the tall track (offset "start center"
-     → "end end") onto: video scale, clip-path inset/roundedness,
-     and copy/CTA translate + fade. */
-  const svTrack = document.querySelector("[data-scrollvid]");
-  if (svTrack) {
-    const svInset = svTrack.querySelector("[data-sv-inset]");
-    const svVideo = svTrack.querySelector("[data-sv-video]");
-    const svCopy = svTrack.querySelector("[data-sv-copy]");
-    const svCta = svTrack.querySelector("[data-sv-cta]");
-    const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
-    const lerp = (a, b, t) => a + (b - a) * t;
+      // marquee drifts with scroll (handcrafted parallax over the auto-scroll)
+      if (marquee) {
+        const rect = marquee.getBoundingClientRect();
+        if (rect.bottom > 0 && rect.top < vh) {
+          const rel = (vh - rect.top) / (vh + rect.height);
+          marquee.style.transform = `translate3d(${(-rel * 80).toFixed(1)}px, 0, 0)`;
+        }
+      }
 
-    if (prefersReduced) {
-      // Resolve straight to the final, fully-revealed state.
-      if (svVideo) svVideo.style.transform = "scale(1)";
-      if (svInset) svInset.style.clipPath = "inset(0% 0% 0% 0% round 16px)";
-      [svCopy, svCta].forEach((el) => { if (el) { el.style.transform = "none"; el.style.opacity = "1"; } });
-    } else {
-      let svTicking = false;
-      const svUpdate = () => {
+      // scroll-video mapping
+      if (svTrack) {
         const rect = svTrack.getBoundingClientRect();
-        const vh = window.innerHeight;
-        const start = vh * 0.5;          // rect.top at progress 0  ("start center")
-        const end = vh - rect.height;    // rect.top at progress 1  ("end end")
-        const progress = clamp((start - rect.top) / (start - end), 0, 1);
-
-        const t08 = clamp(progress / 0.8, 0, 1);
-
-        // Video scale 0.7 -> 1 over [0, 0.8]
+        const start = vh * 0.5;
+        const end = vh - rect.height;
+        const p = clamp((start - rect.top) / (start - end), 0, 1);
+        const t08 = clamp(p / 0.8, 0, 1);
         if (svVideo) svVideo.style.transform = `scale(${lerp(0.7, 1, t08).toFixed(3)})`;
-
-        // Clip-path: inset 45% -> 0% over [0, 0.8]; roundedness 1000 -> 16 over [0, 1]
         if (svInset) {
           const inset = lerp(45, 0, t08).toFixed(2);
-          const round = lerp(1000, 16, progress).toFixed(1);
+          const round = lerp(1000, 16, p).toFixed(1);
           svInset.style.clipPath = `inset(${inset}% ${inset}% ${inset}% ${inset}% round ${round}px)`;
         }
-
-        // Copy: translateY 80 -> 0 over [0.2, 0.8], fading in
         if (svCopy) {
-          const tc = clamp((progress - 0.2) / 0.6, 0, 1);
+          const tc = clamp((p - 0.2) / 0.6, 0, 1);
           svCopy.style.transform = `translateY(${lerp(80, 0, tc).toFixed(1)}px)`;
           svCopy.style.opacity = clamp(0.2 + tc, 0, 1).toFixed(2);
         }
-
-        // CTA: translateY -120 -> 0 over [0, 0.7], slightly delayed fade
         if (svCta) {
-          const tb = clamp(progress / 0.7, 0, 1);
+          const tb = clamp(p / 0.7, 0, 1);
           svCta.style.transform = `translateY(${lerp(-120, 0, tb).toFixed(1)}px)`;
-          svCta.style.opacity = clamp((progress - 0.1) / 0.5, 0, 1).toFixed(2);
+          svCta.style.opacity = clamp((p - 0.1) / 0.5, 0, 1).toFixed(2);
         }
-
-        svTicking = false;
-      };
-      const svRequest = () => { if (!svTicking) { window.requestAnimationFrame(svUpdate); svTicking = true; } };
-      window.addEventListener("scroll", svRequest, { passive: true });
-      window.addEventListener("resize", svRequest);
-      svUpdate();
+      }
     }
+    ticking = false;
   }
+  function onScroll() { if (!ticking) { window.requestAnimationFrame(frame); ticking = true; } }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  frame();
 
   /* ---------- Footer year ---------- */
   const year = document.getElementById("year");
