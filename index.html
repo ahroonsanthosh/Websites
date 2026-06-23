@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2b1d14" />
+  <title>Parkgate Coffee · Tralee, Co. Kerry</title>
+  <meta name="description" content="Parkgate Coffee — voted Best Coffee in Kerry 2023. Speciality coffee, fresh bakes and a warm welcome in the heart of Tralee, Co. Kerry." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Parkgate Coffee · Tralee" />
+  <meta property="og:description" content="Voted Best Coffee in Kerry 2023 🏆 — speciality coffee & fresh bakes in Tralee." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%E2%98%95%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===== Page loader ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__mark">
+      <span class="loader__steam"></span>
+      <span class="loader__steam"></span>
+      <span class="loader__steam"></span>
+      <svg viewBox="0 0 64 48" width="58" height="44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M6 14h40v14a14 14 0 0 1-14 14H20A14 14 0 0 1 6 28V14Z" />
+        <path d="M46 18h6a8 8 0 0 1 0 16h-6" />
+      </svg>
+    </div>
+    <p class="loader__word">Parkgate</p>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header class="nav" id="nav">
+    <a href="#home" class="nav__brand" aria-label="Parkgate Coffee home">
+      <span class="nav__brand-mark">☕</span>
+      <span class="nav__brand-text">Parkgate<em>Coffee</em></span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="#story">Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#visit">Visit</a>
+      <a href="#visit" class="nav__cta">Find Us</a>
+    </nav>
+
+    <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="home">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__glow" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <p class="hero__eyebrow reveal" data-reveal>🏆 Voted Best Coffee in Kerry 2023</p>
+        <h1 class="hero__title">
+          <span class="reveal" data-reveal style="--d:.05s">Slow mornings,</span>
+          <span class="reveal hero__title-accent" data-reveal style="--d:.16s">serious coffee.</span>
+        </h1>
+        <p class="hero__lede reveal" data-reveal style="--d:.28s">
+          A neighbourhood roastery and café in the heart of Tralee, Co. Kerry —
+          where every cup is pulled with care and the welcome is always warm.
+        </p>
+        <div class="hero__actions reveal" data-reveal style="--d:.38s">
+          <a href="#menu" class="btn btn--solid">See the menu</a>
+          <a href="#visit" class="btn btn--ghost">Plan a visit</a>
+        </div>
+
+        <dl class="hero__stats reveal" data-reveal style="--d:.5s">
+          <div><dt>Est.</dt><dd>2018</dd></div>
+          <div><dt>Beans</dt><dd>House roast</dd></div>
+          <div><dt>Bakes</dt><dd>Daily &amp; fresh</dd></div>
+        </dl>
+      </div>
+
+      <a href="#story" class="hero__scroll" aria-label="Scroll to story">
+        <span></span>
+      </a>
+    </section>
+
+    <!-- ===== Marquee ===== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Speciality coffee</span><span>•</span><span>House roasted</span><span>•</span>
+        <span>Fresh bakes daily</span><span>•</span><span>Brunch all day</span><span>•</span>
+        <span>Tralee, Co. Kerry</span><span>•</span><span>Best in Kerry 2023</span><span>•</span>
+        <span>Speciality coffee</span><span>•</span><span>House roasted</span><span>•</span>
+        <span>Fresh bakes daily</span><span>•</span><span>Brunch all day</span><span>•</span>
+        <span>Tralee, Co. Kerry</span><span>•</span><span>Best in Kerry 2023</span><span>•</span>
+      </div>
+    </div>
+
+    <!-- ===== Story ===== -->
+    <section class="story" id="story">
+      <div class="story__media reveal" data-reveal>
+        <div class="story__img" data-img="https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=900&q=70"></div>
+        <div class="story__badge">
+          <span>Since</span>
+          <strong>2018</strong>
+        </div>
+      </div>
+      <div class="story__copy">
+        <p class="kicker reveal" data-reveal>Our story</p>
+        <h2 class="reveal" data-reveal style="--d:.08s">A little café with a serious love of coffee.</h2>
+        <p class="reveal" data-reveal style="--d:.16s">
+          Parkgate began with a simple idea: that a great cup of coffee can set the tone
+          for the whole day. We roast in small batches, pour over with patience, and
+          bake everything fresh each morning in our Tralee kitchen.
+        </p>
+        <p class="reveal" data-reveal style="--d:.24s">
+          Whether you're grabbing a flat white on the way to work or settling in for a
+          slow Sunday brunch, you'll find the same thing every time — proper coffee,
+          good food, and the kind of welcome Kerry is known for.
+        </p>
+        <ul class="story__points reveal" data-reveal style="--d:.32s">
+          <li><span>✺</span> Small-batch house roast</li>
+          <li><span>✺</span> Locally sourced milk &amp; bakes</li>
+          <li><span>✺</span> Plant-based options always</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Menu ===== -->
+    <section class="menu" id="menu">
+      <header class="section-head">
+        <p class="kicker reveal" data-reveal>The menu</p>
+        <h2 class="reveal" data-reveal style="--d:.08s">From the bar &amp; the kitchen</h2>
+        <p class="section-head__sub reveal" data-reveal style="--d:.16s">
+          A snapshot of what we pour and plate. Specials change with the season —
+          ask the team what's good today.
+        </p>
+      </header>
+
+      <div class="menu__grid">
+        <article class="menu-card reveal" data-reveal>
+          <div class="menu-card__head">
+            <h3>Coffee</h3><span>From €3.20</span>
+          </div>
+          <ul>
+            <li><span>Espresso</span><span class="dots"></span><span>3.20</span></li>
+            <li><span>Flat White</span><span class="dots"></span><span>3.80</span></li>
+            <li><span>Cortado</span><span class="dots"></span><span>3.60</span></li>
+            <li><span>Filter / Batch Brew</span><span class="dots"></span><span>3.40</span></li>
+            <li><span>Mocha</span><span class="dots"></span><span>4.20</span></li>
+          </ul>
+        </article>
+
+        <article class="menu-card reveal" data-reveal style="--d:.1s">
+          <div class="menu-card__head">
+            <h3>Kitchen</h3><span>From €6.50</span>
+          </div>
+          <ul>
+            <li><span>Sourdough &amp; Eggs</span><span class="dots"></span><span>9.50</span></li>
+            <li><span>Smashed Avocado</span><span class="dots"></span><span>10.50</span></li>
+            <li><span>Brunch Bap</span><span class="dots"></span><span>8.50</span></li>
+            <li><span>Granola &amp; Yoghurt</span><span class="dots"></span><span>6.50</span></li>
+            <li><span>Soup of the Day</span><span class="dots"></span><span>7.00</span></li>
+          </ul>
+        </article>
+
+        <article class="menu-card reveal" data-reveal style="--d:.2s">
+          <div class="menu-card__head">
+            <h3>Bakery</h3><span>From €3.00</span>
+          </div>
+          <ul>
+            <li><span>Butter Croissant</span><span class="dots"></span><span>3.20</span></li>
+            <li><span>Pain au Chocolat</span><span class="dots"></span><span>3.60</span></li>
+            <li><span>Cinnamon Bun</span><span class="dots"></span><span>4.00</span></li>
+            <li><span>Banana Bread</span><span class="dots"></span><span>3.50</span></li>
+            <li><span>Seasonal Tart</span><span class="dots"></span><span>4.50</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Gallery ===== -->
+    <section class="gallery" id="gallery">
+      <header class="section-head">
+        <p class="kicker reveal" data-reveal>The room</p>
+        <h2 class="reveal" data-reveal style="--d:.08s">A look inside Parkgate</h2>
+      </header>
+      <div class="gallery__grid">
+        <figure class="gallery__item gallery__item--tall reveal" data-reveal data-img="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=70"></figure>
+        <figure class="gallery__item reveal" data-reveal style="--d:.08s" data-img="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=800&q=70"></figure>
+        <figure class="gallery__item reveal" data-reveal style="--d:.16s" data-img="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=800&q=70"></figure>
+        <figure class="gallery__item gallery__item--wide reveal" data-reveal style="--d:.24s" data-img="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=70"></figure>
+        <figure class="gallery__item reveal" data-reveal style="--d:.32s" data-img="https://images.unsplash.com/photo-1513267048331-5611cad62e41?auto=format&fit=crop&w=800&q=70"></figure>
+      </div>
+    </section>
+
+    <!-- ===== Visit ===== -->
+    <section class="visit" id="visit">
+      <div class="visit__panel">
+        <div class="visit__info">
+          <p class="kicker reveal" data-reveal>Visit us</p>
+          <h2 class="reveal" data-reveal style="--d:.08s">Come say hello</h2>
+          <p class="reveal" data-reveal style="--d:.16s">
+            You'll find us just off the Mall in the centre of Tralee — kettle on,
+            counter stocked, and a seat waiting.
+          </p>
+
+          <ul class="visit__details reveal" data-reveal style="--d:.24s">
+            <li>
+              <span class="visit__icon" aria-hidden="true">📍</span>
+              <div>
+                <strong>Find us</strong>
+                <p>12 The Mall, Tralee, Co. Kerry, V92 ABC1</p>
+              </div>
+            </li>
+            <li>
+              <span class="visit__icon" aria-hidden="true">🕗</span>
+              <div>
+                <strong>Opening hours</strong>
+                <p>Mon–Fri · 8am – 4pm<br>Sat · 9am – 4pm<br>Sun · 10am – 4pm</p>
+              </div>
+            </li>
+            <li>
+              <span class="visit__icon" aria-hidden="true">✉️</span>
+              <div>
+                <strong>Say hi</strong>
+                <p><a href="mailto:hello@parkgatecoffee.ie">hello@parkgatecoffee.ie</a><br><a href="tel:+353660000000">+353 66 000 0000</a></p>
+              </div>
+            </li>
+          </ul>
+
+          <a class="btn btn--solid reveal" data-reveal style="--d:.32s"
+             href="https://www.google.com/maps/dir/?api=1&destination=The+Mall,+Tralee,+Co.+Kerry"
+             target="_blank" rel="noopener">Get directions →</a>
+        </div>
+
+        <div class="visit__map reveal" data-reveal>
+          <iframe
+            title="Map showing Parkgate Coffee in Tralee, Co. Kerry"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-9.715%2C52.268%2C-9.695%2C52.276&layer=mapnik&marker=52.272%2C-9.705">
+          </iframe>
+          <a class="visit__map-link" href="https://www.openstreetmap.org/?mlat=52.272&mlon=-9.705#map=16/52.272/-9.705" target="_blank" rel="noopener">View larger map</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="nav__brand-text">Parkgate<em>Coffee</em></span>
+        <p>Voted Best Coffee in Kerry 2023 🏆</p>
+      </div>
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="#story">Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#visit">Visit</a>
+      </nav>
+      <div class="footer__social">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Facebook">Facebook</a>
+      </div>
+    </div>
+    <div class="footer__base">
+      <p>© <span id="year"></span> Parkgate Coffee, Tralee. All rights reserved.</p>
+      <p>Made with care in Co. Kerry.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
