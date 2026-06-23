@@ -47,38 +47,34 @@
   </header>
 
   <main id="main">
-  <!-- ===== Hero ===== -->
+  <!-- ===== Hero — scroll-expanding video ===== -->
   <section class="hero" id="top">
-    <div class="hero__bg" data-parallax="0.16">
-      <!-- Your photo: assets/img/hero.jpg. Falls back to curated stock if missing. -->
-      <img src="assets/img/hero.jpg"
-           onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1533920379810-6bedac961555?auto=format&fit=crop&w=2000&q=80';"
-           alt="Buttermilk pancakes topped with fresh berries and maple syrup"
-           fetchpriority="high" decoding="async" />
-    </div>
-    <div class="hero__overlay" aria-hidden="true"></div>
+    <div class="hero__track" data-scrollvid>
+      <div class="hero__sticky">
+        <!-- expanding video: starts as a rounded pill, fills the screen on scroll -->
+        <div class="hero__inset" data-sv-inset>
+          <video class="hero__video" data-sv-video autoplay muted loop playsinline preload="metadata" poster="assets/img/hero.jpg">
+            <source src="assets/video/buttermilk-hero.mp4" type="video/mp4" />
+          </video>
+          <div class="hero__inset-overlay" aria-hidden="true"></div>
+        </div>
 
-    <div class="hero__content">
-      <p class="hero__eyebrow" data-reveal="up">Brunch · Tralee, Co. Kerry</p>
-      <h1 class="hero__title" aria-label="Buttermilk">
-        <span class="word reveal-mask"><span>Butter</span></span><span class="word reveal-mask" data-delay="90"><span>milk</span></span>
-      </h1>
-      <p class="hero__tagline" data-reveal="up" data-delay="240">Good Food <i>·</i> Good Times</p>
-      <div class="hero__actions" data-reveal="up" data-delay="340">
-        <a href="#menu" class="btn btn--primary" data-magnetic>See the Menu</a>
-        <a href="#visit" class="btn btn--ghost" data-magnetic>Find Us</a>
+        <!-- brand, overlaid, fades out as the video takes over -->
+        <div class="hero__content" data-sv-copy>
+          <p class="hero__eyebrow">Brunch · Tralee, Co. Kerry</p>
+          <h1 class="hero__title" aria-label="Buttermilk">
+            <span class="word reveal-mask"><span>Butter</span></span><span class="word reveal-mask" data-delay="90"><span>milk</span></span>
+          </h1>
+          <p class="hero__tagline">Good Food <i>·</i> Good Times</p>
+          <div class="hero__actions">
+            <a href="#menu" class="btn btn--primary" data-magnetic>See the Menu</a>
+            <a href="#visit" class="btn btn--ghost" data-magnetic>Find Us</a>
+          </div>
+        </div>
+
+        <a href="#about" class="hero__scroll" aria-label="Scroll to content"><span class="hero__scroll-line"></span></a>
       </div>
     </div>
-
-    <div class="badge" aria-hidden="true">
-      <svg viewBox="0 0 200 200" class="badge__svg">
-        <defs><path id="circlePath" d="M 100,100 m -74,0 a 74,74 0 1,1 148,0 a 74,74 0 1,1 -148,0" /></defs>
-        <text class="badge__text"><textPath href="#circlePath" startOffset="0%">GOOD&nbsp;FOOD&nbsp;·&nbsp;GOOD&nbsp;TIMES&nbsp;·&nbsp;GOOD&nbsp;FOOD&nbsp;·&nbsp;GOOD&nbsp;TIMES&nbsp;·&nbsp;</textPath></text>
-      </svg>
-      <span class="badge__center">B</span>
-    </div>
-
-    <a href="#about" class="hero__scroll" aria-label="Scroll to content"><span class="hero__scroll-line"></span></a>
   </section>
 
   <!-- ===== Marquee ===== -->
@@ -102,29 +98,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ===== Scroll Video ===== -->
-  <section class="scrollvid" id="scrollvid" aria-label="Buttermilk in motion">
-    <div class="scrollvid__track" data-scrollvid>
-      <div class="scrollvid__sticky">
-        <div class="scrollvid__copy" data-sv-copy>
-          <h2 class="scrollvid__title">Good Food, Good Times</h2>
-          <p class="scrollvid__sub">Pull up a chair. Brunch the Buttermilk way — cooked fresh, all day, in the heart of&nbsp;Kerry.</p>
-        </div>
-        <div class="scrollvid__inset" data-sv-inset>
-          <video class="scrollvid__video" data-sv-video autoplay muted loop playsinline preload="metadata" poster="assets/img/hero.jpg">
-            <source src="assets/video/buttermilk-hero.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div class="scrollvid__cta" data-sv-cta>
-          <a href="#menu" class="hero-btn" data-magnetic>
-            <span>View the Menu</span>
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ===== About ===== -->
   <section class="about section" id="about">

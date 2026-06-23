@@ -132,16 +132,16 @@
     sections.forEach((s) => spy.observe(s));
   }
 
-  /* ---------- Scroll-video stage ---------- */
+  /* ---------- Scroll-expanding video hero ---------- */
   const svTrack = document.querySelector("[data-scrollvid]");
   const svInset = svTrack && svTrack.querySelector("[data-sv-inset]");
   const svVideo = svTrack && svTrack.querySelector("[data-sv-video]");
   const svCopy = svTrack && svTrack.querySelector("[data-sv-copy]");
-  const svCta = svTrack && svTrack.querySelector("[data-sv-cta]");
+  const svScroll = svTrack && svTrack.querySelector(".hero__scroll");
   if (svTrack && reduced) {
     if (svVideo) svVideo.style.transform = "scale(1)";
-    if (svInset) svInset.style.clipPath = "inset(0% 0% 0% 0% round 16px)";
-    [svCopy, svCta].forEach((el) => { if (el) { el.style.transform = "none"; el.style.opacity = "1"; } });
+    if (svInset) svInset.style.clipPath = "inset(0% 0% 0% 0% round 0px)";
+    if (svCopy) { svCopy.style.transform = "none"; svCopy.style.opacity = "1"; }
   }
 
   /* ---------- Unified rAF scroll loop ---------- */
@@ -179,29 +179,26 @@
         }
       }
 
-      // scroll-video mapping
+      // scroll-expanding video hero: standard sticky-track progress (0 at top)
       if (svTrack) {
         const rect = svTrack.getBoundingClientRect();
-        const start = vh * 0.5;
-        const end = vh - rect.height;
-        const p = clamp((start - rect.top) / (start - end), 0, 1);
-        const t08 = clamp(p / 0.8, 0, 1);
-        if (svVideo) svVideo.style.transform = `scale(${lerp(0.7, 1, t08).toFixed(3)})`;
+        const dist = rect.height - vh;
+        const p = dist > 0 ? clamp(-rect.top / dist, 0, 1) : 0;
+        const t = clamp(p / 0.7, 0, 1); // video finishes expanding by 70% of the track
+        if (svVideo) svVideo.style.transform = `scale(${lerp(0.7, 1, t).toFixed(3)})`;
         if (svInset) {
-          const inset = lerp(45, 0, t08).toFixed(2);
-          const round = lerp(1000, 16, p).toFixed(1);
+          const inset = lerp(45, 0, t).toFixed(2);
+          const round = lerp(1000, 0, t).toFixed(1);
           svInset.style.clipPath = `inset(${inset}% ${inset}% ${inset}% ${inset}% round ${round}px)`;
         }
+        // brand fades out over the first 45% as the video opens up
+        const fade = clamp(1 - p / 0.45, 0, 1);
         if (svCopy) {
-          const tc = clamp((p - 0.2) / 0.6, 0, 1);
-          svCopy.style.transform = `translateY(${lerp(80, 0, tc).toFixed(1)}px)`;
-          svCopy.style.opacity = clamp(0.2 + tc, 0, 1).toFixed(2);
+          svCopy.style.opacity = fade.toFixed(2);
+          svCopy.style.transform = `translateY(${lerp(0, -50, p).toFixed(1)}px) scale(${lerp(1, 1.06, p).toFixed(3)})`;
+          svCopy.style.pointerEvents = fade < 0.05 ? "none" : "";
         }
-        if (svCta) {
-          const tb = clamp(p / 0.7, 0, 1);
-          svCta.style.transform = `translateY(${lerp(-120, 0, tb).toFixed(1)}px)`;
-          svCta.style.opacity = clamp((p - 0.1) / 0.5, 0, 1).toFixed(2);
-        }
+        if (svScroll) svScroll.style.opacity = fade.toFixed(2);
       }
     }
     ticking = false;
