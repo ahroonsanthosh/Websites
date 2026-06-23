@@ -256,6 +256,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.
 .footer__tag { font-family: var(--font-display); font-style: italic; color: var(--clay); margin: 0.3rem 0 1rem; }
 .footer__small { opacity: 0.9; font-size: 0.95rem; }
 .footer__small a { border-bottom: 1px solid rgba(244,228,206,0.4); }
+.footer__links { margin-top: 1rem; display: flex; gap: 0.8rem; justify-content: center; align-items: center; }
+.footer__links a { font-weight: 600; color: var(--clay); transition: color .3s var(--ease); }
+.footer__links a:hover { color: var(--cream-2); }
+.visit__social { margin-top: 0.5rem; }
 .footer__copy { opacity: 0.55; font-size: 0.82rem; margin-top: 1.2rem; }
 
 .to-top { position: fixed; right: 1.4rem; bottom: 1.4rem; z-index: 90; width: 48px; height: 48px; border-radius: 50%; background: var(--orange); color: var(--cream-2); display: grid; place-items: center; box-shadow: var(--shadow-md); opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity .4s var(--ease), visibility .4s, transform .25s var(--ease-soft), background .3s var(--ease); }
