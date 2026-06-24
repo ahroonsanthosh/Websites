@@ -323,12 +323,14 @@ h1, h2, h3 { font-family: var(--ff-serif); font-weight: 500; line-height: 1.04; 
 .story__media { position: relative; }
 .story__img {
   aspect-ratio: 4/5; border-radius: var(--radius);
-  background-size: cover; background-position: center;
   background-color: var(--sand); overflow: hidden;
   box-shadow: 0 30px 60px -30px rgba(43,29,20,.55);
+}
+.story__img img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
   transition: transform .7s var(--ease);
 }
-.story__media:hover .story__img { transform: scale(1.03); }
+.story__media:hover .story__img img { transform: scale(1.03); }
 .story__badge {
   position: absolute; bottom: -22px; right: -10px;
   background: var(--terracotta-d); color: var(--cream);
