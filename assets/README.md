@@ -1,19 +1,23 @@
-# Drop your photos here
+# Photos
 
-Save your Wild Café photos in this folder using these **exact filenames** and the
-website will use them automatically — no code changes needed. Until a file exists,
-the site quietly falls back to a stock placeholder, so nothing ever looks broken.
+The café's real photos are wired in. Each `<img>` loads from this folder and
+silently falls back to a stock placeholder if a file is ever missing, so the
+site never looks broken.
 
-| Filename            | Where it appears                  | Best shape / size            |
-|---------------------|-----------------------------------|------------------------------|
-| `hero.jpg`          | Full-screen hero background       | Landscape, wide — 1800×1200+ |
-| `story-1.jpg`       | "Our story" — large image         | Portrait-ish — ~900×1100     |
-| `story-2.jpg`       | "Our story" — small inset image   | Square-ish — ~700×700        |
-| `gallery-1.jpg`     | Gallery — tall left tile          | Portrait — ~800×1100         |
-| `gallery-2.jpg`     | Gallery                           | Square-ish — ~800×800        |
-| `gallery-3.jpg`     | Gallery                           | Square-ish — ~800×800        |
-| `gallery-4.jpg`     | Gallery — wide tile               | Landscape — ~1200×700        |
-| `gallery-5.jpg`     | Gallery                           | Square-ish — ~800×800        |
+Current mapping (all `.webp`):
+
+| Filename          | Where it appears                | Current photo                          |
+|-------------------|---------------------------------|----------------------------------------|
+| `hero.webp`       | Full-screen hero background     | Branch chandelier + teal Wild cup      |
+| `story-1.webp`    | "Our story" — large image       | Wild cup at the counter                |
+| `story-2.webp`    | "Our story" — small inset       | Leaf latte art                         |
+| `gallery-1.webp`  | Gallery (1 of 4)                | Very Vegan salad bowl                  |
+| `gallery-2.webp`  | Gallery (2 of 4)                | House porridge bowl                    |
+| `gallery-3.webp`  | Gallery (3 of 4)                | Pancakes on a teal plate               |
+| `gallery-4.webp`  | Gallery (4 of 4)                | Pancakes + iced coffee                 |
+
+To swap any photo, just overwrite the file with the same name (keep `.webp`, or
+update the matching `src` in `index.html` if you change the extension).
 
 ## Tips
 - **.jpg** is assumed. If you only have `.png`, either rename to `.jpg` (usually
