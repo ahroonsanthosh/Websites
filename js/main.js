@@ -29,6 +29,8 @@
   const toggle = $('#navToggle');
   const navLinks = $('#navLinks');
 
+  const closeNav = () => { nav.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); };
+
   const onScroll = () => {
     nav.classList.toggle('is-stuck', window.scrollY > 40);
     // progress bar
@@ -39,11 +41,12 @@
     if (bar) bar.style.transform = `scaleX(${p})`;
     // back to top
     $('#toTop')?.classList.toggle('is-visible', window.scrollY > 600);
+    // dismiss the mobile menu if the user scrolls while it's open
+    if (nav.classList.contains('is-open')) closeNav();
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  const closeNav = () => { nav.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); };
   toggle?.addEventListener('click', () => {
     const open = nav.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', String(open));
@@ -244,7 +247,7 @@
         scrollTrigger: {
           trigger: scene,
           start: 'top top',
-          end: '+=170%',      // ~1.7 screens of scroll drives the whole reveal, then releases
+          end: '+=150%',      // ~1.5 screens of scroll drives the whole reveal, then releases
           pin: true,
           scrub: 1,
           anticipatePin: 1,

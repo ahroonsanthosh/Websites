@@ -418,6 +418,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.
     transform: translateX(100%); transition: transform .5s var(--ease); box-shadow: var(--shadow-lg);
   }
   .nav.is-open .nav__links { transform: translateX(0); }
+  /* backdrop-filter makes .nav a containing block for the fixed off-canvas panel,
+     collapsing it to the nav's height on scroll. Use an opaque bg on mobile instead. */
+  .nav.is-stuck { background: rgba(246, 244, 238, .97); backdrop-filter: none; -webkit-backdrop-filter: none; }
   .nav__links a { color: var(--ink) !important; text-shadow: none !important; font-size: 1.2rem; font-family: var(--font-display); }
   .nav__cta { width: 100%; text-align: center; }
 }
