@@ -10,15 +10,26 @@ hosting at wildcafe.ie).
 ## What's inside
 
 ```
-index.html      All page content & structure
-css/styles.css  Design system, layout, animations
-js/main.js      Interactions (no libraries)
+index.html        All page content & structure
+css/styles.css    Design system, layout, animations
+js/main.js        Interactions
+js/vendor/         GSAP + ScrollTrigger (vendored locally, no CDN)
+assets/            Café photos
 ```
+
+GSAP is the only third-party library. It's vendored under `js/vendor/` (installed
+via `npm i gsap`, copied from `node_modules`) so the site has **no CDN dependency**
+and works offline. `node_modules` is gitignored; the two `js/vendor/*.min.js` files
+are all that's needed at runtime.
 
 ## Features
 
 - **Hero** with parallax photo, animated waves, decorative white-branch motif
   (a nod to the café's signature interior) and staggered headline reveal.
+- **Pinned coffee scene** — a scroll-driven moment (GSAP ScrollTrigger): the
+  section pins while an overhead latte-art cup fades in, rises to a medallion at
+  the top and the headline assembles, then releases to the next section. Tamed to
+  ~1.7 screens of scroll; falls back to a calm static block for reduced-motion.
 - **Live opening hours** — the "Visit" section shows *Open now / Closed* in real
   time and highlights today's row, driven by the real schedule.
 - **Filterable menu** — the full Wild menu (breakfast, egg dishes, mains, salads

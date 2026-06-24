@@ -225,33 +225,39 @@
     });
   }
 
-  /* ---------- Band: one-shot reveal + gentle parallax ---------- */
-  const band = $('#showcase');
-  if (band) {
-    if ('IntersectionObserver' in window && !prefersReduced) {
-      const io = new IntersectionObserver((entries, obs) => {
-        entries.forEach(e => { if (e.isIntersecting) { band.classList.add('is-revealed'); obs.disconnect(); } });
-      }, { threshold: 0.25 });
-      io.observe(band);
-    } else {
-      band.classList.add('is-revealed');
-    }
+  /* ---------- Scene: pinned, scroll-driven coffee reveal ---------- */
+  const scene = $('#showcase');
+  if (scene) {
+    const cup = $('#sceneCup', scene);
+    const copyEls = $$('.scene__copy > *', scene);
+    const gsap = window.gsap;
+    const ST = window.ScrollTrigger;
 
-    const bandImg = $('#bandMedia img');
-    if (bandImg && !prefersReduced) {
-      let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          const rect = band.getBoundingClientRect();
-          if (rect.bottom > 0 && rect.top < window.innerHeight) {
-            const offset = (rect.top - window.innerHeight / 2) * -0.06;
-            bandImg.style.transform = `translate3d(0, ${offset}px, 0)`;
-          }
-          ticking = false;
-        });
-      }, { passive: true });
+    if (!prefersReduced && gsap && ST) {
+      gsap.registerPlugin(ST);
+
+      // Initial hidden state (scene sits below the fold, so no flash on load)
+      gsap.set(cup, { autoAlpha: 0, yPercent: 36, scale: 0.6 });
+      gsap.set(copyEls, { autoAlpha: 0, y: 42 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: scene,
+          start: 'top top',
+          end: '+=170%',      // ~1.7 screens of scroll drives the whole reveal, then releases
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+        },
+      });
+
+      tl.to(cup, { autoAlpha: 1, scale: 1, ease: 'power2.out', duration: 1 })            // cup appears, centre
+        .to(cup, { yPercent: -34, scale: 0.58, ease: 'power2.inOut', duration: 1.4 }, 0.55) // rises and settles as a medallion at the top
+        .to(copyEls, { autoAlpha: 1, y: 0, stagger: 0.16, ease: 'power3.out', duration: 1 }, 0.9); // text assembles below
+
+      // Re-measure once images/fonts settle so pin positions are exact
+      window.addEventListener('load', () => ST.refresh());
     }
+    // Reduced-motion / no-GSAP: CSS leaves the cup + copy visible as a calm static block.
   }
 })();
