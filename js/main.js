@@ -225,72 +225,33 @@
     });
   }
 
-  /* ---------- Showcase: cinematic reveal ---------- */
-  const showcase = $('#showcase');
-  if (showcase) {
-    const card = $('#showcaseCard');
-    const media = $('#showcaseMedia');
-    const isDesktop = window.matchMedia('(min-width: 901px)').matches;
-    const hasGsap = typeof window.gsap !== 'undefined';
-
-    const cssReveal = () => {
-      if ('IntersectionObserver' in window) {
-        const io = new IntersectionObserver((entries, obs) => {
-          entries.forEach(e => { if (e.isIntersecting) { showcase.classList.add('is-revealed'); obs.disconnect(); } });
-        }, { threshold: 0.2 });
-        io.observe(showcase);
-      } else {
-        showcase.classList.add('is-revealed');
-      }
-    };
-
-    if (prefersReduced || !hasGsap || !isDesktop) {
-      // Mobile / reduced-motion / no-GSAP → clean one-shot CSS reveal (no scroll-jacking)
-      cssReveal();
+  /* ---------- Band: one-shot reveal + gentle parallax ---------- */
+  const band = $('#showcase');
+  if (band) {
+    if ('IntersectionObserver' in window && !prefersReduced) {
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => { if (e.isIntersecting) { band.classList.add('is-revealed'); obs.disconnect(); } });
+      }, { threshold: 0.25 });
+      io.observe(band);
     } else {
-      // Desktop → GSAP scrubbed assembly (scroll-driven, page scrolls normally) + mouse tilt
-      const gsap = window.gsap;
-      const ST = window.ScrollTrigger;
-      if (!ST) { cssReveal(); }
-      else {
-        gsap.registerPlugin(ST);
-        showcase.classList.add('gsap-mode');
+      band.classList.add('is-revealed');
+    }
 
-        const word = $('[data-sc="word"]', showcase);
-        const copy = $$('[data-sc="copy"]', showcase);
-        const badges = $$('[data-sc="badge"]', showcase);
-        const floats = $$('[data-sc="float"]', showcase);
-        const mediaWrap = $('[data-sc="media"]', showcase);
-
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: showcase, start: 'top 80%', end: 'top 32%', scrub: 0.8 },
+    const bandImg = $('#bandMedia img');
+    if (bandImg && !prefersReduced) {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const rect = band.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < window.innerHeight) {
+            const offset = (rect.top - window.innerHeight / 2) * -0.06;
+            bandImg.style.transform = `translate3d(0, ${offset}px, 0)`;
+          }
+          ticking = false;
         });
-        tl.from(word, { autoAlpha: 0, y: 44, duration: 1 })
-          .from(copy, { autoAlpha: 0, y: 24, stagger: 0.15, duration: 1 }, '-=0.7')
-          .from(mediaWrap, { autoAlpha: 0, y: 54, scale: 0.92, rotationY: -10, filter: 'blur(12px)', duration: 1.4 }, '-=0.9')
-          .from(badges, { autoAlpha: 0, y: 18, scale: 0.9, stagger: 0.12, duration: 0.8 }, '-=0.9')
-          .from(floats, { autoAlpha: 0, y: 32, scale: 0.7, stagger: 0.18, duration: 0.9 }, '-=0.6');
-
-        // Re-measure once images/fonts settle
-        window.addEventListener('load', () => ST.refresh());
-
-        // Mouse tilt + sheen follow (desktop only)
-        let raf = 0;
-        card.addEventListener('mousemove', (e) => {
-          cancelAnimationFrame(raf);
-          raf = requestAnimationFrame(() => {
-            const rect = card.getBoundingClientRect();
-            const cx = (e.clientX - rect.left) / rect.width;
-            const cy = (e.clientY - rect.top) / rect.height;
-            card.style.setProperty('--mx', `${cx * 100}%`);
-            card.style.setProperty('--my', `${cy * 100}%`);
-            if (media) gsap.to(media, { rotationY: (cx - 0.5) * 14, rotationX: -(cy - 0.5) * 14, transformPerspective: 900, ease: 'power3.out', duration: 1 });
-          });
-        });
-        card.addEventListener('mouseleave', () => {
-          if (media) gsap.to(media, { rotationX: 0, rotationY: 0, ease: 'power3.out', duration: 1.2 });
-        });
-      }
+      }, { passive: true });
     }
   }
 })();
