@@ -72,18 +72,22 @@
   /* ---------- Mobile menu ---------- */
   const toggle = document.getElementById("navToggle");
   const links = document.getElementById("navLinks");
+  const scrim = document.getElementById("navScrim");
   const closeMenu = () => {
     links.classList.remove("is-open");
     nav.classList.remove("is-menu-open");
+    if (scrim) scrim.classList.remove("is-open");
     toggle.setAttribute("aria-expanded", "false");
     document.body.style.overflow = "";
   };
   toggle.addEventListener("click", () => {
     const open = links.classList.toggle("is-open");
     nav.classList.toggle("is-menu-open", open);
+    if (scrim) scrim.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     document.body.style.overflow = open ? "hidden" : "";   // lock scroll behind drawer
   });
+  if (scrim) scrim.addEventListener("click", closeMenu);   // tap outside to close
   links.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
   window.addEventListener("resize", () => { if (window.innerWidth > 760) closeMenu(); });

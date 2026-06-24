@@ -158,7 +158,7 @@ h1, h2, h3 { font-family: var(--ff-serif); font-weight: 500; line-height: 1.04; 
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 1.1rem var(--pad);
+  padding: 1.1rem max(var(--pad), calc((100% - var(--maxw)) / 2));
   transition: background .4s, padding .4s, box-shadow .4s, backdrop-filter .4s;
 }
 .nav.is-stuck {
@@ -188,6 +188,14 @@ h1, h2, h3 { font-family: var(--ff-serif); font-weight: 500; line-height: 1.04; 
 
 .nav__toggle { display: none; flex-direction: column; gap: 5px; background: none; border: 0; cursor: pointer; padding: 6px; }
 .nav__toggle span { width: 26px; height: 2px; background: var(--espresso); border-radius: 2px; transition: transform .35s var(--ease), opacity .25s; }
+
+/* Dim scrim behind the mobile drawer; tap to close */
+.nav__scrim {
+  position: fixed; inset: 0; z-index: 99;
+  background: rgba(20,13,8,.45); opacity: 0; visibility: hidden;
+  transition: opacity .4s var(--ease), visibility .4s;
+}
+.nav__scrim.is-open { opacity: 1; visibility: visible; }
 
 /* ============================================================
    Hero
@@ -495,13 +503,14 @@ h1, h2, h3 { font-family: var(--ff-serif); font-weight: 500; line-height: 1.04; 
 
 @media (max-width: 760px) {
   .nav__links {
-    position: fixed; inset: 0 0 0 auto; width: min(78vw, 320px);
+    position: fixed; inset: 0 0 0 auto; width: min(78vw, 320px); z-index: 100;
     flex-direction: column; align-items: flex-start; justify-content: center; gap: 1.6rem;
     background: var(--cream); padding: 2rem var(--pad);
-    transform: translateX(100%); transition: transform .5s var(--ease);
+    transform: translateX(100%); visibility: hidden;
+    transition: transform .5s var(--ease), visibility .5s;
     box-shadow: -20px 0 60px -30px rgba(43,29,20,.5);
   }
-  .nav__links.is-open { transform: none; }
+  .nav__links.is-open { transform: none; visibility: visible; }
   .nav__links a { font-size: 1.15rem; }
   .nav__toggle { display: flex; z-index: 101; }
   .nav.is-menu-open .nav__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
