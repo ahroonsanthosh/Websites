@@ -173,6 +173,7 @@
   const parallaxEls = document.querySelectorAll("[data-parallax]");
   const marquee = document.querySelector("[data-marquee]");
   let ticking = false;
+  let navScrolled = false;
 
   function frame() {
     const y = window.scrollY;
@@ -181,7 +182,14 @@
 
     revealInView(); // fail-safe reveal as content scrolls into view
 
-    if (nav) nav.classList.toggle("is-scrolled", y > 40);
+    // Nav solid-state with hysteresis: switch on past 64px, off below 12px.
+    // The dead-zone stops the bar flip-flopping near the top on mobile, where
+    // momentum / rubber-band scrolling and the collapsing address bar make
+    // scrollY hover around the threshold.
+    if (nav) {
+      if (!navScrolled && y > 64) { navScrolled = true; nav.classList.add("is-scrolled"); }
+      else if (navScrolled && y < 12) { navScrolled = false; nav.classList.remove("is-scrolled"); }
+    }
     if (toTop) toTop.classList.toggle("is-visible", y > 600);
     if (progress) progress.style.width = (docH > 0 ? (y / docH) * 100 : 0) + "%";
 
