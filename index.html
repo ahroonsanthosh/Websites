@@ -141,6 +141,42 @@
       </div>
     </div>
 
+    <!-- ============ SHOWCASE (cinematic reveal) ============ -->
+    <section class="showcase" id="showcase" aria-label="Welcome to Wild Café">
+      <div class="showcase__card" id="showcaseCard">
+        <div class="showcase__sheen" aria-hidden="true"></div>
+        <div class="showcase__grid">
+          <div class="showcase__copy">
+            <p class="eyebrow sc-anim" data-sc="copy">Welcome to Wild</p>
+            <h2 class="showcase__word sc-anim" data-sc="word">Wild</h2>
+            <p class="showcase__line sc-anim" data-sc="copy">
+              A little wild in the heart of Tralee — bright plates, proper coffee,
+              served under the white branches.
+            </p>
+            <div class="showcase__badges">
+              <span class="g-badge sc-anim" data-sc="badge">☕ Takeaway all day</span>
+              <span class="g-badge sc-anim" data-sc="badge">🌿 Free-range kitchen</span>
+              <span class="g-badge sc-anim" data-sc="badge">📍 17 The Mall</span>
+            </div>
+          </div>
+
+          <div class="showcase__media sc-anim" data-sc="media">
+            <div class="showcase__media-inner" id="showcaseMedia">
+              <img src="assets/gallery-3.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=900&q=70'" alt="Homemade pancakes stacked with berries and cream on a teal patterned plate" loading="lazy" />
+              <span class="float-badge float-badge--tl sc-anim" data-sc="float">
+                <span class="float-badge__icon">🥞</span>
+                <span><strong>Fresh today</strong><em>Baked this morning</em></span>
+              </span>
+              <span class="float-badge float-badge--br sc-anim" data-sc="float">
+                <span class="float-badge__icon">🫐</span>
+                <span><strong>Berry stack</strong><em>House favourite</em></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ STORY ============ -->
     <section class="story section" id="story">
       <div class="story__grid">
@@ -461,6 +497,10 @@
 
   <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
 
-  <script src="js/main.js"></script>
+  <!-- GSAP (CDN) powers only the cinematic showcase section; the rest of the
+       site works without it. Loaded with defer so it never blocks render. -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="js/main.js"></script>
 </body>
 </html>
