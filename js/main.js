@@ -106,23 +106,32 @@
   /* ---------- Mobile nav ---------- */
   const nav = $("#nav");
   const toggle = $("#navToggle");
-  function closeNav() {
-    nav.classList.remove("is-open");
-    toggle.classList.remove("is-open");
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-label", "Open menu");
-  }
-  toggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("is-open");
+  const backdrop = $("#navBackdrop");
+
+  function setNav(open) {
+    nav.classList.toggle("is-open", open);
     toggle.classList.toggle("is-open", open);
+    document.body.classList.toggle("nav-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  });
+    if (backdrop) {
+      backdrop.hidden = false;            // ensure transitions can run
+      backdrop.classList.toggle("is-open", open);
+    }
+  }
+  const closeNav = () => setNav(false);
+
+  toggle.addEventListener("click", () => setNav(!nav.classList.contains("is-open")));
   nav.addEventListener("click", (e) => {
     if (e.target.closest(".nav__link")) closeNav();
   });
+  if (backdrop) backdrop.addEventListener("click", closeNav);
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeNav();
+  });
+  // Reset the menu if the viewport grows past the mobile breakpoint
+  window.matchMedia("(min-width: 901px)").addEventListener("change", (e) => {
+    if (e.matches) closeNav();
   });
 
   /* ---------- Menu tabs ---------- */
