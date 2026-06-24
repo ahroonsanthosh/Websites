@@ -138,7 +138,7 @@
         const r = tiltCard.getBoundingClientRect();
         const vh = window.innerHeight || document.documentElement.clientHeight;
         const fromCentre = (r.top + r.height / 2 - vh / 2) / (vh / 2); // -1 … 1
-        const rx = clampN(fromCentre * 12, -8, 12);
+        const rx = clampN(fromCentre * 9, -6, 9);
         tiltCard.style.transform = `perspective(1200px) rotateX(${rx}deg)`;
         raf = null;
       });

@@ -261,10 +261,15 @@ h1, h2, h3 { font-family: var(--ff-serif); font-weight: 500; line-height: 1.04; 
 
 @media (max-width: 860px) {
   .hero { min-height: auto; padding: 6rem var(--pad) clamp(2.5rem, 8vw, 4rem); }
-  .hero__grid { grid-template-columns: 1fr; gap: clamp(1.8rem, 6vw, 2.6rem); }
+  .hero__grid { grid-template-columns: 1fr; gap: clamp(2.2rem, 7vw, 3rem); }
   .hero__media { order: 1; justify-content: center; }   /* video leads on mobile */
   .hero__inner { max-width: none; order: 2; }
-  .showcase__card { width: min(76vw, 360px); }
+  .showcase__card {
+    width: min(76vw, 360px);
+    transform-origin: bottom center;                    /* tilt leans back, never over the text */
+    /* contained shadow so it doesn't bleed onto the headline below */
+    box-shadow: 0 22px 45px -22px rgba(43,29,20,.5);
+  }
   .hero__scroll { display: none; }
 }
 
