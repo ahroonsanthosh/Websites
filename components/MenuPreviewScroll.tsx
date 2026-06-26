@@ -4,7 +4,7 @@ import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 export function MenuPreviewScroll() {
   return (
     /* overflow-hidden was clipping the scaled card — removed */
-    <section className="bg-[var(--dark-2)] hidden md:block">
+    <section className="bg-[var(--dark-2)] hidden md:block" style={{ overflowX: "clip" }}>
       <ContainerScroll
         titleComponent={
           <div className="flex flex-col items-center gap-3 px-4">
