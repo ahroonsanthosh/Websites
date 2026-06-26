@@ -100,16 +100,18 @@ export default function HeroSection({ content }: { content: HeroContent }) {
   });
 
   // Multi-state scroll transformation of the pinned scene.
-  const headlineScale = useTransform(scrollYProgress, [0, 0.6], [1, 1.35]);
-  const headlineY = useTransform(scrollYProgress, [0, 0.6], ["0%", "-30%"]);
-  const headlineBlur = useTransform(scrollYProgress, [0, 0.45], [0, 12]);
-  const headlineOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.6]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.7], [0.05, 0.12]);
-  const sceneOverlay = useTransform(scrollYProgress, [0.3, 0.75], [0, 1]);
-  const foodScrollY = useTransform(scrollYProgress, [0, 1], [0, -240]);
+  // Content stays present through most of the runway, transforming out only
+  // near the very end so the next section follows immediately (no blank tail).
+  const headlineScale = useTransform(scrollYProgress, [0, 0.85], [1, 1.25]);
+  const headlineY = useTransform(scrollYProgress, [0, 0.85], ["0%", "-22%"]);
+  const headlineBlur = useTransform(scrollYProgress, [0.55, 0.95], [0, 12]);
+  const headlineOpacity = useTransform(scrollYProgress, [0.6, 0.96], [1, 0]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.45]);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.85], [0.05, 0.14]);
+  const sceneOverlay = useTransform(scrollYProgress, [0.65, 1], [0, 0.9]);
+  const foodScrollY = useTransform(scrollYProgress, [0, 1], [0, -180]);
   const filterBlur = useTransform(headlineBlur, (b) => `blur(${b}px)`);
-  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
 
   // Cursor influence field (normalised -0.5..0.5).
   const mvX = useMotionValue(0);
@@ -137,7 +139,7 @@ export default function HeroSection({ content }: { content: HeroContent }) {
   const tiltY = useSpring(useTransform(mvX, [-0.5, 0.5], [-4, 4]), spring.smooth);
 
   return (
-    <section ref={ref} className="relative h-[200vh]" id="hero" aria-label="Hansum Rotisserie hero">
+    <section ref={ref} className="relative h-[150vh]" id="hero" aria-label="Hansum Rotisserie hero">
       {/* Pinned cinematic scene */}
       <div className="sticky top-0 h-screen overflow-hidden bg-[#1A1A1A] flex items-center justify-center">
         {/* Animated gradient atmosphere */}
