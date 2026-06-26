@@ -2,7 +2,6 @@ import { Navbar } from "@/components/Navbar";
 import { ScrollExpansionHero } from "@/components/ui/scroll-expansion-hero";
 import { Marquee } from "@/components/Marquee";
 import { About } from "@/components/About";
-import { MenuPreviewScroll } from "@/components/MenuPreviewScroll";
 import { Menu } from "@/components/Menu";
 import { Gallery } from "@/components/Gallery";
 import { Contact } from "@/components/Contact";
@@ -31,8 +30,7 @@ export default function Home() {
 
       <Marquee />
       <About />
-      <MenuPreviewScroll />
-      <Menu />
+<Menu />
       <Gallery />
       <Contact />
       </main>
