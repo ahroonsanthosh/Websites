@@ -524,48 +524,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   content:'';flex:1;max-width:60px;height:1px;background:var(--line)
 }
 
-/* ─────────────────────────────────────────────────────────────
-   DAY / NIGHT SPLIT
-───────────────────────────────────────────────────────────── */
-#daynight{display:grid;grid-template-columns:1fr 1fr;min-height:520px}
-.dn-panel{position:relative;overflow:hidden;min-height:400px}
-.dn-panel img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  transition:transform .6s var(--ease)
-}
-.dn-panel:hover img{transform:scale(1.04)}
-.dn-scrim{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:52px 48px
-}
-.dn-scrim-day{background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 60%,transparent 100%)}
-.dn-scrim-night{background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.2) 60%,transparent 100%)}
-.dn-tag{
-  font-size:.68rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--red);margin-bottom:14px
-}
-.dn-title{
-  font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.6rem);
-  color:#fff;line-height:1.15;margin-bottom:14px
-}
-.dn-body{font-size:.875rem;color:rgba(255,255,255,.6);line-height:1.7;max-width:320px}
-/* Night panel — typographic, no photo */
-.dn-night-bg{
-  position:absolute;inset:0;
-  background:#100505;
-}
-.dn-night-glow{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse at 30% 70%,rgba(227,30,36,.15) 0%,transparent 65%)
-}
-.dn-evening-list{margin-top:28px;display:flex;flex-direction:column;gap:12px}
-.dn-evening-item{
-  display:flex;align-items:center;gap:14px;
-  font-size:.875rem;color:rgba(255,255,255,.5)
-}
-.dn-evening-item::before{content:'';display:block;width:20px;height:1px;background:var(--red);flex-shrink:0}
-@media(max-width:700px){#daynight{grid-template-columns:1fr}}
 
 /* ─────────────────────────────────────────────────────────────
    CONTACT
@@ -985,32 +943,6 @@ footer{background:var(--blk);color:rgba(255,255,255,.5);padding:72px 40px 36px}
   <div class="gallery-drag-hint">Drag to explore</div>
 </section>
 
-<!-- ── Day & Night ──────────────────────────────────────────── -->
-<section id="daynight">
-  <div class="dn-panel">
-    <img src="https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb"
-         alt="115 Cafe daytime" loading="lazy" />
-    <div class="dn-scrim dn-scrim-day">
-      <p class="dn-tag">Morning to 9pm</p>
-      <h3 class="dn-title">Bright days &amp;<br>great coffee</h3>
-      <p class="dn-body">White walls, red cups, and Oliver Plunkett Street buzzing outside. The perfect Cork morning.</p>
-    </div>
-  </div>
-  <div class="dn-panel">
-    <div class="dn-night-bg"></div>
-    <div class="dn-night-glow"></div>
-    <div class="dn-scrim dn-scrim-night" style="position:relative;z-index:2;height:100%;justify-content:center">
-      <p class="dn-tag">Thursdays · until 11:30pm</p>
-      <h3 class="dn-title">Candles, wine &amp;<br>late evenings</h3>
-      <p class="dn-body">The same room, transformed. Boards to share, rotating craft beers, house wines and cocktails — Cork's best kept Thursday night.</p>
-      <div class="dn-evening-list">
-        <div class="dn-evening-item">Charcuterie &amp; small plates</div>
-        <div class="dn-evening-item">House wine &amp; craft beers</div>
-        <div class="dn-evening-item">Weekly cocktail special</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ── Contact ───────────────────────────────────────────────── -->
 <section id="contact" class="section">
