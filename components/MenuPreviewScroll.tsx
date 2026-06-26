@@ -24,8 +24,8 @@ export function MenuPreviewScroll() {
         }
       >
         <img
-          src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=1400&q=80"
-          alt="Cocoa cafe interior"
+          src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1400&q=85"
+          alt="Cocoa cafe — warm Edison lights, marble tables, teal walls"
           className="w-full h-full object-cover object-center rounded-2xl"
           draggable={false}
         />

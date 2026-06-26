@@ -3,12 +3,12 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const images = [
-  { src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&q=85", alt: "Specialty coffee being poured at Cocoa",    label: "The Counter"         },
-  { src: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=85", alt: "Dark chocolate truffles on marble",          label: "Handmade Truffles"   },
-  { src: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=900&q=85", alt: "Layered artisan cake with dark ganache",   label: "Artisan Cakes"       },
-  { src: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=900&q=85", alt: "Warm interior of Cocoa cafe, Cork City",   label: "The Interior"        },
-  { src: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=900&q=85", alt: "Single-origin chocolate bars",             label: "Single Origin"       },
-  { src: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=900&q=85", alt: "Hot drinking chocolate with cream",        label: "Drinking Chocolate"  },
+  { src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=85", alt: "Hot drinking chocolate at Cocoa",           label: "Drinking Chocolate"  },
+  { src: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=900&q=85", alt: "Macarons in rows, Cocoa pastry selection",  label: "French Macarons"     },
+  { src: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=900&q=85", alt: "Pastry and baked goods display",            label: "Baked Daily"         },
+  { src: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=900&q=85", alt: "Warm interior at Cocoa Cork",              label: "The Interior"        },
+  { src: "https://images.unsplash.com/photo-1611270629569-8b357cb88da9?w=900&q=85", alt: "Latte art on marble table",                label: "Specialty Coffee"    },
+  { src: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=900&q=85", alt: "Rich chocolate cake slice on board",       label: "Artisan Cakes"       },
 ];
 
 export function Gallery() {

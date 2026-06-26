@@ -74,52 +74,62 @@ export function Menu() {
           </h2>
         </motion.div>
 
-        {/* Tabs */}
-        <div className="flex border-b border-white/10 mb-8 md:mb-10 overflow-x-auto"
-          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
-          {tabs.map(t => (
-            <button key={t.id} onClick={() => setActive(t.id)}
-              className={`flex-shrink-0 px-5 md:px-7 py-3.5 text-[11px] font-['Inter'] font-medium tracking-[0.12em] uppercase border-b-2 -mb-px transition-all duration-200 ${
-                active === t.id
-                  ? "text-[var(--amber)] border-[var(--amber)]"
-                  : "text-[var(--grey)] border-transparent hover:text-[var(--cream-2)]"
-              }`}>
-              {t.label}
-            </button>
-          ))}
+        {/* Tabs — centered on desktop, scrollable on mobile */}
+        <div className="flex justify-center mb-10 md:mb-12">
+          <div className="flex border-b border-white/10 overflow-x-auto w-full max-w-xl"
+            style={{ scrollbarWidth: "none" }}>
+            {tabs.map(t => (
+              <button key={t.id} onClick={() => setActive(t.id)}
+                className={`flex-1 flex-shrink-0 min-w-[80px] px-4 md:px-6 py-3.5 text-[10px] md:text-[11px] font-['Inter'] font-medium tracking-[0.14em] uppercase border-b-2 -mb-px transition-all duration-200 text-center ${
+                  active === t.id
+                    ? "text-[var(--amber)] border-[var(--amber)]"
+                    : "text-[var(--grey)] border-transparent hover:text-[var(--cream-2)]"
+                }`}>
+                {t.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Menu items */}
+        {/* Menu items — clean list style */}
         <AnimatePresence mode="wait">
           <motion.div key={active}
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: "easeOut" }}>
+            exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: "easeOut" }}
+            className="max-w-2xl mx-auto">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {current.items.map(it => (
-                <div key={it.name}
-                  className={`flex items-start gap-4 px-5 py-5 rounded-sm transition-colors duration-200 ${
-                    it.featured
-                      ? "bg-[rgba(200,134,10,0.08)] hover:bg-[rgba(200,134,10,0.13)]"
-                      : "bg-[var(--dark-3)] hover:bg-[rgba(255,255,255,0.03)]"
-                  }`}>
-                  {/* Text block */}
+            <div className="flex flex-col divide-y divide-white/[0.07]">
+              {current.items.map((it, i) => (
+                <motion.div key={it.name}
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  transition={{ delay: i * 0.04, duration: 0.4 }}
+                  className="flex items-baseline justify-between gap-6 py-5 group">
                   <div className="flex-1 min-w-0">
-                    <p className="font-['Playfair_Display'] text-[16px] md:text-[17px] text-[var(--cream)] leading-snug mb-1">
-                      {it.name}
-                    </p>
+                    <div className="flex items-center gap-2.5 mb-1">
+                      <span className="font-['Playfair_Display'] text-[16px] md:text-[17px] text-[var(--cream)] leading-snug">
+                        {it.name}
+                      </span>
+                      {it.featured && (
+                        <span className="text-[8px] font-['Inter'] font-semibold tracking-[0.15em] uppercase text-[var(--amber)] border border-[var(--amber)]/40 px-1.5 py-0.5 leading-none">
+                          House
+                        </span>
+                      )}
+                    </div>
                     <p className="text-[14px] md:text-[15px] text-[var(--grey)] leading-relaxed"
                       style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: "italic" }}>
                       {it.desc}
                     </p>
                   </div>
-                  {/* Price — always right-aligned, never wraps */}
-                  <span className="font-['Inter'] text-[13px] font-semibold text-[var(--amber)] whitespace-nowrap leading-snug pt-px tracking-wide">
+                  <span className="font-['Inter'] text-[13px] font-medium text-[var(--amber)] whitespace-nowrap tracking-wide flex-shrink-0">
                     {it.price}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
+
+            <p className="text-center text-[11px] font-['Inter'] tracking-[0.18em] uppercase text-[var(--grey)] mt-10 pb-2 border-t border-white/[0.07] pt-6">
+              Ask at the counter for daily specials
+            </p>
 
           </motion.div>
         </AnimatePresence>

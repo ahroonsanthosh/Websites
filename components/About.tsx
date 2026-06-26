@@ -12,7 +12,7 @@ export function About() {
   return (
     <section id="about" className="py-20 md:py-32 lg:py-40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center justify-items-center lg:justify-items-start">
 
           {/* Images */}
           <motion.div {...item(0)}
@@ -20,16 +20,16 @@ export function About() {
             style={{ aspectRatio: "4/5", maxWidth: 480 }}>
             <div className="absolute top-0 left-0 w-[78%] h-[82%] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=900&q=80"
-                alt="Handcrafted chocolates"
+                src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=900&q=85"
+                alt="Cocoa cafe interior — warm Edison lights, teal walls, booth seating"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 loading="lazy"
               />
             </div>
             <div className="absolute bottom-0 right-0 w-[48%] h-[44%] border-[5px] border-[var(--dark)] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
-                alt="Coffee at Cocoa"
+                src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=85"
+                alt="Signature hot chocolate at Cocoa"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 loading="lazy"
               />
