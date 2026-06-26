@@ -30,7 +30,7 @@ export function Navbar() {
         className={`fixed top-0 left-0 right-0 z-50 h-16 md:h-[68px] transition-all duration-500 ${
         scrolled || open ? "bg-[#0c0b09]/95 backdrop-blur-xl shadow-[0_1px_0_rgba(255,255,255,0.05)]" : ""
       }`}>
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-14 h-full flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-10 sm:px-14 lg:px-20 h-full flex items-center justify-between">
           <a href="#" onClick={() => setOpen(false)} aria-label="COCOA — return to top"
             className="font-['Playfair_Display'] text-xl md:text-2xl font-semibold tracking-[0.15em] text-[var(--cream)] hover:text-[var(--amber)] transition-colors z-10">
             COCOA
