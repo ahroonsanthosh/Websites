@@ -16,7 +16,7 @@ export function Gallery() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="gallery" className="py-20 md:py-32 lg:py-40 w-full">
+    <section id="gallery" className="py-28 md:py-40 lg:py-52 w-full">
       <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1rem 2.5rem", textAlign: "center" }}>
         <p className="text-[11px] tracking-[0.28em] uppercase text-[var(--amber)] font-medium mb-3">Inside Cocoa</p>
         <h2 className="font-['Playfair_Display'] text-4xl md:text-5xl lg:text-6xl leading-tight text-[var(--cream)]">
