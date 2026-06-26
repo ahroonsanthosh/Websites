@@ -102,16 +102,25 @@ export default function HeroSection({ content }: { content: HeroContent }) {
   // Multi-state scroll transformation of the pinned scene — continuous from
   // the first pixel of scroll, fading out at the very end so the next section
   // follows immediately (the fiery overlay fills the final stretch, no blank).
-  const headlineScale = useTransform(scrollYProgress, [0, 0.9], [1, 1.4]);
-  const headlineY = useTransform(scrollYProgress, [0, 0.9], ["0%", "-28%"]);
-  const headlineBlur = useTransform(scrollYProgress, [0.35, 0.85], [0, 14]);
-  const headlineOpacity = useTransform(scrollYProgress, [0.45, 0.85], [1, 0]);
+  // GPU-only transforms (scale / translate / opacity) — no animated blur or
+  // background repaints, so the scene stays buttery while scrolling.
+  const headlineScale = useTransform(scrollYProgress, [0, 0.9], [1, 1.35]);
+  const headlineY = useTransform(scrollYProgress, [0, 0.9], ["0%", "-26%"]);
+  const headlineOpacity = useTransform(scrollYProgress, [0.4, 0.82], [1, 0]);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.7]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.9], [0.05, 0.16]);
-  const sceneOverlay = useTransform(scrollYProgress, [0.5, 0.95], [0, 0.9]);
+  const sceneOverlay = useTransform(scrollYProgress, [0.45, 0.92], [0, 0.9]);
   const foodScrollY = useTransform(scrollYProgress, [0, 1], [0, -260]);
-  const filterBlur = useTransform(headlineBlur, (b) => `blur(${b}px)`);
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
+
+  // Smooth the scroll-linked values with a light spring so scrubbing never
+  // feels stepwise/glitchy.
+  const ss = { stiffness: 220, damping: 40, mass: 0.4 };
+  const sHeadlineScale = useSpring(headlineScale, ss);
+  const sHeadlineY = useSpring(headlineY, ss);
+  const sHeadlineOpacity = useSpring(headlineOpacity, ss);
+  const sBgScale = useSpring(bgScale, ss);
+  const sFoodScrollY = useSpring(foodScrollY, ss);
 
   // Cursor influence field (normalised -0.5..0.5).
   const mvX = useMotionValue(0);
@@ -142,23 +151,29 @@ export default function HeroSection({ content }: { content: HeroContent }) {
     <section ref={ref} className="relative h-[220vh]" id="hero" aria-label="Hansum Rotisserie hero">
       {/* Pinned cinematic scene */}
       <div className="sticky top-0 h-screen overflow-hidden bg-[#1A1A1A] flex items-center justify-center">
-        {/* Animated gradient atmosphere */}
+        {/* Static base atmosphere (no per-frame repaint) */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 45%, rgba(249,115,22,0.16) 0%, rgba(220,38,38,0.07) 40%, #1A1A1A 100%)",
+          }}
+        />
+        {/* Accent glow — animates OPACITY only (GPU-composited, smooth) */}
         <motion.div
           className="absolute inset-0 z-0"
-          animate={{
-            background: [
-              "radial-gradient(ellipse 80% 60% at 50% 45%, rgba(249,115,22,0.18) 0%, rgba(220,38,38,0.08) 40%, #1A1A1A 100%)",
-              "radial-gradient(ellipse 60% 80% at 45% 55%, rgba(220,38,38,0.16) 0%, rgba(249,115,22,0.08) 40%, #1A1A1A 100%)",
-              "radial-gradient(ellipse 80% 60% at 55% 40%, rgba(251,191,36,0.12) 0%, rgba(249,115,22,0.12) 40%, #1A1A1A 100%)",
-            ],
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 80% at 55% 55%, rgba(251,191,36,0.14) 0%, rgba(249,115,22,0) 55%)",
           }}
-          transition={{ duration: 9, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
 
         {/* BACKGROUND depth layer — giant kinetic wordmark */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
-          style={{ scale: bgScale, opacity: bgOpacity }}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none will-change-transform"
+          style={{ scale: sBgScale, opacity: bgOpacity }}
         >
           <span className="font-condensed text-[26vw] leading-none text-white whitespace-nowrap">
             HANSUM
@@ -167,21 +182,20 @@ export default function HeroSection({ content }: { content: HeroContent }) {
 
         {/* MID depth layer — cursor-reactive floating food */}
         <div className="absolute inset-0 pointer-events-none">
-          <FloatingFood emoji="🍗" baseX={10} baseY={22} depth={1} size={64} mvX={mvX} mvY={mvY} scrollFloat={foodScrollY} />
-          <FloatingFood emoji="🌶️" baseX={84} baseY={26} depth={0.8} size={46} mvX={mvX} mvY={mvY} scrollFloat={foodScrollY} />
-          <FloatingFood emoji="🧀" baseX={16} baseY={70} depth={0.55} size={40} mvX={mvX} mvY={mvY} scrollFloat={foodScrollY} />
-          <FloatingFood emoji="🥗" baseX={80} baseY={68} depth={0.7} size={50} mvX={mvX} mvY={mvY} scrollFloat={foodScrollY} />
-          <FloatingFood emoji="🔥" baseX={50} baseY={14} depth={0.35} size={34} mvX={mvX} mvY={mvY} scrollFloat={foodScrollY} />
+          <FloatingFood emoji="🍗" baseX={10} baseY={22} depth={1} size={64} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
+          <FloatingFood emoji="🌶️" baseX={84} baseY={26} depth={0.8} size={46} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
+          <FloatingFood emoji="🧀" baseX={16} baseY={70} depth={0.55} size={40} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
+          <FloatingFood emoji="🥗" baseX={80} baseY={68} depth={0.7} size={50} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
+          <FloatingFood emoji="🔥" baseX={50} baseY={14} depth={0.35} size={34} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
         </div>
 
         {/* FOREGROUND — headline & content, with camera tilt */}
         <motion.div
-          className="relative z-20 text-center px-6 max-w-6xl mx-auto"
+          className="relative z-20 text-center px-6 max-w-6xl mx-auto will-change-transform"
           style={{
-            scale: headlineScale,
-            y: headlineY,
-            opacity: headlineOpacity,
-            filter: filterBlur,
+            scale: sHeadlineScale,
+            y: sHeadlineY,
+            opacity: sHeadlineOpacity,
             rotateX: tiltX,
             rotateY: tiltY,
             transformPerspective: 1200,

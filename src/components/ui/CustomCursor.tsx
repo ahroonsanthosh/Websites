@@ -24,14 +24,18 @@ export default function CustomCursor() {
       setIsVisible(true);
     };
 
-    const checkPointer = () => {
-      const el = document.elementFromPoint(cursorX.get(), cursorY.get());
-      if (!el) return;
-      const computed = window.getComputedStyle(el).cursor;
-      setIsPointer(computed === "pointer");
-      const dataLabel = (el as HTMLElement).dataset?.cursorLabel ||
-        (el.closest("[data-cursor-label]") as HTMLElement)?.dataset?.cursorLabel || "";
-      setLabel(dataLabel);
+    // Cheap interactivity check off the event target — no getComputedStyle or
+    // elementFromPoint (both force synchronous style/layout work each move).
+    const checkPointer = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest) return;
+      const interactive = !!target.closest(
+        'a, button, [role="button"], input, textarea, select, label, [data-cursor-label]'
+      );
+      setIsPointer((prev) => (prev === interactive ? prev : interactive));
+      const labelEl = target.closest("[data-cursor-label]") as HTMLElement | null;
+      const dataLabel = labelEl?.dataset.cursorLabel ?? "";
+      setLabel((prev) => (prev === dataLabel ? prev : dataLabel));
     };
 
     document.addEventListener("mousemove", move);
