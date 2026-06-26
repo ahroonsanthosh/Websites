@@ -1,10 +1,10 @@
 "use client";
-import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
+
+const vp = { once: true, amount: 0.15 };
 
 export function Contact() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -18,21 +18,13 @@ export function Contact() {
     }, 1200);
   }
 
-  const fadeLeft = {
-    initial: { opacity: 0, x: -36 },
-    animate: inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -36 },
-    transition: { duration: 0.85, ease: "easeOut" as const },
-  };
-  const fadeRight = {
-    initial: { opacity: 0, x: 36 },
-    animate: inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 36 },
-    transition: { duration: 0.85, delay: 0.1, ease: "easeOut" as const },
-  };
+  const fadeLeft  = { initial: { opacity: 0, x: -36 }, whileInView: { opacity: 1, x: 0 }, viewport: vp, transition: { duration: 0.8, ease: "easeOut" as const } };
+  const fadeRight = { initial: { opacity: 0, x:  36 }, whileInView: { opacity: 1, x: 0 }, viewport: vp, transition: { duration: 0.8, delay: 0.1, ease: "easeOut" as const } };
 
   return (
     <section id="contact" className="py-20 md:py-32 lg:py-40 bg-[var(--dark-2)]">
-      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20" id="contact-grid">
 
           {/* Info */}
           <motion.div {...fadeLeft}>

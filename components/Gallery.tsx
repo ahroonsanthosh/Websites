@@ -30,8 +30,9 @@ export function Gallery() {
         {images.map((img, i) => (
           <motion.div key={img.src}
             initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: i * 0.07, ease: "easeOut" }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.7, delay: i * 0.06, ease: "easeOut" }}
             className="relative overflow-hidden group cursor-pointer"
             style={{ aspectRatio: i === 0 || i === 3 ? "4/3" : "3/4" }}>
             <img
