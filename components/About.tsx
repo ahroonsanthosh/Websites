@@ -12,11 +12,11 @@ export function About() {
   return (
     <section id="about" className="py-20 md:py-32 lg:py-40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center justify-items-center lg:justify-items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">
 
           {/* Images */}
           <motion.div {...item(0)}
-            className="relative w-full mx-auto"
+            className="relative w-full mx-auto lg:mx-0"
             style={{ aspectRatio: "4/5", maxWidth: 480 }}>
             <div className="absolute top-0 left-0 w-[78%] h-[82%] overflow-hidden">
               <img
