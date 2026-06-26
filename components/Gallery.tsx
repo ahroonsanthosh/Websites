@@ -3,12 +3,12 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const images = [
-  { src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=85", alt: "Hot drinking chocolate at Cocoa",           label: "Drinking Chocolate"  },
-  { src: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=900&q=85", alt: "Macarons in rows, Cocoa pastry selection",  label: "French Macarons"     },
-  { src: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=900&q=85", alt: "Pastry and baked goods display",            label: "Baked Daily"         },
-  { src: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=900&q=85", alt: "Warm interior at Cocoa Cork",              label: "The Interior"        },
-  { src: "https://images.unsplash.com/photo-1611270629569-8b357cb88da9?w=900&q=85", alt: "Latte art on marble table",                label: "Specialty Coffee"    },
-  { src: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=900&q=85", alt: "Rich chocolate cake slice on board",       label: "Artisan Cakes"       },
+  { src: "/images/hero.png",       alt: "Signature coffee at Cocoa Cork",         label: "The Craft"          },
+  { src: "/images/interior.png",   alt: "Cocoa cafe counter, Winthrop Street",    label: "The Counter"        },
+  { src: "/images/latte.png",      alt: "Latte art at Cocoa",                     label: "Specialty Coffee"   },
+  { src: "/images/iced-drinks.png",alt: "Iced drinks at Cocoa Cork",              label: "Cold Drinks"        },
+  { src: "/images/products.png",   alt: "Cocoa handmade chocolate products",      label: "House Chocolates"   },
+  { src: "/images/food.png",       alt: "Freshly made food at Cocoa Cork",        label: "Fresh Food"         },
 ];
 
 export function Gallery() {

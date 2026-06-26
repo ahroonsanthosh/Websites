@@ -24,8 +24,8 @@ export function MenuPreviewScroll() {
         }
       >
         <img
-          src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1400&q=85"
-          alt="Cocoa cafe — warm Edison lights, marble tables, teal walls"
+          src="/images/interior.png"
+          alt="Cocoa cafe counter — warm Edison lights, Winthrop Street Cork"
           className="w-full h-full object-cover object-center rounded-2xl"
           draggable={false}
         />

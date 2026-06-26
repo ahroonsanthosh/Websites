@@ -20,16 +20,16 @@ export function About() {
             style={{ aspectRatio: "4/5", maxWidth: 480 }}>
             <div className="absolute top-0 left-0 w-[78%] h-[82%] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=900&q=85"
-                alt="Cocoa cafe interior — warm Edison lights, teal walls, booth seating"
+                src="/images/interior.png"
+                alt="Cocoa cafe counter — Edison lights, warm atmosphere, Winthrop Street Cork"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 loading="lazy"
               />
             </div>
             <div className="absolute bottom-0 right-0 w-[48%] h-[44%] border-[5px] border-[var(--dark)] overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=85"
-                alt="Signature hot chocolate at Cocoa"
+                src="/images/latte.png"
+                alt="Latte art at Cocoa, Cork"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 loading="lazy"
               />

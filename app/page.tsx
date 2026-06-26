@@ -16,8 +16,8 @@ export default function Home() {
 
       <main id="main-content" className="w-full">
       <ScrollExpansionHero
-        imageSrc="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1800&q=85"
-        imageAlt="Hot chocolate at Cocoa cafe Cork — warm, indulgent, handcrafted"
+        imageSrc="/images/hero.png"
+        imageAlt="Signature coffee at Cocoa, Cork — dark, moody, handcrafted"
         tagline="Cork City · Est. 2012"
         title={
           <span className="text-[clamp(5rem,18vw,16rem)] font-bold tracking-[-0.02em]">
