@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useMotionTemplate } from "framer-motion";
 
 interface MenuItem {
   id: string;
@@ -18,6 +18,82 @@ interface MenuItem {
 interface MenuContent {
   categories: string[];
   items: MenuItem[];
+}
+
+function MenuCard({ item, index }: { item: MenuItem; index: number }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const spotlight = useMotionTemplate`radial-gradient(220px circle at ${mouseX}px ${mouseY}px, rgba(249,115,22,0.18), transparent 70%)`;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      initial={{ opacity: 0, y: 30, scale: 0.97 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{
+        y: -6,
+        rotateX: 3,
+        transition: { type: "spring", stiffness: 300, damping: 20 },
+      }}
+      className="group glass-dark rounded-2xl p-6 relative overflow-hidden cursor-default"
+      style={{ transformStyle: "preserve-3d" }}
+    >
+      {/* Cursor-following spotlight */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+        style={{ background: spotlight }}
+      />
+      {/* Base glow on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+
+      {/* Top row */}
+      <div className="flex items-start justify-between mb-4 relative z-10">
+        <motion.span
+          className="text-4xl inline-block"
+          whileHover={{ scale: 1.25, rotate: -12 }}
+          transition={{ type: "spring", stiffness: 400, damping: 12 }}
+        >
+          {item.emoji}
+        </motion.span>
+        <div className="flex flex-col items-end gap-2">
+          {item.badge && (
+            <span className="text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
+              {item.badge}
+            </span>
+          )}
+          {!item.available && (
+            <span className="text-[10px] font-sans tracking-widest uppercase px-2.5 py-1 rounded-full bg-white/5 text-white/30">
+              Unavailable
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="relative z-10">
+        <h3 className="font-display font-bold text-white text-xl mb-2 group-hover:text-orange-400 transition-colors duration-200">
+          {item.name}
+        </h3>
+        <p className="font-sans text-white/50 text-sm leading-relaxed mb-5">
+          {item.description}
+        </p>
+        <div className="flex items-center justify-between">
+          <span className="font-condensed text-2xl text-orange-400 tracking-wide">
+            {item.price}
+          </span>
+          <span className="text-xs text-white/20 font-sans uppercase tracking-widest">
+            {item.category}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
 }
 
 export default function MenuSection({ content }: { content: MenuContent }) {
@@ -98,56 +174,7 @@ export default function MenuSection({ content }: { content: MenuContent }) {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
           >
             {filtered.map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.5, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{
-                  y: -6,
-                  rotateX: 3,
-                  transition: { type: "spring", stiffness: 300, damping: 20 },
-                }}
-                className="group glass-dark rounded-2xl p-6 relative overflow-hidden cursor-default"
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                {/* Glow on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-
-                {/* Top row */}
-                <div className="flex items-start justify-between mb-4 relative z-10">
-                  <span className="text-4xl">{item.emoji}</span>
-                  <div className="flex flex-col items-end gap-2">
-                    {item.badge && (
-                      <span className="text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
-                        {item.badge}
-                      </span>
-                    )}
-                    {!item.available && (
-                      <span className="text-[10px] font-sans tracking-widest uppercase px-2.5 py-1 rounded-full bg-white/5 text-white/30">
-                        Unavailable
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="relative z-10">
-                  <h3 className="font-display font-bold text-white text-xl mb-2 group-hover:text-orange-400 transition-colors duration-200">
-                    {item.name}
-                  </h3>
-                  <p className="font-sans text-white/50 text-sm leading-relaxed mb-5">
-                    {item.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="font-condensed text-2xl text-orange-400 tracking-wide">
-                      {item.price}
-                    </span>
-                    <span className="text-xs text-white/20 font-sans uppercase tracking-widest">
-                      {item.category}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
+              <MenuCard key={item.id} item={item} index={i} />
             ))}
           </motion.div>
         </AnimatePresence>

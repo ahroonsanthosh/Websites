@@ -3,6 +3,7 @@
   "address_line1": "Marina Market",
   "address_line2": "Cork City, Ireland",
   "google_maps_url": "https://maps.google.com/?q=Marina+Market+Cork",
+  "map_query": "Marina Market, Centre Park Road, Cork",
   "hours": {
     "Monday": { "open": "12:00 PM", "close": "8:00 PM", "closed": false },
     "Tuesday": { "open": "12:00 PM", "close": "8:00 PM", "closed": false },

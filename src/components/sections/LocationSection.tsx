@@ -9,6 +9,7 @@ interface LocationContent {
   address_line1: string;
   address_line2: string;
   google_maps_url: string;
+  map_query?: string;
   hours: Record<string, { open: string; close: string; closed: boolean }>;
 }
 
@@ -16,6 +17,10 @@ const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 
 export default function LocationSection({ content }: { content: LocationContent }) {
   const today = DAYS[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1];
+
+  const query = content.map_query || `${content.address_line1}, ${content.address_line2}`;
+  // Keyless Google Maps embed — no API key required.
+  const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=16&output=embed`;
 
   return (
     <section className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="location">
@@ -145,22 +150,42 @@ export default function LocationSection({ content }: { content: LocationContent 
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="mt-16 rounded-3xl overflow-hidden h-64 lg:h-80 relative bg-gradient-to-br from-orange-900/20 to-red-900/20 border border-white/5 flex items-center justify-center group cursor-none"
-          data-cursor-label="MAP"
+          className="mt-16 rounded-3xl overflow-hidden h-72 lg:h-96 relative border border-white/10 group"
         >
-          <div className="absolute inset-0 flex items-center justify-center flex-col gap-4">
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <MapPin className="w-12 h-12 text-orange-500" />
-            </motion.div>
-            <div className="text-center">
-              <p className="text-white font-display font-bold text-lg">Marina Market</p>
-              <p className="text-white/40 font-sans text-sm">Cork City, Ireland</p>
+          {/* Real embedded Google Map (keyless) */}
+          <iframe
+            src={mapSrc}
+            title={`Map showing ${content.name} at ${query}`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="absolute inset-0 w-full h-full grayscale-[0.3] contrast-[1.05] transition-all duration-500 group-hover:grayscale-0"
+            style={{ border: 0, filter: "saturate(1.1)" }}
+            allowFullScreen
+          />
+
+          {/* Floating location pill overlay */}
+          <div className="absolute top-4 left-4 z-10 pointer-events-none">
+            <div className="glass-dark rounded-full pl-3 pr-4 py-2 flex items-center gap-2 shadow-lg">
+              <motion.span
+                animate={{ y: [0, -3, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <MapPin className="w-4 h-4 text-orange-500" />
+              </motion.span>
+              <span className="text-white font-sans text-xs font-medium">{content.name} · Marina Market</span>
             </div>
           </div>
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoNnYtNmgtNnptLTEyIDZoNnY2aC02di02em0xMiAwaDZ2NmgtNnYtNnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-50" />
+
+          {/* Open-in-Maps button */}
+          <a
+            href={content.google_maps_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-4 right-4 z-10 glass-dark rounded-full px-4 py-2 flex items-center gap-1.5 text-white text-xs font-sans font-medium hover:text-orange-400 transition-colors shadow-lg"
+          >
+            Open in Google Maps
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
         </motion.div>
       </div>
     </section>
