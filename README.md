@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hansum Rotisserie
 
-## Getting Started
+Premium marketing website + bespoke CMS for **Hansum Rotisserie**, located inside
+Marina Market, Cork City, Ireland.
 
-First, run the development server:
+Built with Next.js 15 (App Router), TypeScript, Tailwind CSS, Framer Motion and a
+fully custom, dependency-free content management system.
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then edit the values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `http://localhost:3000` — the public website
+- `http://localhost:3000/admin` — the content management area
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## The CMS (`/admin`)
 
-## Learn More
+A completely custom CMS — no Sanity, Contentful, Strapi, Payload or any third party.
 
-To learn more about Next.js, take a look at the following resources:
+- **Auth**: email + password (set in `.env.local`), signed JWT in an httpOnly cookie.
+- **Protection**: middleware guards every `/admin` route and the content/media APIs.
+- **Storage**: content lives as JSON files in `/content/`, images in `/public/uploads/`.
+- **Editors**: Hero, Menu, Gallery, Location & Hours, Reviews, SEO and Settings.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The business owner can only edit content — never code, config, styling or animations.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Editable content models
 
-## Deploy on Vercel
+| File | What it controls |
+|------|------------------|
+| `content/hero.json` | Headline, subheadline, CTA text + links, badge |
+| `content/menu.json` | Menu items, prices, categories, featured/availability |
+| `content/gallery.json` | Gallery images + alt text |
+| `content/location.json` | Address + opening hours |
+| `content/reviews.json` | Customer testimonials |
+| `content/seo.json` | Meta title, description, keywords |
+| `content/settings.json` | Social links, announcement banner, contact |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/components/sections/` — one component per page section.
+- `src/components/ui/` — reusable primitives (magnetic button, animated text,
+  custom cursor, `HansumImage`, etc).
+- `src/lib/content.ts` — typed read/write helpers for the JSON content store.
+- `src/lib/auth.ts` + `src/middleware.ts` — JWT auth and route protection.
+- `src/app/api/` — login/logout, content CRUD, media upload/delete.
+
+Each editable section has its own content model, editor page, validation and
+rendering logic — so the CMS can be reused for future restaurant sites.
+
+## Image handling
+
+All imagery goes through `HansumImage`, which renders an optimised `next/image`
+when a real asset exists and falls back to an on-brand gradient + emoji
+placeholder otherwise. Replace placeholders by uploading via the admin Gallery.
+
+## Scripts
+
+```bash
+npm run dev     # development server
+npm run build   # production build
+npm run start   # serve production build
+npm run lint    # eslint
+```

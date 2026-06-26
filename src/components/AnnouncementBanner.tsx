@@ -27,6 +27,7 @@ export default function AnnouncementBanner({ text }: { text: string }) {
             </div>
             <button
               onClick={() => setVisible(false)}
+              aria-label="Dismiss announcement"
               className="text-white/70 hover:text-white flex-shrink-0"
             >
               <X className="w-3.5 h-3.5" />

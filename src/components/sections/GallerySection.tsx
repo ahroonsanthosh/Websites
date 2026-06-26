@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
+import HansumImage from "@/components/ui/HansumImage";
 
 const PLACEHOLDER_COLORS = [
   "from-orange-900/80 to-red-900/80",
@@ -14,18 +15,21 @@ const PLACEHOLDER_COLORS = [
   "from-amber-900/80 to-orange-800/80",
 ];
 
-const PLACEHOLDER_CONTENT = [
-  { emoji: "🥪", label: "Hansum Ciabatta" },
-  { emoji: "🍗", label: "Whole Chicken" },
-  { emoji: "🌯", label: "Hansum Wrap" },
-  { emoji: "🍟", label: "Messy Wedges" },
-  { emoji: "🥗", label: "Hansum Salad" },
-  { emoji: "🔥", label: "Rotisserie" },
-];
+const PLACEHOLDER_EMOJIS = ["🥪", "🍗", "🌯", "🍟", "🥗", "🔥"];
 
-export default function GallerySection() {
+export interface GalleryImage {
+  id: string;
+  src: string;
+  alt: string;
+  order: number;
+}
+
+export default function GallerySection({ images = [] }: { images?: GalleryImage[] }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const marqueeRef = useRef<HTMLDivElement>(null);
+
+  const sorted = [...images].sort((a, b) => a.order - b.order);
+  // Always render six tiles; fill empties with branded placeholders.
+  const tiles = Array.from({ length: Math.max(6, sorted.length) }, (_, i) => sorted[i]);
 
   const marqueeText = "ROTISSERIE • CORK • MARINA MARKET • @HANSUMCORK • FRESH DAILY • ";
 
@@ -74,35 +78,38 @@ export default function GallerySection() {
       {/* Masonry-style grid */}
       <div className="max-w-7xl mx-auto px-6">
         <div className="columns-2 md:columns-3 gap-4 space-y-4">
-          {PLACEHOLDER_CONTENT.map((item, i) => {
+          {tiles.map((tile, i) => {
             const tall = i === 0 || i === 4;
             return (
-              <motion.div
-                key={i}
+              <motion.button
+                key={tile?.id ?? `placeholder-${i}`}
+                type="button"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: i * 0.08 }}
                 onClick={() => setLightboxIndex(i)}
-                className={`break-inside-avoid relative rounded-2xl overflow-hidden cursor-none group ${tall ? "aspect-[3/4]" : "aspect-square"} bg-gradient-to-br ${PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length]}`}
+                aria-label={`View gallery image: ${tile?.alt ?? "Hansum food"}`}
+                className={`w-full break-inside-avoid relative rounded-2xl overflow-hidden cursor-none group ${tall ? "aspect-[3/4]" : "aspect-square"}`}
                 data-cursor-label="VIEW"
               >
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-6xl mb-3">{item.emoji}</span>
-                  <span className="font-sans text-white/70 text-sm tracking-wide">{item.label}</span>
-                </div>
+                <HansumImage
+                  src={tile?.src}
+                  alt={tile?.alt ?? "Hansum rotisserie"}
+                  gradient={PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length]}
+                  emoji={PLACEHOLDER_EMOJIS[i % PLACEHOLDER_EMOJIS.length]}
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  className="transition-transform duration-500 group-hover:scale-105"
+                />
 
                 {/* Hover overlay */}
-                <motion.div
-                  className="absolute inset-0 bg-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  whileHover={{ opacity: 1 }}
-                />
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute inset-0 bg-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2">
                     <p className="text-white text-xs font-sans">@hansumcork</p>
                   </div>
                 </div>
-              </motion.div>
+              </motion.button>
             );
           })}
         </div>
@@ -138,15 +145,21 @@ export default function GallerySection() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className={`relative w-full max-w-lg aspect-square rounded-3xl bg-gradient-to-br ${PLACEHOLDER_COLORS[lightboxIndex % PLACEHOLDER_COLORS.length]} flex flex-col items-center justify-center`}
+              className="relative w-full max-w-lg aspect-square rounded-3xl overflow-hidden flex flex-col items-center justify-center"
               onClick={(e) => e.stopPropagation()}
             >
-              <span className="text-8xl mb-4">{PLACEHOLDER_CONTENT[lightboxIndex].emoji}</span>
-              <span className="font-display text-white text-2xl font-bold">{PLACEHOLDER_CONTENT[lightboxIndex].label}</span>
-              <p className="text-white/50 text-sm mt-2 font-sans">@hansumcork</p>
+              <HansumImage
+                src={tiles[lightboxIndex]?.src}
+                alt={tiles[lightboxIndex]?.alt ?? "Hansum rotisserie"}
+                gradient={PLACEHOLDER_COLORS[lightboxIndex % PLACEHOLDER_COLORS.length]}
+                emoji={PLACEHOLDER_EMOJIS[lightboxIndex % PLACEHOLDER_EMOJIS.length]}
+                sizes="512px"
+              />
+              <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm font-sans bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">@hansumcork</p>
             </motion.div>
             <button
               onClick={() => setLightboxIndex(null)}
+              aria-label="Close lightbox"
               className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
             >
               <X className="w-5 h-5" />

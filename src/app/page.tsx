@@ -15,19 +15,27 @@ import {
   getLocationContent,
   getReviewsContent,
   getSettingsContent,
+  getGalleryContent,
 } from "@/lib/content";
 
+// Re-read content from disk on each request so CMS edits appear immediately.
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
-  const [hero, menu, location, reviews, settings] = await Promise.all([
+  const [hero, menu, location, reviews, settings, gallery] = await Promise.all([
     getHeroContent(),
     getMenuContent(),
     getLocationContent(),
     getReviewsContent(),
     getSettingsContent(),
+    getGalleryContent(),
   ]);
 
   return (
     <main>
+      {/* Skip to content for keyboard users */}
+      <a href="#menu" className="skip-link">Skip to menu</a>
+
       {/* Noise texture overlay */}
       <div className="noise-overlay" aria-hidden="true" />
 
@@ -46,7 +54,7 @@ export default async function HomePage() {
       <HeroSection content={hero} />
       <WhyHansumSection />
       <MenuSection content={menu} />
-      <GallerySection />
+      <GallerySection images={gallery.images} />
       <LocationSection content={location} />
       <ReviewsSection reviews={reviews.reviews} />
       <CTASection />

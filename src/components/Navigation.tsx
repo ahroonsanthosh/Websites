@@ -58,6 +58,7 @@ export default function Navigation() {
               href="https://www.instagram.com/hansumcork"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Hansum Rotisserie on Instagram"
               className="text-white/50 hover:text-orange-400 transition-colors duration-200"
             >
               <InstagramIcon className="w-5 h-5" />
@@ -70,6 +71,7 @@ export default function Navigation() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
             className="md:hidden text-white p-2"
           >
             <Menu className="w-6 h-6" />
@@ -89,7 +91,7 @@ export default function Navigation() {
           >
             <div className="flex justify-between items-center mb-16">
               <span className="font-condensed text-3xl text-white tracking-wider">HANSUM</span>
-              <button onClick={() => setMobileOpen(false)} className="text-white/60 hover:text-white p-2">
+              <button onClick={() => setMobileOpen(false)} aria-label="Close menu" className="text-white/60 hover:text-white p-2">
                 <X className="w-6 h-6" />
               </button>
             </div>
