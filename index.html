@@ -4,595 +4,647 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>115 Cafe — Cork City</title>
-  <meta name="description" content="115 Cafe on Oliver Plunkett Street, Cork. Great coffee, food & atmosphere in the heart of the city." />
+  <meta name="description" content="115 Cafe on Oliver Plunkett Street, Cork. Specialty coffee, wholesome food and warm hospitality in the heart of the city." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & tokens ─────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ─────────────────────────────────────────────────────────────
+   RESET & TOKENS
+───────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E31E24; --red-d:#B8171C; --red-l:#fdeaea;
+  --blk:#0f0f0f; --ink:#1a1a1a; --muted:#737373; --faint:#a3a3a3;
+  --line:#e5e5e5; --cream:#f8f6f3;
+  --white:#fff;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --ease:cubic-bezier(.25,.46,.45,.94);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --r:4px;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;width:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
 
-    :root {
-      --red:   #E31E24;
-      --red-d: #C01519;
-      --red-l: #fdeaea;
-      --blk:   #1a1a1a;
-      --stone: #2c2c2c;
-      --ink:   #1a1a1a;
-      --muted: #6b6b6b;
-      --line:  #e5e5e5;
-      --bg:    #ffffff;
-      --white: #ffffff;
-      --serif: 'Playfair Display', Georgia, serif;
-      --sans:  'Inter', system-ui, sans-serif;
-      --ease:  cubic-bezier(.25,.46,.45,.94);
-      --r:     6px;
-    }
+/* ─────────────────────────────────────────────────────────────
+   UTILITY
+───────────────────────────────────────────────────────────── */
+.container{max-width:1200px;margin:0 auto;padding:0 40px}
+.section{padding:120px 0}
+.eyebrow{
+  font-size:.7rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--red);display:flex;
+  align-items:center;gap:12px;margin-bottom:16px
+}
+.eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--red)}
+.display{
+  font-family:var(--serif);font-size:clamp(2.4rem,5vw,4rem);
+  font-weight:400;line-height:1.08;color:var(--blk)
+}
+.body-lg{font-size:1.0625rem;line-height:1.8;color:var(--muted)}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 34px;font-size:.8rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;border-radius:2px;
+  transition:all .28s var(--ease)
+}
+.btn-dark{background:var(--blk);color:var(--white)}
+.btn-dark:hover{background:var(--red);transform:translateY(-2px);box-shadow:0 8px 24px rgba(227,30,36,.25)}
+.btn-outline{border:1.5px solid var(--blk);color:var(--blk)}
+.btn-outline:hover{background:var(--blk);color:var(--white)}
+.btn-outline-white{border:1.5px solid rgba(255,255,255,.5);color:var(--white)}
+.btn-outline-white:hover{background:var(--white);color:var(--blk)}
 
-    html { scroll-behavior: smooth; }
+/* ─────────────────────────────────────────────────────────────
+   SCROLL REVEAL SYSTEM
+───────────────────────────────────────────────────────────── */
+[data-reveal]{opacity:0;will-change:transform,opacity}
+[data-reveal="up"]{transform:translateY(40px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+[data-reveal="left"]{transform:translateX(-40px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+[data-reveal="right"]{transform:translateX(40px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+[data-reveal="scale"]{transform:scale(.94);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+[data-reveal].in-view{opacity:1;transform:none}
 
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
+/* Clip-path wipe reveal for images */
+[data-wipe]{
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .95s var(--ease-out)
+}
+[data-wipe].in-view{clip-path:inset(0 0 0% 0)}
 
-    img { display: block; width: 100%; object-fit: cover; }
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+/* Stagger delays */
+[data-delay="1"]{transition-delay:.1s}
+[data-delay="2"]{transition-delay:.2s}
+[data-delay="3"]{transition-delay:.32s}
+[data-delay="4"]{transition-delay:.44s}
+[data-delay="5"]{transition-delay:.56s}
+[data-delay="6"]{transition-delay:.68s}
 
-    /* ── Utility ─────────────────────────────────────────────── */
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-    .section   { padding: 96px 0; }
-    .label {
-      font-size: 11px; font-weight: 600; letter-spacing: .16em;
-      text-transform: uppercase; color: var(--red); margin-bottom: 12px;
-    }
-    .h2 {
-      font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 400; line-height: 1.15; color: var(--blk);
-    }
-    .h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; }
-    .body-text { font-size: 1rem; line-height: 1.75; color: var(--muted); }
+/* ─────────────────────────────────────────────────────────────
+   NAV
+───────────────────────────────────────────────────────────── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:72px;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,box-shadow .4s,backdrop-filter .4s
+}
+#nav.scrolled{
+  background:rgba(255,255,255,.92);backdrop-filter:blur(16px);
+  box-shadow:0 1px 0 var(--line)
+}
+.nav-logo{
+  font-family:var(--serif);font-size:1.5rem;font-weight:500;
+  color:var(--blk);letter-spacing:-.01em
+}
+.nav-logo span{color:var(--red)}
+.nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+.nav-links a{
+  font-size:.72rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);transition:color .2s
+}
+.nav-links a:hover{color:var(--blk)}
+.nav-cta{display:flex;align-items:center}
+.nav-reserve{
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--red);
+  padding:9px 22px;border:1.5px solid var(--red);
+  border-radius:2px;transition:all .25s var(--ease)
+}
+.nav-reserve:hover{background:var(--red);color:var(--white)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--blk);transition:all .3s}
 
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 32px; border-radius: 2px;
-      font-size: .875rem; font-weight: 500; letter-spacing: .04em;
-      transition: all .25s var(--ease);
-    }
-    .btn-primary { background: var(--red); color: var(--white); }
-    .btn-primary:hover { background: var(--red-d); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(208,40,30,.25); }
-    .btn-outline { border: 1.5px solid var(--blk); color: var(--blk); }
-    .btn-outline:hover { background: var(--blk); color: var(--white); }
-    .btn-outline-white { border: 1.5px solid rgba(255,255,255,.6); color: var(--white); }
-    .btn-outline-white:hover { background: var(--white); color: var(--blk); }
+/* ─────────────────────────────────────────────────────────────
+   MOBILE DRAWER
+───────────────────────────────────────────────────────────── */
+.mobile-drawer{
+  position:fixed;inset:0;z-index:200;background:var(--blk);
+  transform:translateX(100%);transition:transform .45s var(--ease-out);
+  display:flex;flex-direction:column;padding:80px 40px 40px
+}
+.mobile-drawer.open{transform:none}
+.drawer-close{
+  position:absolute;top:20px;right:24px;
+  color:var(--white);font-size:1.5rem;padding:8px
+}
+.drawer-links{list-style:none;margin-bottom:auto}
+.drawer-links li{border-bottom:1px solid rgba(255,255,255,.07)}
+.drawer-links a{
+  display:block;padding:20px 0;font-family:var(--serif);
+  font-size:2rem;color:var(--white);transition:color .2s
+}
+.drawer-links a:hover{color:var(--red)}
+.drawer-foot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;font-size:.875rem;color:rgba(255,255,255,.4)}
+.drawer-foot a{color:var(--red)}
 
-    /* ── Reveal animations ───────────────────────────────────── */
-    .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity .7s var(--ease), transform .7s var(--ease);
-    }
-    .reveal.visible { opacity: 1; transform: none; }
-    .reveal-delay-1 { transition-delay: .1s; }
-    .reveal-delay-2 { transition-delay: .2s; }
-    .reveal-delay-3 { transition-delay: .3s; }
-    .reveal-delay-4 { transition-delay: .4s; }
+/* ─────────────────────────────────────────────────────────────
+   HERO — EDITORIAL SPLIT
+───────────────────────────────────────────────────────────── */
+#hero{
+  position:relative;height:100dvh;min-height:660px;
+  display:grid;grid-template-columns:1fr 1fr;overflow:hidden
+}
 
-    /* ── Nav ─────────────────────────────────────────────────── */
-    #nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 0 32px; height: 72px;
-      display: flex; align-items: center; justify-content: space-between;
-      transition: background .3s, box-shadow .3s, backdrop-filter .3s;
-    }
-    #nav.scrolled {
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 1px 0 var(--line);
-    }
-    .nav-logo {
-      font-family: var(--serif); font-size: 1.5rem; font-weight: 600;
-      color: var(--blk); letter-spacing: -.01em;
-    }
-    .nav-logo span { color: var(--red); }
+/* Left panel */
+.hero-left{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:120px 64px 60px 40px;background:var(--white)
+}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:12px;
+  font-size:.7rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--red);margin-bottom:28px;
+  opacity:0;animation:lineIn .7s .2s var(--ease-out) forwards
+}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--red)}
+.hero-headline{
+  font-family:var(--serif);
+  font-size:clamp(3.5rem,5.5vw,6rem);
+  font-weight:400;line-height:1.0;color:var(--blk);
+  overflow:hidden;margin-bottom:28px
+}
+.hero-headline .hl{
+  display:block;opacity:0;transform:translateY(110%);
+  animation:lineSlide .9s var(--ease-out) forwards
+}
+.hero-headline .hl:nth-child(1){animation-delay:.35s}
+.hero-headline .hl:nth-child(2){animation-delay:.48s;font-style:italic;color:var(--red)}
+.hero-headline .hl:nth-child(3){animation-delay:.61s}
 
-    .nav-links {
-      display: flex; align-items: center; gap: 40px; list-style: none;
-    }
-    .nav-links a {
-      font-size: .75rem; font-weight: 600; letter-spacing: .12em;
-      color: var(--muted); transition: color .2s; text-transform: uppercase;
-    }
-    .nav-links a:hover { color: var(--blk); }
+.hero-body{
+  font-size:.9375rem;line-height:1.8;color:var(--muted);
+  max-width:340px;margin-bottom:40px;
+  opacity:0;animation:lineIn .7s .9s var(--ease-out) forwards
+}
+.hero-actions{
+  display:flex;gap:14px;flex-wrap:wrap;
+  opacity:0;animation:lineIn .7s 1.05s var(--ease-out) forwards
+}
+.hero-foot-left{
+  position:absolute;bottom:40px;left:40px;right:64px;
+  display:flex;justify-content:space-between;align-items:center;
+  opacity:0;animation:lineIn .6s 1.2s var(--ease-out) forwards
+}
+.hero-social{display:flex;gap:18px;align-items:center}
+.hero-social a{color:var(--muted);transition:color .2s;display:flex}
+.hero-social a:hover{color:var(--blk)}
+.hero-social svg{width:18px;height:18px}
+.hero-loc{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.hero-scroll-hint{
+  display:flex;align-items:center;gap:10px;
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+  opacity:0;animation:lineIn .6s 1.35s var(--ease-out) forwards
+}
+.hero-scroll-hint .scroll-bar{
+  width:1px;height:40px;background:var(--line);position:relative;overflow:hidden
+}
+.hero-scroll-hint .scroll-bar::after{
+  content:'';position:absolute;top:-100%;left:0;width:1px;height:100%;
+  background:var(--red);animation:scrollRun 1.8s 1.5s var(--ease) infinite
+}
 
-    .nav-cta { display: flex; align-items: center; gap: 12px; }
-    .nav-reserve {
-      font-size: .75rem; font-weight: 600; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--red);
-      padding: 9px 22px; border: 1.5px solid var(--red);
-      border-radius: 2px; transition: all .25s var(--ease);
-    }
-    .nav-reserve:hover { background: var(--red); color: var(--white); }
+/* Right panel — photo */
+.hero-right{
+  position:relative;overflow:hidden
+}
+.hero-photo{
+  position:absolute;inset:0;
+  background:url('https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb') center/cover no-repeat;
+  clip-path:inset(0 0 100% 0);
+  animation:photoReveal 1.1s .1s var(--ease-out) forwards;
+  transform-origin:bottom
+}
+.hero-photo-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(255,255,255,.08),transparent 30%);
+  z-index:1
+}
+.hero-number{
+  position:absolute;bottom:40px;right:40px;z-index:2;
+  font-family:var(--serif);font-size:clamp(6rem,10vw,11rem);
+  font-weight:400;line-height:1;color:rgba(255,255,255,.2);
+  letter-spacing:-.04em;pointer-events:none;
+  opacity:0;animation:lineIn .8s .9s var(--ease-out) forwards
+}
 
-    .hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; }
-    .hamburger span {
-      display: block; width: 22px; height: 1.5px;
-      background: var(--blk); transition: all .3s;
-    }
+/* Hero keyframes */
+@keyframes lineSlide{to{opacity:1;transform:none}}
+@keyframes lineIn{to{opacity:1}}
+@keyframes photoReveal{to{clip-path:inset(0 0 0% 0)}}
+@keyframes scrollRun{0%{top:-100%}100%{top:100%}}
 
-    /* ── MinimalistHero ──────────────────────────────────────── */
-    #hero {
-      position: relative; height: 100dvh; min-height: 640px;
-      background: var(--white);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: space-between;
-      padding: 72px 40px 40px;
-      overflow: hidden;
-    }
-    .hero-main {
-      flex: 1; width: 100%; max-width: 1200px;
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      align-items: center; gap: 24px;
-    }
-    /* Left text */
-    .hero-left {
-      z-index: 2;
-      opacity: 0; animation: mhFadeUp .7s 1s var(--ease) forwards;
-    }
-    .hero-left p {
-      font-size: .9375rem; line-height: 1.8; color: var(--muted); max-width: 280px;
-    }
-    .hero-left a {
-      display: inline-block; margin-top: 18px;
-      font-size: .875rem; font-weight: 600; color: var(--blk);
-      text-decoration: underline; text-underline-offset: 4px;
-      letter-spacing: .02em; transition: color .2s;
-    }
-    .hero-left a:hover { color: var(--red); }
-    /* Center circle + image */
-    .hero-center {
-      position: relative; display: flex;
-      align-items: flex-end; justify-content: center;
-      height: clamp(380px, 55vh, 580px);
-    }
-    .hero-circle {
-      position: absolute; bottom: 0;
-      width: clamp(260px, 34vw, 440px);
-      height: clamp(260px, 34vw, 440px);
-      border-radius: 50%; background: var(--red);
-      opacity: 0; transform: scale(.75);
-      animation: circleIn .9s .2s cubic-bezier(.22,1,.36,1) forwards;
-    }
-    .hero-img {
-      position: relative; z-index: 2;
-      width: clamp(180px, 20vw, 300px);
-      object-fit: cover; object-position: center top;
-      border-radius: 4px;
-      box-shadow: 0 40px 100px rgba(0,0,0,.18);
-      opacity: 0; transform: translateY(50px);
-      animation: imgRise 1s .4s cubic-bezier(.22,1,.36,1) forwards;
-    }
-    /* Right big text */
-    .hero-right {
-      z-index: 2; display: flex; align-items: center;
-      opacity: 0; animation: mhFadeUp .7s 1.2s var(--ease) forwards;
-    }
-    .hero-big-text {
-      font-size: clamp(3.5rem, 8vw, 8rem);
-      font-weight: 800; line-height: .9;
-      letter-spacing: -.05em; color: var(--blk);
-    }
-    /* Footer row */
-    .hero-foot {
-      width: 100%; max-width: 1200px;
-      display: flex; justify-content: space-between; align-items: center;
-      z-index: 2; padding-top: 20px;
-      opacity: 0; animation: mhFadeUp .6s 1.4s var(--ease) forwards;
-    }
-    .hero-social { display: flex; gap: 20px; align-items: center; }
-    .hero-social a { color: var(--muted); transition: color .2s; display: flex; }
-    .hero-social a:hover { color: var(--blk); }
-    .hero-social svg { width: 19px; height: 19px; }
-    .hero-location {
-      font-size: .8rem; font-weight: 500; color: var(--muted);
-      letter-spacing: .08em; text-transform: uppercase;
-    }
+/* Hero mobile */
+@media(max-width:860px){
+  #hero{grid-template-columns:1fr;grid-template-rows:auto 45vh}
+  .hero-left{padding:100px 24px 40px;justify-content:flex-end}
+  .hero-headline{font-size:clamp(2.6rem,9vw,4rem)}
+  .hero-foot-left{position:static;margin-top:32px}
+  .hero-scroll-hint{display:none}
+  .hero-number{font-size:5rem;bottom:20px;right:20px}
+}
 
-    @keyframes circleIn {
-      to { opacity: 1; transform: scale(1); }
-    }
-    @keyframes imgRise {
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes mhFadeUp {
-      to { opacity: 1; transform: none; }
-    }
+/* ─────────────────────────────────────────────────────────────
+   TICKER STRIP
+───────────────────────────────────────────────────────────── */
+.ticker-strip{
+  background:var(--blk);overflow:hidden;
+  padding:18px 0;border-top:1px solid #222;
+  border-bottom:1px solid #222
+}
+.ticker-track{
+  display:flex;align-items:center;gap:0;
+  animation:ticker 22s linear infinite;white-space:nowrap;width:max-content
+}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{
+  display:flex;align-items:center;gap:28px;
+  font-size:.75rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(255,255,255,.35);padding-right:28px
+}
+.ticker-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0
+}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-    /* Hero mobile */
-    @media (max-width: 768px) {
-      #hero { padding: 72px 24px 32px; }
-      .hero-main { grid-template-columns: 1fr; gap: 0; }
-      .hero-left { order: 2; text-align: center; padding: 20px 0 0; }
-      .hero-left p { max-width: 100%; }
-      .hero-center { order: 1; height: clamp(280px, 50vw, 360px); }
-      .hero-circle {
-        width: clamp(200px, 56vw, 320px);
-        height: clamp(200px, 56vw, 320px);
-      }
-      .hero-img { width: clamp(140px, 38vw, 220px); }
-      .hero-right { display: none; }
-      .hero-foot { display: none; }
-    }
+/* ─────────────────────────────────────────────────────────────
+   HOURS BANNER
+───────────────────────────────────────────────────────────── */
+.hours-strip{
+  background:var(--red);padding:14px 0;overflow:hidden
+}
+.hours-track{
+  display:flex;align-items:center;gap:0;
+  animation:ticker 28s linear infinite;white-space:nowrap;width:max-content
+}
+.hours-track:hover{animation-play-state:paused}
+.hours-item{
+  display:flex;align-items:center;gap:14px;
+  font-size:.75rem;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.9);
+  padding-right:32px;text-transform:uppercase
+}
+.hours-sep{color:rgba(255,255,255,.4)}
 
-    /* ── Hours ribbon ────────────────────────────────────────── */
-    .hours-ribbon {
-      background: var(--blk); color: var(--white);
-      padding: 14px 24px; overflow: hidden;
-    }
-    .hours-inner {
-      display: flex; align-items: center; gap: 40px;
-      animation: ticker 30s linear infinite;
-      white-space: nowrap; width: max-content;
-    }
-    .hours-inner:hover { animation-play-state: paused; }
-    .hour-item { display: flex; align-items: center; gap: 10px; font-size: .8125rem; }
-    .hour-item .day { color: var(--red); font-weight: 500; }
-    .hour-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
-    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* ─────────────────────────────────────────────────────────────
+   ABOUT
+───────────────────────────────────────────────────────────── */
+#about{background:var(--white)}
+.about-intro{
+  max-width:900px;margin:0 auto;text-align:center;
+  padding:0 40px;margin-bottom:80px
+}
+.about-intro .display{font-size:clamp(2.2rem,5vw,4.2rem);line-height:1.1}
+.about-intro .display em{font-style:italic;color:var(--red)}
+.about-stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  margin-bottom:80px
+}
+.stat-cell{
+  padding:40px;border-right:1px solid var(--line);text-align:center
+}
+.stat-cell:last-child{border-right:none}
+.stat-num{
+  font-family:var(--serif);font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:400;color:var(--blk);line-height:1;margin-bottom:8px
+}
+.stat-num span{color:var(--red)}
+.stat-label{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  min-height:560px
+}
+.about-img-col{position:relative;overflow:hidden}
+.about-img-col img{width:100%;height:100%;object-fit:cover;object-position:center}
+.about-text-col{
+  padding:72px 64px;display:flex;flex-direction:column;justify-content:center;
+  background:var(--cream)
+}
+.about-text-col .display{margin-bottom:24px;font-size:clamp(1.8rem,3.5vw,2.8rem)}
+.about-text-col .body-lg{margin-bottom:32px}
+.about-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--blk)
+}
+.about-tag::after{content:'→'}
 
-    /* ── About ───────────────────────────────────────────────── */
-    #about {
-      background: var(--bg);
-    }
-    .about-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
-    }
-    .about-images {
-      position: relative; height: 540px;
-    }
-    .about-img-main {
-      position: absolute; top: 0; left: 0; width: 72%; height: 78%;
-      border-radius: var(--r); overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,.12);
-    }
-    .about-img-accent {
-      position: absolute; bottom: 0; right: 0; width: 52%; height: 50%;
-      border-radius: var(--r); overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,.1);
-      border: 4px solid var(--white);
-    }
-    .about-badge {
-      position: absolute; top: 50%; left: 60%; transform: translate(-50%, -50%);
-      background: var(--red); color: var(--white); border-radius: 50%;
-      width: 96px; height: 96px; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; text-align: center;
-      box-shadow: 0 8px 24px rgba(208,40,30,.35); z-index: 2;
-    }
-    .about-badge .num { font-family: var(--serif); font-size: 1.5rem; line-height: 1; }
-    .about-badge .txt { font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
-    .about-text .h2 { margin-bottom: 20px; }
-    .about-text .body-text { margin-bottom: 24px; }
-    .about-stats {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 40px;
-    }
-    .stat-card {
-      padding: 20px; border: 1px solid var(--line); border-radius: var(--r);
-      text-align: center;
-    }
-    .stat-num { font-family: var(--serif); font-size: 2rem; color: var(--red); }
-    .stat-lbl { font-size: .75rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+@media(max-width:860px){
+  .about-grid{grid-template-columns:1fr}
+  .about-img-col{height:320px}
+  .about-text-col{padding:48px 24px}
+  .about-stats-row{grid-template-columns:1fr;border-right:1px solid var(--line)}
+  .stat-cell{border-right:none;border-bottom:1px solid var(--line)}
+  .stat-cell:last-child{border-bottom:none}
+}
 
-    /* ── Menu ────────────────────────────────────────────────── */
-    #menu { background: #111; }
-    .menu-intro { text-align: center; max-width: 520px; margin: 0 auto 56px; }
-    .menu-intro .h2 { color: #fff; }
-    .menu-intro .body-text { color: rgba(255,255,255,.45); }
-    .menu-intro .label { color: var(--red); }
-    .menu-tabs {
-      display: flex; justify-content: center; gap: 4px;
-      flex-wrap: wrap; margin-bottom: 56px;
-      border: 1px solid rgba(255,255,255,.1); border-radius: 4px;
-      padding: 4px; background: rgba(255,255,255,.04);
-      width: fit-content; margin-left: auto; margin-right: auto;
-    }
-    .tab-btn {
-      padding: 11px 26px; border-radius: 2px;
-      font-size: .8rem; font-weight: 500; color: rgba(255,255,255,.4);
-      transition: all .2s; letter-spacing: .06em; text-transform: uppercase;
-    }
-    .tab-btn.active { background: var(--red); color: var(--white); }
-    .tab-btn:hover:not(.active) { color: rgba(255,255,255,.85); }
+/* ─────────────────────────────────────────────────────────────
+   MENU
+───────────────────────────────────────────────────────────── */
+#menu{background:#111}
+.menu-top{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:60px;flex-wrap:wrap;gap:24px
+}
+.menu-top .display{color:#fff}
+.menu-tabs{
+  display:flex;gap:4px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  padding:4px;border-radius:3px
+}
+.tab-btn{
+  padding:10px 22px;border-radius:2px;
+  font-size:.72rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(255,255,255,.35);
+  transition:all .2s
+}
+.tab-btn.active{background:var(--red);color:#fff}
+.tab-btn:hover:not(.active){color:rgba(255,255,255,.8)}
+.menu-panel{display:none}
+.menu-panel.active{display:block}
+.menu-list{max-width:860px}
+.menu-cat{
+  display:flex;align-items:center;gap:20px;
+  margin:52px 0 8px;color:var(--red);
+  font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase
+}
+.menu-cat::before,.menu-cat::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
+.menu-cat:first-child{margin-top:0}
+.menu-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:24px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.06)
+}
+.menu-row-left{flex:1}
+.menu-row-name{
+  font-family:var(--serif);font-size:1.0625rem;
+  color:#f2f2f0;font-weight:400;margin-bottom:5px
+}
+.menu-row-desc{font-size:.8rem;color:rgba(255,255,255,.35);font-style:italic;line-height:1.55}
+.menu-row-price{
+  font-family:var(--serif);font-size:1rem;
+  color:var(--red);white-space:nowrap;flex-shrink:0;font-style:italic
+}
+.menu-note{text-align:center;margin-top:40px;font-size:.78rem;color:rgba(255,255,255,.2);letter-spacing:.02em}
 
-    .menu-panel { display: none; }
-    .menu-panel.active { display: block; }
+/* ─────────────────────────────────────────────────────────────
+   GALLERY
+───────────────────────────────────────────────────────────── */
+#gallery{background:var(--cream);overflow:hidden}
+.gallery-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:48px;flex-wrap:wrap;gap:20px
+}
+.gallery-header .display{font-size:clamp(2rem,4vw,3.2rem)}
+.ig-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border:1.5px solid var(--line);border-radius:40px;
+  font-size:.75rem;font-weight:500;color:var(--muted);transition:all .25s
+}
+.ig-pill:hover{border-color:var(--blk);color:var(--blk)}
+.ig-pill svg{width:16px;height:16px}
 
-    .menu-list { max-width: 820px; margin: 0 auto; }
-    .menu-cat {
-      display: flex; align-items: center; gap: 20px;
-      margin: 52px 0 8px; color: var(--red);
-      font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
-    }
-    .menu-cat::before, .menu-cat::after {
-      content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.1);
-    }
-    .menu-cat:first-child { margin-top: 0; }
-    .menu-row {
-      display: flex; justify-content: space-between; align-items: baseline;
-      gap: 24px; padding: 20px 0;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-    .menu-row-left { flex: 1; }
-    .menu-row-name {
-      font-family: var(--serif); font-size: 1.0625rem; font-weight: 400;
-      color: #f2f2f0; margin-bottom: 5px; letter-spacing: .01em;
-    }
-    .menu-row-desc { font-size: .8125rem; color: rgba(255,255,255,.38); font-style: italic; line-height: 1.55; }
-    .menu-row-price {
-      font-family: var(--serif); font-size: 1rem; color: var(--red);
-      white-space: nowrap; flex-shrink: 0; font-style: italic;
-    }
-    .menu-note { text-align: center; margin-top: 40px; font-size: .8rem; color: rgba(255,255,255,.25); letter-spacing: .02em; }
+/* Horizontal scroll strip */
+.gallery-strip{
+  display:flex;gap:16px;overflow-x:auto;
+  padding-bottom:20px;scroll-snap-type:x mandatory;
+  -ms-overflow-style:none;scrollbar-width:none
+}
+.gallery-strip::-webkit-scrollbar{display:none}
+.gal-thumb{
+  flex-shrink:0;border-radius:var(--r);overflow:hidden;
+  scroll-snap-align:start;position:relative
+}
+.gal-thumb img{
+  object-fit:cover;transition:transform .55s var(--ease)
+}
+.gal-thumb:hover img{transform:scale(1.05)}
+.gal-thumb--tall{width:300px;height:400px}
+.gal-thumb--wide{width:500px;height:400px}
+.gal-thumb--sq{width:360px;height:400px}
+.gal-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.4),transparent 50%);
+  opacity:0;transition:opacity .3s
+}
+.gal-thumb:hover .gal-overlay{opacity:1}
+.gallery-drag-hint{
+  text-align:center;margin-top:20px;
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  display:flex;align-items:center;justify-content:center;gap:10px
+}
+.gallery-drag-hint::before,.gallery-drag-hint::after{
+  content:'';flex:1;max-width:60px;height:1px;background:var(--line)
+}
 
-    /* ── Gallery ─────────────────────────────────────────────── */
-    #gallery { background: #fff; }
-    .gallery-intro { text-align: center; max-width: 480px; margin: 0 auto 48px; }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: repeat(3, 200px);
-      gap: 10px;
-    }
-    .gal-item {
-      border-radius: var(--r); overflow: hidden; position: relative;
-    }
-    .gal-item img {
-      height: 100%; transition: transform .6s var(--ease);
-    }
-    .gal-item:hover img { transform: scale(1.06); }
-    .gal-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,.45), transparent 60%);
-      opacity: 0; transition: opacity .3s;
-    }
-    .gal-item:hover .gal-overlay { opacity: 1; }
-    .gal-1 { grid-column: 1 / 6; grid-row: 1 / 3; }
-    .gal-2 { grid-column: 6 / 9; grid-row: 1 / 2; }
-    .gal-3 { grid-column: 9 / 13; grid-row: 1 / 2; }
-    .gal-4 { grid-column: 6 / 10; grid-row: 2 / 4; }
-    .gal-5 { grid-column: 10 / 13; grid-row: 2 / 3; }
-    .gal-6 { grid-column: 1 / 4; grid-row: 3 / 4; }
-    .gal-7 { grid-column: 4 / 6; grid-row: 3 / 4; }
-    .gal-8 { grid-column: 10 / 13; grid-row: 3 / 4; }
-    .gallery-cta { text-align: center; margin-top: 32px; }
-    .ig-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: .875rem; color: var(--muted); transition: color .2s;
-    }
-    .ig-link:hover { color: var(--red); }
-    .ig-link svg { width: 18px; height: 18px; }
+/* ─────────────────────────────────────────────────────────────
+   DAY / NIGHT SPLIT
+───────────────────────────────────────────────────────────── */
+#daynight{display:grid;grid-template-columns:1fr 1fr;min-height:520px}
+.dn-panel{position:relative;overflow:hidden;min-height:400px}
+.dn-panel img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform .6s var(--ease)
+}
+.dn-panel:hover img{transform:scale(1.04)}
+.dn-scrim{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:52px 48px
+}
+.dn-scrim-day{background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 60%,transparent 100%)}
+.dn-scrim-night{background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.2) 60%,transparent 100%)}
+.dn-tag{
+  font-size:.68rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--red);margin-bottom:14px
+}
+.dn-title{
+  font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.6rem);
+  color:#fff;line-height:1.15;margin-bottom:14px
+}
+.dn-body{font-size:.875rem;color:rgba(255,255,255,.6);line-height:1.7;max-width:320px}
+/* Night panel — typographic, no photo */
+.dn-night-bg{
+  position:absolute;inset:0;
+  background:#100505;
+}
+.dn-night-glow{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 70%,rgba(227,30,36,.15) 0%,transparent 65%)
+}
+.dn-evening-list{margin-top:28px;display:flex;flex-direction:column;gap:12px}
+.dn-evening-item{
+  display:flex;align-items:center;gap:14px;
+  font-size:.875rem;color:rgba(255,255,255,.5)
+}
+.dn-evening-item::before{content:'';display:block;width:20px;height:1px;background:var(--red);flex-shrink:0}
+@media(max-width:700px){#daynight{grid-template-columns:1fr}}
 
-    /* ── Contact / Visit ─────────────────────────────────────── */
-    #contact { background: var(--bg); }
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: start;
-    }
-    .contact-info .h2 { margin-bottom: 32px; }
-    .info-block { margin-bottom: 28px; }
-    .info-block-label {
-      font-size: .7rem; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--red); margin-bottom: 8px;
-    }
-    .info-block p { font-size: .9375rem; line-height: 1.65; color: var(--ink); }
-    .hours-list { list-style: none; }
-    .hours-list li {
-      display: flex; justify-content: space-between;
-      padding: 9px 0; border-bottom: 1px solid var(--line);
-      font-size: .9rem;
-    }
-    .hours-list li:last-child { border-bottom: none; }
-    .hours-list .day-name { color: var(--ink); }
-    .hours-list .hours-val { color: var(--muted); }
-    .hours-list li.today .day-name { color: var(--red); font-weight: 600; }
-    .hours-list li.today .hours-val { color: var(--red); }
-    .social-row { display: flex; gap: 12px; margin-top: 24px; }
-    .social-btn {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 18px; border: 1px solid var(--line); border-radius: var(--r);
-      font-size: .8125rem; color: var(--ink);
-      transition: all .2s;
-    }
-    .social-btn:hover { border-color: var(--red); color: var(--red); }
-    .social-btn svg { width: 16px; height: 16px; }
+/* ─────────────────────────────────────────────────────────────
+   CONTACT
+───────────────────────────────────────────────────────────── */
+#contact{background:var(--white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start}
+.contact-info .display{margin-bottom:40px;font-size:clamp(2rem,4vw,3.2rem)}
+.info-block{margin-bottom:28px}
+.info-block-lbl{
+  font-size:.68rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--red);margin-bottom:8px
+}
+.info-block p{font-size:.9375rem;line-height:1.65}
+.hours-list{list-style:none}
+.hours-list li{
+  display:flex;justify-content:space-between;
+  padding:10px 0;border-bottom:1px solid var(--line);font-size:.9rem
+}
+.hours-list li:last-child{border-bottom:none}
+.hours-list li.today .day-name{color:var(--red);font-weight:600}
+.hours-list li.today .hrs{color:var(--red)}
+.hours-list .hrs{color:var(--muted)}
+.social-row{display:flex;gap:10px;margin-top:24px}
+.social-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 18px;border:1px solid var(--line);border-radius:var(--r);
+  font-size:.8rem;color:var(--ink);transition:all .2s
+}
+.social-btn:hover{border-color:var(--red);color:var(--red)}
+.social-btn svg{width:16px;height:16px}
+.contact-form{
+  background:var(--cream);padding:48px;border-radius:var(--r)
+}
+.form-title{font-family:var(--serif);font-size:1.75rem;margin-bottom:6px}
+.form-sub{font-size:.875rem;color:var(--muted);margin-bottom:32px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{margin-bottom:20px}
+.form-group label{
+  display:block;font-size:.68rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px
+}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:13px 16px;
+  border:1px solid var(--line);border-radius:var(--r);
+  font-family:var(--sans);font-size:.9375rem;color:var(--ink);
+  background:var(--white);outline:none;transition:border-color .2s
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--red)}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-submit{width:100%;padding:16px;font-size:.8rem}
+.form-success{display:none;text-align:center;padding:24px;color:var(--red);font-size:.9375rem}
+@media(max-width:860px){
+  .contact-grid{grid-template-columns:1fr}
+  .contact-form{padding:32px 24px}
+  .form-row{grid-template-columns:1fr}
+}
 
-    .contact-form {
-      background: var(--white); padding: 40px; border-radius: var(--r);
-      box-shadow: 0 4px 24px rgba(0,0,0,.06);
-    }
-    .form-title { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 8px; }
-    .form-sub { font-size: .875rem; color: var(--muted); margin-bottom: 28px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .form-group { margin-bottom: 20px; }
-    .form-group label {
-      display: block; font-size: .75rem; font-weight: 500;
-      letter-spacing: .06em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 8px;
-    }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%; padding: 12px 14px;
-      border: 1px solid var(--line); border-radius: var(--r);
-      font-family: var(--sans); font-size: .9375rem; color: var(--ink);
-      background: var(--bg); outline: none;
-      transition: border-color .2s;
-    }
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus { border-color: var(--red); }
-    .form-group textarea { resize: vertical; min-height: 100px; }
-    .form-submit { width: 100%; padding: 15px; }
-    .form-success {
-      display: none; text-align: center; padding: 20px;
-      color: var(--red); font-size: .9375rem;
-    }
+/* ─────────────────────────────────────────────────────────────
+   MAP
+───────────────────────────────────────────────────────────── */
+.map-strip{height:360px;position:relative}
+.map-strip iframe{width:100%;height:100%;border:none;filter:grayscale(.15) contrast(1.05)}
+.map-badge{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  background:var(--blk);color:var(--white);
+  padding:12px 24px;border-radius:40px;
+  font-size:.8rem;font-weight:500;display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 24px rgba(0,0,0,.3);white-space:nowrap
+}
+.map-badge svg{width:14px;height:14px;color:var(--red)}
 
-    /* ── Map strip ───────────────────────────────────────────── */
-    .map-strip {
-      height: 340px; position: relative; overflow: hidden;
-      background: #e8e0d8;
-    }
-    .map-strip iframe { width: 100%; height: 100%; border: none; filter: grayscale(.2) contrast(1.05); }
-    .map-pin {
-      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-      background: var(--blk); color: var(--white);
-      padding: 10px 20px; border-radius: 40px;
-      font-size: .8125rem; display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,.25);
-      white-space: nowrap;
-    }
-    .map-pin svg { width: 14px; height: 14px; color: var(--red); }
+/* ─────────────────────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────────────────────── */
+footer{background:var(--blk);color:rgba(255,255,255,.5);padding:72px 40px 36px}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;
+  padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.08)
+}
+.footer-brand .nav-logo{color:var(--white);font-size:1.75rem;margin-bottom:16px;display:block}
+.footer-brand p{font-size:.875rem;line-height:1.75;max-width:260px}
+.footer-col h4{
+  font-size:.68rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px
+}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:12px}
+.footer-col ul li a{font-size:.875rem;transition:color .2s}
+.footer-col ul li a:hover{color:var(--red)}
+.footer-bottom{
+  max-width:1200px;margin:28px auto 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.78rem;flex-wrap:wrap;gap:12px
+}
+.footer-bottom a:hover{color:var(--red)}
+@media(max-width:860px){
+  footer{padding:48px 24px 28px}
+  .footer-inner{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){.footer-inner{grid-template-columns:1fr}}
 
-    /* ── Footer ──────────────────────────────────────────────── */
-    footer {
-      background: var(--blk); color: rgba(255,255,255,.6);
-      padding: 64px 24px 32px;
-    }
-    .footer-inner {
-      max-width: 1160px; margin: 0 auto;
-      display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 48px;
-      padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,.1);
-    }
-    .footer-brand .nav-logo { color: var(--white); font-size: 1.75rem; margin-bottom: 16px; }
-    .footer-brand p { font-size: .875rem; line-height: 1.7; max-width: 260px; }
-    .footer-col h4 {
-      font-size: .7rem; font-weight: 600; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--white); margin-bottom: 16px;
-    }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 10px; }
-    .footer-col ul li a { font-size: .875rem; transition: color .2s; }
-    .footer-col ul li a:hover { color: var(--red); }
-    .footer-bottom {
-      max-width: 1160px; margin: 24px auto 0;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: .8rem; flex-wrap: wrap; gap: 12px;
-    }
-    .footer-bottom a { transition: color .2s; }
-    .footer-bottom a:hover { color: var(--red); }
-
-    /* ── Mobile nav drawer ───────────────────────────────────── */
-    .mobile-drawer {
-      position: fixed; inset: 0; z-index: 200;
-      background: var(--blk);
-      transform: translateX(100%); transition: transform .4s var(--ease);
-      display: flex; flex-direction: column; padding: 80px 40px 40px;
-    }
-    .mobile-drawer.open { transform: none; }
-    .drawer-close {
-      position: absolute; top: 20px; right: 24px;
-      color: var(--white); font-size: 1.5rem; padding: 8px;
-    }
-    .drawer-links { list-style: none; margin-bottom: auto; }
-    .drawer-links li { border-bottom: 1px solid rgba(255,255,255,.08); }
-    .drawer-links a {
-      display: block; padding: 18px 0;
-      font-family: var(--serif); font-size: 1.75rem; color: var(--white);
-      transition: color .2s;
-    }
-    .drawer-links a:hover { color: var(--red); }
-    .drawer-foot {
-      border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px;
-      font-size: .875rem; color: rgba(255,255,255,.5);
-    }
-
-    /* ── Responsive ──────────────────────────────────────────── */
-    @media (max-width: 900px) {
-      .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      .about-grid, .contact-grid { grid-template-columns: 1fr; }
-      .about-images { height: 380px; }
-      .footer-inner { grid-template-columns: 1fr 1fr; }
-      .gallery-grid {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: none;
-        grid-auto-rows: 200px;
-      }
-      .gal-1,.gal-2,.gal-3,.gal-4,.gal-5,.gal-6,.gal-7,.gal-8 {
-        grid-column: auto; grid-row: auto;
-      }
-    }
-    @media (max-width: 600px) {
-      .section { padding: 72px 0; }
-      .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
-      .form-row { grid-template-columns: 1fr; }
-      .footer-inner { grid-template-columns: 1fr; }
-      .about-stats { grid-template-columns: 1fr 1fr; }
-    }
+/* ─────────────────────────────────────────────────────────────
+   NAV RESPONSIVE
+───────────────────────────────────────────────────────────── */
+@media(max-width:860px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  #nav{padding:0 24px}
+}
   </style>
 </head>
 <body>
 
-  <!-- ── Nav ──────────────────────────────────────────────────── -->
-  <nav id="nav">
-    <a href="#hero" class="nav-logo">115<span>.</span></a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#menu">Menu</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#contact">Visit</a></li>
-    </ul>
-    <div class="nav-cta">
-      <a href="#contact" class="nav-reserve">Reserve</a>
-    </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- Mobile drawer -->
-  <div class="mobile-drawer" id="drawer">
-    <button class="drawer-close" id="drawerClose">✕</button>
-    <ul class="drawer-links">
-      <li><a href="#about"   class="drawer-link">About</a></li>
-      <li><a href="#menu"    class="drawer-link">Menu</a></li>
-      <li><a href="#gallery" class="drawer-link">Gallery</a></li>
-      <li><a href="#contact" class="drawer-link">Visit Us</a></li>
-    </ul>
-    <div class="drawer-foot">
-      115 Oliver Plunkett St, Cork<br>
-      <a href="tel:0214276165" style="color:var(--red)">(021) 427 6165</a>
-    </div>
+<!-- ── Nav ─────────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">115<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Visit</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#contact" class="nav-reserve">Reserve</a>
   </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-  <!-- ── MinimalistHero ───────────────────────────────────────── -->
-  <section id="hero">
-    <div class="hero-main">
-      <!-- Left: description -->
-      <div class="hero-left">
-        <p>Specialty coffee, wholesome food and warm Cork hospitality — every day on Oliver Plunkett Street.</p>
-        <a href="#menu">Explore the menu</a>
-      </div>
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="drawer">
+  <button class="drawer-close" id="drawerClose">✕</button>
+  <ul class="drawer-links">
+    <li><a href="#about" class="drawer-link">About</a></li>
+    <li><a href="#menu" class="drawer-link">Menu</a></li>
+    <li><a href="#gallery" class="drawer-link">Gallery</a></li>
+    <li><a href="#contact" class="drawer-link">Reserve</a></li>
+  </ul>
+  <div class="drawer-foot">
+    115 Oliver Plunkett St, Cork<br>
+    <a href="tel:0214276165">(021) 427 6165</a>
+  </div>
+</div>
 
-      <!-- Center: red circle + image -->
-      <div class="hero-center">
-        <div class="hero-circle"></div>
-        <img class="hero-img"
-             src="https://github.com/user-attachments/assets/c1d4ec60-0446-4e09-af0e-7df75312333b"
-             alt="Coffee and cake at 115 Cafe Cork"
-             loading="eager" />
-      </div>
-
-      <!-- Right: big text -->
-      <div class="hero-right">
-        <div class="hero-big-text" aria-label="Cork's finest cafe">Cork's<br>finest.</div>
-      </div>
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section id="hero">
+  <!-- Left: white editorial panel -->
+  <div class="hero-left">
+    <div class="hero-eyebrow">Cork City &nbsp;·&nbsp; Oliver Plunkett St</div>
+    <h1 class="hero-headline">
+      <span class="hl">Cork's</span>
+      <span class="hl">finest</span>
+      <span class="hl">café.</span>
+    </h1>
+    <p class="hero-body">Specialty coffee, wholesome food and warm Cork hospitality — seven days a week on the city's most iconic street.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn btn-dark">Explore Menu</a>
+      <a href="#contact" class="btn btn-outline">Reserve a Table</a>
     </div>
-
-    <!-- Footer row: social + location -->
-    <div class="hero-foot">
+    <div class="hero-foot-left">
       <div class="hero-social">
         <a href="https://www.facebook.com/115cafecork/" target="_blank" rel="noopener" aria-label="Facebook">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
@@ -600,479 +652,518 @@
         <a href="https://www.instagram.com/115cafecork/" target="_blank" rel="noopener" aria-label="Instagram">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
         </a>
+        <span class="hero-loc">@115cafecork</span>
       </div>
-      <div class="hero-location">115 Oliver Plunkett St &nbsp;·&nbsp; Cork</div>
+      <div class="hero-scroll-hint">
+        <div class="scroll-bar"></div>
+        Scroll
+      </div>
     </div>
-  </section>
-
-  <!-- ── Hours ribbon ──────────────────────────────────────────── -->
-  <div class="hours-ribbon" aria-label="Opening hours">
-    <div class="hours-inner" id="hoursInner"></div>
   </div>
 
-  <!-- ── About ────────────────────────────────────────────────── -->
-  <section id="about" class="section">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-images reveal">
-          <div class="about-img-main">
-            <img src="https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb" alt="115 Cafe interior" loading="lazy" style="object-position: center center;" />
-          </div>
-          <div class="about-img-accent">
-            <img src="https://github.com/user-attachments/assets/c1d4ec60-0446-4e09-af0e-7df75312333b" alt="Coffee and cake at 115 Cafe" loading="lazy" style="object-position: center 25%;" />
-          </div>
-          <div class="about-badge">
-            <span class="num">115</span>
-            <span class="txt">Oliver<br>Plunkett</span>
-          </div>
-        </div>
-        <div class="about-text">
-          <p class="label reveal reveal-delay-1">Our Story</p>
-          <h2 class="h2 reveal reveal-delay-2">A neighbourhood cafe <em>with soul</em></h2>
-          <p class="body-text reveal reveal-delay-3">
-            Step inside to find red leather sofas, exposed stone walls, and floor-to-ceiling windows flooding the room with light from Oliver Plunkett Street. 115 is unmistakably Cork — bold, warm, and always buzzing.
-          </p>
-          <p class="body-text reveal reveal-delay-3">
-            By day we serve exceptional coffee in our signature red cups alongside fresh food made to order. Come Thursday evening, the lights dim, candles flicker, and the menu extends late into the night.
-          </p>
-          <div class="about-stats reveal reveal-delay-4">
-            <div class="stat-card">
-              <div class="stat-num">6am</div>
-              <div class="stat-lbl">Early start</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-num">7</div>
-              <div class="stat-lbl">Days a week</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-num">★4.5</div>
-              <div class="stat-lbl">Google rating</div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- Right: photo clip-reveals from bottom -->
+  <div class="hero-right">
+    <div class="hero-photo"></div>
+    <div class="hero-photo-overlay"></div>
+    <div class="hero-number">115</div>
+  </div>
+</section>
+
+<!-- ── Ticker ────────────────────────────────────────────────── -->
+<div class="ticker-strip" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- ── Hours ribbon ──────────────────────────────────────────── -->
+<div class="hours-strip" aria-label="Opening hours">
+  <div class="hours-track" id="hoursTrack"></div>
+</div>
+
+<!-- ── About ────────────────────────────────────────────────── -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="about-intro">
+      <p class="eyebrow" data-reveal="up">Our Story</p>
+      <h2 class="display" data-reveal="up" data-delay="2">A neighbourhood café<br><em>with real soul</em></h2>
     </div>
-  </section>
+  </div>
 
-  <!-- ── Menu ─────────────────────────────────────────────────── -->
-  <section id="menu" class="section">
-    <div class="container">
-      <div class="menu-intro">
-        <p class="label reveal">Our Menu</p>
-        <h2 class="h2 reveal reveal-delay-1">Good food, done right</h2>
-        <p class="body-text reveal reveal-delay-2" style="margin-top:12px">
-          Fresh, seasonal, and made with care. Something for everyone — morning to evening.
-        </p>
+  <div class="about-stats-row">
+    <div class="stat-cell" data-reveal="up">
+      <div class="stat-num"><span class="counter" data-target="7">0</span></div>
+      <div class="stat-label">Days a week</div>
+    </div>
+    <div class="stat-cell" data-reveal="up" data-delay="2">
+      <div class="stat-num"><span class="counter" data-target="4" data-suffix=".5★">0</span></div>
+      <div class="stat-label">Google rating</div>
+    </div>
+    <div class="stat-cell" data-reveal="up" data-delay="3">
+      <div class="stat-num"><span class="counter" data-target="115">0</span></div>
+      <div class="stat-label">Oliver Plunkett St</div>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-img-col" data-wipe>
+      <img src="https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb"
+           alt="115 Cafe interior — daytime" loading="lazy" />
+    </div>
+    <div class="about-text-col">
+      <p class="eyebrow" data-reveal="up">Oliver Plunkett Street</p>
+      <h3 class="display" data-reveal="up" data-delay="2">Bold red cups.<br>Warm Cork welcome.</h3>
+      <p class="body-lg" data-reveal="up" data-delay="3">
+        Step inside to find red leather sofas, exposed stone walls and floor-to-ceiling windows flooding the room with light from the street. 115 is unmistakably Cork — vivid, warm, and always buzzing.
+      </p>
+      <p class="body-lg" data-reveal="up" data-delay="4" style="margin-top:-8px">
+        By day we serve exceptional coffee in our signature red cups alongside fresh food made to order. Come Thursday evening, the lights soften and the menu extends late into the night.
+      </p>
+      <a href="#contact" class="about-tag" data-reveal="up" data-delay="5" style="margin-top:32px">Reserve a table</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Menu ─────────────────────────────────────────────────── -->
+<section id="menu" class="section">
+  <div class="container">
+    <div class="menu-top">
+      <div>
+        <p class="eyebrow" style="color:rgba(255,255,255,.35)" data-reveal="up">What we serve</p>
+        <h2 class="display" data-reveal="up" data-delay="2">Good food,<br><em>done right</em></h2>
       </div>
-
-      <div class="menu-tabs reveal reveal-delay-2" role="tablist">
+      <div class="menu-tabs" role="tablist">
         <button class="tab-btn active" data-tab="coffee" role="tab">Coffee</button>
         <button class="tab-btn" data-tab="food" role="tab">Food</button>
         <button class="tab-btn" data-tab="drinks" role="tab">Drinks</button>
         <button class="tab-btn" data-tab="evening" role="tab">Evening</button>
       </div>
-
-      <!-- Coffee -->
-      <div class="menu-panel active" id="tab-coffee">
-        <div class="menu-list">
-          <div class="menu-cat">Espresso Drinks</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Espresso</div><div class="menu-row-desc">Single origin, pulled to order</div></div><div class="menu-row-price">€2.70</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Americano</div><div class="menu-row-desc">Espresso with hot water</div></div><div class="menu-row-price">€3.20</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Flat White</div><div class="menu-row-desc">Double ristretto, velvety microfoam</div></div><div class="menu-row-price">€3.80</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cappuccino</div><div class="menu-row-desc">Espresso, steamed milk &amp; thick foam</div></div><div class="menu-row-price">€3.80</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Latte</div><div class="menu-row-desc">Espresso with steamed milk</div></div><div class="menu-row-price">€3.80</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cortado</div><div class="menu-row-desc">Equal parts espresso and warm milk</div></div><div class="menu-row-price">€3.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Macchiato</div><div class="menu-row-desc">Espresso marked with a dash of foam</div></div><div class="menu-row-price">€3.20</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Mocha</div><div class="menu-row-desc">Espresso with Valrhona chocolate &amp; steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
-          <div class="menu-cat">Specialty &amp; Seasonal</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Iced Latte</div><div class="menu-row-desc">Cold milk over espresso and ice</div></div><div class="menu-row-price">€4.20</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cold Brew</div><div class="menu-row-desc">Steeped 18 hours, served chilled</div></div><div class="menu-row-price">€4.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Matcha Latte</div><div class="menu-row-desc">Ceremonial grade matcha, oat milk</div></div><div class="menu-row-price">€4.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Chai Latte</div><div class="menu-row-desc">Spiced chai blend, steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Hot Chocolate</div><div class="menu-row-desc">Valrhona dark chocolate, steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
-        </div>
-        <p class="menu-note">Oat, almond &amp; soy milk available — 50c supplement &nbsp;·&nbsp; Decaf on request</p>
-      </div>
-
-      <!-- Food -->
-      <div class="menu-panel" id="tab-food">
-        <div class="menu-list">
-          <div class="menu-cat">Breakfast &amp; Brunch</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Avocado Toast</div><div class="menu-row-desc">Sourdough, smashed avocado, chilli flakes, lemon oil</div></div><div class="menu-row-price">€9.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Full Irish Breakfast</div><div class="menu-row-desc">Bacon, sausage, egg, black &amp; white pudding, beans, sourdough</div></div><div class="menu-row-price">€13.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Eggs Benedict</div><div class="menu-row-desc">Free-range poached eggs, hollandaise, toasted muffin</div></div><div class="menu-row-price">€12.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Granola Bowl</div><div class="menu-row-desc">House granola, Greek yoghurt, seasonal berries, wildflower honey</div></div><div class="menu-row-price">€8.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Smoked Salmon Bagel</div><div class="menu-row-desc">Cream cheese, capers, red onion, fresh dill</div></div><div class="menu-row-price">€11.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">French Toast</div><div class="menu-row-desc">Brioche, maple syrup, mixed berries, softly whipped cream</div></div><div class="menu-row-price">€10.50</div></div>
-          <div class="menu-cat">Lunch</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Club Sandwich</div><div class="menu-row-desc">Free-range chicken, crispy bacon, lettuce, tomato, house mayo</div></div><div class="menu-row-price">€13.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Soup of the Day</div><div class="menu-row-desc">Made fresh each morning, served with brown soda bread &amp; butter</div></div><div class="menu-row-price">€7.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Caesar Salad</div><div class="menu-row-desc">Romaine, aged parmesan, house-made croutons, classic dressing</div></div><div class="menu-row-price">€12.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Toasted Panini</div><div class="menu-row-desc">Seasonal fillings — please ask your server</div></div><div class="menu-row-price">€10.50</div></div>
-          <div class="menu-cat">From the Bakery</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Croissant</div><div class="menu-row-desc">Butter / ham &amp; comté / almond frangipane</div></div><div class="menu-row-price">€3.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Banana Bread</div><div class="menu-row-desc">House-baked, served warm with salted butter</div></div><div class="menu-row-price">€4.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Scone</div><div class="menu-row-desc">Plain or fruit, with Dromona butter, house jam &amp; clotted cream</div></div><div class="menu-row-price">€4.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cake of the Day</div><div class="menu-row-desc">Baked in-house — ask at the counter for today's selection</div></div><div class="menu-row-price">€5.00</div></div>
-        </div>
-        <p class="menu-note">Gluten-free &amp; vegan options available — please ask &nbsp;·&nbsp; Full allergen info on request</p>
-      </div>
-
-      <!-- Drinks -->
-      <div class="menu-panel" id="tab-drinks">
-        <div class="menu-list">
-          <div class="menu-cat">Teas &amp; Infusions</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Breakfast Tea</div><div class="menu-row-desc">Barry's Gold Blend — the Cork classic</div></div><div class="menu-row-price">€3.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Green Tea</div><div class="menu-row-desc">Japanese sencha, gently brewed</div></div><div class="menu-row-price">€3.20</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Peppermint</div><div class="menu-row-desc">Fresh &amp; calming, naturally caffeine-free</div></div><div class="menu-row-price">€3.20</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Chamomile</div><div class="menu-row-desc">Floral &amp; soothing — perfect after lunch</div></div><div class="menu-row-price">€3.20</div></div>
-          <div class="menu-cat">Cold &amp; Soft</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Fresh Orange Juice</div><div class="menu-row-desc">Squeezed to order</div></div><div class="menu-row-price">€4.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">San Pellegrino</div><div class="menu-row-desc">Sparkling mineral water, 500ml</div></div><div class="menu-row-price">€2.80</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Still Water</div><div class="menu-row-desc">500ml bottle</div></div><div class="menu-row-price">€2.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Soft Drinks</div><div class="menu-row-desc">Coke, Diet Coke, 7Up, Fanta</div></div><div class="menu-row-price">€3.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Smoothie of the Day</div><div class="menu-row-desc">Seasonal fruits — ask at the counter</div></div><div class="menu-row-price">€5.50</div></div>
-        </div>
-        <p class="menu-note">Seasonal specials change weekly &nbsp;·&nbsp; Still water always complimentary</p>
-      </div>
-
-      <!-- Evening -->
-      <div class="menu-panel" id="tab-evening">
-        <div class="menu-list">
-          <div class="menu-cat">Small Plates</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Charcuterie Board</div><div class="menu-row-desc">Selection of cured meats, artisan Irish cheeses, house pickles &amp; chutney</div></div><div class="menu-row-price">€16.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Bruschetta</div><div class="menu-row-desc">Toasted sourdough, slow-roasted tomato, aged balsamic, basil oil</div></div><div class="menu-row-price">€9.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Loaded Fries</div><div class="menu-row-desc">Hand-cut, mature cheddar, house sauce, pickled jalapeño, scallions</div></div><div class="menu-row-price">€10.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Sliders</div><div class="menu-row-desc">Three beef patties, pickled onion, aged cheddar, sriracha mayo</div></div><div class="menu-row-price">€13.50</div></div>
-          <div class="menu-cat">Drinks</div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">House Wine</div><div class="menu-row-desc">Red or white — today's selection from your server</div></div><div class="menu-row-price">€7.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Craft Beer</div><div class="menu-row-desc">Rotating Irish taps — ask what's pouring</div></div><div class="menu-row-price">€6.50</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Prosecco</div><div class="menu-row-desc">By the glass</div></div><div class="menu-row-price">€8.00</div></div>
-          <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cocktail of the Week</div><div class="menu-row-desc">Changes weekly — ask your server</div></div><div class="menu-row-price">€10.00</div></div>
-        </div>
-        <p class="menu-note">Evening menu available Thursdays until 11:30pm &nbsp;·&nbsp; Please enjoy responsibly</p>
-      </div>
     </div>
-  </section>
 
-  <!-- ── Gallery ───────────────────────────────────────────────── -->
-  <section id="gallery" class="section">
-    <div class="container">
-      <div class="gallery-intro">
-        <p class="label reveal">Gallery</p>
-        <h2 class="h2 reveal reveal-delay-1">Life at 115</h2>
-        <p class="body-text reveal reveal-delay-2" style="margin-top:12px">
-          Follow us for daily specials, seasonal menus, and a peek behind the counter.
-        </p>
+    <!-- Coffee -->
+    <div class="menu-panel active" id="tab-coffee">
+      <div class="menu-list">
+        <div class="menu-cat">Espresso</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Espresso</div><div class="menu-row-desc">Single origin, pulled to order</div></div><div class="menu-row-price">€2.70</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Americano</div><div class="menu-row-desc">Espresso with hot water</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Flat White</div><div class="menu-row-desc">Double ristretto, velvety microfoam</div></div><div class="menu-row-price">€3.80</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cappuccino</div><div class="menu-row-desc">Espresso, steamed milk &amp; thick foam</div></div><div class="menu-row-price">€3.80</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Latte</div><div class="menu-row-desc">Espresso with steamed milk</div></div><div class="menu-row-price">€3.80</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cortado</div><div class="menu-row-desc">Equal parts espresso and warm milk</div></div><div class="menu-row-price">€3.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Macchiato</div><div class="menu-row-desc">Espresso marked with a dash of foam</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Mocha</div><div class="menu-row-desc">Espresso, Valrhona chocolate &amp; steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
+        <div class="menu-cat">Specialty &amp; Cold</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Iced Latte</div><div class="menu-row-desc">Cold milk over espresso and ice</div></div><div class="menu-row-price">€4.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cold Brew</div><div class="menu-row-desc">Steeped 18 hours, served chilled</div></div><div class="menu-row-price">€4.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Matcha Latte</div><div class="menu-row-desc">Ceremonial grade, oat milk</div></div><div class="menu-row-price">€4.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Chai Latte</div><div class="menu-row-desc">Spiced chai blend, steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Hot Chocolate</div><div class="menu-row-desc">Valrhona dark chocolate, steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
       </div>
-      <div class="gallery-grid reveal">
-        <div class="gal-item gal-1">
-          <img src="https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb" alt="115 Cafe daytime interior" loading="lazy" />
-          <div class="gal-overlay"></div>
-        </div>
-        <div class="gal-item gal-2">
-          <img src="https://github.com/user-attachments/assets/c1d4ec60-0446-4e09-af0e-7df75312333b" alt="Coffee and chocolate cake" loading="lazy" />
-          <div class="gal-overlay"></div>
-        </div>
-        <div class="gal-item gal-3">
-          <img src="https://github.com/user-attachments/assets/062d8885-fd12-4064-aad6-6f054169e8f5" alt="Fresh pastries" loading="lazy" />
-          <div class="gal-overlay"></div>
-        </div>
-        <div class="gal-item gal-4">
-          <img src="https://github.com/user-attachments/assets/8c2d8ab3-f0aa-40a7-a23f-7e69f00106ef" alt="115 Cafe stone wall interior" loading="lazy" />
-          <div class="gal-overlay"></div>
-        </div>
-        <div class="gal-item gal-5">
-          <img src="https://github.com/user-attachments/assets/cdcc1268-5bd9-4ff0-97e3-4ca5b1992d57" alt="115 Cafe" loading="lazy" />
-          <div class="gal-overlay"></div>
-        </div>
-        <div class="gal-item gal-6">
-          <img src="https://github.com/user-attachments/assets/381c1b29-8ca5-42df-852d-d6408f73a6a1" alt="115 Cafe" loading="lazy" />
-          <div class="gal-overlay"></div>
-        </div>
-        <div class="gal-item gal-7">
-          <img src="https://github.com/user-attachments/assets/1462120c-00a2-4e17-a61e-47d1aae68daa" alt="115 Cafe" loading="lazy" />
-          <div class="gal-overlay"></div>
-        </div>
-        <div class="gal-item gal-8">
-          <img src="https://github.com/user-attachments/assets/1b0c178e-523c-4b3c-a08e-86af095905ad" alt="115 Cafe" loading="lazy" />
-          <div class="gal-overlay"></div>
-        </div>
-      </div>
-      <div class="gallery-cta reveal" style="margin-top:32px;text-align:center">
-        <a href="https://www.instagram.com/115cafecork/" target="_blank" rel="noopener" class="ig-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
-          Follow @115cafecork on Instagram
-        </a>
-      </div>
+      <p class="menu-note">Oat, almond &amp; soy available — 50c supplement &nbsp;·&nbsp; Decaf on request</p>
     </div>
-  </section>
 
-  <!-- ── Day & Night ──────────────────────────────────────────── -->
-  <section style="background:var(--blk);padding:0;overflow:hidden;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;min-height:480px;" class="daynight-grid">
-      <div style="position:relative;overflow:hidden;">
-        <img src="https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb"
-             alt="115 Cafe daytime" loading="lazy"
-             style="width:100%;height:100%;object-fit:cover;filter:brightness(0.72);" />
-        <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:48px 40px;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 60%);">
-          <div style="font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px;font-weight:600;">Morning to 9pm</div>
-          <div style="font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);color:#fff;line-height:1.2;">Bright days &amp;<br>great coffee</div>
-          <p style="font-size:.875rem;color:rgba(255,255,255,.65);margin-top:12px;line-height:1.6;max-width:320px;">White walls, red cups, and Oliver Plunkett Street buzzing outside. The perfect Cork morning.</p>
-        </div>
+    <!-- Food -->
+    <div class="menu-panel" id="tab-food">
+      <div class="menu-list">
+        <div class="menu-cat">Breakfast &amp; Brunch</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Avocado Toast</div><div class="menu-row-desc">Sourdough, smashed avocado, chilli flakes, lemon oil</div></div><div class="menu-row-price">€9.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Full Irish Breakfast</div><div class="menu-row-desc">Bacon, sausage, egg, black &amp; white pudding, beans, sourdough</div></div><div class="menu-row-price">€13.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Eggs Benedict</div><div class="menu-row-desc">Free-range poached eggs, hollandaise, toasted muffin</div></div><div class="menu-row-price">€12.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Granola Bowl</div><div class="menu-row-desc">House granola, Greek yoghurt, seasonal berries, wildflower honey</div></div><div class="menu-row-price">€8.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Smoked Salmon Bagel</div><div class="menu-row-desc">Cream cheese, capers, red onion, fresh dill</div></div><div class="menu-row-price">€11.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">French Toast</div><div class="menu-row-desc">Brioche, maple syrup, mixed berries, softly whipped cream</div></div><div class="menu-row-price">€10.50</div></div>
+        <div class="menu-cat">Lunch</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Club Sandwich</div><div class="menu-row-desc">Free-range chicken, crispy bacon, lettuce, tomato, house mayo</div></div><div class="menu-row-price">€13.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Soup of the Day</div><div class="menu-row-desc">Made fresh each morning, brown soda bread &amp; butter</div></div><div class="menu-row-price">€7.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Caesar Salad</div><div class="menu-row-desc">Romaine, aged parmesan, house croutons, classic dressing</div></div><div class="menu-row-price">€12.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Toasted Panini</div><div class="menu-row-desc">Seasonal fillings — ask your server</div></div><div class="menu-row-price">€10.50</div></div>
+        <div class="menu-cat">From the Bakery</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Croissant</div><div class="menu-row-desc">Butter / ham &amp; comté / almond frangipane</div></div><div class="menu-row-price">€3.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Banana Bread</div><div class="menu-row-desc">House-baked, served warm with salted butter</div></div><div class="menu-row-price">€4.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Scone</div><div class="menu-row-desc">Plain or fruit, with Dromona butter, jam &amp; clotted cream</div></div><div class="menu-row-price">€4.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cake of the Day</div><div class="menu-row-desc">Baked in-house — ask at the counter</div></div><div class="menu-row-price">€5.00</div></div>
       </div>
-      <div style="position:relative;overflow:hidden;background:#1a0a08;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:64px 56px;">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%, rgba(227,30,36,.12) 0%, transparent 65%);pointer-events:none;"></div>
-        <div style="position:absolute;top:40px;right:40px;width:80px;height:80px;border:1px solid rgba(227,30,36,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(227,30,36,.6)" stroke-width="1.5"><path d="M12 2c0 0-4 4-4 9a4 4 0 008 0c0-5-4-9-4-9z"/><line x1="12" y1="21" x2="12" y2="23"/></svg>
-        </div>
-        <div style="font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:16px;font-weight:600;">Thursdays · until 11:30pm</div>
-        <div style="font-family:var(--serif);font-size:clamp(1.75rem,3.5vw,2.8rem);color:#f5f0ee;line-height:1.15;margin-bottom:20px;font-weight:400;">Candles, wine<br>&amp; late evenings</div>
-        <p style="font-size:.9375rem;color:rgba(255,255,255,.5);line-height:1.75;max-width:340px;margin-bottom:36px;">The same room, transformed. Boards to share, rotating craft beers, house wines, and cocktails — Cork's best kept Thursday night.</p>
-        <div style="display:flex;flex-direction:column;gap:14px;">
-          <div style="display:flex;align-items:center;gap:12px;font-size:.875rem;color:rgba(255,255,255,.55);">
-            <span style="display:block;width:20px;height:1px;background:var(--red);flex-shrink:0;"></span>Charcuterie &amp; small plates
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;font-size:.875rem;color:rgba(255,255,255,.55);">
-            <span style="display:block;width:20px;height:1px;background:var(--red);flex-shrink:0;"></span>House wine &amp; craft beers
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;font-size:.875rem;color:rgba(255,255,255,.55);">
-            <span style="display:block;width:20px;height:1px;background:var(--red);flex-shrink:0;"></span>Weekly cocktail special
-          </div>
-        </div>
-      </div>
+      <p class="menu-note">Gluten-free &amp; vegan options — please ask &nbsp;·&nbsp; Full allergen info on request</p>
     </div>
-  </section>
-  <style>
-    @media(max-width:700px){.daynight-grid{grid-template-columns:1fr!important;min-height:auto!important;}.daynight-grid>div{min-height:300px;}}
-  </style>
 
-  <!-- ── Contact ───────────────────────────────────────────────── -->
-  <section id="contact" class="section">
-    <div class="container">
-      <div class="contact-grid">
-        <div class="contact-info">
-          <p class="label reveal">Visit Us</p>
-          <h2 class="h2 reveal reveal-delay-1">Come find us<br>in the heart of Cork</h2>
-
-          <div class="info-block reveal reveal-delay-2">
-            <div class="info-block-label">Address</div>
-            <p>115 Oliver Plunkett Street<br>Centre, Cork, T12 EV25</p>
-          </div>
-          <div class="info-block reveal reveal-delay-2">
-            <div class="info-block-label">Phone</div>
-            <p><a href="tel:0214276165" style="color:var(--red)">(021) 427 6165</a></p>
-          </div>
-
-          <div class="info-block reveal reveal-delay-3">
-            <div class="info-block-label">Opening Hours</div>
-            <ul class="hours-list" id="hoursList"></ul>
-          </div>
-
-          <div class="reveal reveal-delay-4">
-            <div class="info-block-label">Follow Us</div>
-            <div class="social-row">
-              <a href="https://www.facebook.com/115cafecork/" target="_blank" rel="noopener" class="social-btn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-                Facebook
-              </a>
-              <a href="https://www.instagram.com/115cafecork/" target="_blank" rel="noopener" class="social-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
-                Instagram
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Reservation form -->
-        <div class="contact-form reveal reveal-delay-2">
-          <div class="form-title">Make a Reservation</div>
-          <p class="form-sub">Book a table or send us a message — we'll get back to you promptly.</p>
-          <form id="reservationForm" novalidate>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="fname">First Name</label>
-                <input type="text" id="fname" name="fname" placeholder="Jane" required />
-              </div>
-              <div class="form-group">
-                <label for="lname">Last Name</label>
-                <input type="text" id="lname" name="lname" placeholder="Doe" required />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="jane@example.com" required />
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" placeholder="(021) …" />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" name="date" required />
-              </div>
-              <div class="form-group">
-                <label for="time">Time</label>
-                <select id="time" name="time" required>
-                  <option value="">Select time</option>
-                  <option>9:00 AM</option><option>9:30 AM</option>
-                  <option>10:00 AM</option><option>10:30 AM</option>
-                  <option>11:00 AM</option><option>11:30 AM</option>
-                  <option>12:00 PM</option><option>12:30 PM</option>
-                  <option>1:00 PM</option><option>1:30 PM</option>
-                  <option>2:00 PM</option><option>2:30 PM</option>
-                  <option>3:00 PM</option><option>3:30 PM</option>
-                  <option>4:00 PM</option><option>5:00 PM</option>
-                  <option>6:00 PM</option><option>7:00 PM</option>
-                  <option>8:00 PM</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="guests">Number of Guests</label>
-              <select id="guests" name="guests">
-                <option>1 guest</option><option selected>2 guests</option>
-                <option>3 guests</option><option>4 guests</option>
-                <option>5 guests</option><option>6+ guests</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="notes">Special Requests</label>
-              <textarea id="notes" name="notes" placeholder="Dietary requirements, celebrations, accessibility needs…"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary form-submit">Reserve My Table</button>
-          </form>
-          <div class="form-success" id="formSuccess">
-            ✓ Thank you! We'll confirm your reservation shortly.
-          </div>
-        </div>
+    <!-- Drinks -->
+    <div class="menu-panel" id="tab-drinks">
+      <div class="menu-list">
+        <div class="menu-cat">Teas &amp; Infusions</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Breakfast Tea</div><div class="menu-row-desc">Barry's Gold Blend — the Cork classic</div></div><div class="menu-row-price">€3.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Green Tea</div><div class="menu-row-desc">Japanese sencha, gently brewed</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Peppermint</div><div class="menu-row-desc">Fresh &amp; calming, naturally caffeine-free</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Chamomile</div><div class="menu-row-desc">Floral &amp; soothing — perfect after lunch</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-cat">Cold &amp; Soft</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Fresh Orange Juice</div><div class="menu-row-desc">Squeezed to order</div></div><div class="menu-row-price">€4.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">San Pellegrino</div><div class="menu-row-desc">Sparkling mineral water, 500ml</div></div><div class="menu-row-price">€2.80</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Still Water</div><div class="menu-row-desc">500ml</div></div><div class="menu-row-price">€2.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Soft Drinks</div><div class="menu-row-desc">Coke, Diet Coke, 7Up, Fanta</div></div><div class="menu-row-price">€3.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Smoothie of the Day</div><div class="menu-row-desc">Seasonal fruits — ask at the counter</div></div><div class="menu-row-price">€5.50</div></div>
       </div>
+      <p class="menu-note">Seasonal specials change weekly &nbsp;·&nbsp; Still water always complimentary</p>
     </div>
-  </section>
 
-  <!-- ── Map ───────────────────────────────────────────────────── -->
-  <div class="map-strip">
-    <iframe
-      title="115 Cafe location"
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2461.3539539870657!2d-8.474!3d51.8985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x484440e0bed6d7b7%3A0x8db3b25cdbd03dc!2s115%20Oliver%20Plunkett%20St%2C%20Cork!5e0!3m2!1sen!2sie!4v1680000000000"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      allowfullscreen>
-    </iframe>
-    <div class="map-pin">
-      <svg viewBox="0 0 24 24" fill="var(--red)" stroke="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      115 Oliver Plunkett St, Cork
+    <!-- Evening -->
+    <div class="menu-panel" id="tab-evening">
+      <div class="menu-list">
+        <div class="menu-cat">Small Plates</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Charcuterie Board</div><div class="menu-row-desc">Cured meats, artisan Irish cheeses, house pickles &amp; chutney</div></div><div class="menu-row-price">€16.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Bruschetta</div><div class="menu-row-desc">Toasted sourdough, slow-roasted tomato, aged balsamic, basil oil</div></div><div class="menu-row-price">€9.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Loaded Fries</div><div class="menu-row-desc">Hand-cut, mature cheddar, house sauce, pickled jalapeño, scallions</div></div><div class="menu-row-price">€10.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Sliders</div><div class="menu-row-desc">Three beef patties, pickled onion, aged cheddar, sriracha mayo</div></div><div class="menu-row-price">€13.50</div></div>
+        <div class="menu-cat">Evening Drinks</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">House Wine</div><div class="menu-row-desc">Red or white — today's selection from your server</div></div><div class="menu-row-price">€7.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Craft Beer</div><div class="menu-row-desc">Rotating Irish taps — ask what's pouring</div></div><div class="menu-row-price">€6.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Prosecco</div><div class="menu-row-desc">By the glass</div></div><div class="menu-row-price">€8.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cocktail of the Week</div><div class="menu-row-desc">Changes weekly — ask your server</div></div><div class="menu-row-price">€10.00</div></div>
+      </div>
+      <p class="menu-note">Thursday evenings until 11:30pm &nbsp;·&nbsp; Please enjoy responsibly</p>
     </div>
   </div>
+</section>
 
-  <!-- ── Footer ────────────────────────────────────────────────── -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="nav-logo">115<span style="color:var(--red)">.</span></div>
-        <p>A beloved cafe in the heart of Cork City. Great coffee, real food, warm welcome — every single day.</p>
+<!-- ── Gallery ───────────────────────────────────────────────── -->
+<section id="gallery" class="section">
+  <div class="container">
+    <div class="gallery-header">
+      <div>
+        <p class="eyebrow" data-reveal="up">Gallery</p>
+        <h2 class="display" data-reveal="up" data-delay="2">Life at 115</h2>
       </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#menu">Menu</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li><a href="#contact">Reservations</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="tel:0214276165">(021) 427 6165</a></li>
-          <li><a href="https://www.facebook.com/115cafecork/" target="_blank">Facebook</a></li>
-          <li><a href="https://www.instagram.com/115cafecork/" target="_blank">Instagram</a></li>
-          <li><a>115 Oliver Plunkett St, Cork</a></li>
-        </ul>
+      <a href="https://www.instagram.com/115cafecork/" target="_blank" rel="noopener" class="ig-pill" data-reveal="up" data-delay="3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+        @115cafecork
+      </a>
+    </div>
+  </div>
+  <div class="gallery-strip" id="galleryStrip">
+    <div class="gal-thumb gal-thumb--wide">
+      <img src="https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb" alt="115 Cafe daytime" loading="lazy" />
+      <div class="gal-overlay"></div>
+    </div>
+    <div class="gal-thumb gal-thumb--tall">
+      <img src="https://github.com/user-attachments/assets/c1d4ec60-0446-4e09-af0e-7df75312333b" alt="Coffee and cake" loading="lazy" style="object-position:center 25%" />
+      <div class="gal-overlay"></div>
+    </div>
+    <div class="gal-thumb gal-thumb--sq">
+      <img src="https://github.com/user-attachments/assets/062d8885-fd12-4064-aad6-6f054169e8f5" alt="Fresh pastries" loading="lazy" />
+      <div class="gal-overlay"></div>
+    </div>
+    <div class="gal-thumb gal-thumb--wide">
+      <img src="https://github.com/user-attachments/assets/8c2d8ab3-f0aa-40a7-a23f-7e69f00106ef" alt="Stone wall interior" loading="lazy" />
+      <div class="gal-overlay"></div>
+    </div>
+    <div class="gal-thumb gal-thumb--tall">
+      <img src="https://github.com/user-attachments/assets/cdcc1268-5bd9-4ff0-97e3-4ca5b1992d57" alt="115 Cafe" loading="lazy" />
+      <div class="gal-overlay"></div>
+    </div>
+    <div class="gal-thumb gal-thumb--sq">
+      <img src="https://github.com/user-attachments/assets/381c1b29-8ca5-42df-852d-d6408f73a6a1" alt="115 Cafe" loading="lazy" />
+      <div class="gal-overlay"></div>
+    </div>
+    <div class="gal-thumb gal-thumb--tall">
+      <img src="https://github.com/user-attachments/assets/1462120c-00a2-4e17-a61e-47d1aae68daa" alt="115 Cafe" loading="lazy" />
+      <div class="gal-overlay"></div>
+    </div>
+    <div class="gal-thumb gal-thumb--sq">
+      <img src="https://github.com/user-attachments/assets/1b0c178e-523c-4b3c-a08e-86af095905ad" alt="115 Cafe" loading="lazy" />
+      <div class="gal-overlay"></div>
+    </div>
+  </div>
+  <div class="gallery-drag-hint">Drag to explore</div>
+</section>
+
+<!-- ── Day & Night ──────────────────────────────────────────── -->
+<section id="daynight">
+  <div class="dn-panel">
+    <img src="https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb"
+         alt="115 Cafe daytime" loading="lazy" />
+    <div class="dn-scrim dn-scrim-day">
+      <p class="dn-tag">Morning to 9pm</p>
+      <h3 class="dn-title">Bright days &amp;<br>great coffee</h3>
+      <p class="dn-body">White walls, red cups, and Oliver Plunkett Street buzzing outside. The perfect Cork morning.</p>
+    </div>
+  </div>
+  <div class="dn-panel">
+    <div class="dn-night-bg"></div>
+    <div class="dn-night-glow"></div>
+    <div class="dn-scrim dn-scrim-night" style="position:relative;z-index:2;height:100%;justify-content:center">
+      <p class="dn-tag">Thursdays · until 11:30pm</p>
+      <h3 class="dn-title">Candles, wine &amp;<br>late evenings</h3>
+      <p class="dn-body">The same room, transformed. Boards to share, rotating craft beers, house wines and cocktails — Cork's best kept Thursday night.</p>
+      <div class="dn-evening-list">
+        <div class="dn-evening-item">Charcuterie &amp; small plates</div>
+        <div class="dn-evening-item">House wine &amp; craft beers</div>
+        <div class="dn-evening-item">Weekly cocktail special</div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2025 115 Cafe, Cork. All rights reserved.</span>
-      <span>Made with ♥ in Cork City</span>
+  </div>
+</section>
+
+<!-- ── Contact ───────────────────────────────────────────────── -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p class="eyebrow" data-reveal="up">Visit Us</p>
+        <h2 class="display" data-reveal="up" data-delay="2">Come find us<br><em>in the heart of Cork</em></h2>
+
+        <div class="info-block" data-reveal="up" data-delay="3">
+          <div class="info-block-lbl">Address</div>
+          <p>115 Oliver Plunkett Street<br>Centre, Cork, T12 EV25</p>
+        </div>
+        <div class="info-block" data-reveal="up" data-delay="3">
+          <div class="info-block-lbl">Phone</div>
+          <p><a href="tel:0214276165" style="color:var(--red)">(021) 427 6165</a></p>
+        </div>
+        <div class="info-block" data-reveal="up" data-delay="4">
+          <div class="info-block-lbl">Opening Hours</div>
+          <ul class="hours-list" id="hoursList"></ul>
+        </div>
+        <div data-reveal="up" data-delay="5">
+          <div class="info-block-lbl" style="margin-bottom:12px">Follow Us</div>
+          <div class="social-row">
+            <a href="https://www.facebook.com/115cafecork/" target="_blank" rel="noopener" class="social-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              Facebook
+            </a>
+            <a href="https://www.instagram.com/115cafecork/" target="_blank" rel="noopener" class="social-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form" data-reveal="right" data-delay="3">
+        <div class="form-title">Make a Reservation</div>
+        <p class="form-sub">Book a table or send us a message — we'll confirm shortly.</p>
+        <form id="reservationForm" novalidate>
+          <div class="form-row">
+            <div class="form-group"><label for="fname">First Name</label><input type="text" id="fname" placeholder="Jane" required /></div>
+            <div class="form-group"><label for="lname">Last Name</label><input type="text" id="lname" placeholder="Doe" required /></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="email">Email</label><input type="email" id="email" placeholder="jane@example.com" required /></div>
+            <div class="form-group"><label for="phone">Phone</label><input type="tel" id="phone" placeholder="(021) …" /></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="date">Date</label><input type="date" id="date" required /></div>
+            <div class="form-group">
+              <label for="time">Time</label>
+              <select id="time" required>
+                <option value="">Select time</option>
+                <option>9:00 AM</option><option>9:30 AM</option><option>10:00 AM</option>
+                <option>10:30 AM</option><option>11:00 AM</option><option>11:30 AM</option>
+                <option>12:00 PM</option><option>12:30 PM</option><option>1:00 PM</option>
+                <option>1:30 PM</option><option>2:00 PM</option><option>2:30 PM</option>
+                <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+                <option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="guests">Guests</label>
+            <select id="guests">
+              <option>1 guest</option><option selected>2 guests</option><option>3 guests</option>
+              <option>4 guests</option><option>5 guests</option><option>6+ guests</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="notes">Special Requests</label>
+            <textarea id="notes" placeholder="Dietary requirements, celebrations, accessibility needs…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark form-submit">Reserve My Table</button>
+        </form>
+        <div class="form-success" id="formSuccess">✓ Thank you — we'll confirm your reservation shortly.</div>
+      </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    /* ── Hours data ─────────────────────────────────────────── */
-    const HOURS = [
-      { day: 'Monday',    hours: '9am – 9pm' },
-      { day: 'Tuesday',   hours: '9am – 9pm' },
-      { day: 'Wednesday', hours: '9am – 9pm' },
-      { day: 'Thursday',  hours: '9am – 11:30pm' },
-      { day: 'Friday',    hours: '9am – 9pm' },
-      { day: 'Saturday',  hours: '9am – 9pm' },
-      { day: 'Sunday',    hours: '11am – 8pm' },
-    ];
+<!-- ── Map ───────────────────────────────────────────────────── -->
+<div class="map-strip">
+  <iframe title="115 Cafe location"
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2461.3539539870657!2d-8.474!3d51.8985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x484440e0bed6d7b7%3A0x8db3b25cdbd03dc!2s115%20Oliver%20Plunkett%20St%2C%20Cork!5e0!3m2!1sen!2sie!4v1680000000000"
+    loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  <div class="map-badge">
+    <svg viewBox="0 0 24 24" fill="var(--red)" stroke="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    115 Oliver Plunkett St, Cork
+  </div>
+</div>
 
-    const todayIdx = (new Date().getDay() + 6) % 7; // 0=Mon
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo nav-logo">115<span style="color:var(--red)">.</span></a>
+      <p>A beloved cafe on Cork's most iconic street. Exceptional coffee, real food, warm welcome — every single day.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Reservations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:0214276165">(021) 427 6165</a></li>
+        <li><a href="https://www.facebook.com/115cafecork/" target="_blank">Facebook</a></li>
+        <li><a href="https://www.instagram.com/115cafecork/" target="_blank">Instagram</a></li>
+        <li><span>115 Oliver Plunkett St, Cork</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 115 Cafe, Cork. All rights reserved.</span>
+    <span>Made with ♥ in Cork City</span>
+  </div>
+</footer>
 
-    /* Hours ribbon */
-    const inner = document.getElementById('hoursInner');
-    const items = [...HOURS, ...HOURS].map(h =>
-      `<div class="hour-item"><span class="day">${h.day}</span><span class="hour-dot"></span><span>${h.hours}</span></div>`
-    ).join('');
-    inner.innerHTML = items;
+<script>
+/* ── Data ──────────────────────────────────────────────── */
+const HOURS = [
+  {day:'Monday',    h:'9am – 9pm'},
+  {day:'Tuesday',   h:'9am – 9pm'},
+  {day:'Wednesday', h:'9am – 9pm'},
+  {day:'Thursday',  h:'9am – 11:30pm'},
+  {day:'Friday',    h:'9am – 9pm'},
+  {day:'Saturday',  h:'9am – 9pm'},
+  {day:'Sunday',    h:'11am – 8pm'},
+];
+const todayIdx = (new Date().getDay()+6)%7;
 
-    /* Hours list in contact section */
-    const list = document.getElementById('hoursList');
-    list.innerHTML = HOURS.map((h, i) =>
-      `<li class="${i === todayIdx ? 'today' : ''}">
-        <span class="day-name">${h.day}</span>
-        <span class="hours-val">${h.hours}</span>
-      </li>`
-    ).join('');
+/* ── Hours list in contact ─────────────────────────────── */
+document.getElementById('hoursList').innerHTML =
+  HOURS.map((h,i)=>`<li class="${i===todayIdx?'today':''}">
+    <span class="day-name">${h.day}</span><span class="hrs">${h.h}</span>
+  </li>`).join('');
 
-    /* ── Nav scroll ─────────────────────────────────────────── */
-    const nav = document.getElementById('nav');
-    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+/* ── Ticker strip ──────────────────────────────────────── */
+const TICKER_ITEMS = ['Specialty Coffee','Fresh Food','Oliver Plunkett St','Cork City','Open 7 Days','115 Café'];
+const tickerHTML = [...TICKER_ITEMS,...TICKER_ITEMS].map(t=>
+  `<div class="ticker-item"><span class="ticker-dot"></span>${t}</div>`).join('');
+document.getElementById('tickerTrack').innerHTML = tickerHTML;
 
-    /* ── Hamburger ──────────────────────────────────────────── */
-    const drawer = document.getElementById('drawer');
-    document.getElementById('hamburger').addEventListener('click', () => drawer.classList.add('open'));
-    document.getElementById('drawerClose').addEventListener('click', () => drawer.classList.remove('open'));
-    document.querySelectorAll('.drawer-link').forEach(a =>
-      a.addEventListener('click', () => drawer.classList.remove('open'))
-    );
+/* ── Hours ribbon ──────────────────────────────────────── */
+const hoursHTML = [...HOURS,...HOURS].map(h=>
+  `<div class="hours-item"><span>${h.day}</span><span class="hours-sep">·</span><span>${h.h}</span></div>`
+).join('');
+document.getElementById('hoursTrack').innerHTML = hoursHTML;
 
-    /* ── Menu tabs ──────────────────────────────────────────── */
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+/* ── Nav scroll ────────────────────────────────────────── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll',()=>
+  nav.classList.toggle('scrolled',window.scrollY>80),{passive:true});
+
+/* ── Mobile drawer ─────────────────────────────────────── */
+const drawer = document.getElementById('drawer');
+document.getElementById('hamburger').addEventListener('click',()=>drawer.classList.add('open'));
+document.getElementById('drawerClose').addEventListener('click',()=>drawer.classList.remove('open'));
+document.querySelectorAll('.drawer-link').forEach(a=>
+  a.addEventListener('click',()=>drawer.classList.remove('open')));
+
+/* ── Menu tabs ─────────────────────────────────────────── */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('tab-'+btn.dataset.tab);
+    panel.classList.add('active');
+    // animate rows in
+    panel.querySelectorAll('.menu-row').forEach((row,i)=>{
+      row.style.opacity='0';row.style.transform='translateY(12px)';
+      requestAnimationFrame(()=>{
+        row.style.transition=`opacity .4s ${i*.04}s ease, transform .4s ${i*.04}s ease`;
+        row.style.opacity='1';row.style.transform='none';
       });
     });
+  });
+});
 
-    /* ── Scroll reveal ──────────────────────────────────────── */
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    /* ── Form submit ────────────────────────────────────────── */
-    document.getElementById('reservationForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      this.style.display = 'none';
-      document.getElementById('formSuccess').style.display = 'block';
-    });
-
-    /* ── Set min date on date input ─────────────────────────── */
-    const dateInput = document.getElementById('date');
-    if (dateInput) {
-      const today = new Date().toISOString().split('T')[0];
-      dateInput.setAttribute('min', today);
+/* ── Scroll reveal ─────────────────────────────────────── */
+const revealObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in-view');
+      revealObs.unobserve(e.target);
     }
-  </script>
+  });
+},{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+
+document.querySelectorAll('[data-reveal]').forEach(el=>{
+  const d = el.dataset.delay;
+  if(d) el.style.transitionDelay = ({1:'.1s',2:'.2s',3:'.32s',4:'.44s',5:'.56s',6:'.68s'}[d]||'0s');
+  revealObs.observe(el);
+});
+
+document.querySelectorAll('[data-wipe]').forEach(el=>{
+  const d = el.dataset.delay;
+  if(d) el.style.transitionDelay = ({1:'.1s',2:'.2s',3:'.32s'}[d]||'0s');
+  revealObs.observe(el);
+});
+
+/* ── Counter animation ─────────────────────────────────── */
+const counterObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el=e.target;
+    const target=+el.dataset.target;
+    const suffix=el.dataset.suffix||'';
+    const dur=1400;const start=performance.now();
+    const tick=now=>{
+      const p=Math.min((now-start)/dur,1);
+      const ease=1-Math.pow(1-p,3);
+      el.textContent=Math.round(ease*target)+suffix;
+      if(p<1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    counterObs.unobserve(el);
+  });
+},{threshold:0.5});
+document.querySelectorAll('.counter').forEach(el=>counterObs.observe(el));
+
+/* ── Parallax on hero photo ────────────────────────────── */
+const heroPhoto = document.querySelector('.hero-photo');
+if(heroPhoto && window.innerWidth>860){
+  window.addEventListener('scroll',()=>{
+    const y = window.scrollY;
+    if(y<window.innerHeight)
+      heroPhoto.style.transform=`translateY(${y*0.25}px)`;
+  },{passive:true});
+}
+
+/* ── Gallery drag-to-scroll ────────────────────────────── */
+const strip = document.getElementById('galleryStrip');
+if(strip){
+  let isDown=false,startX,scrollLeft;
+  strip.addEventListener('mousedown',e=>{
+    isDown=true;startX=e.pageX-strip.offsetLeft;scrollLeft=strip.scrollLeft;
+    strip.style.cursor='grabbing';
+  });
+  strip.addEventListener('mouseleave',()=>{isDown=false;strip.style.cursor='grab'});
+  strip.addEventListener('mouseup',()=>{isDown=false;strip.style.cursor='grab'});
+  strip.addEventListener('mousemove',e=>{
+    if(!isDown)return;
+    e.preventDefault();
+    const x=e.pageX-strip.offsetLeft;
+    strip.scrollLeft=scrollLeft-(x-startX)*1.4;
+  });
+  strip.style.cursor='grab';
+}
+
+/* ── Form ───────────────────────────────────────────────── */
+document.getElementById('reservationForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  this.style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+});
+const dateInput = document.getElementById('date');
+if(dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+</script>
 </body>
 </html>
