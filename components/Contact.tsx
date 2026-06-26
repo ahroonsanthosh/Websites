@@ -38,18 +38,18 @@ export function Contact() {
                 {
                   icon: <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor" stroke="none"/></svg>,
                   label: "Address",
-                  content: <p className="text-[var(--grey-lt)] text-sm md:text-base leading-relaxed">8 Winthrop Street<br />Cork City Centre, T12 EH1Y</p>,
+                  content: <p className="text-[var(--grey-lt)] text-[16px] md:text-[17px] leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>8 Winthrop Street<br />Cork City Centre, T12 EH1Y</p>,
                 },
                 {
                   icon: <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>,
                   label: "Phone",
-                  content: <a href="tel:0871029894" className="text-[var(--grey-lt)] text-sm md:text-base hover:text-[var(--cream)] transition-colors">087 102 9894</a>,
+                  content: <a href="tel:0871029894" className="text-[var(--grey-lt)] text-[16px] md:text-[17px] hover:text-[var(--cream)] transition-colors" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>087 102 9894</a>,
                 },
                 {
                   icon: <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
                   label: "Opening Hours",
                   content: (
-                    <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm md:text-[15px]">
+                    <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-[16px] md:text-[17px]" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
                       <span className="text-[var(--grey-lt)]">Monday – Saturday</span><span className="text-[var(--cream-2)]">10am – 5pm</span>
                       <span className="text-[var(--grey-lt)]">Sunday</span><span className="text-[var(--cream-2)]">Closed</span>
                     </div>
@@ -120,8 +120,9 @@ export function Contact() {
               </div>
 
               <button type="submit" disabled={loading}
-                className="w-full py-3.5 bg-[var(--amber)] text-[var(--dark)] text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:bg-[var(--amber-lt)] disabled:opacity-60 mt-1">
-                {loading ? "Sending…" : "Send Message"}
+                className="group relative w-full py-3.5 bg-[var(--amber)] text-[var(--dark)] text-[11px] font-['Inter'] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_36px_rgba(200,134,10,0.35)] disabled:opacity-60 mt-1 overflow-hidden">
+                <span className="relative z-10">{loading ? "Sending…" : "Send Message"}</span>
+                <span aria-hidden="true" className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-[var(--amber-lt)]" />
               </button>
 
               {sent && (

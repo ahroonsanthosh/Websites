@@ -49,13 +49,15 @@ export function About() {
               <em className="text-[var(--amber-lt)] font-normal not-italic" style={{ fontStyle: "italic" }}>of Love</em>
             </motion.h2>
 
-            <motion.p {...item(0.15)} className="text-[var(--grey-lt)] leading-[1.85] mb-4 text-sm md:text-[15px]">
+            <motion.p {...item(0.15)} className="text-[var(--grey-lt)] leading-[1.9] mb-5 text-[17px] md:text-[18px]"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               Tucked away on Winthrop Street in the heart of Cork City, COCOA was
               born from a deep passion for fine chocolate and the belief that every
               cup, every truffle, every pastry should be something worth pausing for.
             </motion.p>
 
-            <motion.p {...item(0.2)} className="text-[var(--grey-lt)] leading-[1.85] text-sm md:text-[15px]">
+            <motion.p {...item(0.2)} className="text-[var(--grey-lt)] leading-[1.9] text-[17px] md:text-[18px]"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
               We source the finest cacao and craft each chocolate by hand — from
               single-origin bars to silk-smooth drinking chocolate, from seasonal
               truffles to gift boxes made to delight. Pull up a chair beneath our

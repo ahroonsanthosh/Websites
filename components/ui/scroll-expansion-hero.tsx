@@ -88,8 +88,9 @@ export function ScrollExpansionHero({
         <motion.div style={{ opacity: ctaOpacity, y: ctaY }}
           className="absolute bottom-8 md:bottom-12 left-0 right-0 flex flex-col items-center gap-3 z-20">
           <a href={ctaHref}
-            className="px-8 md:px-10 py-3.5 md:py-4 bg-[var(--amber)] text-[var(--dark)] text-[10px] md:text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:bg-[var(--amber-lt)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(200,134,10,0.35)]">
-            {ctaLabel}
+            className="group relative px-8 md:px-10 py-3.5 md:py-4 bg-[var(--amber)] text-[var(--dark)] text-[10px] md:text-[11px] font-['Inter'] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:bg-[var(--amber-lt)] hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(200,134,10,0.4)] overflow-hidden">
+            <span className="relative z-10">{ctaLabel}</span>
+            <span aria-hidden="true" className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-[var(--amber-lt)]" />
           </a>
           <div className="flex flex-col items-center gap-2 opacity-50">
             <span className="text-[8px] tracking-[0.25em] uppercase text-[var(--grey)]">Scroll</span>

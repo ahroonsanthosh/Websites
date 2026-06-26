@@ -11,8 +11,10 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <>
+      <a href="#main-content" className="skip-link">Skip to content</a>
       <Navbar />
 
+      <main id="main-content">
       <ScrollExpansionHero
         imageSrc="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1800&q=85"
         imageAlt="Cocoa cafe interior — warm Edison bulbs, teal walls, marble tables"
@@ -33,6 +35,7 @@ export default function Home() {
       <Menu />
       <Gallery />
       <Contact />
+      </main>
       <Footer />
     </>
   );

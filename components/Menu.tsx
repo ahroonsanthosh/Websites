@@ -79,7 +79,7 @@ export function Menu() {
           style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
           {tabs.map(t => (
             <button key={t.id} onClick={() => setActive(t.id)}
-              className={`flex-shrink-0 px-5 md:px-7 py-3.5 text-[11px] font-medium tracking-[0.12em] uppercase border-b-2 -mb-px transition-all duration-200 ${
+              className={`flex-shrink-0 px-5 md:px-7 py-3.5 text-[11px] font-['Inter'] font-medium tracking-[0.12em] uppercase border-b-2 -mb-px transition-all duration-200 ${
                 active === t.id
                   ? "text-[var(--amber)] border-[var(--amber)]"
                   : "text-[var(--grey)] border-transparent hover:text-[var(--cream-2)]"
@@ -105,15 +105,16 @@ export function Menu() {
                   }`}>
                   {/* Text block */}
                   <div className="flex-1 min-w-0">
-                    <p className="font-['Playfair_Display'] text-[15px] md:text-base text-[var(--cream)] leading-snug mb-1">
+                    <p className="font-['Playfair_Display'] text-[16px] md:text-[17px] text-[var(--cream)] leading-snug mb-1">
                       {it.name}
                     </p>
-                    <p className="text-[12px] text-[var(--grey)] leading-relaxed">
+                    <p className="text-[14px] md:text-[15px] text-[var(--grey)] leading-relaxed"
+                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: "italic" }}>
                       {it.desc}
                     </p>
                   </div>
                   {/* Price — always right-aligned, never wraps */}
-                  <span className="font-['Playfair_Display'] text-[15px] font-semibold text-[var(--amber)] whitespace-nowrap leading-snug pt-px">
+                  <span className="font-['Inter'] text-[13px] font-semibold text-[var(--amber)] whitespace-nowrap leading-snug pt-px tracking-wide">
                     {it.price}
                   </span>
                 </div>
