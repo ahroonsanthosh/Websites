@@ -16,8 +16,8 @@ export function Gallery() {
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section id="gallery" className="py-20 md:py-32 lg:py-40">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 mb-10 md:mb-14 text-center">
+    <section id="gallery" className="py-20 md:py-32 lg:py-40 w-full">
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1rem 2.5rem", textAlign: "center" }}>
         <p className="text-[11px] tracking-[0.28em] uppercase text-[var(--amber)] font-medium mb-3">Inside Cocoa</p>
         <h2 className="font-['Playfair_Display'] text-4xl md:text-5xl lg:text-6xl leading-tight text-[var(--cream)]">
           A Glimpse<br /><em className="text-[var(--amber-lt)] font-normal">of the Space</em>
@@ -26,7 +26,8 @@ export function Gallery() {
 
       {/* Mobile: 2-col equal grid | Desktop: 3col with varied ratios */}
       <div ref={ref}
-        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 lg:gap-4">
+        style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1rem" }}
+        className="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 lg:gap-4">
         {images.map((img, i) => (
           <motion.div key={img.src}
             initial={{ opacity: 0, y: 24 }}

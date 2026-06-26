@@ -12,7 +12,7 @@ const social = [
 export function Footer() {
   return (
     <footer className="bg-[var(--dark)] border-t border-white/[0.06] py-12 md:py-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 flex flex-col items-center gap-4 text-center">
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1rem" }} className="flex flex-col items-center gap-4 text-center">
         <div className="font-['Playfair_Display'] text-3xl md:text-4xl font-semibold tracking-[0.18em] text-[var(--cream)]">
           COCOA
         </div>

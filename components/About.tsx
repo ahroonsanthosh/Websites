@@ -10,8 +10,8 @@ const item = (delay = 0) => ({
 
 export function About() {
   return (
-    <section id="about" className="py-20 md:py-32 lg:py-40">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+    <section id="about" className="py-20 md:py-32 lg:py-40 w-full">
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1rem" }}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">
 
           {/* Images */}

@@ -22,8 +22,8 @@ export function Contact() {
   const fadeRight = { initial: { opacity: 0, x:  36 }, whileInView: { opacity: 1, x: 0 }, viewport: vp, transition: { duration: 0.8, delay: 0.1, ease: "easeOut" as const } };
 
   return (
-    <section id="contact" className="py-20 md:py-32 lg:py-40 bg-[var(--dark-2)]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+    <section id="contact" className="py-20 md:py-32 lg:py-40 bg-[var(--dark-2)] w-full">
+      <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1rem" }}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20" id="contact-grid">
 
           {/* Info */}
