@@ -36,11 +36,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .container{max-width:1200px;margin:0 auto;padding:0 40px}
 .section{padding:120px 0}
 .eyebrow{
-  font-size:.7rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--red);display:flex;
-  align-items:center;gap:12px;margin-bottom:16px
+  font-size:.68rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);display:flex;
+  align-items:center;gap:0;margin-bottom:16px
 }
-.eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--red)}
 .display{
   font-family:var(--serif);font-size:clamp(2.4rem,5vw,4rem);
   font-weight:400;line-height:1.08;color:var(--blk)
@@ -201,12 +200,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   letter-spacing:-.04em;pointer-events:none;user-select:none;
   opacity:0;animation:lineIn .8s .6s ease forwards
 }
-/* Thin red vertical accent line */
-.hero-accent-line{
-  position:absolute;left:52px;top:0;bottom:0;z-index:2;
-  width:1px;background:var(--red);transform-origin:top;
-  transform:scaleY(0);animation:lineGrow .9s .3s var(--ease-out) forwards
-}
 /* Main content wrapper */
 .hero-content{
   position:relative;z-index:3;
@@ -292,7 +285,6 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 /* Hero keyframes */
 @keyframes lineSlide{to{opacity:1;transform:none}}
 @keyframes lineIn{to{opacity:1}}
-@keyframes lineGrow{to{transform:scaleY(1)}}
 @keyframes photoReveal{to{clip-path:inset(0 0 0% 0)}}
 @keyframes scrollRun{0%{top:-100%}100%{top:100%}}
 
@@ -318,13 +310,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .pillar{
   padding:28px 48px;display:flex;align-items:center;gap:18px
 }
-.pillar-num{
-  font-family:var(--serif);font-size:.9rem;
-  color:var(--red);font-style:italic;flex-shrink:0
-}
+.pillar-num{display:none}
 .pillar-text{
-  font-size:.72rem;font-weight:500;letter-spacing:.18em;
-  text-transform:uppercase;color:rgba(255,255,255,.4)
+  font-size:.72rem;font-weight:400;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.38)
 }
 .pillar-sep{background:rgba(255,255,255,.07)}
 @media(max-width:700px){
@@ -356,10 +345,8 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .stat-cell:hover{background:var(--cream)}
 .stat-num{
   font-family:var(--serif);font-size:clamp(2.5rem,5vw,4rem);
-  font-weight:400;color:var(--blk);line-height:1;margin-bottom:8px;
-  transition:color .35s var(--ease)
+  font-weight:400;color:var(--blk);line-height:1;margin-bottom:8px
 }
-.stat-cell:hover .stat-num{color:var(--red)}
 .stat-num span{color:var(--red)}
 .stat-label{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .about-grid{
@@ -369,16 +356,9 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 .about-img-col{position:relative;overflow:hidden;background:#1a1a1a;min-height:560px}
 .about-img-col img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
 .about-text-col{
-  padding:72px 64px 72px 72px;display:flex;flex-direction:column;justify-content:center;
-  background:var(--cream);position:relative
+  padding:72px 64px;display:flex;flex-direction:column;justify-content:center;
+  background:var(--cream)
 }
-.about-text-col::before{
-  content:'';position:absolute;left:0;top:72px;bottom:72px;
-  width:3px;background:var(--red);
-  transform:scaleY(0);transform-origin:top;
-  transition:transform .9s var(--ease-out);transition-delay:.3s
-}
-.about-text-col.in-view::before{transform:scaleY(1)}
 .about-text-col .display{margin-bottom:24px;font-size:clamp(1.8rem,3.5vw,2.8rem)}
 .about-text-col .body-lg{margin-bottom:32px}
 .about-tag{
@@ -507,13 +487,10 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   transition:transform .4s var(--ease),opacity .4s var(--ease)
 }
 .gal-thumb:hover .gal-caption{transform:translateY(0);opacity:1}
-.gal-caption-label{
-  font-size:.65rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--red);margin-bottom:4px
-}
+.gal-caption-label{display:none}
 .gal-caption-name{
-  font-family:var(--serif);font-size:1rem;
-  color:#fff;font-style:italic
+  font-family:var(--serif);font-size:1.05rem;
+  color:rgba(255,255,255,.9);font-style:italic
 }
 .gallery-drag-hint{
   text-align:center;margin-top:20px;
@@ -691,7 +668,6 @@ footer{background:var(--blk);color:rgba(255,255,255,.5);padding:72px 40px 36px}
   <div class="hero-bg"></div>
   <div class="hero-scrim"></div>
   <div class="hero-watermark" aria-hidden="true">115</div>
-  <div class="hero-accent-line" aria-hidden="true"></div>
 
   <div class="hero-content">
     <div class="hero-left">
@@ -767,8 +743,8 @@ footer{background:var(--blk);color:rgba(255,255,255,.5);padding:72px 40px 36px}
 
   <div class="about-grid">
     <div class="about-img-col" data-reveal="scale">
-      <img src="https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb"
-           alt="115 Cafe interior — daytime" loading="lazy"
+      <img src="https://github.com/user-attachments/assets/8c2d8ab3-f0aa-40a7-a23f-7e69f00106ef"
+           alt="115 Cafe interior — stone wall and red sofa" loading="lazy"
            onerror="this.style.opacity='0'" />
     </div>
     <div class="about-text-col">
