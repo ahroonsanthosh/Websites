@@ -28,7 +28,7 @@ export function Contact() {
   });
 
   return (
-    <section id="contact" className="py-28 md:py-40 lg:py-52 bg-[var(--dark-2)] w-full">
+    <section id="contact" className="section-pad bg-[var(--dark-2)] w-full">
       <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
 
         {/* Section header — centered */}

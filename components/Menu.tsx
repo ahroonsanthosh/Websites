@@ -58,7 +58,7 @@ export function Menu() {
   const current = tabs.find(t => t.id === active)!;
 
   return (
-    <section id="menu" className="py-20 md:py-32 lg:py-40 bg-[var(--dark-2)] w-full">
+    <section id="menu" className="section-pad bg-[var(--dark-2)] w-full">
       <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1rem" }}>
 
         {/* Header */}

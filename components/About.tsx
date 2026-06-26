@@ -10,7 +10,7 @@ const item = (delay = 0) => ({
 
 export function About() {
   return (
-    <section id="about" className="py-28 md:py-40 lg:py-52 w-full">
+    <section id="about" className="section-pad w-full">
       <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 1.5rem" }}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">
 
