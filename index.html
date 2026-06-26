@@ -13,14 +13,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --red:   #D0281E;
-      --red-d: #A8201A;
-      --red-l: #f5e9e8;
-      --blk:   #111111;
-      --ink:   #222222;
+      --red:   #E31E24;
+      --red-d: #C01519;
+      --red-l: #fdeaea;
+      --blk:   #1a1a1a;
+      --stone: #2c2c2c;
+      --ink:   #1a1a1a;
       --muted: #6b6b6b;
-      --line:  #e8e8e8;
-      --bg:    #fafaf8;
+      --line:  #e5e5e5;
+      --bg:    #ffffff;
       --white: #ffffff;
       --serif: 'Playfair Display', Georgia, serif;
       --sans:  'Inter', system-ui, sans-serif;
@@ -137,8 +138,8 @@
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
       background:
-        linear-gradient(160deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.3) 60%, rgba(208,40,30,.18) 100%),
-        url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1800&q=80') center/cover no-repeat;
+        linear-gradient(160deg, rgba(20,20,20,.68) 0%, rgba(20,20,20,.35) 55%, rgba(227,30,36,.2) 100%),
+        url('https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1800&q=80') center/cover no-repeat;
       transform: scale(1.05);
       transition: transform 8s var(--ease);
     }
@@ -205,7 +206,7 @@
 
     /* ── About ───────────────────────────────────────────────── */
     #about {
-      background: var(--white);
+      background: var(--bg);
     }
     .about-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
@@ -246,7 +247,7 @@
     .stat-lbl { font-size: .75rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
 
     /* ── Menu ────────────────────────────────────────────────── */
-    #menu { background: var(--bg); }
+    #menu { background: #f7f7f7; }
     .menu-intro { text-align: center; max-width: 520px; margin: 0 auto 56px; }
     .menu-tabs {
       display: flex; justify-content: center; gap: 4px;
@@ -291,7 +292,7 @@
     .menu-note { text-align: center; margin-top: 24px; font-size: .8125rem; color: var(--muted); }
 
     /* ── Gallery ─────────────────────────────────────────────── */
-    #gallery { background: var(--white); }
+    #gallery { background: #fff; }
     .gallery-intro { text-align: center; max-width: 480px; margin: 0 auto 48px; }
     .gallery-grid {
       display: grid;
@@ -527,8 +528,8 @@
     <div class="hero-bg"></div>
     <div class="hero-content">
       <div class="hero-pre">Cork City Centre · Est. on Oliver Plunkett St</div>
-      <h1 class="hero-h1">Where every cup<br><em>tells a story</em></h1>
-      <p class="hero-sub">Specialty coffee, wholesome food, and warm Cork hospitality — right in the heart of the city.</p>
+      <h1 class="hero-h1">Cork's favourite<br><em>spot on the street</em></h1>
+      <p class="hero-sub">Bold red cups. Leather sofas. Floor-to-ceiling windows. Real food, great coffee — right on Oliver Plunkett Street.</p>
       <div class="hero-actions">
         <a href="#menu" class="btn btn-primary">Explore Menu</a>
         <a href="#contact" class="btn btn-outline-white">Find Us</a>
@@ -551,7 +552,7 @@
       <div class="about-grid">
         <div class="about-images reveal">
           <div class="about-img-main">
-            <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=800&q=80" alt="115 Cafe interior" loading="lazy" />
+            <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80" alt="115 Cafe interior" loading="lazy" />
           </div>
           <div class="about-img-accent">
             <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80" alt="Coffee at 115 Cafe" loading="lazy" />
@@ -565,10 +566,10 @@
           <p class="label reveal reveal-delay-1">Our Story</p>
           <h2 class="h2 reveal reveal-delay-2">A neighbourhood cafe <em>with soul</em></h2>
           <p class="body-text reveal reveal-delay-3">
-            Nestled on Cork's beloved Oliver Plunkett Street, 115 Cafe is a place to slow down, savour, and connect. We source quality ingredients, brew exceptional coffee, and serve food that feels like home — whether you're grabbing a quick flat white or settling in for a long lunch.
+            Step inside to find red leather sofas, exposed stone walls, and floor-to-ceiling windows flooding the room with light from Oliver Plunkett Street. 115 is unmistakably Cork — bold, warm, and always buzzing.
           </p>
           <p class="body-text reveal reveal-delay-3">
-            From early risers to evening gatherings, our doors are open for Cork city and everyone passing through it.
+            By day we serve exceptional coffee in our signature red cups alongside fresh food made to order. Come Thursday evening, the lights dim, candles flicker, and the menu extends late into the night.
           </p>
           <div class="about-stats reveal reveal-delay-4">
             <div class="stat-card">
@@ -702,7 +703,7 @@
       </div>
       <div class="gallery-grid reveal">
         <div class="gal-item gal-1">
-          <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=800&q=80" alt="Cafe interior" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80" alt="Cafe interior" loading="lazy" />
           <div class="gal-overlay"></div>
         </div>
         <div class="gal-item gal-2">
@@ -710,15 +711,15 @@
           <div class="gal-overlay"></div>
         </div>
         <div class="gal-item gal-3">
-          <img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80" alt="Food plate" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1586816001966-79b736744398?w=600&q=80" alt="Chocolate cake slice" loading="lazy" />
           <div class="gal-overlay"></div>
         </div>
         <div class="gal-item gal-4">
-          <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=700&q=80" alt="Coffee brewing" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Evening dining" loading="lazy" />
           <div class="gal-overlay"></div>
         </div>
         <div class="gal-item gal-5">
-          <img src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=500&q=80" alt="Pastries" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&q=80" alt="Fresh croissants" loading="lazy" />
           <div class="gal-overlay"></div>
         </div>
         <div class="gal-item gal-6">
@@ -726,11 +727,11 @@
           <div class="gal-overlay"></div>
         </div>
         <div class="gal-item gal-7">
-          <img src="https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=500&q=80" alt="Brunch" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80" alt="Brunch plate" loading="lazy" />
           <div class="gal-overlay"></div>
         </div>
         <div class="gal-item gal-8">
-          <img src="https://images.unsplash.com/photo-1510627489930-0c1b0bfb6785?w=500&q=80" alt="Table setting" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=500&q=80" alt="Cafe candles evening" loading="lazy" />
           <div class="gal-overlay"></div>
         </div>
       </div>
@@ -742,6 +743,35 @@
       </div>
     </div>
   </section>
+
+  <!-- ── Day & Night ──────────────────────────────────────────── -->
+  <section style="background:var(--blk);padding:0;overflow:hidden;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;min-height:480px;" class="daynight-grid">
+      <div style="position:relative;overflow:hidden;">
+        <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=900&q=80"
+             alt="115 Cafe daytime" loading="lazy"
+             style="width:100%;height:100%;object-fit:cover;filter:brightness(0.72);" />
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:48px 40px;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 60%);">
+          <div style="font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px;font-weight:600;">Morning to 9pm</div>
+          <div style="font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);color:#fff;line-height:1.2;">Bright days &amp;<br>great coffee</div>
+          <p style="font-size:.875rem;color:rgba(255,255,255,.65);margin-top:12px;line-height:1.6;max-width:320px;">White walls, red cups, and Oliver Plunkett Street buzzing outside. The perfect Cork morning.</p>
+        </div>
+      </div>
+      <div style="position:relative;overflow:hidden;">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80"
+             alt="115 Cafe evening" loading="lazy"
+             style="width:100%;height:100%;object-fit:cover;filter:brightness(0.55);" />
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:48px 40px;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 60%);">
+          <div style="font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px;font-weight:600;">Thursday until 11:30pm</div>
+          <div style="font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.2rem);color:#fff;line-height:1.2;">Candles, wine &amp;<br>late evenings</div>
+          <p style="font-size:.875rem;color:rgba(255,255,255,.65);margin-top:12px;line-height:1.6;max-width:320px;">The same space, transformed. Boards, wine, cocktails, and the best Thursday night in Cork.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <style>
+    @media(max-width:700px){.daynight-grid{grid-template-columns:1fr!important;min-height:auto!important;}.daynight-grid>div{min-height:300px;}}
+  </style>
 
   <!-- ── Contact ───────────────────────────────────────────────── -->
   <section id="contact" class="section">
