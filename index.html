@@ -383,45 +383,44 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 /* ─────────────────────────────────────────────────────────────
    MENU
 ───────────────────────────────────────────────────────────── */
-#menu{background:#1a1714}
+#menu{background:var(--cream)}
 .menu-top{
   display:flex;justify-content:space-between;align-items:flex-end;
   margin-bottom:60px;flex-wrap:wrap;gap:24px
 }
-.menu-top .display{color:#fff}
+.menu-top .display{color:var(--blk)}
 .menu-tabs{
   display:flex;gap:0;position:relative;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.1);
   padding:4px;border-radius:3px
 }
 .tab-indicator{
   position:absolute;top:4px;bottom:4px;left:4px;
-  background:var(--red);border-radius:2px;pointer-events:none;
+  background:var(--blk);border-radius:2px;pointer-events:none;
   transition:left .38s cubic-bezier(.77,0,.18,1),width .38s cubic-bezier(.77,0,.18,1)
 }
 .tab-btn{
   padding:10px 22px;border-radius:2px;
   font-size:.72rem;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:rgba(255,255,255,.35);
+  text-transform:uppercase;color:rgba(0,0,0,.35);
   transition:color .25s;position:relative;z-index:1
 }
 .tab-btn.active{color:#fff}
-.tab-btn:hover:not(.active){color:rgba(255,255,255,.7)}
+.tab-btn:hover:not(.active){color:rgba(0,0,0,.7)}
 .menu-panel{display:none}
 .menu-panel.active{display:block}
 .menu-list{max-width:860px}
 .menu-cat{
   display:flex;align-items:center;gap:20px;
-  margin:52px 0 8px;color:var(--red);
+  margin:52px 0 8px;color:var(--muted);
   font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase
 }
-.menu-cat::before,.menu-cat::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.14)}
+.menu-cat::before,.menu-cat::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.1)}
 .menu-cat:first-child{margin-top:0}
 .menu-row{
   display:flex;justify-content:space-between;align-items:baseline;
-  gap:24px;padding:20px 0 20px 0;border-bottom:1px solid rgba(255,255,255,.06);
-  position:relative;
-  transition:padding-left .3s var(--ease)
+  gap:24px;padding:20px 0;border-bottom:1px solid rgba(0,0,0,.08);
+  position:relative;transition:padding-left .3s var(--ease)
 }
 .menu-row::before{
   content:'';position:absolute;left:0;top:0;bottom:0;
@@ -429,20 +428,19 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
   transform:scaleY(0);transform-origin:bottom;
   transition:transform .35s var(--ease)
 }
-.menu-row:hover{padding-left:18px}
+.menu-row:hover{padding-left:18px;background:rgba(0,0,0,.02)}
 .menu-row:hover::before{transform:scaleY(1)}
 .menu-row-left{flex:1}
 .menu-row-name{
   font-family:var(--serif);font-size:1.125rem;
-  color:#ffffff;font-weight:400;margin-bottom:6px
+  color:var(--blk);font-weight:400;margin-bottom:6px
 }
-.menu-row-desc{font-size:.825rem;color:rgba(255,255,255,.55);font-style:italic;line-height:1.6}
+.menu-row-desc{font-size:.825rem;color:var(--muted);font-style:italic;line-height:1.6}
 .menu-row-price{
   font-family:var(--serif);font-size:1.0625rem;
   color:var(--red);white-space:nowrap;flex-shrink:0;font-style:italic
 }
-.menu-row:hover{background:rgba(255,255,255,.03)}
-.menu-note{text-align:center;margin-top:40px;font-size:.78rem;color:rgba(255,255,255,.2);letter-spacing:.02em}
+.menu-note{text-align:center;margin-top:40px;font-size:.78rem;color:var(--faint);letter-spacing:.02em}
 
 /* ─────────────────────────────────────────────────────────────
    GALLERY
@@ -800,7 +798,7 @@ footer{background:var(--blk);color:rgba(255,255,255,.5);padding:72px 40px 36px}
   <div class="container">
     <div class="menu-top">
       <div>
-        <p class="eyebrow" style="color:rgba(255,255,255,.35)" data-reveal="up">What we serve</p>
+        <p class="eyebrow" data-reveal="up">What we serve</p>
         <h2 class="display" data-reveal="up" data-delay="2">Good food,<br><em>done right</em></h2>
       </div>
       <div class="menu-tabs" role="tablist">
