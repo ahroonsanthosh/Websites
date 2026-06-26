@@ -54,6 +54,22 @@ The business owner can only edit content — never code, config, styling or anim
 Each editable section has its own content model, editor page, validation and
 rendering logic — so the CMS can be reused for future restaurant sites.
 
+## Deploying to Vercel (with persistent CMS)
+
+The CMS writes content and images. Vercel's runtime filesystem is read-only, so
+to persist edits in production the app uses **Vercel Blob** when a token is
+present (and the local filesystem otherwise — no code change needed).
+
+1. Import the repo at [vercel.com/new](https://vercel.com/new).
+2. In the project, create a **Blob** store (Storage tab) and connect it — this
+   sets `BLOB_READ_WRITE_TOKEN` automatically.
+3. Add env vars: `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `JWT_SECRET`.
+4. Deploy.
+
+`src/lib/storage.ts` is the single switch point: filesystem locally, Blob in
+production. Reads always fall back to the bundled seed JSON, so a fresh deploy
+shows default content until the owner makes their first edit.
+
 ## Image handling
 
 All imagery goes through `HansumImage`, which renders an optimised `next/image`

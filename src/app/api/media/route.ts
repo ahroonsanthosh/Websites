@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
-import { writeFile, unlink } from "fs/promises";
-import path from "path";
+import { saveMedia, deleteMedia } from "@/lib/storage";
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "hansum-jwt-secret-key-change-in-production"
@@ -51,13 +50,11 @@ export async function POST(request: NextRequest) {
 
     const ext = file.name.split(".").pop() || "jpg";
     const safeName = `${Date.now()}-${sanitizeFilename(file.name.replace(`.${ext}`, ""))}.${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    const filePath = path.join(uploadDir, safeName);
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    await writeFile(filePath, buffer);
+    const url = await saveMedia(safeName, buffer, file.type);
 
-    return NextResponse.json({ url: `/uploads/${safeName}`, filename: safeName });
+    return NextResponse.json({ url, filename: safeName });
   } catch {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
@@ -73,11 +70,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Invalid filename" }, { status: 400 });
     }
 
-    // Prevent path traversal
-    const safe = path.basename(filename);
-    const filePath = path.join(process.cwd(), "public", "uploads", safe);
-
-    await unlink(filePath);
+    // deleteMedia handles both Blob URLs and local paths, and guards traversal.
+    await deleteMedia(filename);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Delete failed" }, { status: 500 });

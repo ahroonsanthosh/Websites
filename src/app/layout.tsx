@@ -3,7 +3,7 @@ import "./globals.css";
 import { getSeoContent } from "@/lib/content";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = getSeoContent();
+  const seo = await getSeoContent();
   return {
     title: seo.title,
     description: seo.description,

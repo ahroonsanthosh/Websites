@@ -33,7 +33,7 @@ export async function GET(
   if (!authed) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const data = readContent(section);
+    const data = await readContent(section);
     return NextResponse.json(data);
   } catch {
     return NextResponse.json({ error: "Failed to read content" }, { status: 500 });
@@ -55,7 +55,7 @@ export async function PUT(
 
   try {
     const body = await request.json();
-    writeContent(section, body);
+    await writeContent(section, body);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Failed to save content" }, { status: 500 });

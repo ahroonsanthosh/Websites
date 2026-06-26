@@ -1,17 +1,11 @@
-import fs from "fs";
-import path from "path";
+import { readJSON, writeJSON } from "./storage";
 
-const contentDir = path.join(process.cwd(), "content");
-
-export function readContent<T>(filename: string): T {
-  const filePath = path.join(contentDir, `${filename}.json`);
-  const raw = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(raw) as T;
+export function readContent<T>(filename: string): Promise<T> {
+  return readJSON<T>(filename);
 }
 
-export function writeContent(filename: string, data: unknown): void {
-  const filePath = path.join(contentDir, `${filename}.json`);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+export function writeContent(filename: string, data: unknown): Promise<void> {
+  return writeJSON(filename, data);
 }
 
 export function getHeroContent() {

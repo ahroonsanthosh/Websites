@@ -64,8 +64,7 @@ export default function AdminGalleryPage() {
   const remove = async (img: GalleryImage) => {
     if (!confirm("Delete this image?")) return;
     setImages((prev) => prev.filter((i) => i.id !== img.id));
-    const filename = img.src.split("/").pop();
-    if (filename) await fetch("/api/media", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ filename }) });
+    if (img.src) await fetch("/api/media", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ filename: img.src }) });
   };
 
   const updateAlt = (id: string, alt: string) => {
@@ -119,7 +118,7 @@ export default function AdminGalleryPage() {
           {images.map((img) => (
             <div key={img.id} className="bg-[#141414] border border-white/5 rounded-2xl overflow-hidden">
               <div className="aspect-square bg-white/5 relative">
-                {img.src.startsWith("/uploads/") ? (
+                {img.src ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
                 ) : (
