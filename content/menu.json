@@ -1,0 +1,93 @@
+{
+  "categories": ["Mains", "Chicken", "Salad", "Sides"],
+  "items": [
+    {
+      "id": "1",
+      "name": "Hansum Ciabatta",
+      "category": "Mains",
+      "description": "Pulled rotisserie chicken, grated cheese, pickled onion, tomato concasse, baby gem, piri piri mayo, melted butter. Available with wedges.",
+      "price": "€12.50",
+      "featured": true,
+      "available": true,
+      "badge": "Fan Favourite",
+      "emoji": "🥪"
+    },
+    {
+      "id": "2",
+      "name": "Hansum Wrap",
+      "category": "Mains",
+      "description": "Pulled rotisserie chicken, signature toppings, piri piri mayo. Packed tight and full of flavour. Available with wedges.",
+      "price": "€11.50",
+      "featured": true,
+      "available": true,
+      "badge": "Popular",
+      "emoji": "🌯"
+    },
+    {
+      "id": "3",
+      "name": "Whole Chicken",
+      "category": "Chicken",
+      "description": "Our signature slow-roasted whole rotisserie chicken. Served with potato wedges. Meal deal available.",
+      "price": "€18.00",
+      "featured": false,
+      "available": true,
+      "badge": "",
+      "emoji": "🍗"
+    },
+    {
+      "id": "4",
+      "name": "Half Chicken",
+      "category": "Chicken",
+      "description": "Half of our signature slow-roasted rotisserie chicken. Served individually. Meal deal available with wedges.",
+      "price": "€11.00",
+      "featured": false,
+      "available": true,
+      "badge": "",
+      "emoji": "🍖"
+    },
+    {
+      "id": "5",
+      "name": "Hansum Salad",
+      "category": "Salad",
+      "description": "Rotisserie chicken, baby gem, semi sun-dried tomatoes, pickled onions, herby croutons, parmesan, smoked garlic dressing.",
+      "price": "€13.00",
+      "featured": true,
+      "available": true,
+      "badge": "Fresh",
+      "emoji": "🥗"
+    },
+    {
+      "id": "6",
+      "name": "Hansum Wings",
+      "category": "Sides",
+      "description": "Crispy rotisserie wings with our signature seasoning. The perfect side or starter.",
+      "price": "€7.50",
+      "featured": false,
+      "available": true,
+      "badge": "",
+      "emoji": "🔥"
+    },
+    {
+      "id": "7",
+      "name": "Messy Wedges",
+      "category": "Sides",
+      "description": "Golden potato wedges loaded with cheese, piri piri mayo and seasoning. Properly messy.",
+      "price": "€5.50",
+      "featured": false,
+      "available": true,
+      "badge": "",
+      "emoji": "🍟"
+    },
+    {
+      "id": "8",
+      "name": "Kids Chicken Box",
+      "category": "Sides",
+      "description": "A little box of rotisserie chicken with wedges for the little ones.",
+      "price": "€6.50",
+      "featured": false,
+      "available": true,
+      "badge": "For Kids",
+      "emoji": "📦"
+    }
+  ]
+}
