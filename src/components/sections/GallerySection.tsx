@@ -31,8 +31,6 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
   // Always render six tiles; fill empties with branded placeholders.
   const tiles = Array.from({ length: Math.max(6, sorted.length) }, (_, i) => sorted[i]);
 
-  const marqueeText = "ROTISSERIE • CORK • MARINA MARKET • @HANSUMCORK • FRESH DAILY • ";
-
   return (
     <section className="relative py-32 bg-[#FFF8F0] overflow-hidden" id="gallery">
       <div className="max-w-7xl mx-auto px-6 mb-16">
@@ -115,20 +113,6 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
         </div>
       </div>
 
-      {/* Infinite marquee strip */}
-      <div className="mt-20 overflow-hidden border-t border-b border-[#1A1A1A]/10 py-5">
-        <motion.div
-          className="flex whitespace-nowrap gap-0"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        >
-          {[...Array(4)].map((_, i) => (
-            <span key={i} className="font-condensed text-2xl tracking-[0.15em] text-[#1A1A1A]/30 pr-0">
-              {marqueeText}
-            </span>
-          ))}
-        </motion.div>
-      </div>
 
       {/* Lightbox */}
       <AnimatePresence>

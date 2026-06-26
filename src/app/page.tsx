@@ -1,8 +1,7 @@
 import CustomCursor from "@/components/ui/CustomCursor";
+import GlowOrb from "@/components/ui/GlowOrb";
 import Preloader from "@/components/ui/Preloader";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import DraggableStickers from "@/components/ui/DraggableStickers";
-import KineticMarquee from "@/components/ui/KineticMarquee";
 import Navigation from "@/components/Navigation";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroSection from "@/components/sections/HeroSection";
@@ -52,8 +51,8 @@ export default async function HomePage() {
       {/* Custom cursor (desktop only) */}
       <CustomCursor />
 
-      {/* Playful draggable food stickers + hatching eggs */}
-      <DraggableStickers />
+      {/* Warm glow orb that lights the page under the cursor */}
+      <GlowOrb />
 
       {/* Announcement banner */}
       {settings.announcement_active && (
@@ -66,11 +65,9 @@ export default async function HomePage() {
       {/* Sections */}
       <HeroSection content={hero} />
       <WhyHansumSection />
-      <KineticMarquee text="FRESH DAILY · ROTISSERIE COOKED · PIRI PIRI · MARINA MARKET · CORK ·" />
       <MenuSection content={menu} />
       <GallerySection images={gallery.images} />
       <LocationSection content={location} />
-      <KineticMarquee text="CHICKEN WORTH LEAVING HOME FOR · @HANSUMCORK ·" dark />
       <ReviewsSection reviews={reviews.reviews} />
       <CTASection />
       <Footer />

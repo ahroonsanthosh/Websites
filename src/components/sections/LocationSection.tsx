@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { MapPin, Clock, ExternalLink } from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
 
@@ -15,15 +16,105 @@ interface LocationContent {
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
+/** Parse a "12:00 PM" / "8:00 PM" style string into minutes since midnight. */
+function parseTime(t: string): number | null {
+  const m = t.trim().match(/^(\d{1,2}):(\d{2})\s*([AaPp][Mm])$/);
+  if (!m) return null;
+  let h = parseInt(m[1], 10);
+  const min = parseInt(m[2], 10);
+  const pm = m[3].toLowerCase() === "pm";
+  if (h === 12) h = 0;
+  if (pm) h += 12;
+  return h * 60 + min;
+}
+
+interface OpenStatus {
+  open: boolean;
+  message: string;
+}
+
+/** Current weekday + minutes-since-midnight in Cork (Europe/Dublin). */
+function nowInCork(): { weekday: string; minutes: number } {
+  const parts = new Intl.DateTimeFormat("en-IE", {
+    timeZone: "Europe/Dublin",
+    weekday: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(new Date());
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  const weekday = get("weekday");
+  let hour = parseInt(get("hour"), 10);
+  if (hour === 24) hour = 0;
+  const minute = parseInt(get("minute"), 10);
+  return { weekday, minutes: hour * 60 + minute };
+}
+
+function computeStatus(
+  hours: LocationContent["hours"],
+  todayName: string,
+  nowMin: number
+): OpenStatus {
+  const today = hours[todayName];
+
+  if (today && !today.closed) {
+    const o = parseTime(today.open);
+    const c = parseTime(today.close);
+    if (o !== null && c !== null && nowMin >= o && nowMin < c) {
+      return { open: true, message: `Open now · Closes at ${today.close}` };
+    }
+    if (o !== null && nowMin < o) {
+      return { open: false, message: `Closed · Opens today at ${today.open}` };
+    }
+  }
+
+  // Find the next day that's open.
+  const idx = DAYS.indexOf(todayName);
+  for (let i = 1; i <= 7; i++) {
+    const d = DAYS[(idx + i) % 7];
+    const h = hours[d];
+    if (h && !h.closed) {
+      const label = i === 1 ? "tomorrow" : d;
+      return { open: false, message: `Closed · Opens ${label} at ${h.open}` };
+    }
+  }
+  return { open: false, message: "Closed" };
+}
+
 export default function LocationSection({ content }: { content: LocationContent }) {
-  const today = DAYS[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1];
+  // Computed on the client (after mount) in Cork time to avoid SSR/timezone
+  // mismatch — so "Open now" reflects the shop's actual local hours.
+  const [today, setToday] = useState<string | null>(null);
+  const [status, setStatus] = useState<OpenStatus | null>(null);
+
+  useEffect(() => {
+    const tick = () => {
+      const { weekday, minutes } = nowInCork();
+      setToday(weekday);
+      setStatus(computeStatus(content.hours, weekday, minutes));
+    };
+    tick();
+    const id = setInterval(tick, 60_000); // keep fresh across the hour
+    return () => clearInterval(id);
+  }, [content.hours]);
 
   const query = content.map_query || `${content.address_line1}, ${content.address_line2}`;
   // Keyless Google Maps embed — no API key required.
   const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=16&output=embed`;
 
+  // Depth parallax for the map reveal.
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const mapScaleRaw = useTransform(scrollYProgress, [0.1, 0.55], [1.18, 1]);
+  const mapClip = useTransform(scrollYProgress, [0.1, 0.5], [28, 0]);
+  const mapClipPath = useTransform(mapClip, (v) => `inset(${v}% ${v}% ${v}% ${v}% round 24px)`);
+  const mapScale = useSpring(mapScaleRaw, { stiffness: 120, damping: 40, mass: 0.5 });
+
   return (
-    <section className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="location">
+    <section ref={sectionRef} className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="location">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left: text */}
@@ -136,21 +227,27 @@ export default function LocationSection({ content }: { content: LocationContent 
 
             <div className="mt-6 pt-6 border-t border-white/10">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-green-400 font-sans text-sm font-medium">Open Now</span>
-                <span className="text-white/30 font-sans text-sm">· Closes at 8:00 PM</span>
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    !status ? "bg-white/30" : status.open ? "bg-green-400 animate-pulse" : "bg-red-400"
+                  }`}
+                />
+                <span
+                  className={`font-sans text-sm font-medium ${
+                    !status ? "text-white/40" : status.open ? "text-green-400" : "text-red-400"
+                  }`}
+                >
+                  {status ? status.message : "Open daily · 12pm – 8pm"}
+                </span>
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Map placeholder */}
+        {/* Map — depth reveal: scales down + un-clips as you scroll into it */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="mt-16 rounded-3xl overflow-hidden h-72 lg:h-96 relative border border-white/10 group"
+          style={{ scale: mapScale, clipPath: mapClipPath }}
+          className="mt-16 rounded-3xl overflow-hidden h-72 lg:h-96 relative border border-white/10 group will-change-transform"
         >
           {/* Real embedded Google Map (keyless) */}
           <iframe

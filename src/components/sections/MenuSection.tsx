@@ -1,7 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence, useMotionValue, useMotionTemplate } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useMotionTemplate,
+  useScroll,
+  useTransform,
+  useSpring,
+} from "framer-motion";
 
 interface MenuItem {
   id: string;
@@ -31,19 +39,22 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
     mouseY.set(e.clientY - rect.top);
   };
 
+  // Cards assemble from depth (rotateX + translateZ feel) as they enter view,
+  // staggered by column for a built-up, non-generic reveal.
   return (
     <motion.div
       onMouseMove={handleMouseMove}
-      initial={{ opacity: 0, y: 30, scale: 0.97 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 60, rotateX: -18, scale: 0.94 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ type: "spring", stiffness: 90, damping: 18, delay: (index % 3) * 0.08 }}
       whileHover={{
-        y: -6,
-        rotateX: 3,
+        y: -8,
+        rotateX: 4,
         transition: { type: "spring", stiffness: 300, damping: 20 },
       }}
-      className="group glass-dark rounded-2xl p-6 relative overflow-hidden cursor-default"
-      style={{ transformStyle: "preserve-3d" }}
+      className="group glass-dark rounded-2xl p-6 relative overflow-hidden cursor-default will-change-transform"
+      style={{ transformStyle: "preserve-3d", transformPerspective: 1000 }}
     >
       {/* Cursor-following spotlight */}
       <motion.div
@@ -99,18 +110,31 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
 export default function MenuSection({ content }: { content: MenuContent }) {
   const [activeCategory, setActiveCategory] = useState("All");
   const categories = ["All", ...content.categories];
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Scroll-scrubbed giant MENU wordmark.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const menuX = useTransform(scrollYProgress, [0, 1], ["12%", "-12%"]);
+  const menuScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.15, 1, 1.15]);
+  const menuXs = useSpring(menuX, { stiffness: 120, damping: 40, mass: 0.5 });
 
   const filtered = activeCategory === "All"
     ? content.items
     : content.items.filter((i) => i.category === activeCategory);
 
   return (
-    <section className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="menu">
-      {/* Giant background word */}
+    <section ref={sectionRef} className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="menu">
+      {/* Giant background word — scroll-scrubbed layer */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <span className="font-condensed text-[28vw] leading-none text-white/[0.025] select-none">
+        <motion.span
+          style={{ x: menuXs, scale: menuScale }}
+          className="font-condensed text-[28vw] leading-none text-white/[0.03] select-none whitespace-nowrap will-change-transform"
+        >
           MENU
-        </span>
+        </motion.span>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">

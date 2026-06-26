@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import MagneticButton from "@/components/ui/MagneticButton";
 
@@ -50,107 +50,104 @@ function Confetti({ active }: { active: boolean }) {
 
 export default function CTASection() {
   const [confetti, setConfetti] = useState(false);
+  const ref = useRef<HTMLElement>(null);
 
   const triggerConfetti = () => {
     setConfetti(false);
     requestAnimationFrame(() => setConfetti(true));
   };
 
+  // Scroll-scrubbed typography climax.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+  const ss = { stiffness: 130, damping: 40, mass: 0.5 };
+  const bgScale = useSpring(useTransform(scrollYProgress, [0, 1], [0.75, 2.3]), ss);
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.55, 1], [0.03, 0.09, 0.03]);
+  const titleScale = useSpring(useTransform(scrollYProgress, [0, 0.55], [0.82, 1.04]), ss);
+  const titleY = useSpring(useTransform(scrollYProgress, [0, 0.55], [60, 0]), ss);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+  const glowOpacity = useTransform(scrollYProgress, [0.2, 0.7], [0, 1]);
+  const ctaOpacityRaw = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
+  const ctaOpacity = useSpring(ctaOpacityRaw, ss);
+  const ctaY = useSpring(useTransform(scrollYProgress, [0.45, 0.75], [40, 0]), ss);
+
   return (
-    <section className="relative py-40 bg-[#1A1A1A] overflow-hidden" id="order">
-      <Confetti active={confetti} />
+    <section ref={ref} className="relative h-[180vh] bg-[#1A1A1A]" id="order">
+      {/* Pinned climax scene */}
+      <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
+        <Confetti active={confetti} />
 
-      {/* Animated gradient background */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{
-          background: [
-            "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(249,115,22,0.2) 0%, #1A1A1A 70%)",
-            "radial-gradient(ellipse 90% 70% at 50% 50%, rgba(220,38,38,0.15) 0%, #1A1A1A 70%)",
-            "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(249,115,22,0.2) 0%, #1A1A1A 70%)",
-          ],
-        }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Giant background text */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none">
-        <motion.span
-          className="font-condensed text-[30vw] leading-none text-white/[0.03]"
-          animate={{ scale: [1, 1.02, 1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        >
-          EAT
-        </motion.span>
-      </div>
-
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        {/* Static base + scroll-driven warm glow (opacity only) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 50% at 50% 55%, rgba(249,115,22,0.12) 0%, #1A1A1A 70%)",
+          }}
+        />
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-sans tracking-widest uppercase mb-10"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-          Open Daily · 12pm–8pm
-        </motion.div>
+          className="absolute inset-0"
+          style={{
+            opacity: glowOpacity,
+            background:
+              "radial-gradient(ellipse 90% 70% at 50% 60%, rgba(220,38,38,0.25) 0%, rgba(249,115,22,0) 60%)",
+          }}
+        />
 
-        <div className="overflow-hidden mb-4">
-          <motion.h2
-            initial={{ y: "110%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-[clamp(3.5rem,10vw,9rem)] font-black text-white leading-none"
+        {/* Giant scroll-scrubbed background word */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none">
+          <motion.span
+            style={{ scale: bgScale, opacity: bgOpacity }}
+            className="font-condensed text-[30vw] leading-none text-white will-change-transform"
           >
+            EAT
+          </motion.span>
+        </div>
+
+        {/* Foreground climax */}
+        <motion.div
+          style={{ scale: titleScale, y: titleY, opacity: titleOpacity }}
+          className="relative z-10 max-w-5xl mx-auto px-6 text-center will-change-transform"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-sans tracking-widest uppercase mb-10">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+            Open Daily · 12pm–8pm
+          </div>
+
+          <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-black text-white leading-none mb-2">
             Ready to
-          </motion.h2>
-        </div>
-        <div className="overflow-hidden mb-12">
-          <motion.h2
-            initial={{ y: "110%" }}
-            whileInView={{ y: "0%" }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-[clamp(3.5rem,10vw,9rem)] font-black italic text-orange-500 leading-none"
-          >
+          </h2>
+          <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-black italic text-orange-500 leading-none mb-10">
             Eat?
-          </motion.h2>
-        </div>
+          </h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="font-sans text-white/50 text-lg mb-12 max-w-md mx-auto"
-        >
-          Find us inside Marina Market, Cork City. Open every day, noon to eight.
-        </motion.p>
+          <p className="font-sans text-white/50 text-lg mb-12 max-w-md mx-auto">
+            Find us inside Marina Market, Cork City. Open every day, noon to eight.
+          </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-wrap items-center justify-center gap-4"
-        >
-          <MagneticButton
-            href="#menu"
-            variant="primary"
-            className="text-base px-10 py-5"
-            onClick={triggerConfetti}
+          <motion.div
+            style={{ opacity: ctaOpacity, y: ctaY }}
+            className="flex flex-wrap items-center justify-center gap-4"
           >
-            View Full Menu 🍗
-          </MagneticButton>
-          <MagneticButton
-            href="https://www.instagram.com/hansumcork"
-            variant="ghost"
-            className="text-base px-10 py-5 border-white/30 text-white hover:bg-white hover:text-charcoal gap-2"
-          >
-            <InstagramIcon className="w-4 h-4" />
-            Follow Us
-          </MagneticButton>
+            <MagneticButton
+              href="#menu"
+              variant="primary"
+              className="text-base px-10 py-5"
+              onClick={triggerConfetti}
+            >
+              View Full Menu 🍗
+            </MagneticButton>
+            <MagneticButton
+              href="https://www.instagram.com/hansumcork"
+              variant="ghost"
+              className="text-base px-10 py-5 border-white/30 text-white hover:bg-white hover:text-charcoal gap-2"
+            >
+              <InstagramIcon className="w-4 h-4" />
+              Follow Us
+            </MagneticButton>
+          </motion.div>
         </motion.div>
       </div>
     </section>
