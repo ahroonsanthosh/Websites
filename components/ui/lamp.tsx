@@ -55,11 +55,19 @@ export const LampContainer = ({
           className="absolute inset-auto z-30 h-36 -translate-y-16 rounded-full bg-[#F4A61D] opacity-60 blur-2xl"
         />
         {/* Horizontal light bar */}
+        {/* Light bar glow halo */}
         <motion.div
           initial={{ width: "8rem", opacity: 0 }}
           whileInView={{ width: "26rem", opacity: 1 }}
           transition={{ delay: 0.2, duration: 1, ease: "easeInOut" }}
-          className="absolute left-1/2 -translate-x-1/2 top-0 z-50 h-[2px] bg-gradient-to-r from-transparent via-[#F4A61D] to-transparent"
+          className="absolute left-1/2 -translate-x-1/2 top-0 z-50 h-6 rounded-full bg-[#F4A61D] opacity-40 blur-md"
+        />
+        {/* Light bar core */}
+        <motion.div
+          initial={{ width: "8rem", opacity: 0 }}
+          whileInView={{ width: "26rem", opacity: 1 }}
+          transition={{ delay: 0.2, duration: 1, ease: "easeInOut" }}
+          className="absolute left-1/2 -translate-x-1/2 top-0 z-50 h-1 bg-gradient-to-r from-transparent via-[#FFF0C0] to-transparent"
         />
         {/* Cover strip — hides beam artifacts above */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-[#1A0C05] z-40" />
