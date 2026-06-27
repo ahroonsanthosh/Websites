@@ -304,7 +304,7 @@ export default function MenuSection({ content }: { content: MenuContent }) {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="font-display text-[clamp(3rem,7vw,6.5rem)] font-black text-white leading-none"
+            className="font-display text-[clamp(2rem,7vw,6.5rem)] font-black text-white leading-none"
           >
             <BouncingHeading text="The Menu." />
           </motion.h2>
