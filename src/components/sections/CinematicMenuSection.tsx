@@ -33,8 +33,8 @@ interface MenuContent {
 /* ─────────────────────────────────────────────────────────────────
    CONSTANTS
 ───────────────────────────────────────────────────────────────── */
-// 300vh — items start at 35% (105vh in), 6 items × ~32vh each
-const SCROLL_HEIGHT = 300;
+// 420vh — items start at 30% (126vh in), 6 items × ~49vh each
+const SCROLL_HEIGHT = 420;
 
 // Items shown one by one in the cinematic sequence
 const FEATURED = [0, 1, 4, 2, 5, 6]; // Ciabatta, Wrap, Salad, Whole Chicken, Wings, Wedges
@@ -92,29 +92,29 @@ const chickenFrag = /* glsl */`
     col *= mix(1., .42, grill*clamp(uCaramel*2.,0.,1.));
 
     vec3 N = normalize(vNormal);
-    // Firelight — limited to avoid blinding
+    // Firelight — deep orange, never blows white
     float flicker = .84 + .16*sin(uTime*7.3)*sin(uTime*3.1+.9);
     vec3 L1 = normalize(vec3(-2.,-1.5,1.5) - vWorldPos);
     float d1 = max(dot(N,L1),0.) / (1.+length(vec3(-2.,-1.5,1.5)-vWorldPos)*.28);
-    vec3 fire = vec3(1.,.42,.08)*d1*uFire*flicker*2.2;
+    // Colour clamped to deep orange — green channel kept low so it can't blend to white
+    vec3 fire = vec3(.98,.32,.04)*d1*uFire*flicker*1.1;
 
     vec3 L2 = normalize(vec3(2.,.5,.8) - vWorldPos);
     float d2 = max(dot(N,L2),0.) / (1.+length(vec3(2.,.5,.8)-vWorldPos)*.4);
-    vec3 fill = vec3(.9,.28,.05)*d2*uFire*1.1;
+    vec3 fill = vec3(.82,.22,.03)*d2*uFire*.55;
 
-    // SSS edge glow
+    // SSS edge glow — orange fringe only
     float sss = pow(max(0.,1.-abs(dot(N,vec3(0.,0.,1.)))),2.8);
-    vec3 sssCol = vec3(.85,.35,.08)*sss*uFire*.45;
+    vec3 sssCol = vec3(.90,.30,.05)*sss*uFire*.28;
 
-    // Specular moisture
+    // Specular — tinted orange-amber, not white
     vec3 V = normalize(vec3(0.,0.,3.)-vWorldPos);
     vec3 H = normalize(L1+V);
-    float spec = pow(max(dot(N,H),0.),52.)*.45*flicker;
-    // Fat gloss patches
-    float gloss = smoothstep(.62,.88,noise(vWorldPos*6.+vec3(0.,uTime*.04,0.)))*(.35*flicker);
+    float spec = pow(max(dot(N,H),0.),64.)*.28*flicker;
+    float gloss = smoothstep(.62,.88,noise(vWorldPos*6.+vec3(0.,uTime*.04,0.)))*(.2*flicker);
 
-    vec3 ambient = vec3(.055,.025,.008)*2.8;
-    vec3 final = col*(ambient+fire+fill) + sssCol + vec3(1.,.85,.5)*(spec+gloss);
+    vec3 ambient = vec3(.048,.018,.004)*2.5;
+    vec3 final = col*(ambient+fire+fill) + sssCol + vec3(.95,.55,.12)*(spec+gloss);
 
     // Filmic tone-map
     final = final/(final+.75);
@@ -403,17 +403,18 @@ function FireLights({ intensity }: { intensity: number }) {
     const f1 = .80 + .20 * Math.sin(t * 7.1) * Math.sin(t * 3.3 + 1.1);
     const f2 = .84 + .16 * Math.sin(t * 5.7 + .8) * Math.sin(t * 2.9);
     const f3 = .72 + .28 * Math.sin(t * 11.3 + 2.1) * Math.sin(t * 4.1);
-    // Max raw intensity ≈ 1.6 — warm glow, not blinding
-    if (l1.current) { l1.current.intensity = intensity * f1 * 1.6; l1.current.position.x = -2 + Math.sin(t*2.1)*.25; }
-    if (l2.current) l2.current.intensity = intensity * f2 * 0.9;
-    if (l3.current) l3.current.intensity = intensity * f3 * 0.6;
+    // Max raw intensity ≈ 0.9 — orange glow only, never bleaches to white
+    if (l1.current) { l1.current.intensity = intensity * f1 * 0.9; l1.current.position.x = -2 + Math.sin(t*2.1)*.25; }
+    if (l2.current) l2.current.intensity = intensity * f2 * 0.5;
+    if (l3.current) l3.current.intensity = intensity * f3 * 0.35;
   });
   return (
     <>
-      <pointLight ref={l1} position={[-2,-1.5,1.5]} color={0xf97316} distance={14} decay={2}
+      {/* Deep orange — high saturation so even at bright flickers it stays orange */}
+      <pointLight ref={l1} position={[-2,-1.5,1.5]} color={0xe85a00} distance={14} decay={2}
         castShadow shadow-mapSize={[512,512]} shadow-bias={-.001} />
-      <pointLight ref={l2} position={[2.2,.3,.8]}   color={0xdc2626} distance={10} decay={2} />
-      <pointLight ref={l3} position={[0,2.2,-2.8]}  color={0xfbbf24} distance={9}  decay={2} />
+      <pointLight ref={l2} position={[2.2,.3,.8]}   color={0xc43a00} distance={10} decay={2} />
+      <pointLight ref={l3} position={[0,2.2,-2.8]}  color={0xd96800} distance={9}  decay={2} />
     </>
   );
 }
@@ -526,12 +527,12 @@ function Scene({ progress }: { progress: number }) {
 type Phase = "intro" | "reveal" | "closeup" | "scatter" | "items";
 
 // ITEM_START must match Scene's assemble/scatter thresholds below
-const ITEM_START = 0.35;
+const ITEM_START = 0.30;
 
 function phase(p: number): Phase {
-  if (p < .10) return "intro";
-  if (p < .22) return "reveal";
-  if (p < .30) return "closeup";
+  if (p < .08) return "intro";
+  if (p < .18) return "reveal";
+  if (p < .24) return "closeup";
   if (p < ITEM_START) return "scatter";
   return "items";
 }
@@ -846,7 +847,7 @@ export default function CinematicMenuSection({ content }: { content: MenuContent
                 alpha: false,
                 powerPreference: "high-performance",
                 toneMapping: THREE.ACESFilmicToneMapping,
-                toneMappingExposure: 0.9,
+                toneMappingExposure: 0.72,
               }}
               shadows={{ type: THREE.PCFSoftShadowMap }}
               camera={{ position: [0, .4, 8.5], fov: 54, near: .1, far: 60 }}
