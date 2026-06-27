@@ -55,3 +55,19 @@ body::after {
 
 .font-display { font-family: var(--font-playfair), serif; }
 .font-accent  { font-family: var(--font-oswald), sans-serif; }
+
+/* Utility: hide scrollbar while keeping scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure minimum tap target size on interactive elements */
+@media (max-width: 768px) {
+  nav a, nav button {
+    min-height: 44px;
+  }
+}

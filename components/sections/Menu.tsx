@@ -48,7 +48,7 @@ export default function Menu() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="menu" ref={ref} className="bg-[#1A0C05] py-24 md:py-36 overflow-hidden">
+    <section id="menu" ref={ref} className="bg-[#1A0C05] py-16 md:py-36 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 md:px-10">
 
         {/* Header */}
@@ -71,32 +71,34 @@ export default function Menu() {
           </motion.h2>
         </div>
 
-        {/* Category tabs */}
+        {/* Category tabs — horizontal scroll on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="mb-12 -mx-5 md:mx-0"
         >
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActive(cat)}
-              className={`relative px-6 py-2.5 rounded-full font-accent text-[11px] tracking-[0.15em] uppercase transition-all duration-300 ${
-                active === cat
-                  ? "bg-[#E8622A] text-white"
-                  : "bg-[#FDF6EB]/10 text-[#FDF6EB]/60 hover:bg-[#FDF6EB]/20 hover:text-[#FDF6EB]"
-              }`}
-            >
-              {cat}
-              {active === cat && (
-                <motion.div
-                  layoutId="tab-indicator"
-                  className="absolute inset-0 rounded-full bg-[#E8622A] -z-10"
-                />
-              )}
-            </button>
-          ))}
+          <div className="flex overflow-x-auto scrollbar-hide gap-3 px-5 md:px-0 md:justify-center pb-1">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActive(cat)}
+                className={`relative shrink-0 px-6 py-2.5 rounded-full font-accent text-[11px] tracking-[0.15em] uppercase transition-all duration-300 ${
+                  active === cat
+                    ? "bg-[#E8622A] text-white"
+                    : "bg-[#FDF6EB]/10 text-[#FDF6EB]/60 hover:bg-[#FDF6EB]/20 hover:text-[#FDF6EB]"
+                }`}
+              >
+                {cat}
+                {active === cat && (
+                  <motion.div
+                    layoutId="tab-indicator"
+                    className="absolute inset-0 rounded-full bg-[#E8622A] -z-10"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
         </motion.div>
 
         {/* Menu items */}

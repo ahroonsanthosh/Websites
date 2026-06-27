@@ -237,7 +237,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
                 : { opacity: 0, filter: "blur(8px)" }
             }
             transition={{ duration: 1 }}
-            className="font-display text-4xl md:text-6xl font-bold italic text-[#FDF6EB] leading-tight"
+            className="font-display text-[2rem] sm:text-4xl md:text-6xl font-bold italic text-[#FDF6EB] leading-tight"
           >
             Uncle&apos;s Deli
           </motion.h1>
@@ -263,7 +263,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
           <p className="text-[10px] font-accent tracking-[0.3em] uppercase text-[#E8622A] mb-3">
             Rotisserie · Deli · Cork
           </p>
-          <h2 className="font-display text-3xl md:text-5xl font-bold italic text-[#FDF6EB] tracking-tight mb-4 leading-tight">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold italic text-[#FDF6EB] tracking-tight mb-4 leading-tight">
             Fire-Roasted.<br />
             <span className="text-[#E8622A]">For Real.</span>
           </h2>
@@ -279,7 +279,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
           animate={showCTA ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 0.6 }}
           onClick={onScrollPast}
-          className="absolute bottom-8 z-20 flex flex-col items-center gap-2 cursor-pointer pointer-events-auto group"
+          className="absolute bottom-6 z-20 flex flex-col items-center gap-1 cursor-pointer pointer-events-auto group p-3 min-h-[56px] min-w-[56px] justify-center"
         >
           <span className="text-[9px] font-accent tracking-[0.3em] uppercase text-[#E8622A]">
             Explore
@@ -287,7 +287,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-            className="w-5 h-5 border-b-2 border-r-2 border-[#E8622A] rotate-45 group-hover:border-[#F4A61D] transition-colors"
+            className="w-4 h-4 border-b-2 border-r-2 border-[#E8622A] rotate-45 group-hover:border-[#F4A61D] transition-colors mt-1"
           />
         </motion.button>
 

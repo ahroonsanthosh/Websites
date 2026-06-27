@@ -4,14 +4,14 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const photos = [
-  { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=85", alt: "Roasted chicken platter", span: "col-span-1 row-span-2" },
-  { src: "https://images.unsplash.com/photo-1562802378-063ec186a863?w=600&q=85", alt: "Fried chicken", span: "col-span-1 row-span-1" },
-  { src: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=85", alt: "Grilled meat", span: "col-span-1 row-span-1" },
-  { src: "https://images.unsplash.com/photo-1544025162-d76538b2a681?w=800&q=85", alt: "Rotisserie ribs", span: "col-span-1 row-span-2" },
-  { src: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=85", alt: "Deli food spread", span: "col-span-1 row-span-1" },
-  { src: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=85", alt: "Food bowl", span: "col-span-1 row-span-1" },
-  { src: "https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=600&q=85", alt: "Sandwich", span: "col-span-1 row-span-1" },
-  { src: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=85", alt: "Salad bowl", span: "col-span-1 row-span-1" },
+  { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=85", alt: "Roasted chicken platter", span: "col-span-1 md:row-span-2" },
+  { src: "https://images.unsplash.com/photo-1562802378-063ec186a863?w=600&q=85", alt: "Fried chicken", span: "col-span-1" },
+  { src: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=85", alt: "Grilled meat", span: "col-span-1" },
+  { src: "https://images.unsplash.com/photo-1544025162-d76538b2a681?w=800&q=85", alt: "Rotisserie ribs", span: "col-span-1 md:row-span-2" },
+  { src: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=85", alt: "Deli food spread", span: "col-span-1" },
+  { src: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=85", alt: "Food bowl", span: "col-span-1" },
+  { src: "https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=600&q=85", alt: "Sandwich", span: "col-span-1" },
+  { src: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=85", alt: "Salad bowl", span: "col-span-1" },
 ];
 
 export default function Gallery() {
@@ -19,7 +19,7 @@ export default function Gallery() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="gallery" ref={ref} className="bg-[#FDF6EB] py-24 md:py-36 overflow-hidden">
+    <section id="gallery" ref={ref} className="bg-[#FDF6EB] py-16 md:py-36 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 md:px-10">
 
         {/* Header */}
@@ -60,7 +60,7 @@ export default function Gallery() {
         </div>
 
         {/* Masonry Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" style={{ gridAutoRows: "180px" }}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4" style={{ gridAutoRows: "clamp(140px, 20vw, 200px)" }}>
           {photos.map((photo, i) => (
             <motion.div
               key={i}

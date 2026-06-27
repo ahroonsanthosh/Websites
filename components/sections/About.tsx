@@ -14,12 +14,12 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" ref={ref} className="bg-[#FDF6EB] py-24 md:py-36 overflow-hidden">
+    <section id="about" ref={ref} className="bg-[#FDF6EB] py-16 md:py-36 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 md:px-10">
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
 
           {/* Left — image stack */}
-          <div className="relative h-[420px] md:h-[540px]">
+          <div className="relative h-[300px] sm:h-[380px] md:h-[540px]">
             <motion.div
               initial={{ opacity: 0, x: -40, rotate: -3 }}
               animate={inView ? { opacity: 1, x: 0, rotate: -3 } : {}}
@@ -76,7 +76,7 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-display italic text-4xl md:text-5xl font-bold text-[#1A0C05] leading-tight mb-6"
+              className="font-display italic text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A0C05] leading-tight mb-6"
             >
               Born in the heart of{" "}
               <span className="text-[#E8622A]">Cork.</span>

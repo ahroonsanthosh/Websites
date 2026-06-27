@@ -20,7 +20,7 @@ export default function Location() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="location" ref={ref} className="bg-[#1A0C05] py-24 md:py-36 overflow-hidden">
+    <section id="location" ref={ref} className="bg-[#1A0C05] py-16 md:py-36 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 md:px-10">
 
         <div className="text-center mb-14">
@@ -42,14 +42,14 @@ export default function Location() {
           </motion.h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-start">
 
           {/* Map */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="rounded-2xl overflow-hidden border border-[#FDF6EB]/10 h-[320px] md:h-[440px] relative"
+            className="rounded-2xl overflow-hidden border border-[#FDF6EB]/10 h-[260px] sm:h-[320px] md:h-[440px] relative"
           >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2461.5684834786!2d-8.477064!3d51.898214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x484490bce1ba6eef%3A0x75e90e2d2cd50f51!2sThe%20English%20Market!5e0!3m2!1sen!2sie!4v1700000000000!5m2!1sen!2sie"
