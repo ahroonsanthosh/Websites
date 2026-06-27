@@ -8,8 +8,6 @@ interface HansumImageProps {
   alt: string;
   /** Tailwind gradient classes used for the branded placeholder fallback. */
   gradient?: string;
-  /** Emoji shown on the placeholder when no real image is available. */
-  emoji?: string;
   /** Caption shown on the placeholder. */
   label?: string;
   className?: string;
@@ -29,7 +27,6 @@ export default function HansumImage({
   src,
   alt,
   gradient = "from-orange-900/80 to-red-900/80",
-  emoji = "🍗",
   label,
   className = "",
   sizes = "(max-width: 768px) 50vw, 33vw",
@@ -59,9 +56,6 @@ export default function HansumImage({
       aria-label={alt}
       className={`absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br ${gradient} ${className}`}
     >
-      <span className="text-6xl mb-3" aria-hidden="true">
-        {emoji}
-      </span>
       {label && (
         <span className="font-sans text-white/70 text-sm tracking-wide">{label}</span>
       )}

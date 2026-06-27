@@ -44,15 +44,6 @@ export default function Preloader() {
           exit={{ y: "-100%" }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
         >
-          {/* Rotating chicken */}
-          <motion.div
-            className="text-6xl mb-6"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-          >
-            🍗
-          </motion.div>
-
           {/* Logo reveal */}
           <div className="overflow-hidden">
             <motion.h1

@@ -15,8 +15,6 @@ const PLACEHOLDER_COLORS = [
   "from-amber-900/80 to-orange-800/80",
 ];
 
-const PLACEHOLDER_EMOJIS = ["🥪", "🍗", "🌯", "🍟", "🥗", "🔥"];
-
 export interface GalleryImage {
   id: string;
   src: string;
@@ -95,7 +93,6 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
                   src={tile?.src}
                   alt={tile?.alt ?? "Hansum rotisserie"}
                   gradient={PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length]}
-                  emoji={PLACEHOLDER_EMOJIS[i % PLACEHOLDER_EMOJIS.length]}
                   sizes="(max-width: 768px) 50vw, 33vw"
                   className="transition-transform duration-500 group-hover:scale-105"
                 />
@@ -136,7 +133,6 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
                 src={tiles[lightboxIndex]?.src}
                 alt={tiles[lightboxIndex]?.alt ?? "Hansum rotisserie"}
                 gradient={PLACEHOLDER_COLORS[lightboxIndex % PLACEHOLDER_COLORS.length]}
-                emoji={PLACEHOLDER_EMOJIS[lightboxIndex % PLACEHOLDER_EMOJIS.length]}
                 sizes="512px"
               />
               <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm font-sans bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">@hansumcork</p>

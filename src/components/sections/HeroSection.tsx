@@ -8,7 +8,6 @@ import {
   useSpring,
   useMotionValue,
   useReducedMotion,
-  type MotionValue,
 } from "framer-motion";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { spring, easeCine } from "@/lib/motion";
@@ -21,71 +20,6 @@ interface HeroContent {
   cta_secondary: string;
   cta_secondary_link: string;
   badge: string;
-}
-
-/** A single depth-layered, cursor-reactive floating ingredient. */
-function FloatingFood({
-  emoji,
-  baseX,
-  baseY,
-  depth,
-  size,
-  mvX,
-  mvY,
-  scrollFloat,
-}: {
-  emoji: string;
-  baseX: number;
-  baseY: number;
-  depth: number; // 0 (far) → 1 (near); near = more parallax/cursor pull
-  size: number;
-  mvX: MotionValue<number>;
-  mvY: MotionValue<number>;
-  scrollFloat: MotionValue<number>;
-}) {
-  // Cursor magnetic field — nearer layers react more strongly.
-  const pull = 80 * depth;
-  const cursorX = useTransform(mvX, [-0.5, 0.5], [-pull, pull]);
-  const cursorY = useTransform(mvY, [-0.5, 0.5], [-pull, pull]);
-  const x = useSpring(cursorX, spring.floaty);
-  const y = useSpring(cursorY, spring.floaty);
-
-  return (
-    // Layer 1 — position + scroll parallax
-    <motion.div
-      className="absolute will-change-transform"
-      style={{
-        left: `${baseX}%`,
-        top: `${baseY}%`,
-        y: scrollFloat,
-        opacity: 0.55 + depth * 0.45,
-        zIndex: Math.round(depth * 10),
-        filter: depth < 0.5 ? "blur(2px)" : "none",
-      }}
-    >
-      {/* Layer 2 — cursor magnetic field (springs) */}
-      <motion.div style={{ x, y }}>
-        {/* Layer 3 — entrance + idle bob */}
-        <motion.span
-          className="block select-none"
-          style={{ fontSize: size }}
-          initial={{ scale: 0, rotate: -30 }}
-          animate={{
-            scale: 1,
-            rotate: [0, depth > 0.6 ? 8 : -6, 0],
-            y: [0, -12 * depth, 0],
-          }}
-          transition={{
-            scale: { ...spring.smooth, delay: 0.4 + (1 - depth) * 0.3 },
-            rotate: { duration: 5 + depth * 3, repeat: Infinity, ease: "easeInOut" },
-            y: { duration: 5 + depth * 3, repeat: Infinity, ease: "easeInOut" },
-          }}
-        >
-          {emoji}
-        </motion.span>
-      </motion.div>
-    </motion.div>
-  );
 }
 
 export default function HeroSection({ content }: { content: HeroContent }) {
@@ -110,7 +44,6 @@ export default function HeroSection({ content }: { content: HeroContent }) {
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.7]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.9], [0.05, 0.16]);
   const sceneOverlay = useTransform(scrollYProgress, [0.45, 0.92], [0, 0.9]);
-  const foodScrollY = useTransform(scrollYProgress, [0, 1], [0, -260]);
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
 
   // Smooth the scroll-linked values with a light spring so scrubbing never
@@ -120,7 +53,6 @@ export default function HeroSection({ content }: { content: HeroContent }) {
   const sHeadlineY = useSpring(headlineY, ss);
   const sHeadlineOpacity = useSpring(headlineOpacity, ss);
   const sBgScale = useSpring(bgScale, ss);
-  const sFoodScrollY = useSpring(foodScrollY, ss);
 
   // Cursor influence field (normalised -0.5..0.5).
   const mvX = useMotionValue(0);
@@ -179,15 +111,6 @@ export default function HeroSection({ content }: { content: HeroContent }) {
             HANSUM
           </span>
         </motion.div>
-
-        {/* MID depth layer — cursor-reactive floating food */}
-        <div className="absolute inset-0 pointer-events-none">
-          <FloatingFood emoji="🍗" baseX={10} baseY={22} depth={1} size={64} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
-          <FloatingFood emoji="🌶️" baseX={84} baseY={26} depth={0.8} size={46} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
-          <FloatingFood emoji="🧀" baseX={16} baseY={70} depth={0.55} size={40} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
-          <FloatingFood emoji="🥗" baseX={80} baseY={68} depth={0.7} size={50} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
-          <FloatingFood emoji="🔥" baseX={50} baseY={14} depth={0.35} size={34} mvX={mvX} mvY={mvY} scrollFloat={sFoodScrollY} />
-        </div>
 
         {/* FOREGROUND — headline & content, with camera tilt */}
         <motion.div

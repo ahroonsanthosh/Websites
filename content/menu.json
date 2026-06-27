@@ -9,8 +9,7 @@
       "price": "€12.50",
       "featured": true,
       "available": true,
-      "badge": "Fan Favourite",
-      "emoji": "🥪"
+      "badge": "Fan Favourite"
     },
     {
       "id": "2",
@@ -20,8 +19,7 @@
       "price": "€11.50",
       "featured": true,
       "available": true,
-      "badge": "Popular",
-      "emoji": "🌯"
+      "badge": "Popular"
     },
     {
       "id": "3",
@@ -31,8 +29,7 @@
       "price": "€18.00",
       "featured": false,
       "available": true,
-      "badge": "",
-      "emoji": "🍗"
+      "badge": ""
     },
     {
       "id": "4",
@@ -42,8 +39,7 @@
       "price": "€11.00",
       "featured": false,
       "available": true,
-      "badge": "",
-      "emoji": "🍖"
+      "badge": ""
     },
     {
       "id": "5",
@@ -53,8 +49,7 @@
       "price": "€13.00",
       "featured": true,
       "available": true,
-      "badge": "Fresh",
-      "emoji": "🥗"
+      "badge": "Fresh"
     },
     {
       "id": "6",
@@ -64,8 +59,7 @@
       "price": "€7.50",
       "featured": false,
       "available": true,
-      "badge": "",
-      "emoji": "🔥"
+      "badge": ""
     },
     {
       "id": "7",
@@ -75,8 +69,7 @@
       "price": "€5.50",
       "featured": false,
       "available": true,
-      "badge": "",
-      "emoji": "🍟"
+      "badge": ""
     },
     {
       "id": "8",
@@ -86,8 +79,7 @@
       "price": "€6.50",
       "featured": false,
       "available": true,
-      "badge": "For Kids",
-      "emoji": "📦"
+      "badge": "For Kids"
     }
   ]
 }

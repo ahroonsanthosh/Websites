@@ -65,14 +65,7 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
       <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
 
       {/* Top row */}
-      <div className="flex items-start justify-between mb-4 relative z-10">
-        <motion.span
-          className="text-4xl inline-block"
-          whileHover={{ scale: 1.25, rotate: -12 }}
-          transition={{ type: "spring", stiffness: 400, damping: 12 }}
-        >
-          {item.emoji}
-        </motion.span>
+      <div className="flex items-start justify-end mb-4 relative z-10">
         <div className="flex flex-col items-end gap-2">
           {item.badge && (
             <span className="text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">

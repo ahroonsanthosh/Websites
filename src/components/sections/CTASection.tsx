@@ -137,7 +137,7 @@ export default function CTASection() {
               className="text-base px-10 py-5"
               onClick={triggerConfetti}
             >
-              View Full Menu 🍗
+              View Full Menu
             </MagneticButton>
             <MagneticButton
               href="https://www.instagram.com/hansumcork"

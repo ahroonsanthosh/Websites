@@ -12,15 +12,12 @@ interface MenuItem {
   featured: boolean;
   available: boolean;
   badge: string;
-  emoji: string;
 }
 
 interface MenuContent {
   categories: string[];
   items: MenuItem[];
 }
-
-const EMOJIS = ["🍗", "🌯", "🥪", "🥗", "🍟", "🔥", "📦", "🍖", "🧀", "🌶️"];
 
 export default function AdminMenuPage() {
   const [data, setData] = useState<MenuContent>({ categories: [], items: [] });
@@ -62,7 +59,6 @@ export default function AdminMenuPage() {
       featured: false,
       available: true,
       badge: "",
-      emoji: "🍗",
     };
     setData({ ...data, items: [...data.items, newItem] });
     setEditing(newItem.id);
@@ -123,7 +119,6 @@ export default function AdminMenuPage() {
               onClick={() => setEditing(editing === item.id ? null : item.id)}
             >
               <GripVertical className="w-4 h-4 text-white/20 flex-shrink-0" />
-              <span className="text-2xl">{item.emoji}</span>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-white font-sans font-medium text-sm">{item.name}</span>
@@ -171,20 +166,6 @@ export default function AdminMenuPage() {
                   >
                     {data.categories.map((c) => <option key={c}>{c}</option>)}
                   </select>
-                </div>
-                <div>
-                  <label className="block text-white/40 text-[10px] uppercase tracking-widest mb-1.5">Emoji</label>
-                  <div className="flex gap-1.5 flex-wrap">
-                    {EMOJIS.map((e) => (
-                      <button
-                        key={e}
-                        onClick={() => updateItem(item.id, { emoji: e })}
-                        className={`text-xl w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${item.emoji === e ? "bg-orange-500/20 border border-orange-500/40" : "bg-white/5 hover:bg-white/10"}`}
-                      >
-                        {e}
-                      </button>
-                    ))}
-                  </div>
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-white/40 text-[10px] uppercase tracking-widest mb-1.5">Description</label>
