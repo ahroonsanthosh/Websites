@@ -66,7 +66,7 @@ function SectionHeader() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="font-display text-[clamp(2rem,6vw,5rem)] font-black text-[#1A1A1A] leading-tight"
+        className="font-display text-[clamp(1.6rem,3.5vw,4rem)] font-black text-[#1A1A1A] leading-tight"
       >
         What Cork is Saying.
       </motion.h2>
