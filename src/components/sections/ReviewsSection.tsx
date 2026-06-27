@@ -128,6 +128,8 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
               </div>
             </motion.article>
             );
+          })}
+
           {/* Tail card — closing flourish */}
           <div className="flex-shrink-0 w-[78vw] sm:w-[50vw] md:w-[380px] flex items-center justify-center pr-6">
             <div className="text-center">
