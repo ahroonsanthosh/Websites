@@ -63,9 +63,9 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
       style={{ height: `${heightVh}vh` }}
     >
       {/* Pinned scene */}
-      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+      <div className="sticky top-0 h-screen flex flex-col justify-start pt-16 md:pt-0 md:justify-center overflow-hidden">
         {/* Header */}
-        <div className="max-w-7xl mx-auto w-full px-6 mb-6 md:mb-14">
+        <div className="max-w-7xl mx-auto w-full px-6 mb-4 md:mb-14">
           <div className="flex items-center gap-3 mb-3 md:mb-5">
             <div className="w-8 h-px" style={{ background: "#00C2FF" }} />
             <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium" style={{ color: "#00C2FF" }}>
