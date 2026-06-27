@@ -180,14 +180,14 @@ export default function HeroSection({ content }: { content: HeroContent }) {
             transition={spring.snappy}
             style={{ pointerEvents: introDone ? "auto" : "none" }}
           >
-            <MagneticButton href={content.cta_primary_link} variant="primary" className="text-base px-10 py-5">
+            <MagneticButton href={content.cta_primary_link} variant="primary" className="text-base px-7 py-4 md:px-10 md:py-5">
               {content.cta_primary}
               <span className="ml-1">→</span>
             </MagneticButton>
             <MagneticButton
               href={content.cta_secondary_link}
               variant="ghost"
-              className="text-base px-10 py-5 border-white/30 text-white hover:bg-white hover:text-charcoal"
+              className="text-base px-7 py-4 md:px-10 md:py-5 border-white/30 text-white hover:bg-white hover:text-charcoal"
             >
               {content.cta_secondary}
             </MagneticButton>

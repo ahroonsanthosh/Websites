@@ -12,6 +12,7 @@ interface MenuItem {
   featured: boolean;
   available: boolean;
   badge: string;
+  image?: string;
 }
 
 interface MenuContent {
@@ -59,6 +60,7 @@ export default function AdminMenuPage() {
       featured: false,
       available: true,
       badge: "",
+      image: "",
     };
     setData({ ...data, items: [...data.items, newItem] });
     setEditing(newItem.id);
@@ -183,6 +185,16 @@ export default function AdminMenuPage() {
                     value={item.badge}
                     placeholder="e.g. Popular, New"
                     onChange={(e) => updateItem(item.id, { badge: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-orange-500/50"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-white/40 text-[10px] uppercase tracking-widest mb-1.5">Image URL</label>
+                  <input
+                    type="text"
+                    value={item.image ?? ""}
+                    placeholder="/uploads/photo-example.png"
+                    onChange={(e) => updateItem(item.id, { image: e.target.value })}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-orange-500/50"
                   />
                 </div>

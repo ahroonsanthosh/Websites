@@ -145,7 +145,7 @@ export default function CTASection() {
             <MagneticButton
               href="#menu"
               variant="primary"
-              className="text-base px-10 py-5"
+              className="text-base px-7 py-4 md:px-10 md:py-5"
               onClick={triggerConfetti}
             >
               View Full Menu
@@ -153,7 +153,7 @@ export default function CTASection() {
             <MagneticButton
               href="https://www.instagram.com/hansumcork"
               variant="ghost"
-              className="text-base px-10 py-5 border-white/30 text-white hover:bg-white hover:text-charcoal gap-2"
+              className="text-base px-7 py-4 md:px-10 md:py-5 border-white/30 text-white hover:bg-white hover:text-charcoal gap-2"
             >
               <InstagramIcon className="w-4 h-4" />
               Follow Us

@@ -259,7 +259,7 @@ export default function LocationSection({ content }: { content: LocationContent 
             style={{ filter: "brightness(0.75) saturate(1.1)" }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
-          <div className="absolute inset-0 flex items-center px-10">
+          <div className="absolute inset-0 flex items-center px-6 md:px-10">
             <div>
               <p className="font-condensed text-white text-[clamp(2rem,5vw,3.5rem)] leading-none">Crafted with care.</p>
               <p className="font-sans text-white/60 text-sm mt-2">Every day. Inside Marina Market.</p>
