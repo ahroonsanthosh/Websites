@@ -24,10 +24,10 @@ export default function Home() {
       </section>
 
       <About />
-      <StoryBanner />
       <Menu />
       <Gallery />
       <Location />
+      <StoryBanner />
       <Footer />
     </main>
   );
