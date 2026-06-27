@@ -101,7 +101,7 @@ export default function About() {
               className="border-l-2 border-[#E8622A]/40 pl-5"
             >
               <p className="font-display italic text-xl md:text-2xl font-bold leading-snug">
-                <GradientText>No shortcuts. No timers. Just fire.</GradientText>
+                <GradientText>{about.pullQuote}</GradientText>
               </p>
             </motion.div>
 

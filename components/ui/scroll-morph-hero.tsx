@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
+import content from "@/lib/content";
 
 export type AnimationPhase = "scatter" | "line" | "circle" | "bottom-strip";
 
@@ -88,6 +89,8 @@ const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * 
 interface Props {
   onScrollPast?: () => void;
 }
+
+const { hero } = content;
 
 export default function ScrollMorphHero({ onScrollPast }: Props) {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
@@ -251,7 +254,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
             transition={{ duration: 0.8 }}
             className="text-[10px] font-accent tracking-[0.35em] uppercase text-[#E8622A] mb-4"
           >
-            The English Market · Cork City
+            {hero.eyebrow}
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
@@ -263,7 +266,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
             transition={{ duration: 1 }}
             className="font-display text-[2rem] sm:text-4xl md:text-6xl font-bold italic text-[#FDF6EB] leading-tight"
           >
-            Uncle&apos;s Deli
+            {hero.heading}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -275,7 +278,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
             transition={{ duration: 1, delay: 0.3 }}
             className="mt-5 text-[10px] font-accent tracking-[0.3em] uppercase text-[#FDF6EB]/50"
           >
-            Scroll to explore
+            {hero.subheading}
           </motion.p>
         </div>
 
@@ -285,15 +288,14 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
           className="absolute top-[8%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
         >
           <p className="text-[10px] font-accent tracking-[0.3em] uppercase text-[#E8622A] mb-3">
-            Rotisserie · Deli · Cork
+            {hero.arcEyebrow}
           </p>
           <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold italic text-[#FDF6EB] tracking-tight mb-4 leading-tight">
-            Fire-Roasted.<br />
-            <span className="text-[#E8622A]">For Real.</span>
+            {hero.arcHeading}<br />
+            <span className="text-[#E8622A]">{hero.arcHeadingAccent}</span>
           </h2>
           <p className="text-sm text-[#FDF6EB]/60 max-w-md leading-relaxed font-light">
-            Hand-seasoned, slow-roasted rotisserie chicken.<br className="hidden md:block" />
-            Find us in the heart of The English Market.
+            {hero.arcBody}
           </p>
         </motion.div>
 

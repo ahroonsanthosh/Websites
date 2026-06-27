@@ -24,12 +24,15 @@ export function AnimatedCounter({ value, className = "", duration = 1800 }: Anim
 
   useEffect(() => {
     if (!inView || !isNumeric) { setDisplay(value); return; }
+    // For large numbers (e.g. years), start near the end so the count is readable
+    const startNum = num >= 1000 ? Math.floor(num * 0.88) : 0;
+    const range = num - startNum;
     const start = Date.now();
     const tick = () => {
       const elapsed = Date.now() - start;
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(eased * num);
+      const current = Math.round(startNum + eased * range);
       setDisplay(`${prefix}${current}${suffix}`);
       if (progress < 1) requestAnimationFrame(tick);
     };

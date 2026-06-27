@@ -15,8 +15,8 @@ const spans = [
   "col-span-1 md:row-span-2",
   "col-span-1",
   "col-span-1",
-  "col-span-2 md:col-span-2",
-  "col-span-2 md:col-span-2",
+  "col-span-1 md:col-span-2",
+  "col-span-1 md:col-span-2",
 ];
 
 function GalleryPhoto({ photo, index, span, inView }: { photo: typeof gallery[number]; index: number; span: string; inView: boolean }) {

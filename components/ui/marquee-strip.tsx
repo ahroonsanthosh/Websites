@@ -1,17 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import content from "@/lib/content";
 
-const items = [
-  "Slow Roasted",
-  "Cork City",
-  "Since 2019",
-  "Open Daily",
-  "Rotisserie",
-  "English Market",
-  "Family Recipe",
-  "Cork's Favourite",
-];
+const items = content.marquee.items;
 
 function MarqueeRow({ reverse = false }: { reverse?: boolean }) {
   const repeated = [...items, ...items];
