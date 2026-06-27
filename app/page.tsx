@@ -3,6 +3,7 @@
 import ScrollMorphHero from "@/components/ui/scroll-morph-hero";
 import Navbar from "@/components/sections/Navbar";
 import About from "@/components/sections/About";
+import StoryBanner from "@/components/sections/StoryBanner";
 import Menu from "@/components/sections/Menu";
 import Gallery from "@/components/sections/Gallery";
 import Location from "@/components/sections/Location";
@@ -23,6 +24,7 @@ export default function Home() {
       </section>
 
       <About />
+      <StoryBanner />
       <Menu />
       <Gallery />
       <Location />
