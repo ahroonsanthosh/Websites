@@ -3,6 +3,7 @@
 import ScrollMorphHero from "@/components/ui/scroll-morph-hero";
 import Navbar from "@/components/sections/Navbar";
 import About from "@/components/sections/About";
+import { MarqueeStrip } from "@/components/ui/marquee-strip";
 import Menu from "@/components/sections/Menu";
 import Gallery from "@/components/sections/Gallery";
 import Location from "@/components/sections/Location";
@@ -22,6 +23,7 @@ export default function Home() {
         <ScrollMorphHero onScrollPast={scrollPastHero} />
       </section>
 
+      <MarqueeStrip />
       <About />
       <Menu />
       <Gallery />
