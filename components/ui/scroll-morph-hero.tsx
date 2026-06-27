@@ -121,13 +121,23 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
     if (!container) return;
 
     const handleWheel = (e: WheelEvent) => {
-      if (hasScrolledPast.current) return;
+      // Re-engage hero when user scrolls up at the very top of the page
+      if (hasScrolledPast.current) {
+        if (window.scrollY === 0 && e.deltaY < 0) {
+          e.preventDefault();
+          hasScrolledPast.current = false;
+          const newScroll = Math.max(MAX_SCROLL + e.deltaY, 0);
+          scrollRef.current = newScroll;
+          virtualScroll.set(newScroll);
+        }
+        return;
+      }
       e.preventDefault();
       const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
       scrollRef.current = newScroll;
       virtualScroll.set(newScroll);
 
-      if (newScroll >= MAX_SCROLL && !hasScrolledPast.current) {
+      if (newScroll >= MAX_SCROLL) {
         hasScrolledPast.current = true;
         setTimeout(() => onScrollPast?.(), 600);
       }
@@ -136,14 +146,26 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
     let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
     const handleTouchMove = (e: TouchEvent) => {
-      if (hasScrolledPast.current) return;
       const deltaY = touchStartY - e.touches[0].clientY;
       touchStartY = e.touches[0].clientY;
+
+      // Re-engage hero when user swipes down (scroll up) at page top
+      if (hasScrolledPast.current) {
+        if (window.scrollY === 0 && deltaY < 0) {
+          e.preventDefault();
+          hasScrolledPast.current = false;
+          const newScroll = Math.max(MAX_SCROLL + deltaY, 0);
+          scrollRef.current = newScroll;
+          virtualScroll.set(newScroll);
+        }
+        return;
+      }
+      e.preventDefault();
       const newScroll = Math.min(Math.max(scrollRef.current + deltaY, 0), MAX_SCROLL);
       scrollRef.current = newScroll;
       virtualScroll.set(newScroll);
 
-      if (newScroll >= MAX_SCROLL && !hasScrolledPast.current) {
+      if (newScroll >= MAX_SCROLL) {
         hasScrolledPast.current = true;
         setTimeout(() => onScrollPast?.(), 600);
       }
