@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { MapPin, Clock, ExternalLink } from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
+import { TextScramble } from "@/components/ui/TextScramble";
 
 interface LocationContent {
   name: string;
@@ -125,9 +126,9 @@ export default function LocationSection({ content }: { content: LocationContent 
               viewport={{ once: true }}
               className="flex items-center gap-3 mb-6"
             >
-              <div className="w-8 h-px" style={{ background: "#00F5C4" }} />
-              <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium" style={{ color: "#00F5C4" }}>
-                Find Us
+              <div className="w-8 h-px bg-orange-500" />
+              <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium text-orange-500">
+                <TextScramble text="Find Us" />
               </span>
             </motion.div>
 
@@ -161,7 +162,7 @@ export default function LocationSection({ content }: { content: LocationContent 
               transition={{ delay: 0.3 }}
               className="flex items-start gap-3 mb-8"
             >
-              <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: "#00F5C4" }} />
+              <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0 text-orange-500" />
               <div>
                 <p className="text-white font-sans font-medium">{content.address_line1}</p>
                 <p className="text-white/50 font-sans text-sm">{content.address_line2}</p>
@@ -209,10 +210,10 @@ export default function LocationSection({ content }: { content: LocationContent 
                       isToday ? "" : "text-white/60"
                     }`}
                   >
-                    <span className="font-sans text-sm font-medium" style={isToday ? { color: "#AAFF00" } : {}}>
+                    <span className="font-sans text-sm font-medium" style={isToday ? { color: "#FF5500" } : {}}>
                       {day}
                       {isToday && (
-                        <span className="ml-2 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-widest" style={{ background: "rgba(170,255,0,0.15)", color: "#AAFF00", border: "1px solid rgba(170,255,0,0.35)" }}>
+                        <span className="ml-2 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-widest" style={{ background: "rgba(255,85,0,0.12)", color: "#FF5500", border: "1px solid rgba(255,85,0,0.3)" }}>
                           Today
                         </span>
                       )}

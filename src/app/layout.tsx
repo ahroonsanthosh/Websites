@@ -14,11 +14,13 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       locale: "en_IE",
       siteName: "Hansum Rotisserie",
+      images: [{ url: "/uploads/photo-hero.png", width: 1200, height: 630, alt: "Hansum Rotisserie — Cork City" }],
     },
     twitter: {
       card: "summary_large_image",
       title: seo.title,
       description: seo.description,
+      images: ["/uploads/photo-hero.png"],
     },
     robots: { index: true, follow: true },
   };

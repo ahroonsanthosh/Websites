@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import HansumImage from "@/components/ui/HansumImage";
+import { TextScramble } from "@/components/ui/TextScramble";
 
 const PLACEHOLDER_COLORS = [
   "from-orange-900/80 to-red-900/80",
@@ -38,9 +39,9 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
           viewport={{ once: true }}
           className="flex items-center gap-3 mb-6"
         >
-          <div className="w-8 h-px" style={{ background: "#FF6BDB" }} />
-          <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium" style={{ color: "#FF6BDB" }}>
-            On the Gram
+          <div className="w-8 h-px bg-orange-500" />
+          <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium text-orange-500">
+            <TextScramble text="On the Gram" />
           </span>
         </motion.div>
 
