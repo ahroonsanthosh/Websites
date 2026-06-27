@@ -33,10 +33,10 @@ interface MenuContent {
 /* ─────────────────────────────────────────────────────────────────
    CONSTANTS
 ───────────────────────────────────────────────────────────────── */
-// 250vh — menu items now appear at 45% in (≈112vh). Reachable.
-const SCROLL_HEIGHT = 250;
+// 300vh — items start at 35% (105vh in), 6 items × ~32vh each
+const SCROLL_HEIGHT = 300;
 
-// Which items to feature in the assembly sequence
+// Items shown one by one in the cinematic sequence
 const FEATURED = [0, 1, 4, 2, 5, 6]; // Ciabatta, Wrap, Salad, Whole Chicken, Wings, Wedges
 
 /* ─────────────────────────────────────────────────────────────────
@@ -403,10 +403,10 @@ function FireLights({ intensity }: { intensity: number }) {
     const f1 = .80 + .20 * Math.sin(t * 7.1) * Math.sin(t * 3.3 + 1.1);
     const f2 = .84 + .16 * Math.sin(t * 5.7 + .8) * Math.sin(t * 2.9);
     const f3 = .72 + .28 * Math.sin(t * 11.3 + 2.1) * Math.sin(t * 4.1);
-    // Max raw intensity ≈ 3.5 — warm, visible, not blinding
-    if (l1.current) { l1.current.intensity = intensity * f1 * 3.2; l1.current.position.x = -2 + Math.sin(t*2.1)*.25; }
-    if (l2.current) l2.current.intensity = intensity * f2 * 1.8;
-    if (l3.current) l3.current.intensity = intensity * f3 * 1.2;
+    // Max raw intensity ≈ 1.6 — warm glow, not blinding
+    if (l1.current) { l1.current.intensity = intensity * f1 * 1.6; l1.current.position.x = -2 + Math.sin(t*2.1)*.25; }
+    if (l2.current) l2.current.intensity = intensity * f2 * 0.9;
+    if (l3.current) l3.current.intensity = intensity * f3 * 0.6;
   });
   return (
     <>
@@ -423,30 +423,30 @@ function FireLights({ intensity }: { intensity: number }) {
 ───────────────────────────────────────────────────────────────── */
 function cam(p: number): { pos: [number,number,number]; look: [number,number,number]; fov: number } {
   const s = (a: number, b: number, t: number) => a + (b - a) * easeInOut(Math.max(0, Math.min(1, t)));
-  if (p < .12) {
-    const t = p / .12;
-    return { pos:[0,.4,8.5-t*2], look:[0,-.3,0], fov:54-t*4 };
+  if (p < .10) {
+    const t = p / .10;
+    return { pos:[0,.4,8.5-t*1.8], look:[0,-.3,0], fov:54-t*4 };
   }
-  if (p < .28) {
-    const t=(p-.12)/.16, e=easeInOut(t);
-    return { pos:[s(0,-.3,e),s(.4,.3,e),s(6.5,3.2,e)], look:[0,0,0], fov:s(50,42,e) };
+  if (p < .22) {
+    const t=(p-.10)/.12, e=easeInOut(t);
+    return { pos:[s(0,-.3,e),s(.4,.3,e),s(6.7,3.0,e)], look:[0,0,0], fov:s(50,42,e) };
   }
-  if (p < .42) {
-    const t=(p-.28)/.14, e=easeInOut(t);
-    return { pos:[s(-.3,.1,e),s(.3,.5,e),s(3.2,2.0,e)], look:[0,.15,0], fov:s(42,50,e) };
+  if (p < .30) {
+    const t=(p-.22)/.08, e=easeInOut(t);
+    return { pos:[s(-.3,.1,e),s(.3,.5,e),s(3.0,2.2,e)], look:[0,.15,0], fov:s(42,48,e) };
   }
-  if (p < .55) {
-    const t=(p-.42)/.13, e=easeInOut(t);
-    return { pos:[s(.1,.6,e),s(.5,.2,e),s(2.0,4.5,e)], look:[0,.3,0], fov:s(50,62,e) };
+  if (p < ITEM_START) {
+    const t=(p-.30)/(ITEM_START-.30), e=easeInOut(t);
+    return { pos:[s(.1,.5,e),s(.5,.2,e),s(2.2,4.2,e)], look:[0,.2,0], fov:s(48,60,e) };
   }
-  // Menu phase 0.55–1.0 — gentle orbit, slight push in per item
-  const t=(p-.55)/.45, e=easeInOut(t);
-  const angle = e * Math.PI * .55;
-  const r = 4.2 - e * .8;
+  // Items phase — slow orbit around scene (0.35–1.0)
+  const t=(p-ITEM_START)/(1-ITEM_START), e=easeInOut(t);
+  const angle = e * Math.PI * .6;
+  const r = 4.0 - e * .7;
   return {
-    pos:[Math.sin(angle)*r, .35+e*.15, Math.cos(angle)*r],
+    pos:[Math.sin(angle)*r, .3+e*.2, Math.cos(angle)*r],
     look:[0,.05,0],
-    fov:s(62,54,e),
+    fov:s(60,52,e),
   };
 }
 
@@ -480,12 +480,12 @@ function Scene({ progress }: { progress: number }) {
   const caramel       = Math.min(1, progress * 3.5);
   const fire          = .35 + progress * .65;
   const steam         = .15 + Math.min(1, progress * 2.2) * .85;
-  // Chicken fades out 0.38→0.50
-  const chickenAlpha  = 1 - Math.max(0, Math.min(1, (progress - .38) / .14));
-  // Ingredients visible from 0.35 onward
-  const orbAlpha      = Math.max(0, Math.min(1, (progress - .35) / .12));
-  const assemble      = Math.max(0, Math.min(1, (progress - .50) / .12));
-  const scatter       = Math.max(0, Math.min(1, (progress - .62) / .07));
+  // Chicken fades out 0.22→0.32
+  const chickenAlpha  = 1 - Math.max(0, Math.min(1, (progress - .22) / .12));
+  // Ingredients visible from 0.28 onward
+  const orbAlpha      = Math.max(0, Math.min(1, (progress - .28) / .10));
+  const assemble      = Math.max(0, Math.min(1, (progress - .32) / .08));
+  const scatter       = Math.max(0, Math.min(1, (progress - .40) / .06));
 
   const floorMat = useMemo(() => new THREE.MeshStandardMaterial({
     color: new THREE.Color(0x180900), roughness: .06, metalness: .75, envMapIntensity: .4,
@@ -521,24 +521,27 @@ function Scene({ progress }: { progress: number }) {
 
 /* ─────────────────────────────────────────────────────────────────
    SCROLL PHASES & OVERLAY
-   Menu items now start at progress 0.55 (≈137vh into a 250vh section)
+   Items start at 35% (105vh into 300vh). Each item ≈ 32vh of scroll.
 ───────────────────────────────────────────────────────────────── */
 type Phase = "intro" | "reveal" | "closeup" | "scatter" | "items";
 
+// ITEM_START must match Scene's assemble/scatter thresholds below
+const ITEM_START = 0.35;
+
 function phase(p: number): Phase {
-  if (p < .12) return "intro";
-  if (p < .30) return "reveal";
-  if (p < .44) return "closeup";
-  if (p < .55) return "scatter";
+  if (p < .10) return "intro";
+  if (p < .22) return "reveal";
+  if (p < .30) return "closeup";
+  if (p < ITEM_START) return "scatter";
   return "items";
 }
 
 function activeItem(p: number, items: MenuItem[]): { item: MenuItem; seqIdx: number; itemT: number } | null {
-  if (p < .55) return null;
-  const span = .45; // 0.55–1.0
-  const perItem = span / FEATURED.length;
-  const seqIdx  = Math.min(FEATURED.length - 1, Math.floor((p - .55) / perItem));
-  const itemStart = .55 + seqIdx * perItem;
+  if (p < ITEM_START) return null;
+  const span    = 1 - ITEM_START;           // 0.65
+  const perItem = span / FEATURED.length;   // ≈0.108 per item = 32vh
+  const seqIdx  = Math.min(FEATURED.length - 1, Math.floor((p - ITEM_START) / perItem));
+  const itemStart = ITEM_START + seqIdx * perItem;
   const itemT     = Math.max(0, Math.min(1, (p - itemStart) / perItem));
   return { item: items[FEATURED[seqIdx]], seqIdx, itemT };
 }
@@ -720,29 +723,82 @@ function Overlay({ progress, items }: { progress: number; items: MenuItem[] }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   REDUCED MOTION FALLBACK
+   MENU CARD GRID — normal cream-background section after cinematic
 ───────────────────────────────────────────────────────────────── */
-function StaticMenu({ items }: { items: MenuItem[] }) {
+function MenuCard({ item, index }: { item: MenuItem; index: number }) {
   return (
-    <section className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="menu">
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: (index % 3) * 0.07 }}
+      className="group relative bg-white rounded-2xl p-6 border border-[#1A1A1A]/06 shadow-sm hover:shadow-md transition-shadow duration-300"
+    >
+      {/* Top row */}
+      <div className="flex items-start justify-between mb-4">
+        <span className="font-sans text-xs text-[#1A1A1A]/30 uppercase tracking-widest">{item.category}</span>
+        {item.badge && (
+          <span className="text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/12 text-orange-600 border border-orange-500/20">
+            {item.badge}
+          </span>
+        )}
+      </div>
+
+      <h3 className="font-display font-bold text-[#1A1A1A] text-xl mb-2 group-hover:text-orange-600 transition-colors duration-200">
+        {item.name}
+      </h3>
+      <p className="font-sans text-[#1A1A1A]/50 text-sm leading-relaxed mb-6">
+        {item.description}
+      </p>
+
+      <div className="flex items-center justify-between">
+        <span className="font-condensed text-2xl text-orange-500 tracking-wide">{item.price}</span>
+        {!item.available && (
+          <span className="text-[10px] font-sans text-[#1A1A1A]/30 uppercase tracking-widest">Unavailable</span>
+        )}
+      </div>
+
+      {/* Hover accent line */}
+      <div className="absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-orange-500/0 via-orange-500/50 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    </motion.div>
+  );
+}
+
+function MenuCardGrid({ items }: { items: MenuItem[] }) {
+  return (
+    <section className="relative bg-[#FFF8F0] py-24 overflow-hidden">
+      {/* Subtle top divider */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-px bg-orange-500" />
-          <span className="text-orange-500 text-xs font-sans tracking-[0.3em] uppercase font-medium">What We Serve</span>
+        {/* Header */}
+        <div className="mb-14">
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex items-center gap-3 mb-5"
+          >
+            <div className="w-8 h-px bg-orange-500" />
+            <span className="text-orange-500 text-xs font-sans tracking-[0.3em] uppercase font-medium">Full Menu</span>
+          </motion.div>
+          <div className="overflow-hidden">
+            <motion.h2
+              initial={{ y: "105%" }}
+              whileInView={{ y: "0%" }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display text-[clamp(2.8rem,6vw,5.5rem)] font-black text-[#1A1A1A] leading-none"
+            >
+              Everything we make.
+            </motion.h2>
+          </div>
         </div>
-        <h2 className="font-display text-[clamp(3rem,7vw,6rem)] font-black text-white leading-none mb-16">The Menu.</h2>
+
+        {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {items.map((item) => (
-            <div key={item.id} className="glass-dark rounded-2xl p-6">
-              {item.badge && (
-                <span className="text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 mb-4 inline-block">
-                  {item.badge}
-                </span>
-              )}
-              <h3 className="font-display font-bold text-white text-xl mb-2">{item.name}</h3>
-              <p className="font-sans text-white/50 text-sm leading-relaxed mb-5">{item.description}</p>
-              <span className="font-condensed text-2xl text-orange-400 tracking-wide">{item.price}</span>
-            </div>
+          {items.map((item, i) => (
+            <MenuCard key={item.id} item={item} index={i} />
           ))}
         </div>
       </div>
@@ -754,51 +810,59 @@ function StaticMenu({ items }: { items: MenuItem[] }) {
    ROOT EXPORT
 ───────────────────────────────────────────────────────────────── */
 export default function CinematicMenuSection({ content }: { content: MenuContent }) {
-  const reduce     = useReducedMotion();
-  const secRef     = useRef<HTMLElement>(null!);
+  const reduce  = useReducedMotion();
+  const secRef  = useRef<HTMLElement>(null!);
   const [mounted, setMounted] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => { setMounted(true); }, []);
 
   const { scrollYProgress } = useScroll({ target: secRef, offset: ["start start", "end end"] });
-  // Tighter spring — responsive, not laggy (stiffness 180 vs old 60)
   const smooth = useSpring(scrollYProgress, { stiffness: 180, damping: 34, mass: 0.38 });
-
   useEffect(() => smooth.on("change", setProgress), [smooth]);
 
-  if (reduce) return <StaticMenu items={content.items} />;
+  if (reduce) return (
+    <>
+      <MenuCardGrid items={content.items} />
+    </>
+  );
 
   return (
-    <section
-      ref={secRef}
-      id="menu"
-      aria-label="Hansum menu — cinematic experience"
-      style={{ height: `${SCROLL_HEIGHT}vh` }}
-      className="relative"
-    >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {mounted && (
-          <Canvas
-            className="absolute inset-0"
-            gl={{
-              antialias: true,
-              alpha: false,
-              powerPreference: "high-performance",
-              toneMapping: THREE.ACESFilmicToneMapping,
-              toneMappingExposure: .95,
-            }}
-            shadows={{ type: THREE.PCFSoftShadowMap }}
-            camera={{ position: [0, .4, 8.5], fov: 54, near: .1, far: 60 }}
-            dpr={[1, typeof window !== "undefined" ? Math.min(window.devicePixelRatio, 2) : 1]}
-          >
-            <Suspense fallback={null}>
-              <Scene progress={progress} />
-            </Suspense>
-          </Canvas>
-        )}
-        <Overlay progress={progress} items={content.items} />
-      </div>
-    </section>
+    <>
+      {/* ── Cinematic fire section ── */}
+      <section
+        ref={secRef}
+        id="menu"
+        aria-label="Hansum menu — cinematic experience"
+        style={{ height: `${SCROLL_HEIGHT}vh` }}
+        className="relative"
+      >
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          {mounted && (
+            <Canvas
+              className="absolute inset-0"
+              gl={{
+                antialias: true,
+                alpha: false,
+                powerPreference: "high-performance",
+                toneMapping: THREE.ACESFilmicToneMapping,
+                toneMappingExposure: 0.9,
+              }}
+              shadows={{ type: THREE.PCFSoftShadowMap }}
+              camera={{ position: [0, .4, 8.5], fov: 54, near: .1, far: 60 }}
+              dpr={[1, typeof window !== "undefined" ? Math.min(window.devicePixelRatio, 2) : 1]}
+            >
+              <Suspense fallback={null}>
+                <Scene progress={progress} />
+              </Suspense>
+            </Canvas>
+          )}
+          <Overlay progress={progress} items={content.items} />
+        </div>
+      </section>
+
+      {/* ── Standard card grid — normal background ── */}
+      <MenuCardGrid items={content.items} />
+    </>
   );
 }
