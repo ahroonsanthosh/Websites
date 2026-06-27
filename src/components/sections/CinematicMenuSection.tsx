@@ -2,21 +2,11 @@
 
 import { useRef, useMemo, useEffect, useState, Suspense } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import {
-  MeshDistortMaterial,
-  MeshTransmissionMaterial,
-  Float,
-  Environment,
-  useTexture,
-  Sparkles,
-  Trail,
-  MeshWobbleMaterial,
-} from "@react-three/drei";
+import { Sparkles } from "@react-three/drei";
 import * as THREE from "three";
 import {
   motion,
   useScroll,
-  useTransform,
   useSpring,
   AnimatePresence,
   useReducedMotion,
@@ -35,7 +25,6 @@ interface MenuItem {
   available: boolean;
   badge: string;
 }
-
 interface MenuContent {
   categories: string[];
   items: MenuItem[];
@@ -44,1174 +33,688 @@ interface MenuContent {
 /* ─────────────────────────────────────────────────────────────────
    CONSTANTS
 ───────────────────────────────────────────────────────────────── */
-const SCROLL_HEIGHT = 400; // vh per section
+// 250vh — menu items now appear at 45% in (≈112vh). Reachable.
+const SCROLL_HEIGHT = 250;
 
-// Warm firelight palette
-const FIRE_ORANGE = new THREE.Color(0xf97316);
-const FIRE_RED    = new THREE.Color(0xdc2626);
-const FIRE_AMBER  = new THREE.Color(0xfbbf24);
-const FIRE_DEEP   = new THREE.Color(0x7c2d12);
+// Which items to feature in the assembly sequence
+const FEATURED = [0, 1, 4, 2, 5, 6]; // Ciabatta, Wrap, Salad, Whole Chicken, Wings, Wedges
 
 /* ─────────────────────────────────────────────────────────────────
-   SHADER — golden-brown skin PBR approximation with SSS fringe
+   GLSL — caramelising chicken skin with SSS fringe
 ───────────────────────────────────────────────────────────────── */
-const chickenVertShader = /* glsl */`
+const chickenVert = /* glsl */`
   varying vec3 vNormal;
   varying vec3 vWorldPos;
-  varying vec2 vUv;
   uniform float uTime;
-  uniform float uDistort;
 
-  // Layered simplex-like noise for organic surface bump
-  float hash(vec3 p) {
-    p = fract(p * vec3(0.1031, 0.103, 0.0973));
-    p += dot(p, p.yzx + 19.19);
-    return fract((p.x + p.y) * p.z);
-  }
-  float noise(vec3 p) {
-    vec3 i = floor(p); vec3 f = fract(p);
-    f = f*f*(3.0-2.0*f);
-    return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),
-                   mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),
-               mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),
-                   mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);
-  }
+  float hash(vec3 p){p=fract(p*vec3(.1031,.103,.0973));p+=dot(p,p.yzx+19.19);return fract((p.x+p.y)*p.z);}
+  float noise(vec3 p){vec3 i=floor(p);vec3 f=fract(p);f=f*f*(3.-2.*f);
+    return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),
+               mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);}
 
-  void main() {
-    vUv = uv;
+  void main(){
     vNormal = normalize(normalMatrix * normal);
     vec3 pos = position;
-
-    // Organic surface displacement — simulates skin texture & fat bumps
-    float n = noise(pos * 3.0 + uTime * 0.08);
-    float n2 = noise(pos * 7.0 - uTime * 0.05);
-    pos += normal * (n * 0.04 + n2 * 0.015) * uDistort;
-
-    // Heat shimmer — high-frequency micro-vibration near top
-    float shimmer = noise(pos * 12.0 + uTime * 2.1) * 0.006;
-    pos.y += shimmer * smoothstep(0.2, 1.0, (pos.y + 1.0) * 0.5);
-
-    vec4 worldPos4 = modelMatrix * vec4(pos, 1.0);
-    vWorldPos = worldPos4.xyz;
-    gl_Position = projectionMatrix * viewMatrix * worldPos4;
+    // Organic skin bump
+    float n = noise(pos*3.+uTime*.08);
+    float n2 = noise(pos*7.-uTime*.05);
+    pos += normal*(n*.038+n2*.014);
+    // Heat shimmer near top
+    pos.y += noise(pos*14.+uTime*2.3)*.005*smoothstep(.2,1.,(pos.y+1.)*.5);
+    vec4 wp = modelMatrix*vec4(pos,1.);
+    vWorldPos = wp.xyz;
+    gl_Position = projectionMatrix*viewMatrix*wp;
   }
 `;
 
-const chickenFragShader = /* glsl */`
+const chickenFrag = /* glsl */`
   varying vec3 vNormal;
   varying vec3 vWorldPos;
-  varying vec2 vUv;
   uniform float uTime;
-  uniform vec3 uFirePos1;
-  uniform vec3 uFirePos2;
-  uniform float uFireIntensity;
-  uniform float uCaramel;     // 0→1 progression of browning
-  uniform float uRotisserie;  // rotation progress
+  uniform float uCaramel;
+  uniform float uFire;
 
-  // --- colour palette ---
-  // Raw pale chicken → golden → deep mahogany caramelisation
-  vec3 rawColour    = vec3(0.95, 0.82, 0.65);
-  vec3 goldenColour = vec3(0.85, 0.52, 0.15);
-  vec3 caramelColour= vec3(0.55, 0.22, 0.06);
-  vec3 charColour   = vec3(0.18, 0.08, 0.03);
+  float hash(vec3 p){p=fract(p*vec3(.1031,.103,.0973));p+=dot(p,p.yzx+19.19);return fract((p.x+p.y)*p.z);}
+  float noise(vec3 p){vec3 i=floor(p);vec3 f=fract(p);f=f*f*(3.-2.*f);
+    return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),
+               mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);}
 
-  float hash(vec3 p) {
-    p = fract(p * vec3(0.1031, 0.103, 0.0973));
-    p += dot(p, p.yzx + 19.19);
-    return fract((p.x + p.y) * p.z);
-  }
-  float noise(vec3 p) {
-    vec3 i = floor(p); vec3 f = fract(p);
-    f = f*f*(3.0-2.0*f);
-    return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),
-                   mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),
-               mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),
-                   mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);
-  }
+  void main(){
+    // Mottled caramelisation
+    float b = noise(vWorldPos*4.)*.6 + noise(vWorldPos*9.)*.4;
+    float cm = clamp(uCaramel + b*.28 - .12, 0., 1.);
+    vec3 col = mix(vec3(.95,.82,.65), vec3(.82,.48,.13), smoothstep(0.,.5,cm));
+    col      = mix(col, vec3(.52,.2,.05),  smoothstep(.4,.82,cm));
+    col      = mix(col, vec3(.16,.07,.02), smoothstep(.78,1.,cm));
 
-  void main() {
-    // Base caramelisation noise — mottled patches like real roasting
-    float browning = noise(vWorldPos * 4.0) * 0.6 + noise(vWorldPos * 9.0) * 0.4;
-    float caramelMask = clamp(uCaramel + browning * 0.3 - 0.15, 0.0, 1.0);
+    // Grill marks
+    float grill = smoothstep(.42,.45,abs(fract((vWorldPos.y*8.+vWorldPos.x*2.))-.5));
+    col *= mix(1., .42, grill*clamp(uCaramel*2.,0.,1.));
 
-    vec3 skinColour = mix(rawColour, goldenColour, smoothstep(0.0, 0.5, caramelMask));
-    skinColour      = mix(skinColour, caramelColour, smoothstep(0.4, 0.8, caramelMask));
-    skinColour      = mix(skinColour, charColour,    smoothstep(0.75, 1.0, caramelMask));
-
-    // Grill marks — thin dark bands
-    float grillAngle = vWorldPos.y * 8.0 + vWorldPos.x * 2.0;
-    float grillMark  = smoothstep(0.42, 0.45, abs(fract(grillAngle) - 0.5));
-    skinColour *= mix(1.0, 0.45, grillMark * clamp(uCaramel * 2.0, 0.0, 1.0));
-
-    // --- Lighting ---
     vec3 N = normalize(vNormal);
+    // Firelight — limited to avoid blinding
+    float flicker = .84 + .16*sin(uTime*7.3)*sin(uTime*3.1+.9);
+    vec3 L1 = normalize(vec3(-2.,-1.5,1.5) - vWorldPos);
+    float d1 = max(dot(N,L1),0.) / (1.+length(vec3(-2.,-1.5,1.5)-vWorldPos)*.28);
+    vec3 fire = vec3(1.,.42,.08)*d1*uFire*flicker*2.2;
 
-    // Firelight 1 (primary — below-left)
-    vec3 L1   = normalize(uFirePos1 - vWorldPos);
-    float d1  = length(uFirePos1 - vWorldPos);
-    float diff1 = max(dot(N, L1), 0.0) * (1.0 / (1.0 + d1 * 0.25));
-    // Firelight flicker
-    float flicker = 0.82 + 0.18 * sin(uTime * 7.3) * sin(uTime * 3.1 + 0.9);
-    vec3 fireLight1 = vec3(1.0, 0.42, 0.08) * diff1 * uFireIntensity * flicker * 2.8;
+    vec3 L2 = normalize(vec3(2.,.5,.8) - vWorldPos);
+    float d2 = max(dot(N,L2),0.) / (1.+length(vec3(2.,.5,.8)-vWorldPos)*.4);
+    vec3 fill = vec3(.9,.28,.05)*d2*uFire*1.1;
 
-    // Firelight 2 (secondary — right-side fill)
-    vec3 L2   = normalize(uFirePos2 - vWorldPos);
-    float d2  = length(uFirePos2 - vWorldPos);
-    float diff2 = max(dot(N, L2), 0.0) * (1.0 / (1.0 + d2 * 0.4));
-    vec3 fireLight2 = vec3(1.0, 0.3, 0.05) * diff2 * uFireIntensity * flicker * 1.4;
+    // SSS edge glow
+    float sss = pow(max(0.,1.-abs(dot(N,vec3(0.,0.,1.)))),2.8);
+    vec3 sssCol = vec3(.85,.35,.08)*sss*uFire*.45;
 
-    // Ambient — dark warm cave feeling
-    vec3 ambientLight = vec3(0.06, 0.03, 0.01) * 3.5;
+    // Specular moisture
+    vec3 V = normalize(vec3(0.,0.,3.)-vWorldPos);
+    vec3 H = normalize(L1+V);
+    float spec = pow(max(dot(N,H),0.),52.)*.45*flicker;
+    // Fat gloss patches
+    float gloss = smoothstep(.62,.88,noise(vWorldPos*6.+vec3(0.,uTime*.04,0.)))*(.35*flicker);
 
-    // SSS fringe — backlit glow through thin edges (silhouette)
-    float sss   = pow(max(0.0, 1.0 - abs(dot(N, vec3(0.0, 0.0, 1.0)))), 2.5);
-    vec3 sssCol = vec3(0.9, 0.4, 0.1) * sss * uFireIntensity * 0.7;
+    vec3 ambient = vec3(.055,.025,.008)*2.8;
+    vec3 final = col*(ambient+fire+fill) + sssCol + vec3(1.,.85,.5)*(spec+gloss);
 
-    // Specular highlight — moisture sheen on skin
-    vec3 V    = normalize(vec3(0.0, 0.0, 3.0) - vWorldPos);
-    vec3 H    = normalize(L1 + V);
-    float spec = pow(max(dot(N, H), 0.0), 48.0) * 0.6 * flicker;
-    vec3 specCol = vec3(1.0, 0.9, 0.7) * spec;
-
-    // Fat drip gloss patches
-    float gloss = noise(vWorldPos * 6.0 + vec3(0.0, uTime * 0.04, 0.0));
-    gloss = smoothstep(0.6, 0.85, gloss) * 0.4;
-    specCol += vec3(1.0, 0.75, 0.4) * gloss * flicker;
-
-    vec3 finalColour = skinColour * (ambientLight + fireLight1 + fireLight2) + sssCol + specCol;
-
-    // Tone-map (filmic)
-    finalColour = finalColour / (finalColour + 0.8);
-    finalColour = pow(finalColour, vec3(0.4545)); // gamma
-
-    gl_FragColor = vec4(finalColour, 1.0);
+    // Filmic tone-map
+    final = final/(final+.75);
+    final = pow(final,vec3(.4545));
+    gl_FragColor = vec4(final,1.);
   }
 `;
 
 /* ─────────────────────────────────────────────────────────────────
-   STEAM PARTICLE SHADER
+   STEAM SHADER
 ───────────────────────────────────────────────────────────────── */
-const steamVertShader = /* glsl */`
-  attribute float aSize;
-  attribute float aPhase;
-  attribute float aSpeed;
-  attribute vec3  aOffset;
-  uniform float uTime;
-  uniform float uIntensity;
-  varying float vAlpha;
-
-  float hash(float p) { return fract(sin(p * 127.1) * 43758.5); }
-
-  void main() {
-    float t = mod(uTime * aSpeed + aPhase, 1.0);
-    float ease = t * t * (3.0 - 2.0 * t); // smoothstep upward
-
-    // Curl upward with drift
-    vec3 pos = aOffset;
-    pos.y += t * 3.8;
-
-    // Turbulence drift — each particle curves differently
-    float drift = sin(uTime * 0.7 + aPhase * 6.28) * 0.35;
-    float drift2 = cos(uTime * 0.5 + aPhase * 3.14 + 1.2) * 0.2;
-    pos.x += drift * t;
-    pos.z += drift2 * t;
-
-    // Expand outward as it rises
-    pos.xz += aOffset.xz * t * 1.2;
-
-    vAlpha = uIntensity * (1.0 - ease) * smoothstep(0.0, 0.08, t) * 0.55;
-
-    vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
-    gl_PointSize = (aSize * (1.0 + t * 3.0)) * (250.0 / -mvPos.z);
-    gl_Position = projectionMatrix * mvPos;
+const steamVert = /* glsl */`
+  attribute float aPhase; attribute float aSpd; attribute float aSz; attribute vec3 aOff;
+  uniform float uTime; uniform float uInt;
+  varying float vA;
+  void main(){
+    float t = mod(uTime*aSpd+aPhase,1.);
+    float e = t*t*(3.-2.*t);
+    vec3 p = aOff;
+    p.y += t*3.6;
+    p.x += sin(uTime*.7+aPhase*6.28)*.32*t;
+    p.z += cos(uTime*.5+aPhase*3.14+1.2)*.18*t;
+    p.xz += aOff.xz*t*1.1;
+    vA = uInt*(1.-e)*smoothstep(0.,.08,t)*.5;
+    vec4 mv = modelViewMatrix*vec4(p,1.);
+    gl_PointSize = (aSz*(1.+t*2.8))*(220./-mv.z);
+    gl_Position = projectionMatrix*mv;
   }
 `;
-
-const steamFragShader = /* glsl */`
-  varying float vAlpha;
-  void main() {
-    // Soft disc
-    vec2 uv = gl_PointCoord - 0.5;
-    float r = length(uv);
-    float disc = 1.0 - smoothstep(0.3, 0.5, r);
-    if (disc < 0.01) discard;
-    gl_FragColor = vec4(1.0, 0.95, 0.88, disc * vAlpha);
+const steamFrag = /* glsl */`
+  varying float vA;
+  void main(){
+    float r=length(gl_PointCoord-.5)*2.;
+    float d=1.-smoothstep(.5,.85,r);
+    if(d<.01)discard;
+    gl_FragColor=vec4(1.,.93,.82,d*vA);
   }
 `;
 
 /* ─────────────────────────────────────────────────────────────────
-   EMBER PARTICLE SHADER — rising sparks from fire below
+   EMBER SHADER
 ───────────────────────────────────────────────────────────────── */
-const emberVertShader = /* glsl */`
-  attribute float aPhase;
-  attribute float aSpeed;
-  attribute vec2  aSpread;
-  uniform float uTime;
-  uniform float uIntensity;
-  varying float vAlpha;
-  varying vec3  vColour;
-
-  void main() {
-    float t = mod(uTime * aSpeed + aPhase, 1.0);
-
-    vec3 pos = vec3(aSpread.x, -2.0 + t * 5.5, aSpread.y);
-    // Spiral upward
-    float angle = t * 6.28 * 1.5 + aPhase * 6.28;
-    pos.x += sin(angle) * 0.15 * t;
-    pos.z += cos(angle) * 0.1 * t;
-
-    vAlpha = uIntensity * (1.0 - t) * smoothstep(0.0, 0.05, t) * 0.9;
-
-    // Colour: bright amber → red → dark
-    vec3 bright = vec3(1.0, 0.75, 0.1);
-    vec3 dim    = vec3(0.6, 0.1, 0.02);
-    vColour = mix(bright, dim, t * t);
-
-    vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
-    gl_PointSize = (3.5 * (1.0 - t * 0.7)) * (180.0 / -mvPos.z);
-    gl_Position = projectionMatrix * mvPos;
+const emberVert = /* glsl */`
+  attribute float aPhase; attribute float aSpd; attribute vec2 aSpr;
+  uniform float uTime; uniform float uInt;
+  varying float vA; varying vec3 vC;
+  void main(){
+    float t=mod(uTime*aSpd+aPhase,1.);
+    vec3 p=vec3(aSpr.x,-2.+t*5.,aSpr.y);
+    float ang=t*9.42+aPhase*6.28;
+    p.x+=sin(ang)*.13*t; p.z+=cos(ang)*.09*t;
+    vA=uInt*(1.-t)*smoothstep(0.,.05,t)*.9;
+    vC=mix(vec3(1.,.72,.1),vec3(.55,.08,.02),t*t);
+    vec4 mv=modelViewMatrix*vec4(p,1.);
+    gl_PointSize=(3.2*(1.-t*.65))*(160./-mv.z);
+    gl_Position=projectionMatrix*mv;
   }
 `;
-
-const emberFragShader = /* glsl */`
-  varying float vAlpha;
-  varying vec3  vColour;
-  void main() {
-    vec2 uv = gl_PointCoord - 0.5;
-    float r = length(uv) * 2.0;
-    float disc = 1.0 - smoothstep(0.6, 1.0, r);
-    if (disc < 0.01) discard;
-    gl_FragColor = vec4(vColour, disc * vAlpha);
+const emberFrag = /* glsl */`
+  varying float vA; varying vec3 vC;
+  void main(){
+    float r=length(gl_PointCoord-.5)*2.;
+    float d=1.-smoothstep(.55,.95,r);
+    if(d<.01)discard;
+    gl_FragColor=vec4(vC,d*vA);
   }
 `;
 
 /* ─────────────────────────────────────────────────────────────────
-   PROCEDURAL CHICKEN MESH
-   Body: lathe profile | Legs: cylinders | Drumstick ends: spheres
+   PROCEDURAL CHICKEN
 ───────────────────────────────────────────────────────────────── */
-function ChickenMesh({
-  scrollProgress,
-  caramel,
-  fireIntensity,
-}: {
-  scrollProgress: number;
-  caramel: number;
-  fireIntensity: number;
-}) {
-  const meshRef   = useRef<THREE.Group>(null!);
-  const bodyRef   = useRef<THREE.Mesh>(null!);
-  const matRef    = useRef<THREE.ShaderMaterial>(null!);
+function ChickenMesh({ progress, caramel, fire }: { progress: number; caramel: number; fire: number }) {
+  const grp  = useRef<THREE.Group>(null!);
+  const mat  = useRef<THREE.ShaderMaterial>(null!);
   const { clock } = useThree();
 
-  // Build body shape via lathe — a plump ovoid rotisserie chicken silhouette
-  const bodyGeometry = useMemo(() => {
+  const bodyGeo = useMemo(() => {
     const pts: THREE.Vector2[] = [];
-    const segments = 40;
-    for (let i = 0; i <= segments; i++) {
-      const t = i / segments;
-      // Parametric profile: wider in middle, tapered top & bottom
+    for (let i = 0; i <= 48; i++) {
+      const t = i / 48;
       const y = (t - 0.5) * 2.2;
-      // Profile function: breast peak at t≈0.6, narrowing to neck & cavity
       let r = Math.sin(t * Math.PI);
-      // Breast bulge
-      r += 0.28 * Math.exp(-Math.pow((t - 0.62) * 3.5, 2));
-      // Cavity indent (bottom)
+      r += 0.30 * Math.exp(-Math.pow((t - 0.62) * 3.4, 2));
       r -= 0.12 * Math.exp(-Math.pow((t - 0.12) * 5.0, 2));
-      // Neck narrowing
-      r -= 0.15 * Math.exp(-Math.pow((t - 0.88) * 4.5, 2));
-      r = Math.max(r * 0.72, 0.01);
-      pts.push(new THREE.Vector2(r, y));
+      r -= 0.16 * Math.exp(-Math.pow((t - 0.88) * 4.5, 2));
+      pts.push(new THREE.Vector2(Math.max(r * 0.72, 0.01), y));
     }
-    return new THREE.LatheGeometry(pts, 64);
+    return new THREE.LatheGeometry(pts, 72);
   }, []);
 
-  // Drumstick geometry — tapered cylinder + knob sphere
-  const drumGeometry = useMemo(() => {
-    const geo = new THREE.CylinderGeometry(0.08, 0.14, 0.65, 16);
-    return geo;
-  }, []);
-  const knobGeometry = useMemo(() => new THREE.SphereGeometry(0.14, 16, 12), []);
-  const wingGeometry = useMemo(() => {
+  const drumGeo  = useMemo(() => new THREE.CylinderGeometry(0.075, 0.13, 0.62, 16), []);
+  const knobGeo  = useMemo(() => new THREE.SphereGeometry(0.13, 16, 12), []);
+  const wingGeo  = useMemo(() => {
     const pts: THREE.Vector2[] = [];
-    for (let i = 0; i <= 20; i++) {
-      const t = i / 20;
-      const r = Math.sin(t * Math.PI) * 0.18;
-      pts.push(new THREE.Vector2(r, (t - 0.5) * 0.7));
+    for (let i = 0; i <= 16; i++) {
+      const t = i / 16;
+      pts.push(new THREE.Vector2(Math.sin(t * Math.PI) * 0.17, (t - 0.5) * 0.68));
     }
-    return new THREE.LatheGeometry(pts, 12);
+    return new THREE.LatheGeometry(pts, 10);
   }, []);
 
-  const shaderMat = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
-        vertexShader: chickenVertShader,
-        fragmentShader: chickenFragShader,
-        uniforms: {
-          uTime:          { value: 0 },
-          uDistort:       { value: 1.0 },
-          uFirePos1:      { value: new THREE.Vector3(-2, -1.5, 1.5) },
-          uFirePos2:      { value: new THREE.Vector3(2.5, -0.5, 0.8) },
-          uFireIntensity: { value: fireIntensity },
-          uCaramel:       { value: caramel },
-          uRotisserie:    { value: 0 },
-        },
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  const shaderMat = useMemo(() => new THREE.ShaderMaterial({
+    vertexShader: chickenVert,
+    fragmentShader: chickenFrag,
+    uniforms: {
+      uTime:    { value: 0 },
+      uCaramel: { value: 0 },
+      uFire:    { value: 1 },
+    },
+  }), []);
 
   useFrame(() => {
     const t = clock.getElapsedTime();
-    shaderMat.uniforms.uTime.value = t;
-    shaderMat.uniforms.uFireIntensity.value = fireIntensity;
+    shaderMat.uniforms.uTime.value    = t;
     shaderMat.uniforms.uCaramel.value = caramel;
-
-    if (meshRef.current) {
-      // Natural rotisserie rotation — slow, slightly wobbly
-      meshRef.current.rotation.y = t * 0.22 + scrollProgress * Math.PI * 0.5;
-      meshRef.current.rotation.x = Math.sin(t * 0.3) * 0.04;
-      meshRef.current.rotation.z = Math.sin(t * 0.21) * 0.025;
+    shaderMat.uniforms.uFire.value    = fire;
+    if (grp.current) {
+      grp.current.rotation.y = t * 0.24 + progress * Math.PI * 0.4;
+      grp.current.rotation.x = Math.sin(t * 0.28) * 0.035;
     }
   });
 
   return (
-    <group ref={meshRef}>
-      {/* Body */}
-      <mesh ref={bodyRef} geometry={bodyGeometry} material={shaderMat} castShadow receiveShadow />
-
-      {/* Left drumstick */}
-      <group position={[-0.38, -0.65, 0.2]} rotation={[0.6, 0, -0.3]}>
-        <mesh geometry={drumGeometry} material={shaderMat} castShadow />
-        <mesh geometry={knobGeometry} position={[0, -0.38, 0]} material={shaderMat} castShadow />
+    <group ref={grp}>
+      <mesh geometry={bodyGeo} material={shaderMat} castShadow receiveShadow />
+      <group position={[-0.37, -0.63, 0.18]} rotation={[0.58, 0, -0.28]}>
+        <mesh geometry={drumGeo} material={shaderMat} castShadow />
+        <mesh geometry={knobGeo} position={[0, -0.36, 0]} material={shaderMat} castShadow />
       </group>
-
-      {/* Right drumstick */}
-      <group position={[0.38, -0.65, 0.2]} rotation={[0.6, 0, 0.3]}>
-        <mesh geometry={drumGeometry} material={shaderMat} castShadow />
-        <mesh geometry={knobGeometry} position={[0, -0.38, 0]} material={shaderMat} castShadow />
+      <group position={[0.37, -0.63, 0.18]} rotation={[0.58, 0, 0.28]}>
+        <mesh geometry={drumGeo} material={shaderMat} castShadow />
+        <mesh geometry={knobGeo} position={[0, -0.36, 0]} material={shaderMat} castShadow />
       </group>
-
-      {/* Left wing stub */}
-      <group position={[-0.68, 0.1, 0]} rotation={[0.2, 0, 0.7]}>
-        <mesh geometry={wingGeometry} material={shaderMat} castShadow />
+      <group position={[-0.66, 0.1, 0]} rotation={[0.18, 0, 0.68]}>
+        <mesh geometry={wingGeo} material={shaderMat} castShadow />
       </group>
-
-      {/* Right wing stub */}
-      <group position={[0.68, 0.1, 0]} rotation={[0.2, 0, -0.7]}>
-        <mesh geometry={wingGeometry} material={shaderMat} castShadow />
+      <group position={[0.66, 0.1, 0]} rotation={[0.18, 0, -0.68]}>
+        <mesh geometry={wingGeo} material={shaderMat} castShadow />
       </group>
     </group>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   STEAM SYSTEM
+   STEAM
 ───────────────────────────────────────────────────────────────── */
 function Steam({ intensity }: { intensity: number }) {
-  const COUNT = 180;
-  const ref = useRef<THREE.Points>(null!);
-  const matRef = useRef<THREE.ShaderMaterial>(null!);
+  const COUNT = 160;
   const { clock } = useThree();
-
-  const { positions, phases, speeds, sizes, offsets } = useMemo(() => {
-    const phases  = new Float32Array(COUNT);
-    const speeds  = new Float32Array(COUNT);
-    const sizes   = new Float32Array(COUNT);
-    const offsets = new Float32Array(COUNT * 3);
-    const positions = new Float32Array(COUNT * 3); // all zero — shader drives them
-    for (let i = 0; i < COUNT; i++) {
-      phases[i]  = Math.random();
-      speeds[i]  = 0.12 + Math.random() * 0.18;
-      sizes[i]   = 8 + Math.random() * 18;
-      const angle = Math.random() * Math.PI * 2;
-      const r     = Math.random() * 0.35;
-      offsets[i * 3]     = Math.cos(angle) * r;
-      offsets[i * 3 + 1] = 0;
-      offsets[i * 3 + 2] = Math.sin(angle) * r;
-    }
-    return { positions, phases, speeds, sizes, offsets };
-  }, []);
-
-  const mat = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
-        vertexShader: steamVertShader,
-        fragmentShader: steamFragShader,
-        uniforms: { uTime: { value: 0 }, uIntensity: { value: intensity } },
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  useFrame(() => {
-    mat.uniforms.uTime.value = clock.getElapsedTime();
-    mat.uniforms.uIntensity.value = intensity;
-  });
-
+  const mat = useMemo(() => new THREE.ShaderMaterial({
+    vertexShader: steamVert, fragmentShader: steamFrag,
+    uniforms: { uTime: { value: 0 }, uInt: { value: intensity } },
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  }), []); // eslint-disable-line react-hooks/exhaustive-deps
   const geo = useMemo(() => {
+    const phases = new Float32Array(COUNT);
+    const spds   = new Float32Array(COUNT);
+    const szs    = new Float32Array(COUNT);
+    const offs   = new Float32Array(COUNT * 3);
+    const pos    = new Float32Array(COUNT * 3);
+    for (let i = 0; i < COUNT; i++) {
+      phases[i] = Math.random(); spds[i] = .11 + Math.random() * .17; szs[i] = 7 + Math.random() * 17;
+      const a = Math.random() * Math.PI * 2, r = Math.random() * .32;
+      offs[i*3] = Math.cos(a)*r; offs[i*3+2] = Math.sin(a)*r;
+    }
     const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    g.setAttribute("aPhase",   new THREE.BufferAttribute(phases, 1));
-    g.setAttribute("aSpeed",   new THREE.BufferAttribute(speeds, 1));
-    g.setAttribute("aSize",    new THREE.BufferAttribute(sizes, 1));
-    g.setAttribute("aOffset",  new THREE.BufferAttribute(offsets, 3));
+    g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    g.setAttribute("aPhase", new THREE.BufferAttribute(phases, 1));
+    g.setAttribute("aSpd",   new THREE.BufferAttribute(spds, 1));
+    g.setAttribute("aSz",    new THREE.BufferAttribute(szs, 1));
+    g.setAttribute("aOff",   new THREE.BufferAttribute(offs, 3));
     return g;
-  }, [positions, phases, speeds, sizes, offsets]);
-
-  return (
-    <points ref={ref} geometry={geo} material={mat} position={[0, 0.8, 0]} />
-  );
+  }, []);
+  useFrame(() => { mat.uniforms.uTime.value = clock.getElapsedTime(); mat.uniforms.uInt.value = intensity; });
+  return <points geometry={geo} material={mat} position={[0, 0.85, 0]} />;
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   EMBER SPARKS
+   EMBERS
 ───────────────────────────────────────────────────────────────── */
 function Embers({ intensity }: { intensity: number }) {
-  const COUNT = 80;
-  const mat = useRef<THREE.ShaderMaterial>(null!);
+  const COUNT = 70;
   const { clock } = useThree();
-
-  const { phases, speeds, spreads, positions } = useMemo(() => {
-    const phases = new Float32Array(COUNT);
-    const speeds = new Float32Array(COUNT);
-    const spreads = new Float32Array(COUNT * 2);
-    const positions = new Float32Array(COUNT * 3);
-    for (let i = 0; i < COUNT; i++) {
-      phases[i] = Math.random();
-      speeds[i] = 0.25 + Math.random() * 0.35;
-      spreads[i * 2]     = (Math.random() - 0.5) * 2.0;
-      spreads[i * 2 + 1] = (Math.random() - 0.5) * 0.8;
-    }
-    return { phases, speeds, spreads, positions };
-  }, []);
-
+  const mat = useMemo(() => new THREE.ShaderMaterial({
+    vertexShader: emberVert, fragmentShader: emberFrag,
+    uniforms: { uTime: { value: 0 }, uInt: { value: intensity } },
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  }), []); // eslint-disable-line react-hooks/exhaustive-deps
   const geo = useMemo(() => {
+    const phases = new Float32Array(COUNT);
+    const spds   = new Float32Array(COUNT);
+    const sprs   = new Float32Array(COUNT * 2);
+    const pos    = new Float32Array(COUNT * 3);
+    for (let i = 0; i < COUNT; i++) {
+      phases[i] = Math.random(); spds[i] = .22 + Math.random() * .32;
+      sprs[i*2] = (Math.random()-.5)*1.8; sprs[i*2+1] = (Math.random()-.5)*.7;
+    }
     const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    g.setAttribute("aPhase",  new THREE.BufferAttribute(phases, 1));
-    g.setAttribute("aSpeed",  new THREE.BufferAttribute(speeds, 1));
-    g.setAttribute("aSpread", new THREE.BufferAttribute(spreads, 2));
+    g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    g.setAttribute("aPhase", new THREE.BufferAttribute(phases, 1));
+    g.setAttribute("aSpd",   new THREE.BufferAttribute(spds, 1));
+    g.setAttribute("aSpr",   new THREE.BufferAttribute(sprs, 2));
     return g;
-  }, [positions, phases, speeds, spreads]);
-
-  const shaderMat = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
-        vertexShader: emberVertShader,
-        fragmentShader: emberFragShader,
-        uniforms: { uTime: { value: 0 }, uIntensity: { value: intensity } },
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  useFrame(() => {
-    shaderMat.uniforms.uTime.value = clock.getElapsedTime();
-    shaderMat.uniforms.uIntensity.value = intensity;
-  });
-
-  return <points geometry={geo} material={shaderMat} />;
+  }, []);
+  useFrame(() => { mat.uniforms.uTime.value = clock.getElapsedTime(); mat.uniforms.uInt.value = intensity; });
+  return <points geometry={geo} material={mat} />;
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   INGREDIENT ORBS — floating 3D elements that assemble into dishes
-   Each has unique geometry + material, orbits in 3D, and responds
-   to the assembly progress value.
+   INGREDIENT ORBS
 ───────────────────────────────────────────────────────────────── */
-interface IngredientConfig {
-  id: string;
-  label: string;
-  colour: string;
-  emissive: string;
-  geometry: "sphere" | "torus" | "octahedron" | "cone" | "capsule" | "tetra";
-  orbitRadius: number;
-  orbitSpeed: number;
-  orbitPhase: number;
-  orbitTilt: number;
-  scale: number;
-  // Where it snaps to when assembled (relative to origin)
-  assembledPos: [number, number, number];
+type GeoType = "sphere" | "torus" | "octahedron" | "cone" | "tetra";
+interface OrbCfg {
+  colour: string; emissive: string; geo: GeoType;
+  r: number; spd: number; phase: number; tilt: number; sc: number;
+  apos: [number, number, number];
 }
 
-function buildIngredients(): IngredientConfig[] {
-  return [
-    { id: "chicken", label: "Chicken",    colour: "#c2641b", emissive: "#7c2d0a", geometry: "sphere",      orbitRadius: 1.8, orbitSpeed: 0.38, orbitPhase: 0.0,  orbitTilt: 0.2,  scale: 0.38, assembledPos: [0, 0.6, 0] },
-    { id: "bread",   label: "Ciabatta",   colour: "#c8a060", emissive: "#6b4a10", geometry: "octahedron",  orbitRadius: 2.2, orbitSpeed: 0.28, orbitPhase: 0.9,  orbitTilt: 0.5,  scale: 0.28, assembledPos: [-0.5, -0.3, 0.3] },
-    { id: "chilli",  label: "Piri Piri",  colour: "#dc2626", emissive: "#7f1d1d", geometry: "cone",        orbitRadius: 1.5, orbitSpeed: 0.55, orbitPhase: 2.1,  orbitTilt: 0.8,  scale: 0.22, assembledPos: [0.6, 0.1, 0.4] },
-    { id: "cheese",  label: "Cheese",     colour: "#fbbf24", emissive: "#92400e", geometry: "octahedron",  orbitRadius: 2.5, orbitSpeed: 0.32, orbitPhase: 3.5,  orbitTilt: -0.4, scale: 0.24, assembledPos: [-0.3, 0.3, 0.5] },
-    { id: "herb",    label: "Herbs",      colour: "#16a34a", emissive: "#14532d", geometry: "torus",       orbitRadius: 1.9, orbitSpeed: 0.44, orbitPhase: 1.4,  orbitTilt: 1.1,  scale: 0.18, assembledPos: [0.4, 0.5, -0.3] },
-    { id: "wedge",   label: "Wedges",     colour: "#d97706", emissive: "#78350f", geometry: "octahedron",  orbitRadius: 2.8, orbitSpeed: 0.22, orbitPhase: 4.7,  orbitTilt: -0.7, scale: 0.30, assembledPos: [-0.6, -0.5, -0.2] },
-    { id: "onion",   label: "Pickled Onion", colour: "#a855f7", emissive: "#581c87", geometry: "torus",    orbitRadius: 2.0, orbitSpeed: 0.41, orbitPhase: 5.8,  orbitTilt: 0.3,  scale: 0.16, assembledPos: [0.2, -0.6, 0.5] },
-    { id: "tomato",  label: "Tomato",     colour: "#ef4444", emissive: "#7f1d1d", geometry: "sphere",      orbitRadius: 2.3, orbitSpeed: 0.36, orbitPhase: 0.6,  orbitTilt: -0.9, scale: 0.20, assembledPos: [-0.4, 0.0, -0.5] },
-    { id: "salad",   label: "Baby Gem",   colour: "#22c55e", emissive: "#14532d", geometry: "tetra",       orbitRadius: 1.7, orbitSpeed: 0.48, orbitPhase: 2.8,  orbitTilt: 0.6,  scale: 0.22, assembledPos: [0.5, -0.2, -0.4] },
-  ];
-}
+const ORBS: OrbCfg[] = [
+  { colour:"#c2641b",emissive:"#7c2d0a",geo:"sphere",     r:1.8,spd:.36,phase:0.0, tilt:.2,  sc:.36, apos:[0,.6,0]       },
+  { colour:"#c8a060",emissive:"#6b4a10",geo:"octahedron", r:2.1,spd:.26,phase:.9,  tilt:.5,  sc:.26, apos:[-.5,-.3,.3]   },
+  { colour:"#dc2626",emissive:"#7f1d1d",geo:"cone",       r:1.5,spd:.52,phase:2.1, tilt:.8,  sc:.21, apos:[.6,.1,.4]     },
+  { colour:"#fbbf24",emissive:"#92400e",geo:"octahedron", r:2.4,spd:.30,phase:3.5, tilt:-.4, sc:.23, apos:[-.3,.3,.5]    },
+  { colour:"#16a34a",emissive:"#14532d",geo:"torus",      r:1.9,spd:.42,phase:1.4, tilt:1.1, sc:.17, apos:[.4,.5,-.3]    },
+  { colour:"#d97706",emissive:"#78350f",geo:"octahedron", r:2.7,spd:.20,phase:4.7, tilt:-.7, sc:.28, apos:[-.6,-.5,-.2]  },
+  { colour:"#a855f7",emissive:"#581c87",geo:"torus",      r:2.0,spd:.39,phase:5.8, tilt:.3,  sc:.15, apos:[.2,-.6,.5]    },
+  { colour:"#ef4444",emissive:"#7f1d1d",geo:"sphere",     r:2.2,spd:.34,phase:.6,  tilt:-.9, sc:.19, apos:[-.4,.0,-.5]   },
+  { colour:"#22c55e",emissive:"#14532d",geo:"tetra",      r:1.7,spd:.46,phase:2.8, tilt:.6,  sc:.21, apos:[.5,-.2,-.4]   },
+];
 
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * t;
-}
+function easeInOut(t: number) { return t * t * (3 - 2 * t); }
+function lerpN(a: number, b: number, t: number) { return a + (b - a) * t; }
 
-function IngredientOrb({
-  config,
-  assembleProgress,
-  scatterProgress,
-  time,
-}: {
-  config: IngredientConfig;
-  assembleProgress: number;
-  scatterProgress: number;
-  time: number;
-}) {
+function OrbMesh({ cfg, assemble, scatter }: { cfg: OrbCfg; assemble: number; scatter: number }) {
   const ref = useRef<THREE.Mesh>(null!);
-
   const geo = useMemo(() => {
-    switch (config.geometry) {
-      case "sphere":      return new THREE.SphereGeometry(1, 32, 24);
-      case "torus":       return new THREE.TorusGeometry(1, 0.35, 16, 48);
-      case "octahedron":  return new THREE.OctahedronGeometry(1, 0);
-      case "cone":        return new THREE.ConeGeometry(0.7, 1.8, 12);
-      case "capsule":     return new THREE.CapsuleGeometry(0.5, 1, 8, 16);
-      case "tetra":       return new THREE.TetrahedronGeometry(1, 0);
-      default:            return new THREE.SphereGeometry(1, 16, 12);
+    switch (cfg.geo) {
+      case "sphere":     return new THREE.SphereGeometry(1, 28, 20);
+      case "torus":      return new THREE.TorusGeometry(1, .35, 14, 44);
+      case "octahedron": return new THREE.OctahedronGeometry(1, 0);
+      case "cone":       return new THREE.ConeGeometry(.7, 1.8, 12);
+      case "tetra":      return new THREE.TetrahedronGeometry(1, 0);
     }
-  }, [config.geometry]);
-
-  const mat = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: new THREE.Color(config.colour),
-        emissive: new THREE.Color(config.emissive),
-        emissiveIntensity: 0.4,
-        roughness: 0.35,
-        metalness: 0.15,
-      }),
-    [config.colour, config.emissive]
-  );
+  }, [cfg.geo]);
+  const mat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: new THREE.Color(cfg.colour),
+    emissive: new THREE.Color(cfg.emissive),
+    emissiveIntensity: .38, roughness: .32, metalness: .12,
+  }), [cfg.colour, cfg.emissive]);
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
     const t = clock.getElapsedTime();
-
-    // Orbit position
-    const angle = t * config.orbitSpeed + config.orbitPhase;
-    const orbitX = Math.cos(angle) * config.orbitRadius;
-    const orbitY = Math.sin(angle * 0.7 + config.orbitTilt) * config.orbitRadius * 0.4;
-    const orbitZ = Math.sin(angle) * config.orbitRadius * 0.6;
-
-    // Assembly target
-    const [ax, ay, az] = config.assembledPos;
-
-    // Scatter target — explode outward
-    const scatterX = orbitX * 3.5;
-    const scatterY = orbitY * 3.5 + 2;
-    const scatterZ = orbitZ * 3.5;
-
-    // Smooth blend between orbit → assemble → scatter
-    const eased = assembleProgress * assembleProgress * (3 - 2 * assembleProgress);
-    const scatterEased = scatterProgress * scatterProgress * (3 - 2 * scatterProgress);
-
-    const px = lerp(lerp(orbitX, ax, eased), scatterX, scatterEased);
-    const py = lerp(lerp(orbitY, ay, eased), scatterY, scatterEased);
-    const pz = lerp(lerp(orbitZ, az, eased), scatterZ, scatterEased);
-
-    ref.current.position.set(px, py, pz);
-    ref.current.rotation.x = t * 0.6 + config.orbitPhase;
-    ref.current.rotation.y = t * 0.45;
-    ref.current.rotation.z = t * 0.3;
-
-    // Scale pulse
-    const pulse = 1 + Math.sin(t * 1.8 + config.orbitPhase) * 0.05;
-    ref.current.scale.setScalar(config.scale * pulse);
+    const ang = t * cfg.spd + cfg.phase;
+    const ox = Math.cos(ang) * cfg.r;
+    const oy = Math.sin(ang * .7 + cfg.tilt) * cfg.r * .38;
+    const oz = Math.sin(ang) * cfg.r * .55;
+    const [ax, ay, az] = cfg.apos;
+    const ea  = easeInOut(assemble);
+    const es  = easeInOut(scatter);
+    const sx = ox * 3.2, sy = oy * 3.2 + 1.8, sz = oz * 3.2;
+    ref.current.position.set(
+      lerpN(lerpN(ox, ax, ea), sx, es),
+      lerpN(lerpN(oy, ay, ea), sy, es),
+      lerpN(lerpN(oz, az, ea), sz, es),
+    );
+    ref.current.rotation.x = t * .55 + cfg.phase;
+    ref.current.rotation.y = t * .4;
+    const pulse = 1 + Math.sin(t * 1.7 + cfg.phase) * .045;
+    ref.current.scale.setScalar(cfg.sc * pulse);
   });
 
   return <mesh ref={ref} geometry={geo} material={mat} castShadow />;
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   FLOOR — warm ember-lit reflective plane
-───────────────────────────────────────────────────────────────── */
-function Floor() {
-  const mat = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: new THREE.Color(0x1a0a02),
-        roughness: 0.08,
-        metalness: 0.7,
-        envMapIntensity: 0.5,
-      }),
-    []
-  );
-
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
-      <planeGeometry args={[20, 20, 1, 1]} />
-      <primitive object={mat} attach="material" />
-    </mesh>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────────
-   FIRE LIGHT RIGS — animated point lights simulating open fire
+   FIRE LIGHTS — intensities capped to avoid blinding
 ───────────────────────────────────────────────────────────────── */
 function FireLights({ intensity }: { intensity: number }) {
   const l1 = useRef<THREE.PointLight>(null!);
   const l2 = useRef<THREE.PointLight>(null!);
   const l3 = useRef<THREE.PointLight>(null!);
   const { clock } = useThree();
-
   useFrame(() => {
     const t = clock.getElapsedTime();
-    const f1 = 0.78 + 0.22 * Math.sin(t * 7.1) * Math.sin(t * 3.3 + 1.1);
-    const f2 = 0.82 + 0.18 * Math.sin(t * 5.7 + 0.8) * Math.sin(t * 2.9);
-    const f3 = 0.70 + 0.30 * Math.sin(t * 11.3 + 2.1) * Math.sin(t * 4.1);
-
-    if (l1.current) l1.current.intensity = intensity * f1 * 12;
-    if (l2.current) l2.current.intensity = intensity * f2 * 7;
-    if (l3.current) l3.current.intensity = intensity * f3 * 5;
-
-    // Subtle position sway — fire moves
-    if (l1.current) {
-      l1.current.position.x = -2 + Math.sin(t * 2.1) * 0.3;
-      l1.current.position.y = -1.5 + Math.sin(t * 3.7) * 0.2;
-    }
+    const f1 = .80 + .20 * Math.sin(t * 7.1) * Math.sin(t * 3.3 + 1.1);
+    const f2 = .84 + .16 * Math.sin(t * 5.7 + .8) * Math.sin(t * 2.9);
+    const f3 = .72 + .28 * Math.sin(t * 11.3 + 2.1) * Math.sin(t * 4.1);
+    // Max raw intensity ≈ 3.5 — warm, visible, not blinding
+    if (l1.current) { l1.current.intensity = intensity * f1 * 3.2; l1.current.position.x = -2 + Math.sin(t*2.1)*.25; }
+    if (l2.current) l2.current.intensity = intensity * f2 * 1.8;
+    if (l3.current) l3.current.intensity = intensity * f3 * 1.2;
   });
-
   return (
     <>
-      {/* Primary fire — below-left, warm orange */}
-      <pointLight
-        ref={l1}
-        position={[-2, -1.5, 1.5]}
-        color={0xf97316}
-        distance={12}
-        decay={2}
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.001}
-      />
-      {/* Secondary fill — right, slightly redder */}
-      <pointLight
-        ref={l2}
-        position={[2.5, -0.5, 0.8]}
-        color={0xdc2626}
-        distance={9}
-        decay={2}
-      />
-      {/* Rim light — behind, amber gold */}
-      <pointLight
-        ref={l3}
-        position={[0, 2.5, -3]}
-        color={0xfbbf24}
-        distance={8}
-        decay={2}
-      />
+      <pointLight ref={l1} position={[-2,-1.5,1.5]} color={0xf97316} distance={14} decay={2}
+        castShadow shadow-mapSize={[512,512]} shadow-bias={-.001} />
+      <pointLight ref={l2} position={[2.2,.3,.8]}   color={0xdc2626} distance={10} decay={2} />
+      <pointLight ref={l3} position={[0,2.2,-2.8]}  color={0xfbbf24} distance={9}  decay={2} />
     </>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   CAMERA CHOREOGRAPHY — driven by scroll progress
+   CAMERA — responsive lerp, 8-phase choreography
 ───────────────────────────────────────────────────────────────── */
-interface CameraState {
-  position: [number, number, number];
-  lookAt: [number, number, number];
-  fov: number;
-}
-
-function getCameraState(progress: number): CameraState {
-  // 0.00–0.10 : darkness open — camera far, looking at glowing coals
-  // 0.10–0.25 : chicken emerges from shadow — camera drifts closer
-  // 0.25–0.40 : close-up push — caramelisation detail
-  // 0.40–0.55 : pullback — ingredients separate, orbit begins
-  // 0.55–0.75 : camera drifts through ingredient cloud
-  // 0.75–0.90 : orbit around assembling dish
-  // 0.90–1.00 : final pull-back — all dishes arranged
-
-  const p = progress;
-
-  if (p < 0.10) {
-    const t = p / 0.10;
-    return {
-      position: [0, 0.5, 9 - t * 2],
-      lookAt:   [0, -0.5, 0],
-      fov:      55 - t * 5,
-    };
+function cam(p: number): { pos: [number,number,number]; look: [number,number,number]; fov: number } {
+  const s = (a: number, b: number, t: number) => a + (b - a) * easeInOut(Math.max(0, Math.min(1, t)));
+  if (p < .12) {
+    const t = p / .12;
+    return { pos:[0,.4,8.5-t*2], look:[0,-.3,0], fov:54-t*4 };
   }
-  if (p < 0.25) {
-    const t = (p - 0.10) / 0.15;
-    const ease = t * t * (3 - 2 * t);
-    return {
-      position: [0 - ease * 0.4, 0.5 - ease * 0.2, 7 - ease * 3.5],
-      lookAt:   [0, 0, 0],
-      fov:      50 - ease * 8,
-    };
+  if (p < .28) {
+    const t=(p-.12)/.16, e=easeInOut(t);
+    return { pos:[s(0,-.3,e),s(.4,.3,e),s(6.5,3.2,e)], look:[0,0,0], fov:s(50,42,e) };
   }
-  if (p < 0.40) {
-    const t = (p - 0.25) / 0.15;
-    const ease = t * t * (3 - 2 * t);
-    return {
-      position: [-0.4, 0.3 + ease * 0.3, 3.5 - ease * 1.2],
-      lookAt:   [0, 0.2, 0],
-      fov:      42 + ease * 6,
-    };
+  if (p < .42) {
+    const t=(p-.28)/.14, e=easeInOut(t);
+    return { pos:[s(-.3,.1,e),s(.3,.5,e),s(3.2,2.0,e)], look:[0,.15,0], fov:s(42,50,e) };
   }
-  if (p < 0.55) {
-    const t = (p - 0.40) / 0.15;
-    const ease = t * t * (3 - 2 * t);
-    return {
-      position: [-0.4 + ease * 0.8, 0.6 - ease * 0.2, 2.3 + ease * 2.5],
-      lookAt:   [0, 0.4, 0],
-      fov:      48 + ease * 12,
-    };
+  if (p < .55) {
+    const t=(p-.42)/.13, e=easeInOut(t);
+    return { pos:[s(.1,.6,e),s(.5,.2,e),s(2.0,4.5,e)], look:[0,.3,0], fov:s(50,62,e) };
   }
-  if (p < 0.75) {
-    const t = (p - 0.55) / 0.20;
-    const ease = t * t * (3 - 2 * t);
-    // Orbit arc — camera moves laterally through the ingredient cloud
-    const angle = ease * Math.PI * 0.7;
-    const r = 4.8 - ease * 1.2;
-    return {
-      position: [Math.sin(angle) * r, 0.4 + ease * 0.3, Math.cos(angle) * r],
-      lookAt:   [0, 0, 0],
-      fov:      60 - ease * 10,
-    };
-  }
-  if (p < 0.90) {
-    const t = (p - 0.75) / 0.15;
-    const ease = t * t * (3 - 2 * t);
-    const angle = Math.PI * 0.7 + ease * Math.PI * 0.4;
-    const r = 3.6 - ease * 0.8;
-    return {
-      position: [Math.sin(angle) * r, 0.7, Math.cos(angle) * r],
-      lookAt:   [0, 0.1, 0],
-      fov:      50 + ease * 10,
-    };
-  }
-  // 0.90 → 1.00 — grand finale pull-back
-  const t = (p - 0.90) / 0.10;
-  const ease = t * t * (3 - 2 * t);
+  // Menu phase 0.55–1.0 — gentle orbit, slight push in per item
+  const t=(p-.55)/.45, e=easeInOut(t);
+  const angle = e * Math.PI * .55;
+  const r = 4.2 - e * .8;
   return {
-    position: [0 + ease * 0.5, 1 + ease * 0.5, 2.8 + ease * 3.5],
-    lookAt:   [0, 0, 0],
-    fov:      60 + ease * 10,
+    pos:[Math.sin(angle)*r, .35+e*.15, Math.cos(angle)*r],
+    look:[0,.05,0],
+    fov:s(62,54,e),
   };
 }
 
 function CinematicCamera({ progress }: { progress: number }) {
   const { camera, clock } = useThree();
-  const posRef = useRef(new THREE.Vector3(0, 0.5, 9));
-  const lookRef = useRef(new THREE.Vector3(0, 0, 0));
-
+  const pos  = useRef(new THREE.Vector3(0,.4,8.5));
+  const look = useRef(new THREE.Vector3(0,0,0));
   useFrame(() => {
-    const state = getCameraState(progress);
-    const t = clock.getElapsedTime();
-
-    // Smooth camera lag — feel of physical camera on a dolly
-    const LERP = 0.045;
-    posRef.current.lerp(new THREE.Vector3(...state.position), LERP);
-    lookRef.current.lerp(new THREE.Vector3(...state.lookAt), LERP);
-
-    // Micro hand-held breathe — tiny organic sway
-    const breathe = 0.008;
+    const state = cam(progress);
+    const t     = clock.getElapsedTime();
+    // Faster lerp (0.10) — responsive without snapping
+    pos.current.lerp(new THREE.Vector3(...state.pos),  .10);
+    look.current.lerp(new THREE.Vector3(...state.look), .10);
     camera.position.set(
-      posRef.current.x + Math.sin(t * 0.41) * breathe,
-      posRef.current.y + Math.sin(t * 0.33) * breathe,
-      posRef.current.z
+      pos.current.x + Math.sin(t*.38) * .006,
+      pos.current.y + Math.sin(t*.29) * .006,
+      pos.current.z,
     );
-    camera.lookAt(lookRef.current);
-
-    if ((camera as THREE.PerspectiveCamera).fov !== undefined) {
-      const pCam = camera as THREE.PerspectiveCamera;
-      pCam.fov = lerp(pCam.fov, state.fov, 0.04);
-      pCam.updateProjectionMatrix();
-    }
+    camera.lookAt(look.current);
+    const pc = camera as THREE.PerspectiveCamera;
+    pc.fov += (state.fov - pc.fov) * .06;
+    pc.updateProjectionMatrix();
   });
-
   return null;
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   SCENE — top-level R3F component
+   SCENE
 ───────────────────────────────────────────────────────────────── */
-function Scene({
-  scrollProgress,
-  activeItemIndex,
-}: {
-  scrollProgress: number;
-  activeItemIndex: number;
-}) {
-  const ingredients = useMemo(() => buildIngredients(), []);
+function Scene({ progress }: { progress: number }) {
+  const caramel       = Math.min(1, progress * 3.5);
+  const fire          = .35 + progress * .65;
+  const steam         = .15 + Math.min(1, progress * 2.2) * .85;
+  // Chicken fades out 0.38→0.50
+  const chickenAlpha  = 1 - Math.max(0, Math.min(1, (progress - .38) / .14));
+  // Ingredients visible from 0.35 onward
+  const orbAlpha      = Math.max(0, Math.min(1, (progress - .35) / .12));
+  const assemble      = Math.max(0, Math.min(1, (progress - .50) / .12));
+  const scatter       = Math.max(0, Math.min(1, (progress - .62) / .07));
 
-  // Derive scene state from scroll
-  const caramel       = Math.min(1, scrollProgress * 3);
-  const fireIntensity = 0.3 + scrollProgress * 0.7;
-  const steamIntensity = 0.2 + Math.min(1, scrollProgress * 2.5) * 0.8;
-
-  // Assembly: ingredients pull in at progress 0.55–0.70
-  const assembleProgress = Math.max(0, Math.min(1, (scrollProgress - 0.55) / 0.15));
-  // Scatter: ingredients disperse at 0.70–0.78
-  const scatterProgress  = Math.max(0, Math.min(1, (scrollProgress - 0.70) / 0.08));
-  // Chicken visibility: present 0.0–0.45, exits 0.45–0.55
-  const chickenOpacity   = 1 - Math.max(0, Math.min(1, (scrollProgress - 0.40) / 0.12));
-
-  const { clock } = useThree();
+  const floorMat = useMemo(() => new THREE.MeshStandardMaterial({
+    color: new THREE.Color(0x180900), roughness: .06, metalness: .75, envMapIntensity: .4,
+  }), []);
 
   return (
     <>
-      <CinematicCamera progress={scrollProgress} />
-
-      {/* Deep dark fog atmosphere */}
-      <fog attach="fog" args={[0x0d0602, 8, 22]} />
-      <color attach="background" args={[0x0d0602]} />
-
-      {/* Firelight rigs */}
-      <FireLights intensity={fireIntensity} />
-
-      {/* Floor */}
-      <Floor />
-
-      {/* Steam */}
-      <Steam intensity={steamIntensity} />
-
-      {/* Embers */}
-      <Embers intensity={fireIntensity * 0.85} />
-
-      {/* Sparkles — ambient firefly motes in the air */}
-      <Sparkles
-        count={60}
-        scale={[6, 4, 4]}
-        size={2}
-        speed={0.3}
-        opacity={0.4}
-        color={0xf97316}
-        position={[0, 0, 0]}
-      />
-
-      {/* The chicken — fades out as ingredients scatter */}
-      <group visible={chickenOpacity > 0.01}>
-        <ChickenMesh
-          scrollProgress={scrollProgress}
-          caramel={caramel}
-          fireIntensity={fireIntensity}
-        />
-      </group>
-
-      {/* Ingredients */}
-      {ingredients.map((ing) => (
-        <IngredientOrb
-          key={ing.id}
-          config={ing}
-          assembleProgress={assembleProgress}
-          scatterProgress={scatterProgress}
-          time={clock.getElapsedTime()}
-        />
+      <CinematicCamera progress={progress} />
+      <fog attach="fog" args={[0x0c0501, 9, 24]} />
+      <color attach="background" args={[0x0c0501]} />
+      <FireLights intensity={fire} />
+      {/* Floor — dark reflective surface */}
+      <mesh rotation={[-Math.PI/2,0,0]} position={[0,-2,0]} receiveShadow>
+        <planeGeometry args={[22,22]} />
+        <primitive object={floorMat} attach="material" />
+      </mesh>
+      <Steam intensity={steam} />
+      <Embers intensity={fire * .75} />
+      <Sparkles count={50} scale={[5,3.5,4]} size={1.8} speed={.25} opacity={.35} color={0xf97316} />
+      {chickenAlpha > .01 && (
+        <group scale={[chickenAlpha, chickenAlpha, chickenAlpha]}>
+          <ChickenMesh progress={progress} caramel={caramel} fire={fire} />
+        </group>
+      )}
+      {orbAlpha > .01 && ORBS.map((cfg, i) => (
+        <group key={i} scale={[orbAlpha, orbAlpha, orbAlpha]}>
+          <OrbMesh cfg={cfg} assemble={assemble} scatter={scatter} />
+        </group>
       ))}
     </>
   );
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   OVERLAY — HTML overlaid on the canvas, driven by scroll
+   SCROLL PHASES & OVERLAY
+   Menu items now start at progress 0.55 (≈137vh into a 250vh section)
 ───────────────────────────────────────────────────────────────── */
-const MENU_PHASES = [
-  { range: [0.00, 0.12], type: "intro" as const },
-  { range: [0.12, 0.30], type: "chicken-reveal" as const },
-  { range: [0.30, 0.48], type: "closeup" as const },
-  { range: [0.48, 0.62], type: "scatter" as const },
-  { range: [0.62, 0.78], type: "orbit" as const },
-  { range: [0.78, 1.00], type: "menu-reveal" as const },
-];
+type Phase = "intro" | "reveal" | "closeup" | "scatter" | "items";
 
-function getPhase(progress: number) {
-  for (const phase of MENU_PHASES) {
-    if (progress >= phase.range[0] && progress <= phase.range[1]) {
-      return phase.type;
-    }
-  }
-  return "menu-reveal";
+function phase(p: number): Phase {
+  if (p < .12) return "intro";
+  if (p < .30) return "reveal";
+  if (p < .44) return "closeup";
+  if (p < .55) return "scatter";
+  return "items";
 }
 
-// Which menu items to surface in the assembly sequence (featured)
-const FEATURED_ITEM_INDICES = [0, 1, 4, 2, 5, 6]; // Ciabatta, Wrap, Salad, Whole Chicken, Wings, Wedges
-
-function getActiveItemIndex(progress: number): number {
-  if (progress < 0.62) return -1;
-  const t = (progress - 0.62) / 0.38;
-  return Math.min(FEATURED_ITEM_INDICES.length - 1, Math.floor(t * FEATURED_ITEM_INDICES.length));
+function activeItem(p: number, items: MenuItem[]): { item: MenuItem; seqIdx: number; itemT: number } | null {
+  if (p < .55) return null;
+  const span = .45; // 0.55–1.0
+  const perItem = span / FEATURED.length;
+  const seqIdx  = Math.min(FEATURED.length - 1, Math.floor((p - .55) / perItem));
+  const itemStart = .55 + seqIdx * perItem;
+  const itemT     = Math.max(0, Math.min(1, (p - itemStart) / perItem));
+  return { item: items[FEATURED[seqIdx]], seqIdx, itemT };
 }
 
-function OverlayContent({
-  scrollProgress,
-  items,
-}: {
-  scrollProgress: number;
-  items: MenuItem[];
-}) {
-  const phase = getPhase(scrollProgress);
-  const activeItemSeqIdx = getActiveItemIndex(scrollProgress);
-  const activeItemIdx    = activeItemSeqIdx >= 0 ? FEATURED_ITEM_INDICES[activeItemSeqIdx] : -1;
-  const activeItem       = activeItemIdx >= 0 ? items[activeItemIdx] : null;
-
-  // Within-item progress for current item
-  const itemDuration = 0.38 / FEATURED_ITEM_INDICES.length;
-  const itemStart    = 0.62 + activeItemSeqIdx * itemDuration;
-  const itemProgress = activeItemSeqIdx >= 0
-    ? Math.max(0, Math.min(1, (scrollProgress - itemStart) / itemDuration))
-    : 0;
-
-  // Fadeout as item exits
-  const itemFade = itemProgress < 0.75 ? 1 : 1 - ((itemProgress - 0.75) / 0.25);
+function Overlay({ progress, items }: { progress: number; items: MenuItem[] }) {
+  const ph = phase(progress);
+  const ai = activeItem(progress, items);
+  // Item fade: stays visible through 85% of its slot, then fades
+  const itemOpacity = ai ? (ai.itemT < .82 ? 1 : 1 - (ai.itemT - .82) / .18) : 0;
 
   return (
-    <div className="absolute inset-0 pointer-events-none select-none flex flex-col">
-
-      {/* TOP — section label */}
-      <div className="px-8 pt-10 md:px-16 md:pt-14">
-        <motion.div
-          key="label"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center gap-3"
-        >
-          <div className="w-8 h-px bg-orange-500" />
-          <span className="text-orange-500 text-[11px] font-sans tracking-[0.35em] uppercase font-medium">
-            What We Serve
-          </span>
-        </motion.div>
+    <div className="absolute inset-0 pointer-events-none select-none">
+      {/* Section label — always visible */}
+      <div className="absolute top-10 left-8 md:left-14 flex items-center gap-3">
+        <div className="w-6 h-px bg-orange-500" />
+        <span className="text-orange-500 text-[10px] font-sans tracking-[0.35em] uppercase font-medium">
+          What We Serve
+        </span>
       </div>
 
-      {/* CENTER — phase-specific content */}
-      <div className="flex-1 flex items-center justify-center px-8 md:px-16">
+      {/* Centre stage text */}
+      <div className="absolute inset-0 flex items-center justify-center">
         <AnimatePresence mode="wait">
-
-          {/* INTRO */}
-          {phase === "intro" && (
-            <motion.div
-              key="intro"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 1.2 }}
-              className="text-center max-w-xl"
-            >
-              <h2 className="font-display text-[clamp(3rem,8vw,7rem)] font-black text-white leading-none mb-4">
+          {ph === "intro" && (
+            <motion.div key="intro" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0,y:-20}}
+              transition={{duration:.8}} className="text-center">
+              <h2 className="font-display text-[clamp(3.5rem,9vw,8rem)] font-black text-white leading-none">
                 The Menu.
               </h2>
-              <p className="font-sans text-white/30 text-sm tracking-[0.3em] uppercase">
-                Scroll to explore
-              </p>
+              <motion.p initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:.5,duration:.6}}
+                className="font-sans text-white/30 text-xs tracking-[0.4em] uppercase mt-5">
+                Scroll to begin
+              </motion.p>
             </motion.div>
           )}
 
-          {/* CHICKEN REVEAL */}
-          {phase === "chicken-reveal" && (
-            <motion.div
-              key="chicken-reveal"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center"
-            >
-              <div className="overflow-hidden mb-4">
-                <motion.h2
-                  initial={{ y: "100%" }}
-                  animate={{ y: "0%" }}
-                  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-display text-[clamp(2rem,6vw,5.5rem)] font-black text-white leading-none"
-                >
+          {ph === "reveal" && (
+            <motion.div key="reveal" initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} exit={{opacity:0}}
+              transition={{duration:.75,ease:[.16,1,.3,1]}} className="text-center">
+              <div className="overflow-hidden">
+                <motion.h2 initial={{y:"105%"}} animate={{y:"0%"}}
+                  transition={{duration:.85,ease:[.16,1,.3,1]}}
+                  className="font-display text-[clamp(2.5rem,7vw,6.5rem)] font-black text-white leading-none">
                   Slow-roasted.
                 </motion.h2>
               </div>
-              <div className="overflow-hidden">
-                <motion.h2
-                  initial={{ y: "100%" }}
-                  animate={{ y: "0%" }}
-                  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
-                  className="font-display text-[clamp(2rem,6vw,5.5rem)] font-black italic text-orange-500 leading-none"
-                >
+              <div className="overflow-hidden mt-1">
+                <motion.h2 initial={{y:"105%"}} animate={{y:"0%"}}
+                  transition={{duration:.85,ease:[.16,1,.3,1],delay:.1}}
+                  className="font-display text-[clamp(2.5rem,7vw,6.5rem)] font-black italic text-orange-500 leading-none">
                   Every day.
                 </motion.h2>
               </div>
             </motion.div>
           )}
 
-          {/* CLOSE UP */}
-          {phase === "closeup" && (
-            <motion.div
-              key="closeup"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              className="absolute bottom-24 left-8 md:left-16 max-w-xs"
-            >
-              <p className="font-sans text-white/50 text-sm leading-relaxed">
-                Seasoned with patience. Cooked over open heat until every surface caramelises to a deep mahogany crust. Cork's finest.
+          {ph === "closeup" && (
+            <motion.div key="closeup" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
+              transition={{duration:.6}} className="absolute bottom-20 left-8 md:left-14 max-w-xs">
+              <p className="font-sans text-white/45 text-sm leading-relaxed">
+                Seasoned with patience. Cooked over open heat until every surface caramelises to a deep mahogany crust.
               </p>
             </motion.div>
           )}
 
-          {/* SCATTER */}
-          {phase === "scatter" && (
-            <motion.div
-              key="scatter"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center"
-            >
-              <p className="font-sans text-white/40 text-xs tracking-[0.4em] uppercase mb-3">
-                Every ingredient handpicked
-              </p>
-              <h2 className="font-display text-[clamp(2.5rem,7vw,6rem)] font-black text-white leading-none">
+          {ph === "scatter" && (
+            <motion.div key="scatter" initial={{opacity:0,scale:.92}} animate={{opacity:1,scale:1}}
+              exit={{opacity:0}} transition={{duration:.65,ease:[.16,1,.3,1]}} className="text-center">
+              <p className="font-sans text-white/35 text-[10px] tracking-[0.4em] uppercase mb-3">Every ingredient handpicked</p>
+              <h2 className="font-display text-[clamp(2.8rem,7vw,6rem)] font-black text-white leading-none">
                 Built to order.
               </h2>
             </motion.div>
           )}
-
-          {/* ORBIT */}
-          {phase === "orbit" && (
-            <motion.div
-              key="orbit"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-              className="absolute bottom-24 right-8 md:right-16 text-right max-w-xs"
-            >
-              <p className="font-sans text-white/35 text-xs tracking-[0.3em] uppercase">
-                Premium ingredients · Fresh daily
-              </p>
-            </motion.div>
-          )}
-
-          {/* MENU ITEM REVEALS */}
-          {phase === "menu-reveal" && activeItem && (
-            <motion.div
-              key={`item-${activeItemIdx}`}
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              animate={{ opacity: itemFade, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -30, scale: 1.04 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute right-8 md:right-14 top-1/2 -translate-y-1/2 max-w-sm text-right"
-            >
-              {activeItem.badge && (
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-orange-500/40 bg-orange-500/10 text-orange-400 text-[10px] font-sans tracking-widest uppercase mb-4"
-                >
-                  <span className="w-1 h-1 rounded-full bg-orange-500 animate-pulse" />
-                  {activeItem.badge}
-                </motion.div>
-              )}
-
-              <div className="overflow-hidden mb-3">
-                <motion.h3
-                  initial={{ y: "100%" }}
-                  animate={{ y: "0%" }}
-                  transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-                  className="font-display text-[clamp(2.2rem,5vw,4.5rem)] font-black text-white leading-none"
-                >
-                  {activeItem.name}
-                </motion.h3>
-              </div>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.35, duration: 0.6 }}
-                className="font-sans text-white/50 text-sm leading-relaxed mb-5"
-              >
-                {activeItem.description}
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.45, duration: 0.5 }}
-                className="flex items-baseline gap-3 justify-end"
-              >
-                <span className="font-condensed text-[3rem] text-orange-400 leading-none tracking-wide">
-                  {activeItem.price}
-                </span>
-                <span className="font-sans text-white/25 text-xs uppercase tracking-widest">
-                  {activeItem.category}
-                </span>
-              </motion.div>
-
-              {/* Item progress bar */}
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: itemProgress }}
-                transition={{ duration: 0 }}
-                className="mt-5 h-px bg-gradient-to-l from-orange-500 to-transparent origin-right"
-                style={{ transformOrigin: "right" }}
-              />
-            </motion.div>
-          )}
         </AnimatePresence>
       </div>
 
-      {/* BOTTOM — scroll indicator or all-menu list */}
-      <div className="px-8 pb-10 md:px-16 md:pb-12 flex items-end justify-between">
+      {/* ── MENU ITEM PANEL — right side, always rendered during items phase ── */}
+      {ph === "items" && ai && (
+        <motion.div
+          key={`item-${ai.seqIdx}`}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: itemOpacity, x: 0 }}
+          transition={{ duration: .55, ease: [.16,1,.3,1] }}
+          className="absolute right-0 top-0 h-full w-full md:w-1/2 flex flex-col justify-center px-8 md:px-14"
+          style={{
+            background: "linear-gradient(to left, rgba(12,5,1,0.92) 0%, rgba(12,5,1,0.7) 60%, transparent 100%)",
+          }}
+        >
+          {/* Counter */}
+          <div className="flex items-center gap-2 mb-8">
+            <span className="font-condensed text-[3.5rem] text-white/08 leading-none">
+              {String(ai.seqIdx + 1).padStart(2, "0")}
+            </span>
+            <div className="flex gap-1 items-center ml-2">
+              {FEATURED.map((_, i) => (
+                <motion.div key={i}
+                  animate={{ width: i === ai.seqIdx ? 28 : 6, backgroundColor: i === ai.seqIdx ? "#f97316" : "rgba(255,255,255,0.15)" }}
+                  transition={{ duration: .35 }}
+                  className="h-px rounded-full"
+                />
+              ))}
+            </div>
+          </div>
 
-        {/* Left — item counter during menu reveal */}
-        <AnimatePresence>
-          {phase === "menu-reveal" && activeItemSeqIdx >= 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="flex items-center gap-3"
-            >
-              <span className="font-condensed text-5xl text-white/10 leading-none">
-                {String(activeItemSeqIdx + 1).padStart(2, "0")}
-              </span>
-              <div className="flex gap-1">
-                {FEATURED_ITEM_INDICES.map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="h-px bg-white/20 rounded-full"
-                    animate={{ width: i === activeItemSeqIdx ? 32 : 8, backgroundColor: i === activeItemSeqIdx ? "#f97316" : "rgba(255,255,255,0.2)" }}
-                    transition={{ duration: 0.4 }}
-                  />
-                ))}
-              </div>
-            </motion.div>
+          {/* Badge */}
+          {ai.item.badge && (
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-orange-500/35 bg-orange-500/08 text-orange-400 text-[10px] font-sans tracking-widest uppercase mb-4 w-fit">
+              <span className="w-1 h-1 rounded-full bg-orange-500 animate-pulse" />
+              {ai.item.badge}
+            </div>
           )}
-        </AnimatePresence>
 
-        {/* Right — scroll hint until menu-reveal */}
-        <AnimatePresence>
-          {phase !== "menu-reveal" && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="ml-auto flex flex-col items-end gap-1.5"
+          {/* Name */}
+          <div className="overflow-hidden mb-3">
+            <motion.h3
+              initial={{ y: "100%" }}
+              animate={{ y: "0%" }}
+              transition={{ duration: .7, ease: [.16,1,.3,1] }}
+              className="font-display text-[clamp(2rem,4.5vw,4rem)] font-black text-white leading-none"
             >
-              <span className="font-sans text-white/20 text-[10px] tracking-[0.35em] uppercase">Scroll</span>
-              <motion.div
-                className="w-px h-8 bg-gradient-to-b from-white/25 to-transparent"
-                animate={{ scaleY: [1, 0.4, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                style={{ transformOrigin: "top" }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+              {ai.item.name}
+            </motion.h3>
+          </div>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: .25, duration: .6 }}
+            className="font-sans text-white/50 text-sm leading-relaxed mb-6 max-w-xs"
+          >
+            {ai.item.description}
+          </motion.p>
+
+          {/* Price */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: .35, duration: .5 }}
+            className="flex items-baseline gap-3"
+          >
+            <span className="font-condensed text-[3.2rem] text-orange-400 leading-none tracking-wide">
+              {ai.item.price}
+            </span>
+            <span className="font-sans text-white/22 text-[10px] uppercase tracking-widest">{ai.item.category}</span>
+          </motion.div>
+
+          {/* Progress line */}
+          <div className="mt-6 h-px bg-white/8 rounded-full overflow-hidden w-full max-w-xs">
+            <motion.div
+              className="h-full bg-gradient-to-r from-orange-500 to-red-500"
+              animate={{ scaleX: ai.itemT }}
+              style={{ transformOrigin: "left" }}
+              transition={{ duration: 0 }}
+            />
+          </div>
+        </motion.div>
+      )}
+
+      {/* Scroll hint */}
+      {ph !== "items" && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        >
+          <span className="font-sans text-white/20 text-[9px] tracking-[0.35em] uppercase">Scroll</span>
+          <motion.div className="w-px h-8 bg-gradient-to-b from-white/25 to-transparent"
+            animate={{ scaleY:[1,.35,1], opacity:[.5,1,.5] }}
+            transition={{ duration:2, repeat:Infinity, ease:"easeInOut" }}
+            style={{ transformOrigin:"top" }}
+          />
+        </motion.div>
+      )}
     </div>
   );
 }
@@ -1219,27 +722,23 @@ function OverlayContent({
 /* ─────────────────────────────────────────────────────────────────
    REDUCED MOTION FALLBACK
 ───────────────────────────────────────────────────────────────── */
-function ReducedMotionMenu({ items }: { items: MenuItem[] }) {
+function StaticMenu({ items }: { items: MenuItem[] }) {
   return (
     <section className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="menu">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-px bg-orange-500" />
-            <span className="text-orange-500 text-xs font-sans tracking-[0.3em] uppercase font-medium">What We Serve</span>
-          </div>
-          <h2 className="font-display text-[clamp(3rem,7vw,6rem)] font-black text-white leading-none">The Menu.</h2>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-px bg-orange-500" />
+          <span className="text-orange-500 text-xs font-sans tracking-[0.3em] uppercase font-medium">What We Serve</span>
         </div>
+        <h2 className="font-display text-[clamp(3rem,7vw,6rem)] font-black text-white leading-none mb-16">The Menu.</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {items.map((item) => (
             <div key={item.id} className="glass-dark rounded-2xl p-6">
-              <div className="flex items-start justify-between mb-4">
-                {item.badge && (
-                  <span className="text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
-                    {item.badge}
-                  </span>
-                )}
-              </div>
+              {item.badge && (
+                <span className="text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 mb-4 inline-block">
+                  {item.badge}
+                </span>
+              )}
               <h3 className="font-display font-bold text-white text-xl mb-2">{item.name}</h3>
               <p className="font-sans text-white/50 text-sm leading-relaxed mb-5">{item.description}</p>
               <span className="font-condensed text-2xl text-orange-400 tracking-wide">{item.price}</span>
@@ -1252,42 +751,32 @@ function ReducedMotionMenu({ items }: { items: MenuItem[] }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   MAIN EXPORT
+   ROOT EXPORT
 ───────────────────────────────────────────────────────────────── */
 export default function CinematicMenuSection({ content }: { content: MenuContent }) {
-  const reduce = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null!);
+  const reduce     = useReducedMotion();
+  const secRef     = useRef<HTMLElement>(null!);
   const [mounted, setMounted] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => { setMounted(true); }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
+  const { scrollYProgress } = useScroll({ target: secRef, offset: ["start start", "end end"] });
+  // Tighter spring — responsive, not laggy (stiffness 180 vs old 60)
+  const smooth = useSpring(scrollYProgress, { stiffness: 180, damping: 34, mass: 0.38 });
 
-  // Smooth the raw scroll value — feels like a real camera on a dolly
-  const smooth = useSpring(scrollYProgress, { stiffness: 60, damping: 30, mass: 0.8 });
+  useEffect(() => smooth.on("change", setProgress), [smooth]);
 
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    return smooth.on("change", (v) => setProgress(v));
-  }, [smooth]);
-
-  const activeItemIndex = getActiveItemIndex(progress);
-
-  if (reduce) return <ReducedMotionMenu items={content.items} />;
+  if (reduce) return <StaticMenu items={content.items} />;
 
   return (
     <section
-      ref={sectionRef}
+      ref={secRef}
       id="menu"
-      className="relative"
-      style={{ height: `${SCROLL_HEIGHT}vh` }}
       aria-label="Hansum menu — cinematic experience"
+      style={{ height: `${SCROLL_HEIGHT}vh` }}
+      className="relative"
     >
-      {/* Pinned fullscreen canvas */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {mounted && (
           <Canvas
@@ -1297,20 +786,18 @@ export default function CinematicMenuSection({ content }: { content: MenuContent
               alpha: false,
               powerPreference: "high-performance",
               toneMapping: THREE.ACESFilmicToneMapping,
-              toneMappingExposure: 1.1,
+              toneMappingExposure: .95,
             }}
             shadows={{ type: THREE.PCFSoftShadowMap }}
-            camera={{ position: [0, 0.5, 9], fov: 55, near: 0.1, far: 60 }}
-            dpr={[1, Math.min(window.devicePixelRatio, 2)]}
+            camera={{ position: [0, .4, 8.5], fov: 54, near: .1, far: 60 }}
+            dpr={[1, typeof window !== "undefined" ? Math.min(window.devicePixelRatio, 2) : 1]}
           >
             <Suspense fallback={null}>
-              <Scene scrollProgress={progress} activeItemIndex={activeItemIndex} />
+              <Scene progress={progress} />
             </Suspense>
           </Canvas>
         )}
-
-        {/* HTML overlay */}
-        <OverlayContent scrollProgress={progress} items={content.items} />
+        <Overlay progress={progress} items={content.items} />
       </div>
     </section>
   );

@@ -46,13 +46,12 @@ export default function HeroSection({ content }: { content: HeroContent }) {
   const sceneOverlay = useTransform(scrollYProgress, [0.45, 0.92], [0, 0.9]);
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
 
-  // Smooth the scroll-linked values with a light spring so scrubbing never
-  // feels stepwise/glitchy.
-  const ss = { stiffness: 220, damping: 40, mass: 0.4 };
-  const sHeadlineScale = useSpring(headlineScale, ss);
-  const sHeadlineY = useSpring(headlineY, ss);
-  const sHeadlineOpacity = useSpring(headlineOpacity, ss);
-  const sBgScale = useSpring(bgScale, ss);
+  // Direct transforms — no intermediate spring; browser scroll is already
+  // smooth on modern devices and chained springs add visible lag.
+  const sHeadlineScale = headlineScale;
+  const sHeadlineY = headlineY;
+  const sHeadlineOpacity = headlineOpacity;
+  const sBgScale = bgScale;
 
   // Cursor influence field (normalised -0.5..0.5).
   const mvX = useMotionValue(0);
