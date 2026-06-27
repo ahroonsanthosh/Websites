@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import content from "@/lib/content";
+import { assetPath } from "@/lib/asset";
 
 const { gallery, business } = content;
 
@@ -74,7 +75,7 @@ export default function Gallery() {
               className={`relative overflow-hidden rounded-2xl group ${spans[i] ?? "col-span-1"}`}
             >
               <img
-                src={photo.src}
+                src={assetPath(photo.src)}
                 alt={photo.alt}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />

@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import content from "@/lib/content";
+import { assetPath } from "@/lib/asset";
 
 const { about } = content;
 
@@ -24,7 +25,7 @@ export default function About() {
               className="absolute top-0 left-0 w-[65%] h-[75%] rounded-2xl overflow-hidden shadow-xl"
             >
               <img
-                src={about.images[0].src}
+                src={assetPath(about.images[0].src)}
                 alt={about.images[0].alt}
                 className="w-full h-full object-cover"
               />
@@ -38,7 +39,7 @@ export default function About() {
               className="absolute bottom-0 right-0 w-[60%] h-[65%] rounded-2xl overflow-hidden shadow-xl border-4 border-[#FDF6EB]"
             >
               <img
-                src={about.images[1].src}
+                src={assetPath(about.images[1].src)}
                 alt={about.images[1].alt}
                 className="w-full h-full object-cover"
               />
