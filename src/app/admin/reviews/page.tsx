@@ -83,20 +83,20 @@ export default function AdminReviewsPage() {
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-white/40 text-[10px] uppercase tracking-widest mb-1">Name</label>
+                <label className="block text-white/40 text-xs uppercase tracking-widest mb-1">Name</label>
                 <input type="text" value={review.name} onChange={(e) => update(review.id, { name: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-orange-500/50" />
               </div>
               <div>
-                <label className="block text-white/40 text-[10px] uppercase tracking-widest mb-1">Date</label>
+                <label className="block text-white/40 text-xs uppercase tracking-widest mb-1">Date</label>
                 <input type="date" value={review.date} onChange={(e) => update(review.id, { date: e.target.value })}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-orange-500/50" />
               </div>
             </div>
             <div>
-              <label className="block text-white/40 text-[10px] uppercase tracking-widest mb-1">Review Text</label>
+              <label className="block text-white/40 text-xs uppercase tracking-widest mb-1">Review Text</label>
               <textarea rows={3} value={review.text} onChange={(e) => update(review.id, { text: e.target.value })}
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-white text-sm focus:outline-none focus:border-orange-500/50 resize-none" />
             </div>

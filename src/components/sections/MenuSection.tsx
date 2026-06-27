@@ -295,7 +295,7 @@ export default function MenuSection({ content }: { content: MenuContent }) {
             className="flex items-center gap-3 mb-6"
           >
             <div className="w-8 h-px" style={{ background: "#AAFF00" }} />
-            <span className="text-[11px] font-sans tracking-[0.35em] uppercase font-medium" style={{ color: "#AAFF00" }}>
+            <span className="text-xs font-sans tracking-[0.35em] uppercase font-medium" style={{ color: "#AAFF00" }}>
               What We Serve
             </span>
           </motion.div>

@@ -212,7 +212,7 @@ export default function HeroSection({ content }: { content: HeroContent }) {
           animate={{ opacity: introDone ? 1 : 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-white/30 text-[10px] font-sans tracking-[0.3em] uppercase">Scroll</span>
+          <span className="text-white/30 text-xs font-sans tracking-[0.3em] uppercase">Scroll</span>
           <motion.div
             className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent"
             animate={{ scaleY: [1, 0.3, 1], opacity: [0.5, 1, 0.5] }}

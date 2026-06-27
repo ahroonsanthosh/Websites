@@ -8,12 +8,12 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-[#0F0F0F] pt-20 pb-10 overflow-hidden">
+    <footer className="relative bg-[#0F0F0F] pt-12 pb-8 md:pt-20 md:pb-10 overflow-hidden">
       {/* Top gradient line */}
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, #FF5500, #FF2D6B, #8B5CF6, #00C2FF, #AAFF00, transparent)" }} />
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16">
           {/* Brand */}
           <div className="lg:col-span-2">
             <motion.div
@@ -21,7 +21,7 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="font-condensed text-5xl tracking-wider mb-4" style={{ background: "linear-gradient(135deg, #FF5500, #FF2D6B, #8B5CF6, #00C2FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>HANSUM</h2>
+              <h2 className="font-condensed text-4xl md:text-5xl tracking-wider mb-4" style={{ background: "linear-gradient(135deg, #FF5500, #FF2D6B, #8B5CF6, #00C2FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>HANSUM</h2>
               <p className="font-sans text-white/40 text-sm leading-relaxed max-w-xs">
                 Cork&apos;s finest rotisserie chicken, handcrafted daily inside Marina Market.
                 Premium ingredients, patient cooking, zero shortcuts.

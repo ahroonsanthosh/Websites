@@ -95,7 +95,7 @@ export default function WhyHansumSection() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -8, transition: { type: "spring", stiffness: 300, damping: 20 } }}
-              className="group glass rounded-3xl p-8 relative overflow-hidden cursor-default"
+              className="group glass rounded-3xl p-5 md:p-8 relative overflow-hidden cursor-default"
               style={{ borderColor: stat.color + "33" }}
             >
               {/* Coloured top bar */}
@@ -115,7 +115,7 @@ export default function WhyHansumSection() {
         </div>
 
         {/* Bottom: text + photo side by side */}
-        <div className="mt-20 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="mt-12 md:mt-20 grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

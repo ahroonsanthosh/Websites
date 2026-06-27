@@ -101,7 +101,7 @@ export default function AdminGalleryPage() {
 
       {/* Upload drop zone */}
       <div
-        className="border-2 border-dashed border-white/10 rounded-2xl p-10 text-center mb-6 hover:border-orange-500/30 transition-colors cursor-pointer"
+        className="border-2 border-dashed border-white/10 rounded-2xl p-6 md:p-10 text-center mb-6 hover:border-orange-500/30 transition-colors cursor-pointer"
         onClick={() => fileRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => { e.preventDefault(); handleUpload(e.dataTransfer.files); }}
