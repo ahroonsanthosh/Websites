@@ -74,7 +74,7 @@ export default function CTASection() {
   const ctaY = useSpring(useTransform(scrollYProgress, [0.45, 0.75], [40, 0]), ss);
 
   return (
-    <section ref={ref} className="relative h-[180vh] bg-[#1A1A1A]" id="order">
+    <section ref={ref} className="relative h-[260vh] bg-[#1A1A1A]" id="order">
       {/* Pinned climax scene */}
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
         <Confetti active={confetti} />
