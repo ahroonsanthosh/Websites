@@ -65,28 +65,24 @@ export default function WhyHansumSection() {
 
         {/* Headline */}
         <div className="mb-10 md:mb-20">
-          <div className="overflow-hidden mb-2">
-            <motion.h2
-              initial={{ y: "110%" }}
-              whileInView={{ y: "0%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-black text-[#1A1A1A] leading-none"
-            >
-              Not your average
-            </motion.h2>
-          </div>
-          <div className="overflow-hidden">
-            <motion.h2
-              initial={{ y: "110%" }}
-              whileInView={{ y: "0%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-black italic leading-none text-gradient"
-            >
-              chicken spot.
-            </motion.h2>
-          </div>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-black text-[#1A1A1A] leading-none mb-2"
+          >
+            Not your average
+          </motion.h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-black italic leading-none text-gradient"
+          >
+            chicken spot.
+          </motion.h2>
         </div>
 
         {/* Stat cards */}

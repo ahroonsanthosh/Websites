@@ -131,28 +131,24 @@ export default function LocationSection({ content }: { content: LocationContent 
               </span>
             </motion.div>
 
-            <div className="overflow-hidden mb-2">
-              <motion.h2
-                initial={{ y: "110%" }}
-                whileInView={{ y: "0%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display text-[clamp(2.5rem,5vw,5rem)] font-black text-white leading-none"
-              >
-                We&apos;re inside
-              </motion.h2>
-            </div>
-            <div className="overflow-hidden mb-8">
-              <motion.h2
-                initial={{ y: "110%" }}
-                whileInView={{ y: "0%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display text-[clamp(2.5rem,5vw,5rem)] font-black italic leading-none text-gradient"
-              >
-                Marina Market.
-              </motion.h2>
-            </div>
+            <motion.h2
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display text-[clamp(2.5rem,5vw,5rem)] font-black text-white leading-none mb-2"
+            >
+              We&apos;re inside
+            </motion.h2>
+            <motion.h2
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display text-[clamp(2.5rem,5vw,5rem)] font-black italic leading-none text-gradient mb-8"
+            >
+              Marina Market.
+            </motion.h2>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

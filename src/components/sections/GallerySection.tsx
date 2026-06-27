@@ -45,17 +45,15 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
         </motion.div>
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="overflow-hidden">
-            <motion.h2
-              initial={{ y: "110%" }}
-              whileInView={{ y: "0%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(2.5rem,6vw,5rem)] font-black text-[#1A1A1A] leading-none"
-            >
-              Follow the Journey.
-            </motion.h2>
-          </div>
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="font-display text-[clamp(2.5rem,6vw,5rem)] font-black text-[#1A1A1A] leading-none"
+          >
+            Follow the Journey.
+          </motion.h2>
           <motion.a
             href="https://www.instagram.com/hansumcork"
             target="_blank"
