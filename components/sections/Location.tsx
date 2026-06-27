@@ -2,22 +2,14 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import content from "@/lib/content";
 
-const hours = [
-  { day: "Monday", time: "9:00 – 17:30" },
-  { day: "Tuesday", time: "9:00 – 17:30" },
-  { day: "Wednesday", time: "9:00 – 17:30" },
-  { day: "Thursday", time: "9:00 – 17:30" },
-  { day: "Friday", time: "9:00 – 17:30" },
-  { day: "Saturday", time: "9:00 – 17:30" },
-  { day: "Sunday", time: "Closed" },
-];
-
-const today = new Date().getDay(); // 0 = Sun, 1 = Mon, ...
+const { hours, business } = content;
 
 export default function Location() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const today = new Date().getDay();
 
   return (
     <section id="location" ref={ref} className="bg-[#1A0C05] py-16 md:py-36 overflow-hidden">
@@ -44,7 +36,6 @@ export default function Location() {
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-start">
 
-          {/* Map */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -52,40 +43,35 @@ export default function Location() {
             className="rounded-2xl overflow-hidden border border-[#FDF6EB]/10 h-[260px] sm:h-[320px] md:h-[440px] relative"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2461.5684834786!2d-8.477064!3d51.898214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x484490bce1ba6eef%3A0x75e90e2d2cd50f51!2sThe%20English%20Market!5e0!3m2!1sen!2sie!4v1700000000000!5m2!1sen!2sie"
+              src={business.mapsEmbed}
               width="100%"
               height="100%"
               style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) saturate(0.7)" }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Uncle's Deli Cork — The English Market"
+              title={`${business.name} — ${business.address.line2}`}
             />
           </motion.div>
 
-          {/* Info */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-8"
+            className="space-y-4 md:space-y-8"
           >
             {/* Address */}
             <div className="bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-2xl p-6">
-              <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-3">
-                Address
-              </p>
-              <p className="font-display italic text-[#FDF6EB] text-2xl font-semibold leading-snug">
-                Uncle&apos;s Deli Cork
-              </p>
+              <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-3">Address</p>
+              <p className="font-display italic text-[#FDF6EB] text-2xl font-semibold leading-snug">{business.name}</p>
               <p className="text-[#FDF6EB]/60 text-sm mt-2 leading-relaxed">
-                Unit 12, 13 Grand Parade<br />
-                The English Market<br />
-                Cork City, T12 V528<br />
-                Ireland
+                {business.address.line1}<br />
+                {business.address.line2}<br />
+                {business.address.city}, {business.address.eircode}<br />
+                {business.address.country}
               </p>
               <a
-                href="https://maps.google.com/?q=The+English+Market+Cork"
+                href={business.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 mt-4 text-[#E8622A] font-accent text-[10px] tracking-[0.2em] uppercase hover:text-[#F4A61D] transition-colors"
@@ -99,9 +85,7 @@ export default function Location() {
 
             {/* Hours */}
             <div className="bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-2xl p-6">
-              <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-4">
-                Opening Hours
-              </p>
+              <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-4">Opening Hours</p>
               <div className="space-y-2.5">
                 {hours.map((h, i) => {
                   const dayIndex = i === 6 ? 0 : i + 1;
@@ -109,21 +93,13 @@ export default function Location() {
                   return (
                     <div
                       key={h.day}
-                      className={`flex justify-between items-center py-1.5 border-b border-[#FDF6EB]/5 last:border-0 ${
-                        isToday ? "text-[#FDF6EB]" : "text-[#FDF6EB]/40"
-                      }`}
+                      className={`flex justify-between items-center py-1.5 border-b border-[#FDF6EB]/5 last:border-0 ${isToday ? "text-[#FDF6EB]" : "text-[#FDF6EB]/40"}`}
                     >
                       <div className="flex items-center gap-2">
-                        {isToday && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#E8622A] shrink-0" />
-                        )}
-                        <span className={`font-accent text-[11px] tracking-wider uppercase ${isToday ? "" : "ml-3.5"}`}>
-                          {h.day}
-                        </span>
+                        {isToday && <span className="w-1.5 h-1.5 rounded-full bg-[#E8622A] shrink-0" />}
+                        <span className={`font-accent text-[11px] tracking-wider uppercase ${isToday ? "" : "ml-3.5"}`}>{h.day}</span>
                       </div>
-                      <span className={`text-sm font-medium ${h.time === "Closed" ? "text-[#FDF6EB]/30" : ""}`}>
-                        {h.time}
-                      </span>
+                      <span className={`text-sm font-medium ${h.closed ? "text-[#FDF6EB]/30" : ""}`}>{h.time}</span>
                     </div>
                   );
                 })}
@@ -132,11 +108,9 @@ export default function Location() {
 
             {/* Social */}
             <div className="bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-2xl p-6">
-              <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-4">
-                Follow Along
-              </p>
+              <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-4">Follow Along</p>
               <a
-                href="https://www.instagram.com/unclesdelicork/"
+                href={`https://www.instagram.com/${business.instagram}/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 group"
@@ -147,9 +121,7 @@ export default function Location() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-[#FDF6EB] text-sm font-medium group-hover:text-[#E8622A] transition-colors">
-                    @unclesdelicork
-                  </p>
+                  <p className="text-[#FDF6EB] text-sm font-medium group-hover:text-[#E8622A] transition-colors">@{business.instagram}</p>
                   <p className="text-[#FDF6EB]/40 text-xs">Follow us on Instagram</p>
                 </div>
               </a>

@@ -2,12 +2,9 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import content from "@/lib/content";
 
-const stats = [
-  { value: "2019", label: "Est." },
-  { value: "100%", label: "Cork Raised" },
-  { value: "#1", label: "English Market" },
-];
+const { about } = content;
 
 export default function About() {
   const ref = useRef(null);
@@ -27,8 +24,8 @@ export default function About() {
               className="absolute top-0 left-0 w-[65%] h-[75%] rounded-2xl overflow-hidden shadow-xl"
             >
               <img
-                src="https://images.unsplash.com/photo-1544025162-d76538b2a681?w=600&q=85"
-                alt="Rotisserie chicken roasting"
+                src={about.images[0].src}
+                alt={about.images[0].alt}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A0C05]/40 to-transparent" />
@@ -41,23 +38,20 @@ export default function About() {
               className="absolute bottom-0 right-0 w-[60%] h-[65%] rounded-2xl overflow-hidden shadow-xl border-4 border-[#FDF6EB]"
             >
               <img
-                src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=85"
-                alt="Deli food"
+                src={about.images[1].src}
+                alt={about.images[1].alt}
                 className="w-full h-full object-cover"
               />
             </motion.div>
 
-            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.35 }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-24 h-24 rounded-full bg-[#E8622A] flex flex-col items-center justify-center text-center shadow-2xl border-4 border-[#FDF6EB]"
             >
-              <span className="font-display italic text-white text-[10px] leading-tight font-bold">
-                Est.
-              </span>
-              <span className="font-accent text-white text-lg font-bold">2019</span>
+              <span className="font-display italic text-white text-[10px] leading-tight font-bold">Est.</span>
+              <span className="font-accent text-white text-lg font-bold">{about.stats[0].value}</span>
             </motion.div>
           </div>
 
@@ -78,7 +72,7 @@ export default function About() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-display italic text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A0C05] leading-tight mb-6"
             >
-              Born in the heart of{" "}
+              {about.heading.replace("Cork.", "")}
               <span className="text-[#E8622A]">Cork.</span>
             </motion.h2>
 
@@ -88,38 +82,19 @@ export default function About() {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="space-y-4 text-[#1A0C05]/70 leading-relaxed text-[15px]"
             >
-              <p>
-                We started Uncle&apos;s with one simple idea: rotisserie chicken the way
-                it should be — hand-seasoned, slow-roasted over an open flame, and
-                served fresh every single day.
-              </p>
-              <p>
-                Tucked inside Cork&apos;s legendary English Market, we&apos;re proud to be
-                part of Ireland&apos;s most iconic food destination. Every bird is sourced
-                locally, every recipe is made with love, and every customer leaves
-                with a full belly and a smile.
-              </p>
-              <p>
-                Whether you&apos;re grabbing a quick lunch or feeding the whole crew,
-                Uncle&apos;s has you covered. No fuss. Just fire.
-              </p>
+              {about.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
             </motion.div>
 
-            {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.35 }}
               className="mt-10 flex gap-8"
             >
-              {stats.map((s) => (
+              {about.stats.map((s) => (
                 <div key={s.label} className="flex flex-col">
-                  <span className="font-display italic text-3xl font-bold text-[#E8622A]">
-                    {s.value}
-                  </span>
-                  <span className="font-accent text-[10px] tracking-[0.2em] uppercase text-[#1A0C05]/50 mt-1">
-                    {s.label}
-                  </span>
+                  <span className="font-display italic text-3xl font-bold text-[#E8622A]">{s.value}</span>
+                  <span className="font-accent text-[10px] tracking-[0.2em] uppercase text-[#1A0C05]/50 mt-1">{s.label}</span>
                 </div>
               ))}
             </motion.div>
