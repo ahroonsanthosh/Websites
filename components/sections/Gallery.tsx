@@ -15,8 +15,8 @@ const spans = [
   "col-span-1 md:row-span-2",
   "col-span-1",
   "col-span-1",
-  "col-span-1",
-  "col-span-1",
+  "col-span-2 md:col-span-2",
+  "col-span-2 md:col-span-2",
 ];
 
 function GalleryPhoto({ photo, index, span, inView }: { photo: typeof gallery[number]; index: number; span: string; inView: boolean }) {
@@ -33,7 +33,7 @@ function GalleryPhoto({ photo, index, span, inView }: { photo: typeof gallery[nu
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={inView ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.6, delay: Math.min(index * 0.07, 0.35), ease: [0.22, 1, 0.36, 1] }}
       className={`relative overflow-hidden rounded-2xl group ${span}`}
       style={{ perspective: 800 }}
       onMouseMove={handleMouseMove}
@@ -67,7 +67,7 @@ export default function Gallery() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="gallery" ref={ref} className="bg-[#FDF6EB] py-16 md:py-36 overflow-hidden">
+    <section id="gallery" ref={ref} className="bg-[#FDF6EB] py-14 md:py-24">
       <div className="max-w-7xl mx-auto px-5 md:px-10">
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -112,7 +112,7 @@ export default function Gallery() {
 
         <div
           className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
-          style={{ gridAutoRows: "clamp(140px, 20vw, 200px)" }}
+          style={{ gridAutoRows: "160px" }}
         >
           {gallery.map((photo, i) => (
             <GalleryPhoto

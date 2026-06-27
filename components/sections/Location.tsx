@@ -16,7 +16,7 @@ export default function Location() {
   return (
     <section id="location" ref={ref} className="overflow-hidden">
       <LampContainer>
-        <div className="max-w-7xl mx-auto px-5 md:px-10 pb-16 md:pb-28 w-full">
+        <div className="max-w-7xl mx-auto px-5 md:px-10 pb-14 md:pb-24 w-full">
 
           <div className="text-center mb-14">
             <motion.p

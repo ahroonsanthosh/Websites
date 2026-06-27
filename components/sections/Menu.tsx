@@ -41,10 +41,10 @@ export default function Menu() {
   const items = (menu.items as Record<string, typeof menu.items.Rotisserie>)[active] ?? [];
 
   return (
-    <section id="menu" ref={ref} className="bg-[#1A0C05] py-16 md:py-36 overflow-hidden">
+    <section id="menu" ref={ref} className="bg-[#1A0C05] py-14 md:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 md:px-10">
 
-        <div className="text-center mb-14">
+        <div className="text-center mb-10">
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -68,7 +68,7 @@ export default function Menu() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-12 -mx-5 md:mx-0"
+          className="mb-8 -mx-5 md:mx-0"
         >
           <div className="flex overflow-x-auto scrollbar-hide gap-3 px-5 md:px-0 md:justify-center pb-1">
             {menu.categories.map((cat) => (
@@ -103,7 +103,7 @@ export default function Menu() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.4 }}
-            className="grid sm:grid-cols-2 gap-4 md:gap-5"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5"
           >
             {items.map((item, i) => (
               <motion.div
