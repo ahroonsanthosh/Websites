@@ -65,8 +65,8 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
       {/* Pinned scene */}
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         {/* Header */}
-        <div className="max-w-7xl mx-auto w-full px-6 mb-10 md:mb-14">
-          <div className="flex items-center gap-3 mb-5">
+        <div className="max-w-7xl mx-auto w-full px-6 mb-6 md:mb-14">
+          <div className="flex items-center gap-3 mb-3 md:mb-5">
             <div className="w-8 h-px" style={{ background: "#00C2FF" }} />
             <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium" style={{ color: "#00C2FF" }}>
               The Proof
@@ -77,7 +77,7 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-[clamp(2.5rem,6vw,5rem)] font-black text-[#1A1A1A] leading-none"
+            className="font-display text-[clamp(1.75rem,6vw,5rem)] font-black text-[#1A1A1A] leading-tight"
           >
             What Cork is Saying.
           </motion.h2>
@@ -91,7 +91,7 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
             <motion.article
               key={review.id}
               whileHover={{ y: -10, transition: { type: "spring", stiffness: 300, damping: 20 } }}
-              className="flex-shrink-0 w-[78vw] sm:w-[60vw] md:w-[420px] glass rounded-3xl p-8 md:p-10 relative overflow-hidden cursor-default"
+              className="flex-shrink-0 w-[82vw] sm:w-[60vw] md:w-[420px] glass rounded-3xl p-5 md:p-10 relative overflow-hidden cursor-default"
               style={{ borderColor: accent.num + "33" }}
             >
               {/* Coloured left border accent */}
@@ -100,8 +100,8 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
                 &ldquo;
               </div>
 
-              <div className="flex items-center gap-3 mb-6">
-                <span className="font-condensed text-5xl leading-none" style={{ color: accent.num + "99" }}>
+              <div className="flex items-center gap-3 mb-4 md:mb-6">
+                <span className="font-condensed text-3xl md:text-5xl leading-none" style={{ color: accent.num + "99" }}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="flex gap-1">
@@ -111,7 +111,7 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
                 </div>
               </div>
 
-              <p className="font-display text-[#1A1A1A] text-xl md:text-2xl leading-relaxed mb-8 relative z-10">
+              <p className="font-display text-[#1A1A1A] text-base md:text-2xl leading-relaxed mb-4 md:mb-8 relative z-10">
                 &ldquo;{review.text}&rdquo;
               </p>
 
