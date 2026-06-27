@@ -1,15 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useMotionValue,
-  useMotionTemplate,
-  useScroll,
-  useTransform,
-  useSpring,
-} from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 interface MenuItem {
   id: string;
@@ -20,7 +12,6 @@ interface MenuItem {
   featured: boolean;
   available: boolean;
   badge: string;
-  emoji: string;
 }
 
 interface MenuContent {
@@ -28,166 +19,259 @@ interface MenuContent {
   items: MenuItem[];
 }
 
+/* ─── Bouncing letter component ─── */
+function BounceLetter({ char, index }: { char: string; index: number }) {
+  return (
+    <motion.span
+      className="inline-block"
+      animate={{ y: [0, -14, 0] }}
+      transition={{
+        duration: 0.6,
+        repeat: Infinity,
+        repeatDelay: 2.8,
+        delay: index * 0.055,
+        ease: [0.36, 0, 0.64, 1],
+        times: [0, 0.4, 1],
+      }}
+    >
+      {char === " " ? " " : char}
+    </motion.span>
+  );
+}
+
+function BouncingHeading({ text }: { text: string }) {
+  return (
+    <span aria-label={text}>
+      {text.split("").map((char, i) => (
+        <BounceLetter key={i} char={char} index={i} />
+      ))}
+    </span>
+  );
+}
+
+/* ─── Expanding menu card ─── */
 function MenuCard({ item, index }: { item: MenuItem; index: number }) {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const spotlight = useMotionTemplate`radial-gradient(220px circle at ${mouseX}px ${mouseY}px, rgba(249,115,22,0.18), transparent 70%)`;
+  const [hovered, setHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
-  };
+  // Tilt on hover
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [6, -6]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-6, 6]), { stiffness: 300, damping: 30 });
 
-  // Cards assemble from depth (rotateX + translateZ feel) as they enter view,
-  // staggered by column for a built-up, non-generic reveal.
+  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    mx.set((e.clientX - rect.left) / rect.width - 0.5);
+    my.set((e.clientY - rect.top) / rect.height - 0.5);
+  }
+  function onMouseLeave() {
+    setHovered(false);
+    mx.set(0);
+    my.set(0);
+  }
+
   return (
     <motion.div
-      onMouseMove={handleMouseMove}
-      initial={{ opacity: 0, y: 60, rotateX: -18, scale: 0.94 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ type: "spring", stiffness: 90, damping: 18, delay: (index % 3) * 0.08 }}
-      whileHover={{
-        y: -8,
-        rotateX: 4,
-        transition: { type: "spring", stiffness: 300, damping: 20 },
+      ref={cardRef}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={onMouseLeave}
+      onMouseMove={onMouseMove}
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: (index % 3) * 0.07 }}
+      animate={{ scale: hovered ? 1.04 : 1, zIndex: hovered ? 10 : 1 }}
+      style={{
+        rotateX: hovered ? rotateX : 0,
+        rotateY: hovered ? rotateY : 0,
+        transformStyle: "preserve-3d",
+        transformPerspective: 900,
+        position: "relative",
       }}
-      className="group glass-dark rounded-2xl p-6 relative overflow-hidden cursor-default will-change-transform"
-      style={{ transformStyle: "preserve-3d", transformPerspective: 1000 }}
+      className="group cursor-default"
     >
-      {/* Cursor-following spotlight */}
+      {/* Card body */}
       <motion.div
-        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
-        style={{ background: spotlight }}
-      />
-      {/* Base glow on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+        animate={{
+          boxShadow: hovered
+            ? "0 32px 64px rgba(249,115,22,0.18), 0 8px 24px rgba(0,0,0,0.35)"
+            : "0 2px 8px rgba(0,0,0,0.12)",
+        }}
+        transition={{ duration: 0.25 }}
+        className="relative rounded-2xl overflow-hidden bg-[#1A1A1A] border border-white/06"
+      >
+        {/* Orange accent top line — grows on hover */}
+        <motion.div
+          animate={{ scaleX: hovered ? 1 : 0 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-500 via-red-500 to-orange-400 origin-left"
+        />
 
-      {/* Top row */}
-      <div className="flex items-start justify-end mb-4 relative z-10">
-        <div className="flex flex-col items-end gap-2">
-          {item.badge && (
-            <span className="text-[10px] font-sans font-bold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
-              {item.badge}
-            </span>
-          )}
-          {!item.available && (
-            <span className="text-[10px] font-sans tracking-widest uppercase px-2.5 py-1 rounded-full bg-white/5 text-white/30">
-              Unavailable
-            </span>
-          )}
-        </div>
-      </div>
+        {/* Spotlight follow */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{
+            background: hovered
+              ? `radial-gradient(260px circle at ${mx.get() * 100 + 50}% ${my.get() * 100 + 50}%, rgba(249,115,22,0.10), transparent 70%)`
+              : "none",
+          }}
+        />
 
-      <div className="relative z-10">
-        <h3 className="font-display font-bold text-white text-xl mb-2 group-hover:text-orange-400 transition-colors duration-200">
-          {item.name}
-        </h3>
-        <p className="font-sans text-white/50 text-sm leading-relaxed mb-5">
-          {item.description}
-        </p>
-        <div className="flex items-center justify-between">
-          <span className="font-condensed text-2xl text-orange-400 tracking-wide">
-            {item.price}
-          </span>
-          <span className="text-xs text-white/20 font-sans uppercase tracking-widest">
-            {item.category}
-          </span>
+        <div className="p-6">
+          {/* Top row */}
+          <div className="flex items-start justify-between mb-5">
+            <span className="font-sans text-[10px] text-white/25 uppercase tracking-widest">
+              {item.category}
+            </span>
+            {item.badge && (
+              <span className="text-[10px] font-sans font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/25">
+                {item.badge}
+              </span>
+            )}
+          </div>
+
+          {/* Name */}
+          <h3 className="font-display font-bold text-white leading-tight mb-3 transition-colors duration-200 group-hover:text-orange-400"
+            style={{ fontSize: "clamp(1.15rem,2.2vw,1.4rem)" }}>
+            {item.name}
+          </h3>
+
+          {/* Description — expands on hover */}
+          <div className="overflow-hidden">
+            <motion.p
+              animate={{ maxHeight: hovered ? 120 : 48, opacity: hovered ? 1 : 0.5 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="font-sans text-white/50 text-sm leading-relaxed"
+              style={{ overflow: "hidden" }}
+            >
+              {item.description}
+            </motion.p>
+          </div>
+
+          {/* Price row */}
+          <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/06">
+            <motion.span
+              animate={{ color: hovered ? "#f97316" : "#fb923c" }}
+              className="font-condensed text-[2rem] leading-none tracking-wide"
+            >
+              {item.price}
+            </motion.span>
+            {!item.available && (
+              <span className="text-[10px] font-sans text-white/25 uppercase tracking-widest">
+                Unavailable
+              </span>
+            )}
+          </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
 
+/* ─── Category filter pills ─── */
+function FilterPills({
+  categories,
+  active,
+  onChange,
+}: {
+  categories: string[];
+  active: string;
+  onChange: (c: string) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="flex flex-wrap gap-2 mb-12"
+    >
+      {["All", ...categories].map((cat) => (
+        <button
+          key={cat}
+          onClick={() => onChange(cat)}
+          className="relative px-5 py-2.5 rounded-full text-sm font-sans font-medium transition-colors duration-200 cursor-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+        >
+          {active === cat && (
+            <motion.span
+              layoutId="pill-active"
+              className="absolute inset-0 rounded-full bg-orange-500"
+              transition={{ type: "spring", stiffness: 380, damping: 30 }}
+            />
+          )}
+          <span className={`relative z-10 ${active === cat ? "text-white" : "text-white/50 hover:text-white"}`}>
+            {cat}
+          </span>
+        </button>
+      ))}
+    </motion.div>
+  );
+}
+
+/* ─── Main export ─── */
 export default function MenuSection({ content }: { content: MenuContent }) {
   const [activeCategory, setActiveCategory] = useState("All");
-  const categories = ["All", ...content.categories];
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Scroll-scrubbed giant MENU wordmark.
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const menuX = useTransform(scrollYProgress, [0, 1], ["12%", "-12%"]);
-  const menuScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.15, 1, 1.15]);
-  const menuXs = useSpring(menuX, { stiffness: 120, damping: 40, mass: 0.5 });
 
   const filtered = activeCategory === "All"
     ? content.items
-    : content.items.filter((i) => i.category === activeCategory);
+    : content.items.filter((item) => item.category === activeCategory);
 
   return (
-    <section ref={sectionRef} className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="menu">
-      {/* Giant background word — scroll-scrubbed layer */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-        <motion.span
-          style={{ x: menuXs, scale: menuScale }}
-          className="font-condensed text-[28vw] leading-none text-white/[0.03] select-none whitespace-nowrap will-change-transform"
-        >
+    <section id="menu" className="relative bg-[#111111] py-28 overflow-hidden">
+
+      {/* Giant faint MENU wordmark behind everything */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
+      >
+        <span className="font-condensed text-[28vw] leading-none text-white/[0.025] whitespace-nowrap">
           MENU
-        </motion.span>
+        </span>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
+
         {/* Header */}
         <div className="mb-16">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -16 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="flex items-center gap-3 mb-6"
           >
             <div className="w-8 h-px bg-orange-500" />
-            <span className="text-orange-500 text-xs font-sans tracking-[0.3em] uppercase font-medium">
+            <span className="text-orange-500 text-[11px] font-sans tracking-[0.35em] uppercase font-medium">
               What We Serve
             </span>
           </motion.div>
 
-          <div className="overflow-hidden mb-2">
-            <motion.h2
-              initial={{ y: "110%" }}
-              whileInView={{ y: "0%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(3rem,7vw,6rem)] font-black text-white leading-none"
-            >
-              The Menu.
-            </motion.h2>
-          </div>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="font-display text-[clamp(3rem,7vw,6.5rem)] font-black text-white leading-none"
+          >
+            <BouncingHeading text="The Menu." />
+          </motion.h2>
         </div>
 
-        {/* Category filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap gap-2 mb-12"
-        >
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-sm font-sans font-medium transition-all duration-200 cursor-none ${
-                activeCategory === cat
-                  ? "bg-orange-500 text-white"
-                  : "border border-white/20 text-white/60 hover:border-orange-500/50 hover:text-orange-400"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
+        {/* Filter pills */}
+        <FilterPills
+          categories={content.categories}
+          active={activeCategory}
+          onChange={setActiveCategory}
+        />
 
-        {/* Menu grid */}
+        {/* Grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
           >
             {filtered.map((item, i) => (

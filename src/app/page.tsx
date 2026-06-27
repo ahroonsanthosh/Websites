@@ -6,7 +6,7 @@ import Navigation from "@/components/Navigation";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroSection from "@/components/sections/HeroSection";
 import WhyHansumSection from "@/components/sections/WhyHansumSection";
-import CinematicMenuSection from "@/components/sections/CinematicMenuSection";
+import MenuSection from "@/components/sections/MenuSection";
 import GallerySection from "@/components/sections/GallerySection";
 import LocationSection from "@/components/sections/LocationSection";
 import ReviewsSection from "@/components/sections/ReviewsSection";
@@ -65,7 +65,7 @@ export default async function HomePage() {
       {/* Sections */}
       <HeroSection content={hero} />
       <WhyHansumSection />
-      <CinematicMenuSection content={menu} />
+      <MenuSection content={menu} />
       <GallerySection images={gallery.images} />
       <LocationSection content={location} />
       <ReviewsSection reviews={reviews.reviews} />
