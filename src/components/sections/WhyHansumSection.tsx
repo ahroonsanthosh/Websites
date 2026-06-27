@@ -118,20 +118,38 @@ export default function WhyHansumSection() {
           ))}
         </div>
 
-        {/* Bottom text block */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="mt-20 max-w-3xl"
-        >
-          <p className="font-sans text-[clamp(1.1rem,2vw,1.35rem)] text-[#1A1A1A]/70 leading-relaxed">
-            We started with one obsession: make the best rotisserie chicken Cork has ever tasted.
-            Premium ingredients. Patient cooking. Zero shortcuts.{" "}
-            <span className="text-orange-500 font-semibold">Inside Marina Market</span>, where food is taken seriously.
-          </p>
-        </motion.div>
+        {/* Bottom: text + photo side by side */}
+        <div className="mt-20 grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+          >
+            <p className="font-sans text-[clamp(1.1rem,2vw,1.35rem)] text-[#1A1A1A]/70 leading-relaxed">
+              We started with one obsession: make the best rotisserie chicken Cork has ever tasted.
+              Premium ingredients. Patient cooking. Zero shortcuts.{" "}
+              <span className="font-semibold" style={{ color: "#FF5500" }}>Inside Marina Market</span>, where food is taken seriously.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative rounded-3xl overflow-hidden h-72 lg:h-80 group"
+          >
+            <img
+              src="/uploads/photo-kitchen-team.png"
+              alt="Hansum team at work"
+              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+            <div className="absolute bottom-4 left-4">
+              <span className="font-sans text-white/80 text-xs tracking-widest uppercase">The Team</span>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -82,12 +82,22 @@ export default function HeroSection({ content }: { content: HeroContent }) {
     <section ref={ref} className="relative h-[220vh]" id="hero" aria-label="Hansum Rotisserie hero">
       {/* Pinned cinematic scene */}
       <div className="sticky top-0 h-screen overflow-hidden bg-[#1A1A1A] flex items-center justify-center">
+        {/* Real photo background */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/uploads/photo-hero.png"
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover object-center"
+            style={{ filter: "brightness(0.28) saturate(1.2)" }}
+          />
+        </div>
         {/* Static base atmosphere (no per-frame repaint) */}
         <div
           className="absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(ellipse 80% 60% at 50% 45%, rgba(249,115,22,0.16) 0%, rgba(220,38,38,0.07) 40%, #1A1A1A 100%)",
+              "radial-gradient(ellipse 80% 60% at 50% 45%, rgba(255,85,0,0.22) 0%, rgba(255,45,107,0.08) 40%, transparent 100%)",
           }}
         />
         {/* Accent glow — animates OPACITY only (GPU-composited, smooth) */}

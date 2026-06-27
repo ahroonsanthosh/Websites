@@ -9,7 +9,8 @@
       "price": "€12.50",
       "featured": true,
       "available": true,
-      "badge": "Fan Favourite"
+      "badge": "Fan Favourite",
+      "image": "/uploads/photo-ciabatta.png"
     },
     {
       "id": "2",
@@ -19,7 +20,8 @@
       "price": "€11.50",
       "featured": true,
       "available": true,
-      "badge": "Popular"
+      "badge": "Popular",
+      "image": "/uploads/photo-wrap.png"
     },
     {
       "id": "3",
@@ -29,7 +31,8 @@
       "price": "€18.00",
       "featured": false,
       "available": true,
-      "badge": ""
+      "badge": "",
+      "image": "/uploads/photo-chef-carving.png"
     },
     {
       "id": "4",
@@ -39,7 +42,8 @@
       "price": "€11.00",
       "featured": false,
       "available": true,
-      "badge": ""
+      "badge": "",
+      "image": "/uploads/photo-chef-counter.png"
     },
     {
       "id": "5",
@@ -49,7 +53,8 @@
       "price": "€13.00",
       "featured": true,
       "available": true,
-      "badge": "Fresh"
+      "badge": "Fresh",
+      "image": "/uploads/photo-salad.png"
     },
     {
       "id": "6",
@@ -59,7 +64,8 @@
       "price": "€7.50",
       "featured": false,
       "available": true,
-      "badge": ""
+      "badge": "",
+      "image": ""
     },
     {
       "id": "7",
@@ -69,7 +75,8 @@
       "price": "€5.50",
       "featured": false,
       "available": true,
-      "badge": ""
+      "badge": "",
+      "image": ""
     },
     {
       "id": "8",
@@ -79,7 +86,8 @@
       "price": "€6.50",
       "featured": false,
       "available": true,
-      "badge": "For Kids"
+      "badge": "For Kids",
+      "image": ""
     }
   ]
 }

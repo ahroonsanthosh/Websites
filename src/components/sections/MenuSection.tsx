@@ -12,6 +12,7 @@ interface MenuItem {
   featured: boolean;
   available: boolean;
   badge: string;
+  image?: string;
 }
 
 interface MenuContent {
@@ -139,6 +140,19 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
               : "none",
           }}
         />
+
+        {/* Food photo */}
+        {item.image && (
+          <div className="relative h-48 overflow-hidden">
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              style={{ filter: "brightness(0.92) saturate(1.1)" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-transparent to-transparent" />
+          </div>
+        )}
 
         <div className="p-6">
           {/* Top row */}

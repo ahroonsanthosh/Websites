@@ -79,12 +79,23 @@ export default function CTASection() {
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
         <Confetti active={confetti} />
 
+        {/* Photo background */}
+        <div className="absolute inset-0">
+          <img
+            src="/uploads/photo-branded-bag.png"
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover object-center"
+            style={{ filter: "brightness(0.18) saturate(0.8)" }}
+          />
+        </div>
+
         {/* Static base + scroll-driven warm glow (opacity only) */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 70% 50% at 50% 55%, rgba(249,115,22,0.12) 0%, #1A1A1A 70%)",
+              "radial-gradient(ellipse 70% 50% at 50% 55%, rgba(255,85,0,0.15) 0%, transparent 70%)",
           }}
         />
         <motion.div
