@@ -5,10 +5,10 @@ import { motion, useInView } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const stats = [
-  { value: 100, suffix: "%", label: "Fresh daily", description: "Every chicken prepared fresh each morning." },
-  { value: 4, suffix: "hrs", label: "Slow-roasted", description: "Patient rotisserie cooking for maximum flavour." },
-  { value: 1, suffix: "", label: "Premium rotisserie", description: "One machine, one obsession, perfect chicken." },
-  { value: 7, suffix: "/7", label: "Days a week", description: "Open every day, noon to eight." },
+  { value: 100, suffix: "%", label: "Fresh daily", description: "Every chicken prepared fresh each morning.", color: "#FF5500", bg: "rgba(255,85,0,0.08)" },
+  { value: 4, suffix: "hrs", label: "Slow-roasted", description: "Patient rotisserie cooking for maximum flavour.", color: "#FFD000", bg: "rgba(255,208,0,0.08)" },
+  { value: 1, suffix: "", label: "Premium rotisserie", description: "One machine, one obsession, perfect chicken.", color: "#AAFF00", bg: "rgba(170,255,0,0.08)" },
+  { value: 7, suffix: "/7", label: "Days a week", description: "Open every day, noon to eight.", color: "#FF2D6B", bg: "rgba(255,45,107,0.08)" },
 ];
 
 function CountUp({ target, suffix, active }: { target: number; suffix: string; active: boolean }) {
@@ -82,7 +82,7 @@ export default function WhyHansumSection() {
               whileInView={{ y: "0%" }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-black italic text-orange-500 leading-none"
+              className="font-display text-[clamp(2.5rem,6vw,5.5rem)] font-black italic leading-none text-gradient"
             >
               chicken spot.
             </motion.h2>
@@ -100,12 +100,15 @@ export default function WhyHansumSection() {
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -8, transition: { type: "spring", stiffness: 300, damping: 20 } }}
               className="group glass rounded-3xl p-8 relative overflow-hidden cursor-default"
+              style={{ borderColor: stat.color + "33" }}
             >
+              {/* Coloured top bar */}
+              <div className="absolute top-0 left-0 right-0 h-1 rounded-t-3xl" style={{ background: stat.color }} />
               {/* Hover glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl" style={{ background: stat.bg }} />
 
               <div className="relative z-10">
-                <div className="font-condensed text-[clamp(3rem,7vw,5rem)] leading-none text-[#1A1A1A] mb-3">
+                <div className="font-condensed text-[clamp(3rem,7vw,5rem)] leading-none mb-3" style={{ color: stat.color }}>
                   <CountUp target={stat.value} suffix={stat.suffix} active={isInView} />
                 </div>
                 <div className="font-display font-bold text-base text-[#1A1A1A] mb-2">{stat.label}</div>

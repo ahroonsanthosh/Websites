@@ -1,14 +1,19 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Anton&display=swap');
 
 :root {
-  --orange: #F97316;
-  --red: #DC2626;
+  --orange: #FF5500;
+  --red: #FF2D6B;
+  --pink: #FF6BDB;
+  --purple: #8B5CF6;
+  --blue: #00C2FF;
+  --teal: #00F5C4;
+  --lime: #AAFF00;
+  --yellow: #FFD000;
   --cream: #FFF8F0;
-  --yellow: #FBBF24;
-  --charcoal: #1A1A1A;
-  --charcoal-light: #2A2A2A;
+  --charcoal: #0D0D0D;
+  --charcoal-light: #1C1C1C;
   --cream-dark: #F5EDE0;
 }
 
@@ -17,12 +22,17 @@
   --color-foreground: var(--charcoal);
   --color-orange: var(--orange);
   --color-red: var(--red);
-  --color-cream: var(--cream);
+  --color-pink: var(--pink);
+  --color-purple: var(--purple);
+  --color-blue: var(--blue);
+  --color-teal: var(--teal);
+  --color-lime: var(--lime);
   --color-yellow: var(--yellow);
+  --color-cream: var(--cream);
   --color-charcoal: var(--charcoal);
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-sans: 'DM Sans', system-ui, sans-serif;
-  --font-condensed: 'Bebas Neue', Impact, sans-serif;
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-condensed: 'Anton', Impact, sans-serif;
 }
 
 * {
@@ -39,7 +49,7 @@ html {
 body {
   background: var(--cream);
   color: var(--charcoal);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   overflow-x: clip;
   cursor: none;
 }
@@ -72,7 +82,7 @@ body {
   color: var(--cream);
   padding: 0.75rem 1.25rem;
   border-radius: 0.75rem;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   transition: top 0.2s ease;
@@ -96,11 +106,11 @@ body {
 }
 
 .font-display {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Syne', system-ui, sans-serif;
 }
 
 .font-condensed {
-  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-family: 'Anton', Impact, sans-serif;
 }
 
 .glass {
@@ -118,7 +128,7 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--orange), var(--red));
+  background: linear-gradient(135deg, var(--orange), var(--red), var(--pink));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

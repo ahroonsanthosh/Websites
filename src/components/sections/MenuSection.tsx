@@ -49,6 +49,27 @@ function BouncingHeading({ text }: { text: string }) {
   );
 }
 
+const BADGE_COLOURS: Record<string, { bg: string; text: string; border: string }> = {
+  "Fan Favourite": { bg: "rgba(255,85,0,0.15)",  text: "#FF5500", border: "rgba(255,85,0,0.3)" },
+  "Popular":       { bg: "rgba(255,208,0,0.15)", text: "#B88A00", border: "rgba(255,208,0,0.4)" },
+  "Fresh":         { bg: "rgba(170,255,0,0.12)", text: "#6BBF00", border: "rgba(170,255,0,0.35)" },
+  "For Kids":      { bg: "rgba(0,194,255,0.12)", text: "#0099CC", border: "rgba(0,194,255,0.3)" },
+  "New":           { bg: "rgba(139,92,246,0.15)", text: "#8B5CF6", border: "rgba(139,92,246,0.3)" },
+};
+const BADGE_DEFAULT = { bg: "rgba(255,45,107,0.12)", text: "#FF2D6B", border: "rgba(255,45,107,0.3)" };
+
+function BadgePill({ badge }: { badge: string }) {
+  const c = BADGE_COLOURS[badge] ?? BADGE_DEFAULT;
+  return (
+    <span
+      className="text-[10px] font-sans font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full"
+      style={{ background: c.bg, color: c.text, border: `1px solid ${c.border}` }}
+    >
+      {badge}
+    </span>
+  );
+}
+
 /* ─── Expanding menu card ─── */
 function MenuCard({ item, index }: { item: MenuItem; index: number }) {
   const [hovered, setHovered] = useState(false);
@@ -126,9 +147,7 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
               {item.category}
             </span>
             {item.badge && (
-              <span className="text-[10px] font-sans font-semibold tracking-widest uppercase px-2.5 py-1 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/25">
-                {item.badge}
-              </span>
+              <BadgePill badge={item.badge} />
             )}
           </div>
 
