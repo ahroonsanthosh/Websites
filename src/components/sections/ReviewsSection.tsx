@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Star } from "lucide-react";
-import { TextScramble } from "@/components/ui/TextScramble";
 
 interface Review {
   id: string;
@@ -48,11 +47,11 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
 
   const CARD_ACCENTS = [
     { num: "#FF5500", star: "#FF5500", avatar: "from-[#FF5500] to-[#FF2D6B]", bg: "rgba(255,85,0,0.05)" },
-    { num: "#FF5500", star: "#FF5500", avatar: "from-[#FF5500] to-[#FF2D6B]", bg: "rgba(255,85,0,0.05)" },
-    { num: "#FF5500", star: "#FF5500", avatar: "from-[#FF5500] to-[#FF2D6B]", bg: "rgba(255,85,0,0.05)" },
-    { num: "#FF5500", star: "#FF5500", avatar: "from-[#FF5500] to-[#FF2D6B]", bg: "rgba(255,85,0,0.05)" },
-    { num: "#FF5500", star: "#FF5500", avatar: "from-[#FF5500] to-[#FF2D6B]", bg: "rgba(255,85,0,0.05)" },
-    { num: "#FF5500", star: "#FF5500", avatar: "from-[#FF5500] to-[#FF2D6B]", bg: "rgba(255,85,0,0.05)" },
+    { num: "#FFD000", star: "#FFD000", avatar: "from-[#FFD000] to-[#FF5500]", bg: "rgba(255,208,0,0.05)" },
+    { num: "#AAFF00", star: "#AAFF00", avatar: "from-[#AAFF00] to-[#00F5C4]", bg: "rgba(170,255,0,0.05)" },
+    { num: "#00C2FF", star: "#00C2FF", avatar: "from-[#00C2FF] to-[#8B5CF6]", bg: "rgba(0,194,255,0.05)" },
+    { num: "#FF2D6B", star: "#FF2D6B", avatar: "from-[#FF2D6B] to-[#FF6BDB]", bg: "rgba(255,45,107,0.05)" },
+    { num: "#8B5CF6", star: "#8B5CF6", avatar: "from-[#8B5CF6] to-[#00C2FF]", bg: "rgba(139,92,246,0.05)" },
   ];
 
   return (
@@ -68,9 +67,9 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
         {/* Header */}
         <div className="max-w-7xl mx-auto w-full px-6 mb-10 md:mb-14">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-8 h-px bg-orange-500" />
-            <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium text-orange-500">
-              <TextScramble text="The Proof" />
+            <div className="w-8 h-px" style={{ background: "#00C2FF" }} />
+            <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium" style={{ color: "#00C2FF" }}>
+              The Proof
             </span>
           </div>
           <div className="overflow-hidden">
@@ -114,7 +113,7 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
                 </div>
               </div>
 
-              <p className="font-display text-[#1A1A1A] text-2xl md:text-3xl leading-snug mb-8 relative z-10">
+              <p className="font-display text-[#1A1A1A] text-xl md:text-2xl leading-relaxed mb-8 relative z-10">
                 &ldquo;{review.text}&rdquo;
               </p>
 

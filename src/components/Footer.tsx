@@ -9,8 +9,8 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-[#0F0F0F] pt-20 pb-10 overflow-hidden">
-      {/* Top rule */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, #FF5500 30%, #FF5500 70%, transparent)" }} />
+      {/* Top gradient line */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(to right, transparent, #FF5500, #FF2D6B, #8B5CF6, #00C2FF, #AAFF00, transparent)" }} />
 
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
@@ -21,7 +21,7 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="font-condensed text-5xl tracking-wider mb-4 text-white">HANSUM</h2>
+              <h2 className="font-condensed text-5xl tracking-wider mb-4" style={{ background: "linear-gradient(135deg, #FF5500, #FF2D6B, #8B5CF6, #00C2FF)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>HANSUM</h2>
               <p className="font-sans text-white/40 text-sm leading-relaxed max-w-xs">
                 Cork&apos;s finest rotisserie chicken, handcrafted daily inside Marina Market.
                 Premium ingredients, patient cooking, zero shortcuts.
@@ -53,10 +53,9 @@ export default function Footer() {
                 <li key={item}>
                   <a
                     href={`#${item.toLowerCase().replace(" ", "-")}`}
-                    className="group font-sans text-white/40 hover:text-white transition-colors duration-300 text-sm inline-flex flex-col"
+                    className="font-sans text-white/40 hover:text-white transition-colors duration-200 text-sm"
                   >
                     {item}
-                    <span className="block h-px bg-orange-500 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
                   </a>
                 </li>
               ))}
@@ -75,14 +74,14 @@ export default function Footer() {
             </h3>
             <div className="space-y-4">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5 text-orange-500" />
+                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: "#00F5C4" }} />
                 <div>
                   <p className="text-white/60 text-sm font-sans">Marina Market</p>
                   <p className="text-white/40 text-xs font-sans">Cork City, Ireland</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
-                <Clock className="w-4 h-4 flex-shrink-0 mt-0.5 text-orange-500" />
+                <Clock className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: "#FFD000" }} />
                 <div>
                   <p className="text-white/60 text-sm font-sans">Mon–Sun</p>
                   <p className="text-white/40 text-xs font-sans">12:00 PM – 8:00 PM</p>

@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { TextScramble } from "@/components/ui/TextScramble";
 
 interface MenuItem {
   id: string;
@@ -295,9 +294,9 @@ export default function MenuSection({ content }: { content: MenuContent }) {
             viewport={{ once: true }}
             className="flex items-center gap-3 mb-6"
           >
-            <div className="w-8 h-px bg-orange-500" />
-            <span className="text-[11px] font-sans tracking-[0.35em] uppercase font-medium text-orange-500">
-              <TextScramble text="What We Serve" />
+            <div className="w-8 h-px" style={{ background: "#AAFF00" }} />
+            <span className="text-[11px] font-sans tracking-[0.35em] uppercase font-medium" style={{ color: "#AAFF00" }}>
+              What We Serve
             </span>
           </motion.div>
 

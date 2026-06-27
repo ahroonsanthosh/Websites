@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useEffect, useState } from "react";
-import { TextScramble } from "@/components/ui/TextScramble";
 
 const stats = [
   { value: 100, suffix: "%", label: "Fresh daily", description: "Every chicken prepared fresh each morning.", color: "#FF5500", bg: "rgba(255,85,0,0.08)" },
@@ -60,7 +59,7 @@ export default function WhyHansumSection() {
         >
           <div className="w-8 h-px bg-orange-500" />
           <span className="text-orange-500 text-xs font-sans tracking-[0.3em] uppercase font-medium">
-            <TextScramble text="Why Hansum" />
+            Why Hansum
           </span>
         </motion.div>
 
