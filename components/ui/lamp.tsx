@@ -15,7 +15,7 @@ export const LampContainer = ({
       className={`relative flex flex-col items-center justify-start overflow-hidden bg-[#1A0C05] w-full z-0 ${className}`}
     >
       {/* Lamp beam */}
-      <div className="relative flex w-full scale-y-125 items-center justify-center isolate z-0 pointer-events-none" style={{ height: "28rem" }}>
+      <div className="relative flex w-full scale-y-125 items-center justify-center isolate z-0 pointer-events-none" style={{ height: "16rem" }}>
         {/* Left conic beam */}
         <motion.div
           initial={{ opacity: 0.3, width: "10rem" }}
@@ -67,7 +67,7 @@ export const LampContainer = ({
       </div>
 
       {/* Content sits below the beam */}
-      <div className="relative z-50 w-full -mt-32">
+      <div className="relative z-50 w-full -mt-28">
         {children}
       </div>
     </div>
