@@ -10,7 +10,7 @@ function Confetti({ active }: { active: boolean }) {
 
   useEffect(() => {
     if (!active) return;
-    const colors = ["#F97316", "#DC2626", "#FBBF24", "#FFF8F0", "#ffffff"];
+    const colors = ["#FF5500", "#FF2D6B", "#FFD000", "#AAFF00", "#00C2FF", "#8B5CF6", "#FF6BDB", "#00F5C4", "#ffffff"];
     setParticles(
       Array.from({ length: 30 }, (_, i) => ({
         id: i,
@@ -62,15 +62,15 @@ export default function CTASection() {
     target: ref,
     offset: ["start start", "end end"],
   });
-  const ss = { stiffness: 130, damping: 40, mass: 0.5 };
+  const ss = { stiffness: 200, damping: 38, mass: 0.35 };
   const bgScale = useSpring(useTransform(scrollYProgress, [0, 1], [0.75, 2.3]), ss);
+  // Opacity does not need spring — direct transform is smoother and lag-free.
   const bgOpacity = useTransform(scrollYProgress, [0, 0.55, 1], [0.03, 0.09, 0.03]);
   const titleScale = useSpring(useTransform(scrollYProgress, [0, 0.55], [0.82, 1.04]), ss);
   const titleY = useSpring(useTransform(scrollYProgress, [0, 0.55], [60, 0]), ss);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
   const glowOpacity = useTransform(scrollYProgress, [0.2, 0.7], [0, 1]);
-  const ctaOpacityRaw = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
-  const ctaOpacity = useSpring(ctaOpacityRaw, ss);
+  const ctaOpacity = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
   const ctaY = useSpring(useTransform(scrollYProgress, [0.45, 0.75], [40, 0]), ss);
 
   return (
@@ -92,7 +92,7 @@ export default function CTASection() {
           style={{
             opacity: glowOpacity,
             background:
-              "radial-gradient(ellipse 90% 70% at 50% 60%, rgba(220,38,38,0.25) 0%, rgba(249,115,22,0) 60%)",
+              "radial-gradient(ellipse 90% 70% at 50% 60%, rgba(139,92,246,0.3) 0%, rgba(255,45,107,0.15) 40%, rgba(255,85,0,0) 70%)",
           }}
         />
 
@@ -119,7 +119,7 @@ export default function CTASection() {
           <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-black text-white leading-none mb-2">
             Ready to
           </h2>
-          <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-black italic text-orange-500 leading-none mb-10">
+          <h2 className="font-display text-[clamp(3.5rem,10vw,9rem)] font-black italic leading-none mb-10 text-gradient">
             Eat?
           </h2>
 

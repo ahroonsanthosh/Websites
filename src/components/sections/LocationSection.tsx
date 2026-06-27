@@ -125,8 +125,8 @@ export default function LocationSection({ content }: { content: LocationContent 
               viewport={{ once: true }}
               className="flex items-center gap-3 mb-6"
             >
-              <div className="w-8 h-px bg-orange-500" />
-              <span className="text-orange-500 text-xs font-sans tracking-[0.3em] uppercase font-medium">
+              <div className="w-8 h-px" style={{ background: "#00F5C4" }} />
+              <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium" style={{ color: "#00F5C4" }}>
                 Find Us
               </span>
             </motion.div>
@@ -148,7 +148,7 @@ export default function LocationSection({ content }: { content: LocationContent 
                 whileInView={{ y: "0%" }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="font-display text-[clamp(2.5rem,5vw,5rem)] font-black italic text-orange-500 leading-none"
+                className="font-display text-[clamp(2.5rem,5vw,5rem)] font-black italic leading-none text-gradient"
               >
                 Marina Market.
               </motion.h2>
@@ -161,7 +161,7 @@ export default function LocationSection({ content }: { content: LocationContent 
               transition={{ delay: 0.3 }}
               className="flex items-start gap-3 mb-8"
             >
-              <MapPin className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
+              <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: "#00F5C4" }} />
               <div>
                 <p className="text-white font-sans font-medium">{content.address_line1}</p>
                 <p className="text-white/50 font-sans text-sm">{content.address_line2}</p>
@@ -206,13 +206,13 @@ export default function LocationSection({ content }: { content: LocationContent 
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 + i * 0.05 }}
                     className={`flex justify-between items-center py-2.5 border-b border-white/5 last:border-0 ${
-                      isToday ? "text-orange-400" : "text-white/60"
+                      isToday ? "" : "text-white/60"
                     }`}
                   >
-                    <span className={`font-sans text-sm font-medium ${isToday ? "text-orange-400" : ""}`}>
+                    <span className="font-sans text-sm font-medium" style={isToday ? { color: "#AAFF00" } : {}}>
                       {day}
                       {isToday && (
-                        <span className="ml-2 text-[10px] bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded-full border border-orange-500/30 uppercase tracking-widest">
+                        <span className="ml-2 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-widest" style={{ background: "rgba(170,255,0,0.15)", color: "#AAFF00", border: "1px solid rgba(170,255,0,0.35)" }}>
                           Today
                         </span>
                       )}
