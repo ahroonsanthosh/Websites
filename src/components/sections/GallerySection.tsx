@@ -30,8 +30,8 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
   const tiles = Array.from({ length: Math.max(6, sorted.length) }, (_, i) => sorted[i]);
 
   return (
-    <section className="relative py-32 bg-[#FFF8F0] overflow-hidden" id="gallery">
-      <div className="max-w-7xl mx-auto px-6 mb-16">
+    <section className="relative py-16 md:py-32 bg-[#FFF8F0] overflow-hidden" id="gallery">
+      <div className="max-w-7xl mx-auto px-6 mb-8 md:mb-16">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}

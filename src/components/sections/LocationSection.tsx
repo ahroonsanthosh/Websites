@@ -114,7 +114,7 @@ export default function LocationSection({ content }: { content: LocationContent 
   const mapScale = useSpring(mapScaleRaw, { stiffness: 120, damping: 40, mass: 0.5 });
 
   return (
-    <section ref={sectionRef} className="relative py-32 bg-[#1A1A1A] overflow-hidden" id="location">
+    <section ref={sectionRef} className="relative py-16 md:py-32 bg-[#1A1A1A] overflow-hidden" id="location">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left: text */}

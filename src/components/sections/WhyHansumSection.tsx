@@ -44,7 +44,7 @@ export default function WhyHansumSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="relative py-32 bg-[#FFF8F0] overflow-hidden" id="about">
+    <section ref={ref} className="relative py-16 md:py-32 bg-[#FFF8F0] overflow-hidden" id="about">
       {/* Decorative background */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
 
@@ -64,7 +64,7 @@ export default function WhyHansumSection() {
         </motion.div>
 
         {/* Headline */}
-        <div className="mb-20">
+        <div className="mb-10 md:mb-20">
           <div className="overflow-hidden mb-2">
             <motion.h2
               initial={{ y: "110%" }}

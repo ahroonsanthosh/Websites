@@ -272,7 +272,7 @@ export default function MenuSection({ content }: { content: MenuContent }) {
     : content.items.filter((item) => item.category === activeCategory);
 
   return (
-    <section id="menu" className="relative bg-[#111111] py-28 overflow-hidden">
+    <section id="menu" className="relative bg-[#111111] py-16 md:py-28 overflow-hidden">
 
       {/* Giant faint MENU wordmark behind everything */}
       <div
@@ -287,7 +287,7 @@ export default function MenuSection({ content }: { content: MenuContent }) {
       <div className="relative z-10 max-w-7xl mx-auto px-6">
 
         {/* Header */}
-        <div className="mb-16">
+        <div className="mb-8 md:mb-16">
           <motion.div
             initial={{ opacity: 0, x: -16 }}
             whileInView={{ opacity: 1, x: 0 }}

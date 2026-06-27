@@ -105,7 +105,7 @@ export default function Navigation() {
                   initial={{ opacity: 0, x: 40 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-display text-5xl font-black text-white hover:text-orange-500 transition-colors duration-200 py-2"
+                  className="font-display text-4xl sm:text-5xl font-black text-white hover:text-orange-500 transition-colors duration-200 py-2 whitespace-nowrap"
                 >
                   {link.label}
                 </motion.a>
