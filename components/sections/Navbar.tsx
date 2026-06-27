@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BouncyText } from "@/components/ui/bouncy-text";
 
 const links = [
   { label: "About", href: "#about" },
@@ -40,17 +41,24 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between">
           {/* Logo */}
-          <button
+          <motion.button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-2 group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 18 }}
           >
-            <div className="w-8 h-8 rounded-full bg-[#E8622A] flex items-center justify-center">
+            <motion.div
+              className="w-8 h-8 rounded-full bg-[#E8622A] flex items-center justify-center"
+              whileHover={{ rotate: 15 }}
+              transition={{ type: "spring", stiffness: 400, damping: 12 }}
+            >
               <span className="text-white font-accent text-xs font-bold">U</span>
-            </div>
+            </motion.div>
             <span className="font-display italic text-[#FDF6EB] text-lg font-bold tracking-tight">
               Uncle&apos;s
             </span>
-          </button>
+          </motion.button>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">
@@ -60,15 +68,18 @@ export default function Navbar() {
                 onClick={() => handleNav(link.href)}
                 className="text-[11px] font-accent tracking-[0.2em] uppercase text-[#FDF6EB]/70 hover:text-[#E8622A] transition-colors duration-200"
               >
-                {link.label}
+                <BouncyText text={link.label} />
               </button>
             ))}
-            <button
+            <motion.button
               onClick={() => handleNav("#menu")}
-              className="ml-4 px-5 py-2 bg-[#E8622A] text-white text-[11px] font-accent tracking-[0.15em] uppercase rounded-full hover:bg-[#F4A61D] transition-colors duration-200"
+              whileHover={{ scale: 1.07, backgroundColor: "#F4A61D" }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 18 }}
+              className="ml-4 px-5 py-2 bg-[#E8622A] text-white text-[11px] font-accent tracking-[0.15em] uppercase rounded-full"
             >
               Order Now
-            </button>
+            </motion.button>
           </nav>
 
           {/* Mobile hamburger */}

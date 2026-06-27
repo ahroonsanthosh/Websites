@@ -82,9 +82,9 @@
     { "src": "/images/deli-1.png", "alt": "Rotisserie chicken wrap" },
     { "src": "/images/deli-3.png", "alt": "Rotisserie chicken roll" },
     { "src": "/images/deli-2.png", "alt": "Chicken roll on white paper" },
-    { "src": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=85","alt": "Deli food spread" },
-    { "src": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=85","alt": "Food bowl" },
-    { "src": "https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=600&q=85","alt": "Sandwich" },
-    { "src": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=85",   "alt": "Salad bowl" }
+    { "src": "/images/deli-1.png", "alt": "Rotisserie chicken wrap" },
+    { "src": "/images/deli-4.png", "alt": "Uncle's Deli storefront" },
+    { "src": "/images/deli-2.png", "alt": "Fresh chicken roll" },
+    { "src": "/images/deli-3.png", "alt": "Chicken roll, close up" }
   ]
 }

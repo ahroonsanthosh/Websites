@@ -3,9 +3,34 @@
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import content from "@/lib/content";
+import { BouncyText } from "@/components/ui/bouncy-text";
 
 const { menu } = content;
 type Category = typeof menu.categories[number];
+
+const cardVariants = {
+  rest: { scale: 1, y: 0, boxShadow: "0 0 0 0 rgba(232,98,42,0)" },
+  hover: {
+    scale: 1.025,
+    y: -5,
+    boxShadow: "0 12px 40px -8px rgba(232,98,42,0.18)",
+    transition: { type: "spring" as const, stiffness: 300, damping: 22 },
+  },
+};
+
+const letterVariants = {
+  rest: { y: 0 },
+  hover: (i: number) => ({
+    y: [0, -6, 0],
+    transition: {
+      delay: i * 0.032,
+      duration: 0.4,
+      type: "spring" as const,
+      stiffness: 500,
+      damping: 12,
+    },
+  }),
+};
 
 export default function Menu() {
   const [active, setActive] = useState<Category>(menu.categories[0]);
@@ -33,11 +58,11 @@ export default function Menu() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-display italic text-4xl md:text-6xl font-bold text-[#FDF6EB]"
           >
-            The Menu
+            <BouncyText text="The Menu" />
           </motion.h2>
         </div>
 
-        {/* Tabs — horizontal scroll on mobile */}
+        {/* Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -46,9 +71,12 @@ export default function Menu() {
         >
           <div className="flex overflow-x-auto scrollbar-hide gap-3 px-5 md:px-0 md:justify-center pb-1">
             {menu.categories.map((cat) => (
-              <button
+              <motion.button
                 key={cat}
                 onClick={() => setActive(cat)}
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: "spring", stiffness: 400, damping: 18 }}
                 className={`relative shrink-0 px-6 py-2.5 rounded-full font-accent text-[11px] tracking-[0.15em] uppercase transition-all duration-300 ${
                   active === cat
                     ? "bg-[#E8622A] text-white"
@@ -62,7 +90,7 @@ export default function Menu() {
                     className="absolute inset-0 rounded-full bg-[#E8622A] -z-10"
                   />
                 )}
-              </button>
+              </motion.button>
             ))}
           </div>
         </motion.div>
@@ -82,19 +110,42 @@ export default function Menu() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
-                className="group relative bg-[#FDF6EB]/5 hover:bg-[#FDF6EB]/10 border border-[#FDF6EB]/10 hover:border-[#E8622A]/40 rounded-2xl p-6 transition-all duration-300"
+                variants={cardVariants}
+                whileHover="hover"
+                className="group relative bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 hover:border-[#E8622A]/40 rounded-2xl p-6 cursor-default"
+                style={{ willChange: "transform" }}
               >
-                {item.tag && (
-                  <span className="absolute top-4 right-4 px-2.5 py-1 bg-[#E8622A] text-white font-accent text-[9px] tracking-widest uppercase rounded-full">
-                    {item.tag}
-                  </span>
-                )}
+                {/* Tag — now inline with name, no absolute overlap */}
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display italic text-[#FDF6EB] text-xl font-semibold mb-1.5">{item.name}</h3>
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <h3 className="font-display italic text-[#FDF6EB] text-xl font-semibold">
+                        {item.name.split("").map((char, ci) => (
+                          <motion.span
+                            key={ci}
+                            className="inline-block"
+                            variants={letterVariants}
+                            custom={ci}
+                          >
+                            {char === " " ? " " : char}
+                          </motion.span>
+                        ))}
+                      </h3>
+                      {item.tag && (
+                        <motion.span
+                          initial={{ scale: 0.9 }}
+                          animate={{ scale: 1 }}
+                          className="shrink-0 px-2.5 py-1 bg-[#E8622A] text-white font-accent text-[9px] tracking-widest uppercase rounded-full"
+                        >
+                          {item.tag}
+                        </motion.span>
+                      )}
+                    </div>
                     <p className="text-[#FDF6EB]/50 text-sm leading-relaxed">{item.description}</p>
                   </div>
-                  <span className="font-accent text-[#E8622A] text-lg font-semibold shrink-0 mt-0.5">{item.price}</span>
+                  <span className="font-accent text-[#E8622A] text-lg font-semibold shrink-0 mt-0.5">
+                    {item.price}
+                  </span>
                 </div>
                 <div className="mt-4 h-px bg-gradient-to-r from-[#E8622A]/0 via-[#E8622A]/30 to-[#E8622A]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </motion.div>

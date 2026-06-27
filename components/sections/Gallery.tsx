@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import content from "@/lib/content";
 import { assetPath } from "@/lib/asset";
+import { BouncyWords } from "@/components/ui/bouncy-text";
 
 const { gallery, business } = content;
 
@@ -17,6 +18,49 @@ const spans = [
   "col-span-1",
   "col-span-1",
 ];
+
+function GalleryPhoto({ photo, index, span, inView }: { photo: typeof gallery[number]; index: number; span: string; inView: boolean }) {
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientY - rect.top) / rect.height - 0.5) * 8;
+    const y = ((e.clientX - rect.left) / rect.width - 0.5) * -8;
+    setTilt({ x, y });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={inView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative overflow-hidden rounded-2xl group ${span}`}
+      style={{ perspective: 800 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+    >
+      <motion.div
+        className="w-full h-full"
+        animate={{ rotateX: tilt.x, rotateY: tilt.y }}
+        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+      >
+        <img
+          src={assetPath(photo.src)}
+          alt={photo.alt}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-[#1A0C05]/0 group-hover:bg-[#1A0C05]/40 transition-all duration-400" />
+        <div className="absolute inset-0 flex items-end justify-start p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span className="font-display italic text-white text-sm font-semibold drop-shadow-lg">{photo.alt}</span>
+        </div>
+        {/* Orange corner accent on hover */}
+        <motion.div
+          className="absolute top-0 left-0 w-0 h-0.5 bg-[#E8622A] group-hover:w-full transition-all duration-500 rounded-full"
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export default function Gallery() {
   const ref = useRef(null);
@@ -42,14 +86,18 @@ export default function Gallery() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-display italic text-4xl md:text-5xl font-bold text-[#1A0C05]"
             >
-              The Food Speaks<br />
-              <span className="text-[#E8622A]">For Itself.</span>
+              <BouncyWords text="The Food Speaks" className="block" />
+              <span className="text-[#E8622A]">
+                <BouncyWords text="For Itself." />
+              </span>
             </motion.h2>
           </div>
           <motion.a
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.3 }}
+            whileHover={{ scale: 1.05, transition: { type: "spring", stiffness: 300 } }}
+            whileTap={{ scale: 0.97 }}
             href={`https://www.instagram.com/${business.instagram}/`}
             target="_blank"
             rel="noopener noreferrer"
@@ -67,23 +115,13 @@ export default function Gallery() {
           style={{ gridAutoRows: "clamp(140px, 20vw, 200px)" }}
         >
           {gallery.map((photo, i) => (
-            <motion.div
+            <GalleryPhoto
               key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              className={`relative overflow-hidden rounded-2xl group ${spans[i] ?? "col-span-1"}`}
-            >
-              <img
-                src={assetPath(photo.src)}
-                alt={photo.alt}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-[#1A0C05]/0 group-hover:bg-[#1A0C05]/30 transition-all duration-400" />
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span className="font-display italic text-white text-sm font-semibold">{photo.alt}</span>
-              </div>
-            </motion.div>
+              photo={photo}
+              index={i}
+              span={spans[i] ?? "col-span-1"}
+              inView={inView}
+            />
           ))}
         </div>
       </div>
