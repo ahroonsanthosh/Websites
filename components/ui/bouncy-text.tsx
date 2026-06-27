@@ -3,17 +3,27 @@
 import { motion } from "framer-motion";
 
 const letterVariants = {
-  rest: { y: 0, color: "inherit" },
+  rest: { y: 0, scale: 1 },
   hover: (i: number) => ({
-    y: [0, -7, 0],
+    y: [0, -14, 4, -6, 2, 0],
+    scale: [1, 1.25, 0.9, 1.1, 0.97, 1],
     transition: {
-      delay: i * 0.035,
-      duration: 0.45,
+      delay: i * 0.04,
+      duration: 0.6,
       type: "spring" as const,
-      stiffness: 500,
-      damping: 12,
+      stiffness: 600,
+      damping: 10,
     },
   }),
+};
+
+const wordVariants = {
+  rest: { scale: 1, y: 0 },
+  hover: {
+    scale: 1.08,
+    y: -3,
+    transition: { type: "spring" as const, stiffness: 400, damping: 14 },
+  },
 };
 
 interface BouncyTextProps {
@@ -49,9 +59,10 @@ export function BouncyWords({ text, className, wordClassName }: { text: string; 
       {text.split(" ").map((word, wi) => (
         <motion.span
           key={wi}
-          className={`inline-flex ${wordClassName ?? ""}`}
+          className={`inline-flex cursor-default ${wordClassName ?? ""}`}
           initial="rest"
           whileHover="hover"
+          variants={wordVariants}
         >
           {word.split("").map((char, ci) => (
             <motion.span

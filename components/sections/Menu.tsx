@@ -19,15 +19,16 @@ const cardVariants = {
 };
 
 const letterVariants = {
-  rest: { y: 0 },
+  rest: { y: 0, scale: 1 },
   hover: (i: number) => ({
-    y: [0, -6, 0],
+    y: [0, -14, 4, -6, 2, 0],
+    scale: [1, 1.25, 0.9, 1.1, 0.97, 1],
     transition: {
-      delay: i * 0.032,
-      duration: 0.4,
+      delay: i * 0.04,
+      duration: 0.6,
       type: "spring" as const,
-      stiffness: 500,
-      damping: 12,
+      stiffness: 600,
+      damping: 10,
     },
   }),
 };
