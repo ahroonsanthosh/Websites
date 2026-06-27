@@ -50,6 +50,24 @@ function BouncingHeading({ text }: { text: string }) {
   );
 }
 
+const CARD_ACCENT_COLOURS = [
+  "from-[#FF5500] via-[#FF2D6B] to-[#FF5500]",
+  "from-[#FFD000] via-[#FF5500] to-[#FFD000]",
+  "from-[#AAFF00] via-[#00F5C4] to-[#AAFF00]",
+  "from-[#00C2FF] via-[#8B5CF6] to-[#00C2FF]",
+  "from-[#FF2D6B] via-[#FF6BDB] to-[#FF2D6B]",
+  "from-[#8B5CF6] via-[#00C2FF] to-[#8B5CF6]",
+];
+
+const CARD_GLOW_COLOURS = [
+  "rgba(255,85,0,0.12)",
+  "rgba(255,208,0,0.10)",
+  "rgba(170,255,0,0.10)",
+  "rgba(0,194,255,0.10)",
+  "rgba(255,45,107,0.12)",
+  "rgba(139,92,246,0.12)",
+];
+
 const BADGE_COLOURS: Record<string, { bg: string; text: string; border: string }> = {
   "Fan Favourite": { bg: "rgba(255,85,0,0.15)",  text: "#FF5500", border: "rgba(255,85,0,0.3)" },
   "Popular":       { bg: "rgba(255,208,0,0.15)", text: "#B88A00", border: "rgba(255,208,0,0.4)" },
@@ -72,7 +90,9 @@ function BadgePill({ badge }: { badge: string }) {
 }
 
 /* ─── Expanding menu card ─── */
-function MenuCard({ item, index }: { item: MenuItem; index: number }) {
+function MenuCard({ item, index, accentIndex }: { item: MenuItem; index: number; accentIndex: number }) {
+  const accentGradient = CARD_ACCENT_COLOURS[accentIndex % CARD_ACCENT_COLOURS.length];
+  const glowColor = CARD_GLOW_COLOURS[accentIndex % CARD_GLOW_COLOURS.length];
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -118,17 +138,17 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
       <motion.div
         animate={{
           boxShadow: hovered
-            ? "0 32px 64px rgba(249,115,22,0.18), 0 8px 24px rgba(0,0,0,0.35)"
+            ? `0 32px 64px ${glowColor.replace("0.12","0.28").replace("0.10","0.22")}, 0 8px 24px rgba(0,0,0,0.35)`
             : "0 2px 8px rgba(0,0,0,0.12)",
         }}
         transition={{ duration: 0.25 }}
         className="relative rounded-2xl overflow-hidden bg-[#1A1A1A] border border-white/06"
       >
-        {/* Orange accent top line — grows on hover */}
+        {/* Coloured accent top line — unique per card */}
         <motion.div
           animate={{ scaleX: hovered ? 1 : 0 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-500 via-red-500 to-orange-400 origin-left"
+          className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${accentGradient} origin-left`}
         />
 
         {/* Spotlight follow */}
@@ -136,7 +156,7 @@ function MenuCard({ item, index }: { item: MenuItem; index: number }) {
           className="absolute inset-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           style={{
             background: hovered
-              ? `radial-gradient(260px circle at ${mx.get() * 100 + 50}% ${my.get() * 100 + 50}%, rgba(249,115,22,0.10), transparent 70%)`
+              ? `radial-gradient(260px circle at ${mx.get() * 100 + 50}% ${my.get() * 100 + 50}%, ${glowColor}, transparent 70%)`
               : "none",
           }}
         />
@@ -274,8 +294,8 @@ export default function MenuSection({ content }: { content: MenuContent }) {
             viewport={{ once: true }}
             className="flex items-center gap-3 mb-6"
           >
-            <div className="w-8 h-px bg-orange-500" />
-            <span className="text-orange-500 text-[11px] font-sans tracking-[0.35em] uppercase font-medium">
+            <div className="w-8 h-px" style={{ background: "#AAFF00" }} />
+            <span className="text-[11px] font-sans tracking-[0.35em] uppercase font-medium" style={{ color: "#AAFF00" }}>
               What We Serve
             </span>
           </motion.div>
@@ -297,7 +317,7 @@ export default function MenuSection({ content }: { content: MenuContent }) {
           onChange={setActiveCategory}
         />
 
-        {/* Grid */}
+        {/* Grid — featured (with photo) go big in 2-col, rest sit in 3-col */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -305,11 +325,30 @@ export default function MenuSection({ content }: { content: MenuContent }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
           >
-            {filtered.map((item, i) => (
-              <MenuCard key={item.id} item={item} index={i} />
-            ))}
+            {/* Featured row — items with photos in 2-col big cards */}
+            {(() => {
+              const featured = filtered.filter(i => i.image);
+              const compact = filtered.filter(i => !i.image);
+              return (
+                <>
+                  {featured.length > 0 && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      {featured.map((item, i) => (
+                        <MenuCard key={item.id} item={item} index={i} accentIndex={i} />
+                      ))}
+                    </div>
+                  )}
+                  {compact.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {compact.map((item, i) => (
+                        <MenuCard key={item.id} item={item} index={i} accentIndex={featured.length + i} />
+                      ))}
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </motion.div>
         </AnimatePresence>
       </div>

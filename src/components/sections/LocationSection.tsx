@@ -244,6 +244,29 @@ export default function LocationSection({ content }: { content: LocationContent 
           </motion.div>
         </div>
 
+        {/* Photo strip — fills the gap between info and map */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="mt-16 rounded-3xl overflow-hidden h-64 relative group"
+        >
+          <img
+            src="/uploads/photo-chef-counter.png"
+            alt="Hansum team at work"
+            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            style={{ filter: "brightness(0.75) saturate(1.1)" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+          <div className="absolute inset-0 flex items-center px-10">
+            <div>
+              <p className="font-condensed text-white text-[clamp(2rem,5vw,3.5rem)] leading-none">Crafted with care.</p>
+              <p className="font-sans text-white/60 text-sm mt-2">Every day. Inside Marina Market.</p>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Map — depth reveal: scales down + un-clips as you scroll into it */}
         <motion.div
           style={{ scale: mapScale, clipPath: mapClipPath }}

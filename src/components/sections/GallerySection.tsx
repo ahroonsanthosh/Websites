@@ -38,8 +38,8 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
           viewport={{ once: true }}
           className="flex items-center gap-3 mb-6"
         >
-          <div className="w-8 h-px bg-orange-500" />
-          <span className="text-orange-500 text-xs font-sans tracking-[0.3em] uppercase font-medium">
+          <div className="w-8 h-px" style={{ background: "#FF6BDB" }} />
+          <span className="text-xs font-sans tracking-[0.3em] uppercase font-medium" style={{ color: "#FF6BDB" }}>
             On the Gram
           </span>
         </motion.div>
@@ -71,22 +71,39 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
         </div>
       </div>
 
-      {/* Masonry-style grid */}
+      {/* Bento-box grid — 3 cols, 4 rows, specific spans per tile */}
       <div className="max-w-7xl mx-auto px-6">
-        <div className="columns-2 md:columns-3 gap-4 space-y-4">
-          {tiles.map((tile, i) => {
-            const tall = i === 0 || i === 4;
+        <div
+          className="grid gap-3"
+          style={{
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateRows: "260px 260px 260px 260px",
+          }}
+        >
+          {[
+            /* [colStart, colEnd, rowStart, rowEnd] */
+            [1, 2, 1, 3], // img0 — tall left
+            [2, 3, 1, 2], // img1 — top mid
+            [3, 4, 1, 2], // img2 — top right
+            [2, 4, 2, 3], // img3 — wide mid-right
+            [1, 2, 3, 4], // img4 — mid-left
+            [2, 3, 3, 4], // img5 — mid-center
+            [3, 4, 3, 5], // img6 — tall right
+            [1, 3, 4, 5], // img7 — wide bottom-left
+          ].map(([cs, ce, rs, re], i) => {
+            const tile = sorted[i];
             return (
               <motion.button
                 key={tile?.id ?? `placeholder-${i}`}
                 type="button"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setLightboxIndex(i)}
-                aria-label={`View gallery image: ${tile?.alt ?? "Hansum food"}`}
-                className={`w-full break-inside-avoid relative rounded-2xl overflow-hidden cursor-none group ${tall ? "aspect-[3/4]" : "aspect-square"}`}
+                aria-label={`View: ${tile?.alt ?? "Hansum food"}`}
+                className="relative rounded-2xl overflow-hidden cursor-none group"
+                style={{ gridColumn: `${cs} / ${ce}`, gridRow: `${rs} / ${re}` }}
                 data-cursor-label="VIEW"
               >
                 <HansumImage
@@ -94,15 +111,11 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
                   alt={tile?.alt ?? "Hansum rotisserie"}
                   gradient={PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length]}
                   sizes="(max-width: 768px) 50vw, 33vw"
-                  className="transition-transform duration-500 group-hover:scale-105"
+                  className="transition-transform duration-700 group-hover:scale-108"
                 />
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl px-4 py-2">
-                    <p className="text-white text-xs font-sans">@hansumcork</p>
-                  </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-white/80 text-xs font-sans bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">@hansumcork</span>
                 </div>
               </motion.button>
             );
