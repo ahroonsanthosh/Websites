@@ -71,30 +71,47 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
         </div>
       </div>
 
-      {/* Bento-box grid — 3 cols, 4 rows, specific spans per tile */}
       <div className="max-w-7xl mx-auto px-6">
+
+        {/* Mobile: simple 2-col grid */}
+        <div className="grid grid-cols-2 gap-3 md:hidden">
+          {sorted.map((tile, i) => (
+            <motion.button
+              key={tile?.id ?? `m-${i}`}
+              type="button"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              onClick={() => setLightboxIndex(i)}
+              aria-label={`View: ${tile?.alt ?? "Hansum food"}`}
+              className={`relative rounded-2xl overflow-hidden group ${i % 3 === 0 ? "aspect-[3/4]" : "aspect-square"}`}
+            >
+              <HansumImage src={tile?.src} alt={tile?.alt ?? "Hansum rotisserie"} gradient={PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length]} sizes="50vw" className="transition-transform duration-500 group-active:scale-105" />
+              <div className="absolute inset-0 bg-black/20" />
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Desktop: bento grid — 3 cols, 4 rows, specific spans */}
         <div
-          className="grid gap-3"
-          style={{
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "260px 260px 260px 260px",
-          }}
+          className="hidden md:grid gap-3"
+          style={{ gridTemplateColumns: "repeat(3, 1fr)", gridTemplateRows: "260px 260px 260px 260px" }}
         >
-          {[
-            /* [colStart, colEnd, rowStart, rowEnd] */
-            [1, 2, 1, 3], // img0 — tall left
-            [2, 3, 1, 2], // img1 — top mid
-            [3, 4, 1, 2], // img2 — top right
-            [2, 4, 2, 3], // img3 — wide mid-right
-            [1, 2, 3, 4], // img4 — mid-left
-            [2, 3, 3, 4], // img5 — mid-center
-            [3, 4, 3, 5], // img6 — tall right
-            [1, 3, 4, 5], // img7 — wide bottom-left
-          ].map(([cs, ce, rs, re], i) => {
+          {([
+            [1, 2, 1, 3],
+            [2, 3, 1, 2],
+            [3, 4, 1, 2],
+            [2, 4, 2, 3],
+            [1, 2, 3, 4],
+            [2, 3, 3, 4],
+            [3, 4, 3, 5],
+            [1, 3, 4, 5],
+          ] as [number,number,number,number][]).map(([cs, ce, rs, re], i) => {
             const tile = sorted[i];
             return (
               <motion.button
-                key={tile?.id ?? `placeholder-${i}`}
+                key={tile?.id ?? `d-${i}`}
                 type="button"
                 initial={{ opacity: 0, scale: 0.97 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -106,13 +123,7 @@ export default function GallerySection({ images = [] }: { images?: GalleryImage[
                 style={{ gridColumn: `${cs} / ${ce}`, gridRow: `${rs} / ${re}` }}
                 data-cursor-label="VIEW"
               >
-                <HansumImage
-                  src={tile?.src}
-                  alt={tile?.alt ?? "Hansum rotisserie"}
-                  gradient={PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length]}
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                  className="transition-transform duration-700 group-hover:scale-108"
-                />
+                <HansumImage src={tile?.src} alt={tile?.alt ?? "Hansum rotisserie"} gradient={PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length]} sizes="33vw" className="transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <span className="text-white/80 text-xs font-sans bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">@hansumcork</span>
