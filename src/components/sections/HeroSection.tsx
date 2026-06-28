@@ -81,7 +81,7 @@ export default function HeroSection({ content }: { content: HeroContent }) {
   return (
     <section ref={ref} className="relative h-[220vh]" id="hero" aria-label="Hansum Rotisserie hero">
       {/* Pinned cinematic scene */}
-      <div className="sticky top-0 h-screen overflow-hidden bg-[#1A1A1A] flex flex-col items-center justify-center pt-28">
+      <div className="sticky top-0 h-screen overflow-hidden bg-[#1A1A1A] flex flex-col items-center justify-start pt-36">
         {/* Real photo background */}
         <div className="absolute inset-0 z-0">
           <img
