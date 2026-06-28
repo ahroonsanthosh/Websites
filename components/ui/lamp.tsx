@@ -45,28 +45,28 @@ export const LampContainer = ({
           <div className="absolute w-full right-0 bg-[#1A0C05] h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
         </motion.div>
 
-        {/* Wide orange glow orb */}
-        <div className="absolute inset-auto z-10 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-[#EE1C1C] opacity-20 blur-3xl" />
+        {/* Wide red glow orb */}
+        <div className="absolute inset-auto z-10 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-[#CC0000] opacity-35 blur-3xl" />
         {/* Tight red glow */}
         <motion.div
           initial={{ width: "6rem" }}
           whileInView={{ width: "14rem" }}
           transition={{ delay: 0.2, duration: 1, ease: "easeInOut" }}
-          className="absolute inset-auto z-30 h-36 -translate-y-16 rounded-full bg-[#EE1C1C] opacity-50 blur-2xl"
+          className="absolute inset-auto z-30 h-36 -translate-y-16 rounded-full bg-[#FF0000] opacity-70 blur-2xl"
         />
         {/* Light bar glow halo */}
         <motion.div
           initial={{ width: "8rem", opacity: 0 }}
           whileInView={{ width: "26rem", opacity: 1 }}
           transition={{ delay: 0.2, duration: 1, ease: "easeInOut" }}
-          className="absolute left-1/2 -translate-x-1/2 top-0 z-50 h-6 rounded-full bg-[#EE1C1C] opacity-50 blur-md"
+          className="absolute left-1/2 -translate-x-1/2 top-0 z-50 h-8 rounded-full bg-[#FF0000] opacity-70 blur-md"
         />
         {/* Light bar core */}
         <motion.div
           initial={{ width: "8rem", opacity: 0 }}
           whileInView={{ width: "26rem", opacity: 1 }}
           transition={{ delay: 0.2, duration: 1, ease: "easeInOut" }}
-          className="absolute left-1/2 -translate-x-1/2 top-0 z-50 h-1 bg-gradient-to-r from-transparent via-[#FF6666] to-transparent"
+          className="absolute left-1/2 -translate-x-1/2 top-0 z-50 h-1 bg-gradient-to-r from-transparent via-white to-transparent"
         />
         {/* Cover strip — hides beam artifacts above */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-[#1A0C05] z-40" />
