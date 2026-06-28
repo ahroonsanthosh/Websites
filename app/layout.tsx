@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans, Oswald } from "next/font/google";
+import { Playfair_Display, DM_Sans, Oswald, Anton } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -17,6 +17,13 @@ const dmSans = DM_Sans({
 const oswald = Oswald({
   variable: "--font-oswald",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const anton = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -39,7 +46,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${dmSans.variable} ${oswald.variable} scroll-smooth antialiased`}
+      className={`${playfair.variable} ${dmSans.variable} ${oswald.variable} ${anton.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-screen">{children}</body>
     </html>

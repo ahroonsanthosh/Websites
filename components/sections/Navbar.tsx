@@ -49,13 +49,12 @@ export default function Navbar() {
             transition={{ type: "spring", stiffness: 400, damping: 18 }}
           >
             <motion.span
-              className="font-accent font-black uppercase leading-none"
+              className="font-sign uppercase leading-none"
               style={{
-                color: "#FF1A1A",
-                fontSize: "1.75rem",
-                letterSpacing: "0.04em",
-                WebkitTextStroke: "1px #FF1A1A",
-                textShadow: "2px 2px 0 #990000, 0 0 12px rgba(255,26,26,0.3)",
+                color: "#EE1C1C",
+                fontSize: "2rem",
+                letterSpacing: "0.06em",
+                textShadow: "3px 3px 0 #8B0000, 0 0 16px rgba(238,28,28,0.25)",
               }}
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 12 }}

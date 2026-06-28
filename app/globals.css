@@ -4,6 +4,7 @@
   --font-display: var(--font-playfair);
   --font-sans: var(--font-dm-sans);
   --font-accent: var(--font-oswald);
+  --font-sign: var(--font-anton);
 
   --color-brand-orange: #E8622A;
   --color-brand-dark: #1A0C05;
