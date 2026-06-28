@@ -1,0 +1,48 @@
+{
+  "menu": {
+    "breakfast": [
+      {"name": "Full Irish", "price": "€12"},
+      {"name": "Smashed Avocado Toast", "price": "€10"},
+      {"name": "Granola & Fresh Fruit", "price": "€8"},
+      {"name": "Eggs Benedict", "price": "€11"},
+      {"name": "French Toast", "price": "€9"}
+    ],
+    "lunch": [
+      {"name": "Soup of the Day", "price": "€7"},
+      {"name": "Chicken Caesar Wrap", "price": "€10"},
+      {"name": "Club Sandwich", "price": "€11"},
+      {"name": "Quiche & Salad", "price": "€9"},
+      {"name": "Daily Special", "price": "ask server"}
+    ],
+    "drinks": [
+      {"name": "Specialty Coffee", "price": "from €3.50"},
+      {"name": "Fresh Juices", "price": "€4.50"},
+      {"name": "Teas", "price": "from €2.50"}
+    ]
+  },
+  "hours": [
+    {"day": "Monday", "open": "08:00", "close": "15:00", "closed": false},
+    {"day": "Tuesday", "open": "08:00", "close": "15:00", "closed": false},
+    {"day": "Wednesday", "open": "08:00", "close": "15:00", "closed": false},
+    {"day": "Thursday", "open": "08:00", "close": "15:00", "closed": false},
+    {"day": "Friday", "open": "08:00", "close": "15:00", "closed": false},
+    {"day": "Saturday", "open": "", "close": "", "closed": true},
+    {"day": "Sunday", "open": "", "close": "", "closed": true}
+  ],
+  "about": "Tucked along the Penrose Wharf, Happy Days is Cork's favourite morning ritual. We open before the city fully wakes, serving food made with care — the kind that makes the day feel worth it from the first bite.",
+  "contact": {
+    "address": "Penrose Wharf, Penrose Quay, Victorian Quarter, Cork, T23 RK11",
+    "instagram": "https://www.instagram.com/happydaysdeli/?hl=en",
+    "facebook": "https://www.facebook.com/p/Happy-Days-Deli-61574488780439/"
+  },
+  "galleryCaptions": [
+    "Morning light at the wharf",
+    "Fresh from the kitchen",
+    "The space, as it is",
+    "Details that matter",
+    "Start the day right",
+    "Good food, simply made",
+    "Cork's favourite corner",
+    "Every morning, without fail"
+  ]
+}
