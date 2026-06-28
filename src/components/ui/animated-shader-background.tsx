@@ -9,9 +9,9 @@ const ShaderBackground = () => {
     if (!container) return;
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'low-power' });
     renderer.setSize(container.offsetWidth, container.offsetHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.0));
     container.appendChild(renderer.domElement);
     const material = new THREE.ShaderMaterial({
       uniforms: {
@@ -22,7 +22,7 @@ const ShaderBackground = () => {
       fragmentShader: `
         uniform float iTime;
         uniform vec2 iResolution;
-        #define NUM_OCTAVES 3
+        #define NUM_OCTAVES 2
         float rand(vec2 n) { return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453); }
         float noise(vec2 p) {
           vec2 ip = floor(p); vec2 u = fract(p);
@@ -37,22 +37,19 @@ const ShaderBackground = () => {
           return v;
         }
         void main() {
-          vec2 shake=vec2(sin(iTime*1.2)*0.003,cos(iTime*2.1)*0.003);
-          vec2 p=((gl_FragCoord.xy+shake*iResolution.xy)-iResolution.xy*0.5)/iResolution.y*mat2(6.,-4.,4.,6.);
+          vec2 p=((gl_FragCoord.xy)-iResolution.xy*0.5)/iResolution.y*mat2(6.,-4.,4.,6.);
           vec2 v; vec4 o=vec4(0.);
           float f=2.+fbm(p+vec2(iTime*5.,0.))*0.5;
-          for(float i=0.;i<35.;i++){
-            v=p+cos(i*i+(iTime+p.x*0.08)*0.025+i*vec2(13.,11.))*3.5+vec2(sin(iTime*3.+i)*0.003,cos(iTime*3.5-i)*0.003);
-            float tailNoise=fbm(v+vec2(iTime*0.5,i))*0.3*(1.-(i/35.));
+          for(float i=0.;i<16.;i++){
+            v=p+cos(i*i+(iTime+p.x*0.08)*0.025+i*vec2(13.,11.))*3.5;
             vec4 col=vec4(
               0.6+0.3*sin(i*0.2+iTime*0.4),
               0.35+0.2*cos(i*0.3+iTime*0.5),
               0.05+0.1*sin(i*0.4+iTime*0.3),
               1.
             );
-            vec4 contrib=col*exp(sin(i*i+iTime*0.8))/length(max(v,vec2(v.x*f*0.015,v.y*1.5)));
-            float thin=smoothstep(0.,1.,i/35.)*0.5;
-            o+=contrib*(1.+tailNoise*0.8)*thin;
+            float thin=smoothstep(0.,1.,i/16.)*0.5;
+            o+=col*exp(sin(i*i+iTime*0.8))/length(max(v,vec2(v.x*f*0.015,v.y*1.5)))*thin;
           }
           o=tanh(pow(o/100.,vec4(1.6)));
           gl_FragColor=vec4(o.rgb*1.2, 0.85);
@@ -63,24 +60,59 @@ const ShaderBackground = () => {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
     let frameId: number;
+    let running = true;
+
     const animate = () => {
-      material.uniforms.iTime.value += 0.012;
+      if (!running) return;
+      material.uniforms.iTime.value += 0.01;
       renderer.render(scene, camera);
       frameId = requestAnimationFrame(animate);
     };
+
+    const canvas = renderer.domElement;
+
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      running = false;
+      cancelAnimationFrame(frameId);
+    };
+
+    const onContextRestored = () => {
+      running = true;
+      animate();
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(frameId);
+      } else {
+        running = true;
+        animate();
+      }
+    };
+
+    canvas.addEventListener('webglcontextlost', onContextLost);
+    canvas.addEventListener('webglcontextrestored', onContextRestored);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     animate();
+
     const handleResize = () => {
       if (!container) return;
       renderer.setSize(container.offsetWidth, container.offsetHeight);
       material.uniforms.iResolution.value.set(container.offsetWidth, container.offsetHeight);
     };
     window.addEventListener('resize', handleResize);
+
     return () => {
+      running = false;
       cancelAnimationFrame(frameId);
       window.removeEventListener('resize', handleResize);
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
-      }
+      canvas.removeEventListener('webglcontextlost', onContextLost);
+      canvas.removeEventListener('webglcontextrestored', onContextRestored);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      if (container.contains(canvas)) container.removeChild(canvas);
       geometry.dispose();
       material.dispose();
       renderer.dispose();
