@@ -52,9 +52,9 @@ export default function Hero() {
 
         {/* Headline */}
         <h1
-          className="font-display text-brand-bg font-bold leading-[0.9] tracking-tight mb-6"
+          className="font-display text-brand-bg font-bold leading-[0.88] tracking-tight mb-6 w-full"
           style={{
-            fontSize: 'clamp(4.5rem, 18vw, 14rem)',
+            fontSize: 'clamp(3.5rem, 14vw, 11rem)',
             textShadow: '0 2px 40px rgba(26,17,10,0.15)',
             animation: 'fade-in-up 0.9s cubic-bezier(0.25,1,0.5,1) 0.1s both',
           }}

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, Save } from 'lucide-react'
 import { MenuItem } from '@/lib/content'
 
 interface Props {
@@ -17,13 +17,15 @@ type Category = 'breakfast' | 'lunch' | 'drinks'
 function CategorySection({
   title,
   items,
+  tag,
   onUpdate,
 }: {
   title: string
   items: MenuItem[]
+  tag: string
   onUpdate: (items: MenuItem[]) => void
 }) {
-  const addItem = () => onUpdate([...items, { name: '', price: '' }])
+  const addItem    = () => onUpdate([...items, { name: '', price: '' }])
   const removeItem = (i: number) => onUpdate(items.filter((_, idx) => idx !== i))
   const updateItem = (i: number, field: keyof MenuItem, val: string) => {
     const next = [...items]
@@ -32,38 +34,40 @@ function CategorySection({
   }
 
   return (
-    <div className="mb-10">
-      <p className="font-sans text-brand-accent text-xs tracking-[0.3em] uppercase mb-4">{title}</p>
-      <div className="space-y-2">
+    <div className="bg-brand-surface rounded-2xl p-5 sm:p-6">
+      <span className={`tag ${tag} mb-5 block w-fit`}>{title}</span>
+
+      <div className="space-y-2 mb-3">
         {items.map((item, i) => (
-          <div key={i} className="flex items-center gap-3">
+          <div key={i} className="flex items-center gap-2">
             <input
               value={item.name}
               onChange={e => updateItem(i, 'name', e.target.value)}
               placeholder="Item name"
-              className="flex-1 bg-brand-surface border border-brand-border text-brand-text px-3 py-2.5 font-sans text-sm focus:outline-none focus:border-brand-accent transition-colors"
+              className="flex-1 bg-brand-bg border border-brand-border text-brand-text rounded-xl px-3.5 py-2.5 font-sans text-sm focus:outline-none focus:border-brand-accent transition-colors"
             />
             <input
               value={item.price}
               onChange={e => updateItem(i, 'price', e.target.value)}
-              placeholder="Price"
-              className="w-28 bg-brand-surface border border-brand-border text-brand-text px-3 py-2.5 font-sans text-sm focus:outline-none focus:border-brand-accent transition-colors"
+              placeholder="€0"
+              className="w-20 bg-brand-bg border border-brand-border text-brand-text rounded-xl px-3 py-2.5 font-sans text-sm text-center focus:outline-none focus:border-brand-accent transition-colors"
             />
             <button
               onClick={() => removeItem(i)}
-              className="text-brand-text/30 hover:text-red-400 transition-colors p-1.5"
+              className="p-2 text-brand-border hover:text-red-400 transition-colors rounded-lg"
               aria-label="Remove item"
             >
-              <Trash2 size={14} strokeWidth={1.5} />
+              <Trash2 size={15} strokeWidth={2} />
             </button>
           </div>
         ))}
       </div>
+
       <button
         onClick={addItem}
-        className="mt-3 flex items-center gap-2 font-sans text-xs text-brand-text/40 hover:text-brand-accent transition-colors tracking-wide"
+        className="flex items-center gap-1.5 font-sans text-xs font-semibold text-brand-muted hover:text-brand-accent transition-colors py-1"
       >
-        <Plus size={13} strokeWidth={1.5} />
+        <Plus size={13} strokeWidth={2.5} />
         Add item
       </button>
     </div>
@@ -71,9 +75,9 @@ function CategorySection({
 }
 
 export default function MenuEditor({ initialMenu }: Props) {
-  const [menu, setMenu] = useState(initialMenu)
+  const [menu, setMenu]   = useState(initialMenu)
   const [saving, setSaving] = useState(false)
-  const [toast, setToast] = useState('')
+  const [toast, setToast]   = useState('')
 
   const updateCategory = (cat: Category) => (items: MenuItem[]) =>
     setMenu(prev => ({ ...prev, [cat]: items }))
@@ -87,25 +91,26 @@ export default function MenuEditor({ initialMenu }: Props) {
       body: JSON.stringify({ ...current, menu }),
     })
     setSaving(false)
-    setToast('Saved')
+    setToast('Saved!')
     setTimeout(() => setToast(''), 2500)
   }
 
   return (
-    <div>
-      <CategorySection title="Breakfast — until noon" items={menu.breakfast} onUpdate={updateCategory('breakfast')} />
-      <CategorySection title="Lunch" items={menu.lunch} onUpdate={updateCategory('lunch')} />
-      <CategorySection title="Drinks" items={menu.drinks} onUpdate={updateCategory('drinks')} />
+    <div className="space-y-4">
+      <CategorySection title="Breakfast" tag="tag-orange" items={menu.breakfast} onUpdate={updateCategory('breakfast')} />
+      <CategorySection title="Lunch"     tag="tag-green"  items={menu.lunch}     onUpdate={updateCategory('lunch')} />
+      <CategorySection title="Drinks"    tag="tag-orange" items={menu.drinks}     onUpdate={updateCategory('drinks')} />
 
-      <div className="flex items-center gap-4 mt-4">
+      <div className="flex items-center gap-4 pt-2">
         <button
           onClick={handleSave}
           disabled={saving}
-          className="bg-brand-accent text-brand-bg font-sans text-sm tracking-widest uppercase px-7 py-3 hover:bg-brand-accent/90 transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 bg-brand-accent text-white rounded-full font-sans text-sm font-bold tracking-wide px-6 py-3 hover:bg-brand-text transition-colors disabled:opacity-50"
         >
+          <Save size={14} strokeWidth={2.5} />
           {saving ? 'Saving…' : 'Save Changes'}
         </button>
-        {toast && <span className="font-sans text-brand-accent text-sm">{toast}</span>}
+        {toast && <span className="font-sans text-brand-green text-sm font-semibold">{toast}</span>}
       </div>
     </div>
   )

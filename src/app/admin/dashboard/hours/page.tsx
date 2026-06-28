@@ -13,11 +13,11 @@ export default async function HoursPage() {
   const data = await getSiteData()
 
   return (
-    <div className="min-h-screen bg-brand-bg flex">
+    <div className="min-h-screen bg-brand-bg flex flex-col md:flex-row">
       <AdminSidebar />
-      <main className="flex-1 p-10">
-        <h2 className="font-display text-brand-text text-3xl font-light mb-2">Opening Hours</h2>
-        <p className="font-sans text-brand-text/40 text-sm mb-10">Set open/close times or mark days as closed.</p>
+      <main className="flex-1 px-5 py-8 sm:px-8 sm:py-10 max-w-4xl">
+        <h2 className="font-display text-brand-text text-3xl sm:text-4xl font-bold mb-2">Opening Hours</h2>
+        <p className="font-sans text-brand-muted text-sm mb-10">Set open/close times or mark days as closed.</p>
         <HoursEditor initialHours={data.hours} />
       </main>
     </div>
