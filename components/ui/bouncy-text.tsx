@@ -59,7 +59,7 @@ export function BouncyWords({ text, className, wordClassName }: { text: string; 
       {text.split(" ").map((word, wi) => (
         <motion.span
           key={wi}
-          className={`inline-flex cursor-default ${wordClassName ?? ""}`}
+          className={`inline-flex whitespace-nowrap cursor-default ${wordClassName ?? ""}`}
           initial="rest"
           whileHover="hover"
           variants={wordVariants}

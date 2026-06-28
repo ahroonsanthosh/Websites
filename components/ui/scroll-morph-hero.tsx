@@ -241,9 +241,16 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full bg-[#1A0C05] overflow-hidden"
-      style={{ touchAction: "none" }}
+      className="relative w-full h-full overflow-hidden"
+      style={{ touchAction: "none", backgroundColor: "#1A0C05" }}
     >
+      {/* Background image with dark overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${BASE}/images/deli-4.png)` }}
+      />
+      <div className="absolute inset-0 bg-[#1A0C05]/80" />
+
       <div className="flex h-full w-full flex-col items-center justify-center">
 
         {/* Intro brand text */}

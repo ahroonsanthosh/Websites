@@ -84,7 +84,7 @@ export default function Gallery() {
               initial={{ opacity: 0, y: 25 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-display italic text-4xl md:text-5xl font-bold text-[#1A0C05]"
+              className="font-display italic text-3xl md:text-5xl font-bold text-[#1A0C05]"
             >
               <BouncyWords text="The Food Speaks" className="block" />
               <span className="text-[#E8622A]">
