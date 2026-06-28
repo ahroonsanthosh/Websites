@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion"
 
 const images = [
   "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHgs-QKf_C20dNSo4p_-chiLoIDzicBRH05AUadc4yU__KvlweZZ2KmfIttrOS0DXvMWe4f8lGzd2p6Q_BqoUE1mxKetdm7lnila7IZdsA2AJfvvoA-pcOEMn7jCqocba1PEIweZi5cUz5S=s1360-w1360-h1020-rw",
-  "https://lh3.googleusercontent.com/gps-cs-s/APNQkAH6-GIshzw81USbQmQ4cpnkugbo3PbHtAZ6dBlO98dg4Rv7ND-0Xf_a-mR_41aveOfl91TooRy_usLchQJV1_YA5UqaZsZiATlYLD-z4vxOVK5pLBZKF3BZhZKwWyouXPdIjRWe=s1360-w1360-h1020-rw",
+  "https://lh3.googleusercontent.com/gps-cs-s/APNQkAH6-GIshzw81USbQmQ4cpnkugbo3PbHtAZ6dBlO98dg4Rv7ND-0Xf_a-mR_41aveOfl91TooRy_usLchQJV1_YA5UqaZsZiATlYLD-z4vxOVK5pLBTKF3BZhZKwWyouXPdIjRWe=s1360-w1360-h1020-rw",
 ]
 
 function AnimatedWord({ word, delay }: { word: string; delay: number }) {

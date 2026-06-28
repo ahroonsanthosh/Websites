@@ -37,25 +37,17 @@ export default function PhilosophySection() {
 
           <div className="space-y-2">
             {lines.map((line, i) => (
-              <motion.div
+              <motion.h2
                 key={i}
-                className="overflow-hidden"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.1, delay: i * 0.2 }}
+                className={`font-light leading-none ${line.highlight ? 'text-[#2C1810]' : 'text-[#C8A882]'}`}
+                style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(3rem, 7vw, 6.5rem)', letterSpacing: '-0.02em' }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
               >
-                <motion.h2
-                  className={`font-light leading-none ${line.highlight ? 'text-[#2C1810]' : 'text-[#C8A882]'}`}
-                  style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(3rem, 7vw, 6.5rem)', letterSpacing: '-0.02em' }}
-                  initial={{ y: "110%" }}
-                  whileInView={{ y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.9, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  {line.text}
-                </motion.h2>
-              </motion.div>
+                {line.text}
+              </motion.h2>
             ))}
           </div>
 

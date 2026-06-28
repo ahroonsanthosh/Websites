@@ -52,7 +52,7 @@ function HourRow({ day, time, index }: { day: string; time: string | null; index
           </AnimatePresence>
 
           <span className={`text-sm font-light transition-colors duration-300 ${
-            isToday ? 'text-[#C8A882]' : hovered ? 'text-white' : 'text-white/50'
+            isToday ? 'text-[#C8A882]' : hovered ? 'text-white' : 'text-white/65'
           }`}>
             {day}
           </span>
@@ -71,7 +71,7 @@ function HourRow({ day, time, index }: { day: string; time: string | null; index
 
         <motion.span
           className={`text-sm font-light transition-colors duration-300 ${
-            !isOpen ? 'text-white/20' : isToday ? 'text-white' : hovered ? 'text-white/90' : 'text-white/50'
+            !isOpen ? 'text-white/30' : isToday ? 'text-white' : hovered ? 'text-white/90' : 'text-white/65'
           }`}
           animate={{ x: hovered && isOpen ? -4 : 0 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -90,7 +90,7 @@ export default function HoursSection() {
         {/* Left: Address + atmosphere */}
         <div>
           <motion.p
-            className="text-[#C8A882]/40 text-xs tracking-[0.45em] uppercase mb-6 font-light"
+            className="text-[#C8A882] text-xs tracking-[0.45em] uppercase mb-6 font-light"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -124,8 +124,8 @@ export default function HoursSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
             >
-              <span className="text-[#C8A882]/30 text-[10px] tracking-[0.3em] uppercase w-16 flex-shrink-0">{item.label}</span>
-              <span className="text-white/70 text-sm font-light">{item.value}</span>
+              <span className="text-[#C8A882]/60 text-[10px] tracking-[0.3em] uppercase w-16 flex-shrink-0">{item.label}</span>
+              <span className="text-white/80 text-sm font-light">{item.value}</span>
             </motion.div>
           ))}
 
@@ -203,7 +203,7 @@ export default function HoursSection() {
         {/* Right: Hours */}
         <div>
           <motion.p
-            className="text-[#C8A882]/40 text-xs tracking-[0.45em] uppercase mb-6 font-light"
+            className="text-[#C8A882] text-xs tracking-[0.45em] uppercase mb-6 font-light"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -212,7 +212,7 @@ export default function HoursSection() {
           </motion.p>
 
           <motion.p
-            className="text-white/20 text-xs font-light mb-8 leading-relaxed"
+            className="text-white/50 text-xs font-light mb-8 leading-relaxed"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
