@@ -22,15 +22,15 @@ const InfiniteGallery = dynamic(
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const cafeImages = [
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHvr5ppIhr2F4te5nCnnyYYKmJwW7EM2_xLOVOyJMTlf59Jjn4hGTPOZf8E-DNFsmI8G1PFP6W99VS9MIu8Px_kKOT2GVlRV8ut-NsDDp7E1_s6G7EJzWo1iLYcKZdukFEI9cbK=s1360-w1360-h1020-rw', alt: '5 Points Café interior' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGrOZnd4xkl7aJQrDq4Q4fOK23q9w_2jLueYs9yLimxnWjVv2XlGCNPjI19u62p4-caSUXKEFU16LWy6DGaf0EAzDih0n0o_A8PioCLYTLK_FtnBk5knXKuear99Zs86mEMAysi=s1360-w1360-h1020-rw', alt: 'Coffee at 5 Points' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGo1yYEQDRx1syciM92NvTonmPdv_PdqU50o4SbKCosExO17YZDQ8ahIl_YzddPoznnwVkCM306f3zZu7J3nCcE-dmLSXIyRPVrXLIROfknK8h_zh26DkG7Fshdd1--Rj7WONEYR_MY0FTj=s1360-w1360-h1020-rw', alt: 'Food at 5 Points' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHpTZwPtu0uN8iBvdqOfXKsxNZne6OfGgRDlLbXv8QcoCyGhUHE7nnGXafhjq0Zs6tTEh2Rhqk6WVCszUBN_cRypKDGSBQp_80-kCA3HC2C6H9v3S-ydhLoYqs9iF9uIBjXCOqzO8TzXRE-=s1360-w1360-h1020-rw', alt: '5 Points atmosphere' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGzh8CSKVDypGI_RDVCiGsSrn3QTJLNXy492sWjdx1zJWZFKGDIBaDnLRFNtW0AbRiI0V89TVseCf8YgkdVUZpPOXHMxcO3TBnmcKsBTKhME9hyZRk8woGQVpiCdVYfzsI=s1360-w1360-h1020-rw', alt: 'Café details' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGLNDhpRzNP7CHjeZfSc07Ocnb9aDCNwfnHw0SD0np3l6IJc9S5V49aRqqPgM9zvsZQihNQqiqgKEkEYQ-zZe2qrIXDhYPvoWjOh3k840DlzwxYv1oji0jz5m3dM6vwF6iFBElRNEvHtDXc=s1360-w1360-h1020-rw', alt: 'Morning light' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAE1om1eqm1TP_SdflxQc6lZhqCLePLA2kYvD3P2IUhI0RfLBc9IjyY782ZbbzQh6w6rSccXR1zrDzVZBT7zZdnVJ6-OcJCr5Xqgd_L2JYV63Y7KcKkJLEiLzEoZypxjm0YUVniSLA28pxk=s1360-w1360-h1020-rw', alt: 'Espresso' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAG1YI63iqZoMSw6DcwggvoXMBXCLHOTrBoArtRafN7iC4UjNDLaQzdWZaOexpBDjBO1GYzSykogwv0GQageBIKPkxrOV_R7dikJRyGbmOxFvXyqWU3k5nzM_2wK-c109SFbXEN4J1jFnBE=s1360-w1360-h1020-rw', alt: 'Seasonal food' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGgeXJGraI5nNcfsJOF0OPVSeG7S5bqvdUjPpE9LW-6j4wN1NBRYJTzCOOCiY4VOn0ymHbYRUaf4zcXitdGkRf5Hzb-pcfiOpH5ZVHKR9kXkQOY_OeC1WlgzRXlLE7hgqG70Nsb6IBoh1Tt=s1360-w1360-h1020-rw', alt: 'Café corner' },
+  { src: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&auto=format&fit=crop&q=80', alt: 'Café interior' },
+  { src: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&auto=format&fit=crop&q=80', alt: 'Espresso' },
+  { src: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&auto=format&fit=crop&q=80', alt: 'Morning coffee' },
+  { src: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&auto=format&fit=crop&q=80', alt: 'Café atmosphere' },
+  { src: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1200&auto=format&fit=crop&q=80', alt: 'Coffee preparation' },
+  { src: 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=1200&auto=format&fit=crop&q=80', alt: 'Latte art' },
+  { src: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1200&auto=format&fit=crop&q=80', alt: 'Café corner' },
+  { src: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&auto=format&fit=crop&q=80', alt: 'Brunch plate' },
+  { src: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200&auto=format&fit=crop&q=80', alt: 'Fresh pastry' },
 ];
 
 const hours = [
@@ -252,7 +252,7 @@ function About() {
         <div className="relative h-[480px] md:h-[600px]"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'none' : 'translateX(24px)', transition: 'all 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s' }}>
           <div className="img-zoom absolute inset-0 overflow-hidden" style={{ borderRadius: '2px' }}>
-            <img src={cafeImages[3].src} alt="5 Points interior" className="w-full h-full object-cover" loading="lazy" />
+            <img src={cafeImages[3].src} alt="5 Points Café" className="w-full h-full object-cover" loading="lazy" />
           </div>
           <div className="absolute -bottom-6 -left-6 md:-left-10 bg-[var(--bark)] border border-[rgba(181,118,58,0.25)] p-5 w-44 animate-float"
             style={{ borderRadius: '2px' }}>
