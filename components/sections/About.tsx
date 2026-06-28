@@ -6,6 +6,7 @@ import content from "@/lib/content";
 import { assetPath } from "@/lib/asset";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { GradientText } from "@/components/ui/gradient-text";
+import { BouncyWords } from "@/components/ui/bouncy-text";
 
 const { about } = content;
 
@@ -76,22 +77,21 @@ export default function About() {
               </motion.p>
 
               <h2 className="font-display italic text-[clamp(1.5rem,7vw,3rem)] md:text-5xl font-bold text-[#1A0C05] leading-tight mb-5">
-                <motion.span
-                  className="block"
+                <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  Born in the heart of
-                </motion.span>
-                <motion.span
-                  className="block text-[#E8622A]"
+                  <BouncyWords text="Born in the heart of" />
+                </motion.div>
+                <motion.div
+                  className="text-[#E8622A]"
                   initial={{ opacity: 0, y: 16 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  Cork.
-                </motion.span>
+                  <BouncyWords text="Cork." />
+                </motion.div>
               </h2>
 
               <motion.div

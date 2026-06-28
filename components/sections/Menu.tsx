@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import content from "@/lib/content";
-import { BouncyText } from "@/components/ui/bouncy-text";
+import { BouncyWords } from "@/components/ui/bouncy-text";
 
 const { menu } = content;
 type Category = typeof menu.categories[number];
@@ -59,7 +59,7 @@ export default function Menu() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-display italic text-4xl md:text-6xl font-bold text-[#FDF6EB]"
           >
-            <BouncyText text="The Menu" />
+            <BouncyWords text="The Menu" />
           </motion.h2>
         </div>
 
