@@ -77,7 +77,7 @@ export default function About() {
               </motion.p>
 
               <h2 className="font-display italic text-2xl sm:text-4xl md:text-5xl font-bold text-[#1A0C05] leading-tight mb-5">
-                <RevealText text="Born in the heart of" className="block" delay={0.1} />
+                <RevealText text="Born in the heart of" delay={0.1} />
                 <span className="text-[#E8622A]">
                   <RevealText text="Cork." delay={0.35} />
                 </span>

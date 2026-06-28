@@ -18,20 +18,19 @@ export function RevealText({ text, className = "", delay = 0, as: Tag = "span" }
   return (
     <Tag ref={ref} className={`flex flex-wrap gap-x-[0.28em] ${className}`}>
       {words.map((word, i) => (
-        <span key={i} className="overflow-hidden inline-block pb-2">
-          <motion.span
-            className="inline-block"
-            initial={{ y: "110%", opacity: 0 }}
-            animate={inView ? { y: "0%", opacity: 1 } : {}}
-            transition={{
-              duration: 0.65,
-              delay: delay + i * 0.08,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            {word}
-          </motion.span>
-        </span>
+        <motion.span
+          key={i}
+          className="inline-block"
+          initial={{ y: 18, opacity: 0 }}
+          animate={inView ? { y: 0, opacity: 1 } : {}}
+          transition={{
+            duration: 0.55,
+            delay: delay + i * 0.08,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          {word}
+        </motion.span>
       ))}
     </Tag>
   );
