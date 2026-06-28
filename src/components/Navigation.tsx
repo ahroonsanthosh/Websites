@@ -12,9 +12,10 @@ const links = [
   { label: "Find Us", href: "#location" },
 ];
 
-export default function Navigation() {
+export default function Navigation({ bannerText }: { bannerText?: string | null }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [bannerVisible, setBannerVisible] = useState(!!bannerText);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);
@@ -24,8 +25,38 @@ export default function Navigation() {
 
   return (
     <>
+      <div className="fixed top-0 left-0 right-0 z-50">
+        {/* Announcement banner */}
+        <AnimatePresence>
+          {bannerText && bannerVisible && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-orange-500 overflow-hidden"
+            >
+              <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
+                <div className="flex-1 flex items-center justify-center gap-2 min-w-0">
+                  <InstagramIcon className="w-3 h-3 text-white/80 flex-shrink-0" />
+                  <p className="font-sans text-white text-xs font-medium tracking-wide text-center truncate">
+                    {bannerText}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setBannerVisible(false)}
+                  aria-label="Dismiss announcement"
+                  className="text-white/70 hover:text-white flex-shrink-0"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`transition-all duration-500 ${
           scrolled ? "glass-dark shadow-xl shadow-black/20 py-3" : "py-6 bg-transparent"
         }`}
         initial={{ y: -100 }}
@@ -78,6 +109,7 @@ export default function Navigation() {
           </button>
         </div>
       </motion.nav>
+      </div>
 
       {/* Mobile fullscreen menu */}
       <AnimatePresence>

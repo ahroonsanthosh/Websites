@@ -3,7 +3,6 @@ import GlowOrb from "@/components/ui/GlowOrb";
 import Preloader from "@/components/ui/Preloader";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Navigation from "@/components/Navigation";
-import AnnouncementBanner from "@/components/AnnouncementBanner";
 import HeroSection from "@/components/sections/HeroSection";
 import WhyHansumSection from "@/components/sections/WhyHansumSection";
 import MenuSection from "@/components/sections/MenuSection";
@@ -54,13 +53,10 @@ export default async function HomePage() {
       {/* Warm glow orb that lights the page under the cursor */}
       <GlowOrb />
 
-      {/* Announcement banner */}
-      {settings.announcement_active && (
-        <AnnouncementBanner text={settings.announcement_banner} />
-      )}
-
-      {/* Navigation */}
-      <Navigation />
+      {/* Navigation (with optional announcement banner) */}
+      <Navigation
+        bannerText={settings.announcement_active ? settings.announcement_banner : null}
+      />
 
       {/* Sections */}
       <HeroSection content={hero} />
