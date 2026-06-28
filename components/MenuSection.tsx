@@ -21,10 +21,10 @@ export default function MenuSection() {
     <section id="menu" className="bg-[#1A0F0A] py-28 md:py-40 px-6 md:px-16 lg:px-32 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-end justify-between mb-20 flex-wrap gap-8">
+        <div className="flex items-end justify-between mb-14 flex-wrap gap-8">
           <div>
             <motion.p
-              className="text-[#C8A882]/60 text-xs tracking-[0.4em] uppercase mb-4 font-light"
+              className="text-[#C8A882] text-xs tracking-[0.4em] uppercase mb-4 font-light"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -66,10 +66,10 @@ export default function MenuSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: gi * 0.1 }}
               >
-                <p className="text-[#C8A882] text-xs tracking-[0.4em] uppercase mb-6 font-light border-b border-white/10 pb-4">
+                <p className="text-[#C8A882] text-[10px] tracking-[0.4em] uppercase mb-5 font-light border-b border-white/10 pb-3">
                   {group.category}
                 </p>
-                <ul className="space-y-4">
+                <ul className="space-y-3">
                   {group.items.map((item) => (
                     <li
                       key={item}
@@ -78,8 +78,9 @@ export default function MenuSection() {
                       onMouseLeave={() => setHoveredItem(null)}
                     >
                       <motion.span
-                        className="text-white/70 text-sm font-light cursor-default block transition-colors duration-200"
-                        animate={{ color: hoveredItem === item ? '#C8A882' : 'rgba(255,255,255,0.7)' }}
+                        className="text-sm font-light cursor-default block transition-colors duration-200"
+                        style={{ fontFamily: 'Georgia, serif' }}
+                        animate={{ color: hoveredItem === item ? '#C8A882' : 'rgba(255,255,255,0.82)' }}
                       >
                         {item}
                         {hoveredItem === item && (

@@ -36,7 +36,7 @@ export default function GallerySection() {
   return (
     <section className="bg-[#F5F0E8] py-28 md:py-40 overflow-hidden">
       {/* Header */}
-      <div className="px-6 md:px-16 lg:px-32 max-w-7xl mx-auto mb-16 flex items-end justify-between flex-wrap gap-8">
+      <div className="px-6 md:px-16 lg:px-32 max-w-7xl mx-auto mb-10 flex items-end justify-between flex-wrap gap-8">
         <motion.h2
           className="text-[#2C1810] font-light leading-none"
           style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', letterSpacing: '-0.02em' }}
