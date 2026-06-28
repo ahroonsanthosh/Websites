@@ -123,7 +123,7 @@ export default function HeroSection({ content }: { content: HeroContent }) {
 
         {/* FOREGROUND — headline & content, with camera tilt */}
         <motion.div
-          className="relative z-20 text-center px-6 max-w-6xl mx-auto will-change-transform"
+          className="relative z-20 text-center px-6 max-w-6xl mx-auto will-change-transform pt-20 md:pt-10"
           style={{
             scale: sHeadlineScale,
             y: sHeadlineY,
