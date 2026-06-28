@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
 
-const BG = 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGkP3GEjEMW7i3H2CdcolNFylU9-r19TBx5_nmpjhjo6Ofckd8ujvfIMt06-zVvV6j1wlkNSXCjWUEVB3g0WaqfB6brNfW9oePHBBlUGbOamXCtCmYsTTBvTwAmtgJmu-LTBBC801IR81J0=s1360-w1360-h1020-rw'
+const BG = 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEa8CAwsCHwvGmrWa76Hyv51HvoaE8DKbYGNy6S9b9rO8cCkAGtX_tjbsicbTMlnaaUXJOLDUK4GN-HJtJ7kRzOaWwAjmuj_rgrmqYxrYJjI1yvjYPL2NJl69dDouR1tRdyoGhcIgjh9dU=s1360-w1360-h1020-rw'
 
 export default function Hero() {
   const [loaded, setLoaded] = useState(false)

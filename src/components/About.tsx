@@ -29,9 +29,9 @@ export default function About({ about }: Props) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-            className="relative"
+            className="grid grid-cols-2 gap-3"
           >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl gallery-item">
+            <div className="col-span-2 aspect-video overflow-hidden rounded-2xl gallery-item">
               <img
                 src={IMAGES[0]}
                 alt="Inside Happy Days café"
@@ -39,20 +39,22 @@ export default function About({ about }: Props) {
                 loading="lazy"
               />
             </div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1], delay: 0.3 }}
-              className="absolute -bottom-6 -right-4 sm:-right-8 w-2/5 aspect-square overflow-hidden rounded-xl gallery-item border-4 border-brand-bg shadow-xl"
-            >
+            <div className="aspect-square overflow-hidden rounded-xl gallery-item">
               <img
                 src={IMAGES[1]}
                 alt="Food at Happy Days"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-            </motion.div>
+            </div>
+            <div className="aspect-square overflow-hidden rounded-xl gallery-item">
+              <img
+                src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFaQ7So7jHLXYK4zQAiQrhlSk17tQ-xApPtWKaAEcLkEniSrlCEJl6qq675jjAK92N56e8rQ7YR_VbD_p_HEvpcG-z9rw5gH9ufKzDzaPAqGed3dJo-SM-xUbg-gaRE8yOi_S_at_x9OM4=s1360-w1360-h1020-rw"
+                alt="Details at Happy Days"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
           </motion.div>
 
           {/* Text */}
