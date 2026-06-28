@@ -66,6 +66,19 @@ body {
   animation: fade-up 0.8s ease-out both;
 }
 
+.mobile-menu {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.mobile-menu.open {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .nav-link {
   position: relative;
   text-decoration: none;
