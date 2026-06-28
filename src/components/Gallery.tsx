@@ -2,6 +2,10 @@
 
 import { motion } from 'framer-motion'
 
+interface Props {
+  captions?: string[]
+}
+
 const IMAGES = [
   { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGkP3GEjEMW7i3H2CdcolNFylU9-r19TBx5_nmpjhjo6Ofckd8ujvfIMt06-zVvV6j1wlkNSXCjWUEVB3g0WaqfB6brNfW9oePHBBlUGbOamXCtCmYsTTBvTwAmtgJmu-LTBBC801IR81J0=s1360-w1360-h1020-rw', caption: 'Morning light at the wharf', aspect: 'aspect-[4/5]' },
   { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFAQwBjNw1JPHaHvMx6VJmlDSPBYv2ihCFH1q52cOqtJ3KuOSlmdWUaJSP7L1sxT6o-jfyHZ3WhxjK1RFaB6ZRVKXGqkF6wsgqlVpq6ol9bi2KSK5-m9mGZ7ismDiAxD5Etuh-FaPOB3ozx=s1360-w1360-h1020-rw', caption: 'Fresh from the kitchen', aspect: 'aspect-square' },
@@ -13,7 +17,7 @@ const IMAGES = [
   { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAG-f6zCJfd2JTumNQozK3uT-PA8XjKoeeVSCNcsXFTYOFmRvHRhBsqAmD5NyDRwPNrd3PwM-pEOx9HfwkzMjbuzLh_7WX7l77fTHRI6TVl9WE1a5bWQctLHv1GYLF4WHVa4IvlF_JK5LB-B=s1360-w1360-h1020-rw', caption: 'Every morning, without fail', aspect: 'aspect-square' },
 ]
 
-export default function Gallery() {
+export default function Gallery({ captions }: Props) {
   return (
     <section id="gallery" className="py-32 md:py-40 bg-brand-bg" aria-label="Gallery">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">

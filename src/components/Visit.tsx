@@ -6,7 +6,7 @@ import { HourEntry } from '@/lib/content'
 
 interface Props {
   hours: HourEntry[]
-  contact: {
+  contact?: {
     address: string
     instagram: string
     facebook: string
@@ -18,14 +18,13 @@ function getCurrentDay(): string {
   return days[new Date().getDay()]
 }
 
-export default function Visit({ hours, contact }: Props) {
+export default function Visit({ hours, contact: _contact }: Props) {
   const today = getCurrentDay()
 
   return (
     <section id="visit" className="py-32 md:py-40 bg-brand-surface" aria-label="Visit us">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        {/* Header */}
         <div className="flex items-center gap-4 mb-16">
           <span className="font-sans text-brand-accent text-xs tracking-[0.4em] uppercase">04</span>
           <div className="h-px bg-brand-border" style={{ width: '60px' }} />
@@ -46,7 +45,6 @@ export default function Visit({ hours, contact }: Props) {
 
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
 
-          {/* Address column */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -58,7 +56,6 @@ export default function Visit({ hours, contact }: Props) {
               <p className="font-sans text-brand-text/50 text-xs tracking-[0.3em] uppercase">Address</p>
             </div>
 
-            {/* Large address typography */}
             <address
               className="not-italic font-display text-brand-text font-light leading-tight mb-10"
               style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)' }}
@@ -81,7 +78,6 @@ export default function Visit({ hours, contact }: Props) {
             </a>
           </motion.div>
 
-          {/* Hours column */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -105,8 +101,8 @@ export default function Visit({ hours, contact }: Props) {
                     transition={{ duration: 0.4, delay: i * 0.06 }}
                   >
                     <div
-                      className={`flex justify-between items-center py-4 px-3 -mx-3 transition-colors ${
-                        isToday ? 'bg-brand-accent/8' : ''
+                      className={`flex justify-between items-center py-4 px-3 -mx-3 ${
+                        isToday ? 'bg-brand-accent/[0.06] rounded-sm' : ''
                       }`}
                     >
                       <span
@@ -116,7 +112,7 @@ export default function Visit({ hours, contact }: Props) {
                       >
                         {entry.day}
                         {isToday && (
-                          <span className="ml-2 text-brand-accent text-[10px] tracking-[0.2em] uppercase">Today</span>
+                          <span className="ml-2 text-brand-accent text-[10px] tracking-[0.2em] uppercase opacity-60">Today</span>
                         )}
                       </span>
                       <span
