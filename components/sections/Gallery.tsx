@@ -86,10 +86,10 @@ export default function Gallery() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="font-display italic text-3xl md:text-5xl font-bold text-[#1A0C05]"
             >
-              <BouncyWords text="The Food Speaks" className="block" />
-              <span className="text-[#E8622A]">
+              <div><BouncyWords text="The Food Speaks" /></div>
+              <div className="text-[#E8622A]">
                 <BouncyWords text="For Itself." />
-              </span>
+              </div>
             </motion.h2>
           </div>
           <motion.a
