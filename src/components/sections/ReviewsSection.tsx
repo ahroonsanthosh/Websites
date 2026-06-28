@@ -99,9 +99,9 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
   const progressScaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 40 });
 
   return (
-    <>
+    <div id="reviews">
       {/* ── Mobile: simple vertical stack ── */}
-      <section className="md:hidden bg-[#FFF8F0] py-16 px-6" id="reviews">
+      <section className="md:hidden bg-[#FFF8F0] py-16 px-6">
         <div className="mb-8">
           <SectionHeader />
         </div>
@@ -122,7 +122,6 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
       <section
         ref={ref}
         className="relative bg-[#FFF8F0] hidden md:block"
-        id="reviews-desktop"
         style={{ height: `${heightVh}vh` }}
       >
         <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
@@ -174,6 +173,6 @@ export default function ReviewsSection({ reviews }: { reviews: Review[] }) {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

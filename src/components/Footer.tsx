@@ -49,13 +49,18 @@ export default function Footer() {
               Navigate
             </h3>
             <ul className="space-y-3">
-              {["Menu", "Gallery", "Find Us", "Reviews"].map((item) => (
-                <li key={item}>
+              {[
+                { label: "Menu", href: "#menu" },
+                { label: "Gallery", href: "#gallery" },
+                { label: "Find Us", href: "#location" },
+                { label: "Reviews", href: "#reviews" },
+              ].map((item) => (
+                <li key={item.label}>
                   <a
-                    href={`#${item.toLowerCase().replace(" ", "-")}`}
+                    href={item.href}
                     className="font-sans text-white/40 hover:text-white transition-colors duration-200 text-sm"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}
