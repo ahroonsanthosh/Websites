@@ -19,7 +19,7 @@ export default function StoryBanner() {
 
       {/* Radial glow behind text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[300px] rounded-full bg-[#E8622A] opacity-10 blur-3xl" />
+        <div className="w-[600px] h-[300px] rounded-full bg-[#EE1C1C] opacity-10 blur-3xl" />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-5">
@@ -27,7 +27,7 @@ export default function StoryBanner() {
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="font-accent text-[11px] tracking-[0.35em] uppercase text-[#E8622A] mb-8"
+          className="font-accent text-[11px] tracking-[0.35em] uppercase text-[#EE1C1C] mb-8"
         >
           The Uncle's Way
         </motion.p>
@@ -41,7 +41,7 @@ export default function StoryBanner() {
               transition={{ duration: 0.7, delay: 0.1 + wi * 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="font-display italic text-5xl sm:text-6xl md:text-8xl font-bold text-[#FDF6EB] cursor-default select-none"
               whileHover={{
-                color: "#E8622A",
+                color: "#EE1C1C",
                 scale: 1.08,
                 transition: { type: "spring", stiffness: 300, damping: 16 },
               }}

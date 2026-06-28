@@ -59,15 +59,15 @@ function FlipCard({ src, index, target, isMobileDevice }: FlipCardProps) {
             className="h-full w-full object-cover"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-[#E8622A]/10" />
+          <div className="absolute inset-0 bg-[#EE1C1C]/10" />
         </div>
         {/* Back — desktop only */}
         {!isMobileDevice && (
           <div
-            className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-[#1A0C05] flex flex-col items-center justify-center p-3 border border-[#E8622A]/30"
+            className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-[#1A0C05] flex flex-col items-center justify-center p-3 border border-[#EE1C1C]/30"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
-            <span className="text-[7px] font-accent font-semibold text-[#E8622A] uppercase tracking-widest">Uncle&apos;s</span>
+            <span className="text-[7px] font-accent font-semibold text-[#EE1C1C] uppercase tracking-widest">Uncle&apos;s</span>
             <span className="text-[9px] font-medium text-[#FDF6EB] mt-1">Cork</span>
           </div>
         )}
@@ -263,7 +263,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
                 : { opacity: 0 }
             }
             transition={{ duration: 0.8 }}
-            className="text-[10px] font-accent tracking-[0.35em] uppercase text-[#E8622A] mb-4"
+            className="text-[10px] font-accent tracking-[0.35em] uppercase text-[#EE1C1C] mb-4"
           >
             {hero.eyebrow}
           </motion.p>
@@ -298,12 +298,12 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
           style={{ opacity: contentOpacity, y: contentY }}
           className="absolute top-[8%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
         >
-          <p className="text-[10px] font-accent tracking-[0.3em] uppercase text-[#E8622A] mb-3">
+          <p className="text-[10px] font-accent tracking-[0.3em] uppercase text-[#EE1C1C] mb-3">
             {hero.arcEyebrow}
           </p>
           <h2 className="font-display text-xl sm:text-3xl md:text-5xl font-bold italic text-[#FDF6EB] tracking-tight mb-3 leading-tight">
             {hero.arcHeading}<br />
-            <span className="text-[#E8622A]">{hero.arcHeadingAccent}</span>
+            <span className="text-[#EE1C1C]">{hero.arcHeadingAccent}</span>
           </h2>
           <p className="hidden sm:block text-sm text-[#FDF6EB]/60 max-w-md leading-relaxed font-light">
             {hero.arcBody}
@@ -317,12 +317,12 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
           transition={{ delay: 0.4 }}
           className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
         >
-          <span className="text-[9px] font-accent tracking-[0.3em] uppercase text-[#E8622A]/60">
+          <span className="text-[9px] font-accent tracking-[0.3em] uppercase text-[#EE1C1C]/60">
             Scroll to explore
           </span>
           <div className="w-20 h-0.5 bg-[#FDF6EB]/10 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-[#E8622A] rounded-full origin-left"
+              className="h-full bg-[#EE1C1C] rounded-full origin-left"
               style={{ scaleX: scrollProgress }}
             />
           </div>

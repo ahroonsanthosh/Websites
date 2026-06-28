@@ -27,7 +27,7 @@ export function MarqueeStrip() {
             className="flex items-center font-accent text-[11px] tracking-[0.3em] uppercase whitespace-nowrap"
           >
             <span className="text-[#FDF6EB]/40 px-5">{item}</span>
-            <span className="text-[#E8622A] text-[8px]">✦</span>
+            <span className="text-[#EE1C1C] text-[8px]">✦</span>
           </span>
         ))}
       </div>

@@ -9,11 +9,11 @@ const { menu } = content;
 type Category = typeof menu.categories[number];
 
 const cardVariants = {
-  rest: { scale: 1, y: 0, boxShadow: "0 0 0 0 rgba(232,98,42,0)" },
+  rest: { scale: 1, y: 0, boxShadow: "0 0 0 0 rgba(238,28,28,0)" },
   hover: {
     scale: 1.025,
     y: -5,
-    boxShadow: "0 12px 40px -8px rgba(232,98,42,0.18)",
+    boxShadow: "0 12px 40px -8px rgba(238,28,28,0.18)",
     transition: { type: "spring" as const, stiffness: 300, damping: 22 },
   },
 };
@@ -49,7 +49,7 @@ export default function Menu() {
             initial={{ opacity: 0, y: 15 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#E8622A] mb-4"
+            className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#EE1C1C] mb-4"
           >
             What We Serve
           </motion.p>
@@ -80,7 +80,7 @@ export default function Menu() {
                 transition={{ type: "spring", stiffness: 400, damping: 18 }}
                 className={`relative shrink-0 px-6 py-2.5 rounded-full font-accent text-[11px] tracking-[0.15em] uppercase transition-all duration-300 ${
                   active === cat
-                    ? "bg-[#E8622A] text-white"
+                    ? "bg-[#EE1C1C] text-white"
                     : "bg-[#FDF6EB]/10 text-[#FDF6EB]/60 hover:bg-[#FDF6EB]/20 hover:text-[#FDF6EB]"
                 }`}
               >
@@ -88,7 +88,7 @@ export default function Menu() {
                 {active === cat && (
                   <motion.div
                     layoutId="tab-indicator"
-                    className="absolute inset-0 rounded-full bg-[#E8622A] -z-10"
+                    className="absolute inset-0 rounded-full bg-[#EE1C1C] -z-10"
                   />
                 )}
               </motion.button>
@@ -113,7 +113,7 @@ export default function Menu() {
                 transition={{ delay: i * 0.06 }}
                 variants={cardVariants}
                 whileHover="hover"
-                className="group relative bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 hover:border-[#E8622A]/40 rounded-2xl p-6 cursor-default"
+                className="group relative bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 hover:border-[#EE1C1C]/40 rounded-2xl p-6 cursor-default"
                 style={{ willChange: "transform" }}
               >
                 {/* Tag — now inline with name, no absolute overlap */}
@@ -136,7 +136,7 @@ export default function Menu() {
                         <motion.span
                           initial={{ scale: 0.9 }}
                           animate={{ scale: 1 }}
-                          className="shrink-0 px-2.5 py-1 bg-[#E8622A] text-white font-accent text-[9px] tracking-widest uppercase rounded-full"
+                          className="shrink-0 px-2.5 py-1 bg-[#EE1C1C] text-white font-accent text-[9px] tracking-widest uppercase rounded-full"
                         >
                           {item.tag}
                         </motion.span>
@@ -144,11 +144,11 @@ export default function Menu() {
                     </div>
                     <p className="text-[#FDF6EB]/50 text-sm leading-relaxed">{item.description}</p>
                   </div>
-                  <span className="font-accent text-[#E8622A] text-lg font-semibold shrink-0 mt-0.5">
+                  <span className="font-accent text-[#EE1C1C] text-lg font-semibold shrink-0 mt-0.5">
                     {item.price}
                   </span>
                 </div>
-                <div className="mt-4 h-px bg-gradient-to-r from-[#E8622A]/0 via-[#E8622A]/30 to-[#E8622A]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="mt-4 h-px bg-gradient-to-r from-[#EE1C1C]/0 via-[#EE1C1C]/30 to-[#EE1C1C]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </motion.div>
             ))}
           </motion.div>

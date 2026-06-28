@@ -126,7 +126,7 @@ export default function AdminPage() {
       <div className="min-h-screen bg-[#1A0C05] flex items-center justify-center p-6">
         <form onSubmit={handleLogin} className="w-full max-w-sm bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-2xl p-8 space-y-6">
           <div className="text-center">
-            <div className="w-12 h-12 rounded-full bg-[#E8622A] flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 rounded-full bg-[#EE1C1C] flex items-center justify-center mx-auto mb-4">
               <span className="text-white font-bold text-xl" style={{ fontFamily: "serif" }}>U</span>
             </div>
             <h1 className="text-[#FDF6EB] text-xl font-bold" style={{ fontFamily: "Georgia, serif" }}>
@@ -140,7 +140,7 @@ export default function AdminPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#FDF6EB]/10 border border-[#FDF6EB]/20 rounded-xl px-4 py-3 text-[#FDF6EB] text-sm outline-none focus:border-[#E8622A] transition-colors"
+              className="w-full bg-[#FDF6EB]/10 border border-[#FDF6EB]/20 rounded-xl px-4 py-3 text-[#FDF6EB] text-sm outline-none focus:border-[#EE1C1C] transition-colors"
               placeholder="Enter admin password"
             />
           </div>
@@ -149,7 +149,7 @@ export default function AdminPage() {
           )}
           <button
             type="submit"
-            className="w-full py-3 bg-[#E8622A] text-white rounded-xl text-sm font-semibold hover:bg-[#F4A61D] transition-colors"
+            className="w-full py-3 bg-[#EE1C1C] text-white rounded-xl text-sm font-semibold hover:bg-[#F4A61D] transition-colors"
           >
             Log In
           </button>
@@ -167,7 +167,7 @@ export default function AdminPage() {
           </h2>
           <p className="text-[#FDF6EB]/50 text-xs leading-relaxed">
             To load and save content, enter a GitHub Personal Access Token with <strong>repo</strong> scope.{" "}
-            <a href="https://github.com/settings/tokens/new?scopes=repo" target="_blank" rel="noopener noreferrer" className="text-[#E8622A] underline">
+            <a href="https://github.com/settings/tokens/new?scopes=repo" target="_blank" rel="noopener noreferrer" className="text-[#EE1C1C] underline">
               Create one here →
             </a>
           </p>
@@ -177,7 +177,7 @@ export default function AdminPage() {
               type="password"
               value={token}
               onChange={(e) => setToken(e.target.value)}
-              className="w-full bg-[#FDF6EB]/10 border border-[#FDF6EB]/20 rounded-xl px-4 py-3 text-[#FDF6EB] text-sm outline-none focus:border-[#E8622A] transition-colors"
+              className="w-full bg-[#FDF6EB]/10 border border-[#FDF6EB]/20 rounded-xl px-4 py-3 text-[#FDF6EB] text-sm outline-none focus:border-[#EE1C1C] transition-colors"
               placeholder="ghp_..."
             />
           </div>
@@ -186,7 +186,7 @@ export default function AdminPage() {
           <button
             onClick={handleTokenSave}
             disabled={!token || loading}
-            className="w-full py-3 bg-[#E8622A] text-white rounded-xl text-sm font-semibold hover:bg-[#F4A61D] transition-colors disabled:opacity-50"
+            className="w-full py-3 bg-[#EE1C1C] text-white rounded-xl text-sm font-semibold hover:bg-[#F4A61D] transition-colors disabled:opacity-50"
           >
             {loading ? "Loading…" : "Connect & Load"}
           </button>
@@ -203,7 +203,7 @@ export default function AdminPage() {
     { id: "gallery", label: "Gallery" },
   ];
 
-  const input = "w-full bg-[#FDF6EB]/10 border border-[#FDF6EB]/20 rounded-xl px-4 py-2.5 text-[#FDF6EB] text-sm outline-none focus:border-[#E8622A] transition-colors";
+  const input = "w-full bg-[#FDF6EB]/10 border border-[#FDF6EB]/20 rounded-xl px-4 py-2.5 text-[#FDF6EB] text-sm outline-none focus:border-[#EE1C1C] transition-colors";
   const label = "block text-[#FDF6EB]/50 text-[10px] uppercase tracking-widest mb-1.5";
 
   return (
@@ -211,7 +211,7 @@ export default function AdminPage() {
       {/* Top bar */}
       <div className="sticky top-0 z-50 bg-[#0D0602]/95 backdrop-blur border-b border-[#FDF6EB]/10 px-5 md:px-10 h-14 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-7 h-7 rounded-full bg-[#E8622A] flex items-center justify-center">
+          <div className="w-7 h-7 rounded-full bg-[#EE1C1C] flex items-center justify-center">
             <span className="text-white text-xs font-bold">U</span>
           </div>
           <span className="text-sm font-semibold" style={{ fontFamily: "Georgia, serif" }}>Uncle&apos;s Admin</span>
@@ -225,7 +225,7 @@ export default function AdminPage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-5 py-2 bg-[#E8622A] text-white text-xs font-semibold rounded-full hover:bg-[#F4A61D] transition-colors disabled:opacity-50"
+            className="px-5 py-2 bg-[#EE1C1C] text-white text-xs font-semibold rounded-full hover:bg-[#F4A61D] transition-colors disabled:opacity-50"
           >
             {saving ? "Saving…" : "Save & Deploy"}
           </button>
@@ -241,7 +241,7 @@ export default function AdminPage() {
               onClick={() => setTab(t.id)}
               className={`shrink-0 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-widest transition-all ${
                 tab === t.id
-                  ? "bg-[#E8622A] text-white"
+                  ? "bg-[#EE1C1C] text-white"
                   : "bg-[#FDF6EB]/10 text-[#FDF6EB]/50 hover:bg-[#FDF6EB]/15"
               }`}
             >
@@ -371,7 +371,7 @@ export default function AdminPage() {
                       if (e.target.checked) updated.hours[i].time = "Closed";
                       setContent(updated);
                     }}
-                    className="accent-[#E8622A]"
+                    className="accent-[#EE1C1C]"
                   />
                   <span className="text-xs text-[#FDF6EB]/50">Closed</span>
                 </label>

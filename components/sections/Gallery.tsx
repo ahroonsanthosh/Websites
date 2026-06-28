@@ -55,7 +55,7 @@ function GalleryPhoto({ photo, index, span, inView }: { photo: typeof gallery[nu
         </div>
         {/* Orange corner accent on hover */}
         <motion.div
-          className="absolute top-0 left-0 w-0 h-0.5 bg-[#E8622A] group-hover:w-full transition-all duration-500 rounded-full"
+          className="absolute top-0 left-0 w-0 h-0.5 bg-[#EE1C1C] group-hover:w-full transition-all duration-500 rounded-full"
         />
       </motion.div>
     </motion.div>
@@ -76,7 +76,7 @@ export default function Gallery() {
               initial={{ opacity: 0, y: 15 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
-              className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#E8622A] mb-3"
+              className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#EE1C1C] mb-3"
             >
               Fresh Daily
             </motion.p>
@@ -87,7 +87,7 @@ export default function Gallery() {
               className="font-display italic text-3xl md:text-5xl font-bold text-[#1A0C05]"
             >
               <div><BouncyWords text="The Food Speaks" /></div>
-              <div className="text-[#E8622A]">
+              <div className="text-[#EE1C1C]">
                 <BouncyWords text="For Itself." />
               </div>
             </motion.h2>

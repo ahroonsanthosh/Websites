@@ -56,7 +56,7 @@ export default function About() {
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.6, delay: 0.35 }}
                 whileHover={{ scale: 1.12, rotate: 5, transition: { type: "spring", stiffness: 400, damping: 15 } }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#E8622A] flex flex-col items-center justify-center text-center shadow-2xl border-4 border-[#FDF6EB] cursor-pointer"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#EE1C1C] flex flex-col items-center justify-center text-center shadow-2xl border-4 border-[#FDF6EB] cursor-pointer"
               >
                 <span className="font-display italic text-white text-[9px] leading-tight font-bold">Est.</span>
                 <AnimatedCounter value={about.stats[0].value} className="font-accent text-white text-base md:text-lg font-bold" />
@@ -71,7 +71,7 @@ export default function About() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5 }}
-                className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#E8622A] mb-4"
+                className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#EE1C1C] mb-4"
               >
                 Our Story
               </motion.p>
@@ -85,7 +85,7 @@ export default function About() {
                   <BouncyWords text="Born in the heart of" />
                 </motion.div>
                 <motion.div
-                  className="text-[#E8622A]"
+                  className="text-[#EE1C1C]"
                   initial={{ opacity: 0, y: 16 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
@@ -109,7 +109,7 @@ export default function About() {
               initial={{ opacity: 0, x: -16 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="border-l-2 border-[#E8622A]/40 pl-5"
+              className="border-l-2 border-[#EE1C1C]/40 pl-5"
             >
               <p className="font-display italic text-xl md:text-2xl font-bold leading-snug">
                 <GradientText>{about.pullQuote}</GradientText>
@@ -129,7 +129,7 @@ export default function About() {
                   className="flex flex-col cursor-default"
                   whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 14 } }}
                 >
-                  <span className="font-display italic text-2xl md:text-3xl font-bold text-[#E8622A]">
+                  <span className="font-display italic text-2xl md:text-3xl font-bold text-[#EE1C1C]">
                     <AnimatedCounter value={s.value} />
                   </span>
                   <span className="font-accent text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#1A0C05]/50 mt-1">{s.label}</span>

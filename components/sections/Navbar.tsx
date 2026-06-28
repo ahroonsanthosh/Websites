@@ -69,7 +69,7 @@ export default function Navbar() {
               <button
                 key={link.href}
                 onClick={() => handleNav(link.href)}
-                className="text-[11px] font-accent tracking-[0.2em] uppercase text-[#FDF6EB]/70 hover:text-[#E8622A] transition-colors duration-200"
+                className="text-[11px] font-accent tracking-[0.2em] uppercase text-[#FDF6EB]/70 hover:text-[#EE1C1C] transition-colors duration-200"
               >
                 <BouncyText text={link.label} />
               </button>
@@ -79,7 +79,7 @@ export default function Navbar() {
               whileHover={{ scale: 1.07, backgroundColor: "#F4A61D" }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 18 }}
-              className="ml-4 px-5 py-2 bg-[#E8622A] text-white text-[11px] font-accent tracking-[0.15em] uppercase rounded-full"
+              className="ml-4 px-5 py-2 bg-[#EE1C1C] text-white text-[11px] font-accent tracking-[0.15em] uppercase rounded-full"
             >
               Order Now
             </motion.button>
@@ -115,7 +115,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed inset-x-0 top-16 z-40 bg-[#1A0C05]/98 backdrop-blur-xl border-t border-[#E8622A]/20 py-8 px-6"
+            className="fixed inset-x-0 top-16 z-40 bg-[#1A0C05]/98 backdrop-blur-xl border-t border-[#EE1C1C]/20 py-8 px-6"
           >
             <div className="flex flex-col gap-6">
               {links.map((link, i) => (
@@ -125,7 +125,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.07 }}
                   onClick={() => handleNav(link.href)}
-                  className="text-left text-2xl font-display italic text-[#FDF6EB] hover:text-[#E8622A] transition-colors"
+                  className="text-left text-2xl font-display italic text-[#FDF6EB] hover:text-[#EE1C1C] transition-colors"
                 >
                   {link.label}
                 </motion.button>
@@ -135,7 +135,7 @@ export default function Navbar() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
                 onClick={() => handleNav("#menu")}
-                className="mt-2 w-full py-3 bg-[#E8622A] text-white font-accent tracking-widest uppercase text-sm rounded-full"
+                className="mt-2 w-full py-3 bg-[#EE1C1C] text-white font-accent tracking-widest uppercase text-sm rounded-full"
               >
                 Order Now
               </motion.button>

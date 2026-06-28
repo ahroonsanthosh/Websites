@@ -23,7 +23,7 @@ export default function Location() {
               initial={{ opacity: 0, y: 15 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
-              className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#E8622A] mb-4"
+              className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#EE1C1C] mb-4"
             >
               Come Find Us
             </motion.p>
@@ -68,7 +68,7 @@ export default function Location() {
                 className="bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-2xl p-6"
                 whileHover={{ borderColor: "rgba(232,98,42,0.3)", transition: { duration: 0.2 } }}
               >
-                <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-3">Address</p>
+                <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#EE1C1C] mb-3">Address</p>
                 <p className="font-display italic text-[#FDF6EB] text-2xl font-semibold leading-snug">{business.name}</p>
                 <p className="text-[#FDF6EB]/60 text-sm mt-2 leading-relaxed">
                   {business.address.line1}<br />
@@ -80,7 +80,7 @@ export default function Location() {
                   href={business.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 mt-4 text-[#E8622A] font-accent text-[10px] tracking-[0.2em] uppercase hover:text-[#F4A61D] transition-colors"
+                  className="inline-flex items-center gap-1.5 mt-4 text-[#EE1C1C] font-accent text-[10px] tracking-[0.2em] uppercase hover:text-[#F4A61D] transition-colors"
                   whileHover={{ x: 3, transition: { type: "spring", stiffness: 400 } }}
                 >
                   Get Directions
@@ -92,7 +92,7 @@ export default function Location() {
 
               {/* Hours */}
               <div className="bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-2xl p-6">
-                <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-4">Opening Hours</p>
+                <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#EE1C1C] mb-4">Opening Hours</p>
                 <div className="space-y-2.5">
                   {hours.map((h, i) => {
                     const dayIndex = i === 6 ? 0 : i + 1;
@@ -104,7 +104,7 @@ export default function Location() {
                         whileHover={{ x: 4, color: "#FDF6EB", transition: { type: "spring", stiffness: 400, damping: 20 } }}
                       >
                         <div className="flex items-center gap-2">
-                          {isToday && <span className="w-1.5 h-1.5 rounded-full bg-[#E8622A] shrink-0" />}
+                          {isToday && <span className="w-1.5 h-1.5 rounded-full bg-[#EE1C1C] shrink-0" />}
                           <span className={`font-accent text-[11px] tracking-wider uppercase ${isToday ? "" : "ml-3.5"}`}>{h.day}</span>
                         </div>
                         <span className={`text-sm font-medium ${h.closed ? "text-[#FDF6EB]/30" : ""}`}>{h.time}</span>
@@ -116,7 +116,7 @@ export default function Location() {
 
               {/* Social */}
               <div className="bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-2xl p-6">
-                <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#E8622A] mb-4">Follow Along</p>
+                <p className="font-accent text-[10px] tracking-[0.25em] uppercase text-[#EE1C1C] mb-4">Follow Along</p>
                 <motion.a
                   href={`https://www.instagram.com/${business.instagram}/`}
                   target="_blank"
@@ -125,7 +125,7 @@ export default function Location() {
                   whileHover={{ x: 4, transition: { type: "spring", stiffness: 300, damping: 20 } }}
                 >
                   <motion.div
-                    className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#E8622A] to-[#C0352A] flex items-center justify-center shrink-0"
+                    className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#EE1C1C] to-[#C0352A] flex items-center justify-center shrink-0"
                     whileHover={{ scale: 1.12, rotate: 8, transition: { type: "spring", stiffness: 400 } }}
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
@@ -133,7 +133,7 @@ export default function Location() {
                     </svg>
                   </motion.div>
                   <div>
-                    <p className="text-[#FDF6EB] text-sm font-medium group-hover:text-[#E8622A] transition-colors">@{business.instagram}</p>
+                    <p className="text-[#FDF6EB] text-sm font-medium group-hover:text-[#EE1C1C] transition-colors">@{business.instagram}</p>
                     <p className="text-[#FDF6EB]/40 text-xs">Follow us on Instagram</p>
                   </div>
                 </motion.a>

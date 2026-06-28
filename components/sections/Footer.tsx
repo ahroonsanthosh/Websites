@@ -28,7 +28,7 @@ export default function Footer() {
               whileHover={{ x: -2, transition: { type: "spring", stiffness: 300 } }}
             >
               <motion.div
-                className="w-8 h-8 rounded-full bg-[#E8622A] flex items-center justify-center"
+                className="w-8 h-8 rounded-full bg-[#EE1C1C] flex items-center justify-center"
                 whileHover={{ rotate: 20, scale: 1.1, transition: { type: "spring", stiffness: 400 } }}
               >
                 <span className="text-white font-accent text-xs font-bold">U</span>
@@ -43,7 +43,7 @@ export default function Footer() {
                 href="https://www.englishmarket.ie"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#E8622A] transition-colors underline underline-offset-2"
+                className="hover:text-[#EE1C1C] transition-colors underline underline-offset-2"
               >
                 The English Market
               </a>{" "}
@@ -57,7 +57,7 @@ export default function Footer() {
               <button
                 key={link.href}
                 onClick={() => handleNav(link.href)}
-                className="text-[#FDF6EB]/40 hover:text-[#E8622A] font-accent text-[10px] tracking-[0.2em] uppercase transition-colors"
+                className="text-[#FDF6EB]/40 hover:text-[#EE1C1C] font-accent text-[10px] tracking-[0.2em] uppercase transition-colors"
               >
                 <BouncyText text={link.label} />
               </button>
@@ -69,7 +69,7 @@ export default function Footer() {
             href="https://www.instagram.com/unclesdelicork/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-[#FDF6EB]/40 hover:text-[#E8622A] transition-colors group"
+            className="flex items-center gap-2 text-[#FDF6EB]/40 hover:text-[#EE1C1C] transition-colors group"
             whileHover={{ scale: 1.05, transition: { type: "spring", stiffness: 300 } }}
           >
             <motion.svg

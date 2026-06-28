@@ -6,7 +6,7 @@
   --font-accent: var(--font-oswald);
   --font-sign: var(--font-anton);
 
-  --color-brand-orange: #E8622A;
+  --color-brand-orange: #EE1C1C;
   --color-brand-dark: #1A0C05;
   --color-brand-cream: #FDF6EB;
   --color-brand-gold: #F4A61D;
@@ -52,7 +52,7 @@ body::after {
 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #1A0C05; }
-::-webkit-scrollbar-thumb { background: #E8622A; border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: #EE1C1C; border-radius: 3px; }
 
 .font-display { font-family: var(--font-playfair), serif; }
 .font-accent  { font-family: var(--font-oswald), sans-serif; }

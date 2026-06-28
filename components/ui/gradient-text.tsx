@@ -14,7 +14,7 @@ export function GradientText({ children, className = "" }: GradientTextProps) {
           100% { background-position: 300% 50%; }
         }
         .gradient-text-anim {
-          background-image: linear-gradient(90deg, #E8622A, #F4A61D, #FDF6EB, #F4A61D, #E8622A);
+          background-image: linear-gradient(90deg, #EE1C1C, #F4A61D, #FDF6EB, #F4A61D, #EE1C1C);
           background-size: 300% 100%;
           animation: gradient-flow 5s linear infinite;
           -webkit-background-clip: text;

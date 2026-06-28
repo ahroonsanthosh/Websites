@@ -23,7 +23,7 @@ export const LampContainer = ({
           whileInView={{ opacity: 1, width: "28rem" }}
           transition={{ delay: 0.2, duration: 1, ease: "easeInOut" }}
           style={{
-            backgroundImage: `conic-gradient(from 70deg at center top, #E8622A, transparent, transparent)`,
+            backgroundImage: `conic-gradient(from 70deg at center top, #EE1C1C, transparent, transparent)`,
           }}
           className="absolute inset-auto right-1/2 h-56 overflow-visible"
         >
@@ -37,7 +37,7 @@ export const LampContainer = ({
           whileInView={{ opacity: 1, width: "28rem" }}
           transition={{ delay: 0.2, duration: 1, ease: "easeInOut" }}
           style={{
-            backgroundImage: `conic-gradient(from 290deg at center top, transparent, transparent, #E8622A)`,
+            backgroundImage: `conic-gradient(from 290deg at center top, transparent, transparent, #EE1C1C)`,
           }}
           className="absolute inset-auto left-1/2 h-56 overflow-visible"
         >
@@ -46,7 +46,7 @@ export const LampContainer = ({
         </motion.div>
 
         {/* Wide orange glow orb */}
-        <div className="absolute inset-auto z-10 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-[#E8622A] opacity-20 blur-3xl" />
+        <div className="absolute inset-auto z-10 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-[#EE1C1C] opacity-20 blur-3xl" />
         {/* Tight orange glow */}
         <motion.div
           initial={{ width: "6rem" }}
