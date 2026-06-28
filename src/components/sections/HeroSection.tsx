@@ -133,16 +133,6 @@ export default function HeroSection({ content }: { content: HeroContent }) {
             transformPerspective: 1200,
           }}
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...spring.smooth, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-sans tracking-widest uppercase mb-8"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-            {content.badge}
-          </motion.div>
 
           {/* Headline — layered mask reveal (no fade/slide) */}
           <h1 className="font-display text-[clamp(3rem,9vw,8rem)] leading-[0.92] font-black text-white mb-8 tracking-tight">
