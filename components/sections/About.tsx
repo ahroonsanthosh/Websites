@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import content from "@/lib/content";
 import { assetPath } from "@/lib/asset";
-import { RevealText } from "@/components/ui/reveal-text";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { GradientText } from "@/components/ui/gradient-text";
 
@@ -76,11 +75,23 @@ export default function About() {
                 Our Story
               </motion.p>
 
-              <h2 className="font-display italic text-2xl sm:text-4xl md:text-5xl font-bold text-[#1A0C05] leading-tight mb-5">
-                <RevealText text="Born in the heart of" delay={0.1} />
-                <span className="text-[#E8622A]">
-                  <RevealText text="Cork." delay={0.35} />
-                </span>
+              <h2 className="font-display italic text-[clamp(1.5rem,7vw,3rem)] md:text-5xl font-bold text-[#1A0C05] leading-tight mb-5">
+                <motion.span
+                  className="block"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  Born in the heart of
+                </motion.span>
+                <motion.span
+                  className="block text-[#E8622A]"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  Cork.
+                </motion.span>
               </h2>
 
               <motion.div

@@ -16,7 +16,7 @@ export function RevealText({ text, className = "", delay = 0, as: Tag = "span" }
   const words = text.split(" ");
 
   return (
-    <Tag ref={ref} className={`flex flex-wrap gap-x-[0.28em] ${className}`}>
+    <Tag ref={ref} className={`flex flex-wrap gap-x-[0.28em] w-full ${className}`}>
       {words.map((word, i) => (
         <motion.span
           key={i}
