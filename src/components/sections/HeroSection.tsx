@@ -81,9 +81,7 @@ export default function HeroSection({ content }: { content: HeroContent }) {
   return (
     <section ref={ref} className="relative h-[220vh]" id="hero" aria-label="Hansum Rotisserie hero">
       {/* Pinned cinematic scene */}
-      <div className="sticky top-0 h-screen overflow-hidden bg-[#1A1A1A] flex flex-col items-center justify-center">
-        {/* Gradient behind nav so links are always readable */}
-        <div className="absolute top-0 left-0 right-0 h-40 z-10 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 100%)" }} />
+      <div className="sticky top-0 h-screen overflow-hidden bg-[#1A1A1A] flex flex-col items-center justify-center pt-28">
         {/* Real photo background */}
         <div className="absolute inset-0 z-0">
           <img
@@ -125,7 +123,7 @@ export default function HeroSection({ content }: { content: HeroContent }) {
 
         {/* FOREGROUND — headline & content, with camera tilt */}
         <motion.div
-          className="relative z-20 text-center px-6 max-w-6xl mx-auto will-change-transform mt-16 md:mt-8"
+          className="relative z-20 text-center px-6 max-w-6xl mx-auto will-change-transform"
           style={{
             scale: sHeadlineScale,
             y: sHeadlineY,
