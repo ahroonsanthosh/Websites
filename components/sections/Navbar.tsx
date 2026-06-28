@@ -48,16 +48,14 @@ export default function Navbar() {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 18 }}
           >
-            <motion.div
-              className="w-8 h-8 rounded-full bg-[#E8622A] flex items-center justify-center"
-              whileHover={{ rotate: 15 }}
+            <motion.span
+              className="font-accent font-black uppercase tracking-tight text-2xl leading-none"
+              style={{ color: "#CC1414", letterSpacing: "-0.01em", textShadow: "0 0 20px rgba(204,20,20,0.4)" }}
+              whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 12 }}
             >
-              <span className="text-white font-accent text-xs font-bold">U</span>
-            </motion.div>
-            <span className="font-display italic text-[#FDF6EB] text-lg font-bold tracking-tight">
-              Uncle&apos;s
-            </span>
+              UNCLE&apos;S
+            </motion.span>
           </motion.button>
 
           {/* Desktop nav */}
