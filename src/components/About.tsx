@@ -1,101 +1,93 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useRef } from 'react'
 
 interface Props {
   about: string
 }
 
 const IMAGES = [
-  'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGkP3GEjEMW7i3H2CdcolNFylU9-r19TBx5_nmpjhjo6Ofckd8ujvfIMt06-zVvV6j1wlkNSXCjWUEVB3g0WaqfB6brNfW9oePHBBlUGbOamXCtCmYsTTBvTwAmtgJmu-LTBBC801IR81J0=s1360-w1360-h1020-rw',
   'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFAQwBjNw1JPHaHvMx6VJmlDSPBYv2ihCFH1q52cOqtJ3KuOSlmdWUaJSP7L1sxT6o-jfyHZ3WhxjK1RFaB6ZRVKXGqkF6wsgqlVpq6ol9bi2KSK5-m9mGZ7ismDiAxD5Etuh-FaPOB3ozx=s1360-w1360-h1020-rw',
+  'https://lh3.googleusercontent.com/gps-cs-s/APNQkAF5EL_a_CK9V6t92OHt8Gbn-3m_HsPuUgkvjHOhNw2B4L5We9bZpJIWd-JvXpFKvt_7hQeJCzVt8nl73ww-dvZVYJO6LhRaomz9lIfjLnzN3vcwlU2Cji0hCjLQUIJqMr-Bszzc00-UnvI7=s1360-w1360-h1020-rw',
 ]
 
 export default function About({ about }: Props) {
   return (
-    <section id="about" className="py-32 md:py-40 bg-brand-bg" aria-label="About">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+    <section id="about" className="py-20 md:py-32 bg-brand-bg" aria-label="About">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8">
 
-        {/* Section label */}
-        <div className="flex items-center gap-4 mb-20">
-          <span className="font-sans text-brand-accent text-xs tracking-[0.4em] uppercase">01</span>
-          <div className="h-px flex-1 bg-brand-border" style={{ maxWidth: '60px' }} />
-          <span className="font-sans text-brand-text/40 text-xs tracking-[0.3em] uppercase">Our Story</span>
+        {/* Label */}
+        <div className="flex items-center gap-3 mb-10">
+          <span className="tag tag-orange">Our Story</span>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
-          {/* Image side */}
+          {/* Images */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             className="relative"
           >
-            {/* Main image */}
-            <div className="relative aspect-[4/5] overflow-hidden gallery-item">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl gallery-item">
               <img
                 src={IMAGES[0]}
-                alt="Inside Happy Days café, Penrose Wharf Cork"
+                alt="Inside Happy Days café"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div className="gallery-border" aria-hidden="true" />
             </div>
-            {/* Offset accent image */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.25 }}
-              className="absolute -bottom-8 -right-6 w-1/2 aspect-square overflow-hidden gallery-item border-4 border-brand-bg"
+              transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1], delay: 0.3 }}
+              className="absolute -bottom-6 -right-4 sm:-right-8 w-2/5 aspect-square overflow-hidden rounded-xl gallery-item border-4 border-brand-bg shadow-xl"
             >
               <img
                 src={IMAGES[1]}
-                alt="Food at Happy Days café"
+                alt="Food at Happy Days"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              <div className="gallery-border" aria-hidden="true" />
             </motion.div>
           </motion.div>
 
-          {/* Text side */}
+          {/* Text */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1], delay: 0.15 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.15 }}
             className="pt-8 lg:pt-0"
           >
-            <h2 className="font-display text-brand-text font-light leading-tight mb-8"
-              style={{ fontSize: 'clamp(2.2rem, 4vw, 3.5rem)' }}>
+            <h2
+              className="font-display font-bold text-brand-text leading-tight mb-6"
+              style={{ fontSize: 'clamp(2.4rem, 6vw, 4rem)' }}
+            >
               Where the day<br />
-              <em>begins well.</em>
+              <span className="text-brand-accent italic">begins well.</span>
             </h2>
 
-            <p className="font-sans text-brand-text/60 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+            <p className="font-sans text-brand-muted text-base sm:text-lg leading-relaxed mb-8">
               {about}
             </p>
 
-            {/* Pull quote */}
-            <blockquote className="border-l-2 border-brand-accent pl-6 mb-10">
-              <p className="font-display text-brand-accent italic text-xl md:text-2xl font-light leading-snug">
-                &ldquo;Cork&rsquo;s favourite morning ritual&rdquo;
-              </p>
-            </blockquote>
-
-            {/* Small details */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-5 border-t border-brand-border pt-8">
               <div>
-                <p className="font-sans text-brand-accent text-xs tracking-[0.3em] uppercase mb-2">Location</p>
-                <p className="font-sans text-brand-text/60 text-sm leading-relaxed">Penrose Wharf<br />Victorian Quarter</p>
+                <p className="tag tag-green mb-3">Location</p>
+                <p className="font-sans text-brand-text text-sm leading-relaxed font-medium">
+                  Penrose Wharf<br />Victorian Quarter<br />Cork
+                </p>
               </div>
               <div>
-                <p className="font-sans text-brand-accent text-xs tracking-[0.3em] uppercase mb-2">Hours</p>
-                <p className="font-sans text-brand-text/60 text-sm leading-relaxed">Mon–Fri<br />8am – 3pm</p>
+                <p className="tag tag-orange mb-3">Hours</p>
+                <p className="font-sans text-brand-text text-sm leading-relaxed font-medium">
+                  Mon–Fri<br />8am – 3pm<br />
+                  <span className="text-brand-muted text-xs">Sat–Sun closed</span>
+                </p>
               </div>
             </div>
           </motion.div>

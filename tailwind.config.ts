@@ -10,11 +10,13 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          bg: '#080603',
-          surface: '#1C1712',
-          border: '#3D3328',
-          text: '#F5EDD6',
-          accent: '#C8A96E',
+          bg:      '#FEFAF5',
+          surface: '#F5EDE0',
+          border:  '#E2CEAF',
+          text:    '#1A110A',
+          muted:   '#8A7055',
+          accent:  '#D4501A',
+          green:   '#2D6A4F',
         }
       },
       fontFamily: {

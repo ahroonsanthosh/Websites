@@ -18,78 +18,100 @@ function getCurrentDay(): string {
   return days[new Date().getDay()]
 }
 
-export default function Visit({ hours, contact: _contact }: Props) {
+export default function Visit({ hours, contact }: Props) {
   const today = getCurrentDay()
 
   return (
-    <section id="visit" className="py-32 md:py-40 bg-brand-surface" aria-label="Visit us">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+    <section id="visit" className="py-20 md:py-32 bg-brand-surface" aria-label="Visit us">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8">
 
-        <div className="flex items-center gap-4 mb-16">
-          <span className="font-sans text-brand-accent text-xs tracking-[0.4em] uppercase">04</span>
-          <div className="h-px bg-brand-border" style={{ width: '60px' }} />
-          <span className="font-sans text-brand-text/40 text-xs tracking-[0.3em] uppercase">Find Us</span>
+        <div className="mb-10">
+          <span className="tag tag-green mb-4 block w-fit">Find Us</span>
+          <h2
+            className="font-display font-bold text-brand-text leading-tight"
+            style={{ fontSize: 'clamp(2.4rem, 6vw, 4rem)' }}
+          >
+            Come find us<br />
+            <span className="text-brand-accent italic">on the wharf.</span>
+          </h2>
         </div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-          className="font-display text-brand-text font-light leading-tight mb-20"
-          style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
-        >
-          Come find us<br />
-          <em>on the wharf.</em>
-        </motion.h2>
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
 
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
-
+          {/* Address card */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+            transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+            className="bg-brand-bg rounded-2xl p-6 sm:p-8"
           >
-            <div className="flex items-start gap-3 mb-8">
-              <MapPin size={16} strokeWidth={1.5} className="text-brand-accent mt-1 shrink-0" />
-              <p className="font-sans text-brand-text/50 text-xs tracking-[0.3em] uppercase">Address</p>
+            <div className="flex items-center gap-2 mb-5">
+              <MapPin size={16} strokeWidth={2} className="text-brand-accent" />
+              <span className="font-sans text-brand-muted text-xs font-semibold tracking-widest uppercase">Address</span>
             </div>
 
-            <address
-              className="not-italic font-display text-brand-text font-light leading-tight mb-10"
-              style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)' }}
-            >
-              Penrose Wharf<br />
-              <span className="text-brand-text/50">Penrose Quay</span><br />
-              <span className="text-brand-text/50">Victorian Quarter</span><br />
-              Cork<br />
-              <span className="text-brand-accent">T23 RK11</span>
+            <address className="not-italic mb-6">
+              <p className="font-sans font-bold text-brand-text text-xl sm:text-2xl leading-snug mb-1">
+                Penrose Wharf
+              </p>
+              <p className="font-sans text-brand-muted text-base leading-relaxed">
+                Penrose Quay, Victorian Quarter<br />
+                Cork · T23 RK11
+              </p>
             </address>
 
             <a
               href="https://maps.google.com/?q=Penrose+Wharf+Cork+T23+RK11"
               target="_blank"
               rel="noopener noreferrer"
-              className="cta-btn inline-flex items-center gap-3 px-7 py-3.5 border border-brand-accent text-brand-accent font-sans text-sm tracking-widest uppercase hover:bg-brand-accent hover:text-brand-bg transition-all duration-300"
+              className="cta-btn rounded-full text-xs"
             >
-              <ExternalLink size={14} strokeWidth={1.5} aria-hidden="true" />
+              <ExternalLink size={13} strokeWidth={2.5} aria-hidden="true" />
               Get Directions
             </a>
+
+            {/* Social */}
+            {contact && (
+              <div className="mt-8 pt-6 border-t border-brand-border flex items-center gap-4">
+                <a
+                  href={contact.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 font-sans text-brand-muted text-xs font-semibold tracking-wide uppercase hover:text-brand-accent transition-colors duration-200"
+                  aria-label="Instagram"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+                  Instagram
+                </a>
+                <a
+                  href={contact.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 font-sans text-brand-muted text-xs font-semibold tracking-wide uppercase hover:text-brand-accent transition-colors duration-200"
+                  aria-label="Facebook"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  Facebook
+                </a>
+              </div>
+            )}
           </motion.div>
 
+          {/* Hours card */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.15 }}
+            transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1], delay: 0.12 }}
+            className="bg-brand-bg rounded-2xl p-6 sm:p-8"
           >
-            <div className="flex items-start gap-3 mb-8">
-              <Clock size={16} strokeWidth={1.5} className="text-brand-accent mt-1 shrink-0" />
-              <p className="font-sans text-brand-text/50 text-xs tracking-[0.3em] uppercase">Opening Hours</p>
+            <div className="flex items-center gap-2 mb-5">
+              <Clock size={16} strokeWidth={2} className="text-brand-accent" />
+              <span className="font-sans text-brand-muted text-xs font-semibold tracking-widest uppercase">Opening Hours</span>
             </div>
 
-            <div className="space-y-0">
+            <div className="space-y-1">
               {hours.map((entry, i) => {
                 const isToday = entry.day === today
                 return (
@@ -98,39 +120,31 @@ export default function Visit({ hours, contact: _contact }: Props) {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.06 }}
+                    transition={{ duration: 0.3, delay: i * 0.05 }}
+                    className={`flex justify-between items-center py-3 px-3 rounded-xl ${
+                      isToday ? 'bg-brand-accent/10' : ''
+                    }`}
                   >
-                    <div
-                      className={`flex justify-between items-center py-4 px-3 -mx-3 ${
-                        isToday ? 'bg-brand-accent/[0.06] rounded-sm' : ''
-                      }`}
-                    >
-                      <span
-                        className={`font-sans text-sm tracking-wide ${
-                          isToday ? 'text-brand-accent font-medium' : 'text-brand-text/60'
-                        }`}
-                      >
-                        {entry.day}
-                        {isToday && (
-                          <span className="ml-2 text-brand-accent text-[10px] tracking-[0.2em] uppercase opacity-60">Today</span>
-                        )}
-                      </span>
-                      <span
-                        className={`font-sans text-sm ${
-                          isToday ? 'text-brand-accent font-medium' : entry.closed ? 'text-brand-text/25' : 'text-brand-text/60'
-                        }`}
-                      >
-                        {entry.closed ? 'Closed' : `${entry.open} – ${entry.close}`}
-                      </span>
-                    </div>
-                    <div className="h-px bg-brand-border mx-3" />
+                    <span className={`font-sans text-sm font-semibold ${isToday ? 'text-brand-accent' : 'text-brand-text'}`}>
+                      {entry.day}
+                      {isToday && (
+                        <span className="ml-2 inline-block bg-brand-accent text-white text-[9px] font-bold tracking-widest uppercase px-1.5 py-0.5 rounded-full">
+                          Today
+                        </span>
+                      )}
+                    </span>
+                    <span className={`font-sans text-sm font-medium tabular-nums ${
+                      isToday ? 'text-brand-accent' : entry.closed ? 'text-brand-border font-normal' : 'text-brand-muted'
+                    }`}>
+                      {entry.closed ? 'Closed' : `${entry.open} – ${entry.close}`}
+                    </span>
                   </motion.div>
                 )
               })}
             </div>
 
-            <p className="mt-8 font-sans text-brand-text/30 text-xs tracking-[0.2em] uppercase">
-              Kitchen closes at 2:30pm
+            <p className="mt-6 font-sans text-brand-muted text-xs">
+              Kitchen closes at 2:30pm daily.
             </p>
           </motion.div>
         </div>
