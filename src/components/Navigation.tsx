@@ -56,8 +56,8 @@ export default function Navigation({ bannerText }: { bannerText?: string | null 
         </AnimatePresence>
 
       <motion.nav
-        className={`transition-all duration-500 ${
-          scrolled ? "glass-dark shadow-xl shadow-black/20 py-3" : "py-6 bg-transparent"
+        className={`transition-all duration-500 glass-dark ${
+          scrolled ? "shadow-xl shadow-black/20 py-3" : "py-6"
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
