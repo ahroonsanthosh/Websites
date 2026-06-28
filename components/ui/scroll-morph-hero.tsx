@@ -254,7 +254,7 @@ export default function ScrollMorphHero({ onScrollPast }: Props) {
       <div className="flex h-full w-full flex-col items-center justify-center">
 
         {/* Intro brand text */}
-        <div className="absolute z-0 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-6">
+        <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-6">
           <motion.p
             initial={{ opacity: 0, y: -10 }}
             animate={
