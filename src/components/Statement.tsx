@@ -16,7 +16,7 @@ export default function Statement() {
 
   return (
     <section className="bg-[var(--teal)] grain overflow-hidden" aria-hidden="true">
-      <div className="py-12 md:py-16">
+      <div className="py-16 md:py-24">
         <motion.div
           className="flex items-center gap-10 md:gap-16 whitespace-nowrap pl-10"
           animate={{ x: ["0%", "-33.33%"] }}

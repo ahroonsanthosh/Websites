@@ -80,7 +80,7 @@ export default function Hero({
       aria-label="Hero"
     >
       <motion.div
-        className="relative px-6 md:px-12 max-w-[1500px] mx-auto w-full pt-24 md:pt-32 pb-20 md:pb-28"
+        className="relative px-8 md:px-16 lg:px-24 max-w-[1500px] mx-auto w-full pt-28 md:pt-40 pb-24 md:pb-36"
         style={{ opacity }}
       >
         {/* Heron — decorative, absolute top-right on desktop */}

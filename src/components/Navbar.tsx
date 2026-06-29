@@ -46,7 +46,7 @@ export default function Navbar() {
         animate={{ y: visible ? 0 : -72 }}
         transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <div className="flex items-center justify-between px-6 md:px-12 py-4">
+        <div className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-4">
           <a
             href="#"
             className="font-[var(--font-display)] italic font-black text-2xl text-[var(--cream)] hover:text-[var(--brass)] transition-colors"

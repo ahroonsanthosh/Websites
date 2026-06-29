@@ -18,7 +18,7 @@ export default function Marquee() {
   const repeated = [...items, ...items, ...items];
   return (
     <div className="bg-[var(--rust)] grain" aria-hidden="true">
-      <div className="overflow-hidden py-8 md:py-10">
+      <div className="overflow-hidden py-12 md:py-16">
         <motion.div
           className="flex items-center gap-10 whitespace-nowrap pl-10"
           animate={{ x: ["0%", "-33.33%"] }}

@@ -31,7 +31,7 @@ export default function Features() {
 
   return (
     <section ref={ref} className="bg-[var(--moss)] grain" aria-label="What we offer">
-      <div className="px-6 md:px-12 max-w-7xl mx-auto pt-24 md:pt-32 pb-28 md:pb-36">
+      <div className="px-8 md:px-16 lg:px-24 max-w-7xl mx-auto pt-28 md:pt-40 pb-32 md:pb-44">
         <div className="mb-16 md:mb-20">
           <p className="label-engrave text-[var(--brass)] mb-6">III — Three Things, Steeped</p>
           <h2

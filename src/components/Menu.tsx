@@ -27,7 +27,7 @@ export default function Menu({ data }: { data: MenuData }) {
       className="bg-[var(--cream)] grain"
       aria-labelledby="menu-heading"
     >
-      <div className="px-6 md:px-12 max-w-7xl mx-auto pt-24 md:pt-32 pb-20 md:pb-28">
+      <div className="px-8 md:px-16 lg:px-24 max-w-7xl mx-auto pt-28 md:pt-40 pb-32 md:pb-44">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

@@ -18,7 +18,7 @@ export default function Footer({ data }: { data: { site: SiteInfo } }) {
   return (
     <footer ref={ref} className="bg-[var(--ink)] grain text-[var(--cream)]" aria-label="Footer">
       {/* Oversized wordmark */}
-      <div className="overflow-hidden pt-16 px-6 md:px-12 border-b border-[var(--line-dark)]">
+      <div className="overflow-hidden pt-20 px-8 md:px-16 lg:px-24 border-b border-[var(--line-dark)]">
         <motion.h2
           className="font-[var(--font-display)] italic font-black leading-[0.85] pb-3"
           style={{
@@ -36,7 +36,7 @@ export default function Footer({ data }: { data: { site: SiteInfo } }) {
       </div>
 
       {/* Info grid */}
-      <div className="px-6 md:px-12 py-14 grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-[var(--line-dark)]">
+      <div className="px-8 md:px-16 lg:px-24 py-20 grid grid-cols-1 md:grid-cols-3 gap-14 border-b border-[var(--line-dark)]">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -94,7 +94,7 @@ export default function Footer({ data }: { data: { site: SiteInfo } }) {
       </div>
 
       {/* Bottom bar */}
-      <div className="px-6 md:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="px-8 md:px-16 lg:px-24 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="font-[var(--font-sans)] text-xs text-[var(--cream)]/25">
           © {new Date().getFullYear()} Bayou. All rights reserved.
         </p>

@@ -60,7 +60,7 @@ export default function Hours({ data }: { data: SiteData }) {
 
   return (
     <section id="location" className="bg-[var(--cream)] grain" aria-labelledby="hours-heading">
-      <div className="px-6 md:px-12 max-w-7xl mx-auto pt-24 md:pt-32 pb-28 md:pb-36">
+      <div className="px-8 md:px-16 lg:px-24 max-w-7xl mx-auto pt-28 md:pt-40 pb-32 md:pb-44">
         <p className="label-engrave text-[var(--rust)] mb-6">VI — The Tides</p>
         <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
           {/* Hours column */}

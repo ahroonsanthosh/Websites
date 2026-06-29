@@ -55,7 +55,7 @@ export default function Gallery({ data }: { data: GalleryData }) {
 
   return (
     <section id="gallery" className="bg-[var(--parchment)] grain" aria-labelledby="gallery-heading">
-      <div className="px-6 md:px-12 max-w-7xl mx-auto pt-24 md:pt-32 pb-20 md:pb-28">
+      <div className="px-8 md:px-16 lg:px-24 max-w-7xl mx-auto pt-28 md:pt-40 pb-32 md:pb-44">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-16 md:mb-20">
           <div>
             <p className="label-engrave text-[var(--rust)] mb-5">V — Along the Bank</p>

@@ -8,7 +8,7 @@ export default function RiverDivider({
   flip?: boolean;
 }) {
   return (
-    <div className="relative w-full overflow-hidden" style={{ background: from, height: "64px" }} aria-hidden="true">
+    <div className="relative w-full overflow-hidden" style={{ background: from, height: "96px" }} aria-hidden="true">
       <svg
         viewBox="0 0 1440 80"
         preserveAspectRatio="none"

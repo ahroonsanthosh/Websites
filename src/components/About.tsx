@@ -15,7 +15,7 @@ export default function About({ data }: { data: { about: { heading: string; body
       className="bg-[var(--parchment)] grain"
       aria-labelledby="about-heading"
     >
-      <div className="pt-20 md:pt-32 pb-24 md:pb-36 px-6 md:px-12 max-w-7xl mx-auto grid md:grid-cols-[1fr_1.1fr] gap-16 md:gap-24 items-start">
+      <div className="pt-28 md:pt-40 pb-32 md:pb-48 px-8 md:px-16 lg:px-24 max-w-7xl mx-auto grid md:grid-cols-[1fr_1.1fr] gap-16 md:gap-24 items-start">
         {/* Text */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
