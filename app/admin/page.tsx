@@ -40,6 +40,8 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error" | ""; msg: string }>({ type: "", msg: "" });
   const [uploading, setUploading] = useState<Record<number, boolean>>({});
+  const [localPreviews, setLocalPreviews] = useState<Record<number, string>>({});
+  const [uploadErrors, setUploadErrors] = useState<Record<number, string>>({});
 
   const fetchContent = useCallback(async (pw: string) => {
     setLoading(true);
@@ -87,6 +89,10 @@ export default function AdminPage() {
   };
 
   const handleFileUpload = useCallback(async (file: File, index: number) => {
+    // Show local preview immediately — no redeploy needed
+    const objectUrl = URL.createObjectURL(file);
+    setLocalPreviews((p) => ({ ...p, [index]: objectUrl }));
+    setUploadErrors((e) => { const n = { ...e }; delete n[index]; return n; });
     setUploading((u) => ({ ...u, [index]: true }));
     try {
       const fd = new FormData();
@@ -104,9 +110,11 @@ export default function AdminPage() {
         u.gallery[index] = { ...u.gallery[index], src: data.url };
         return u;
       });
-      setStatus({ type: "success", msg: "Image uploaded — click Save & Deploy to publish." });
+      setStatus({ type: "success", msg: "Uploaded! Click Save & Deploy to publish." });
     } catch (e: unknown) {
-      setStatus({ type: "error", msg: e instanceof Error ? e.message : "Upload failed" });
+      const msg = e instanceof Error ? e.message : "Upload failed";
+      setUploadErrors((errs) => ({ ...errs, [index]: msg }));
+      setLocalPreviews((p) => { const n = { ...p }; delete n[index]; URL.revokeObjectURL(objectUrl); return n; });
     } finally {
       setUploading((u) => ({ ...u, [index]: false }));
     }
@@ -304,16 +312,15 @@ export default function AdminPage() {
           <div className="space-y-4">
             {content.gallery.map((photo, i) => (
               <div key={i} className="bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-xl p-4 flex gap-4 items-start">
-                {/* Preview */}
+                {/* Preview — local objectURL shown immediately, falls back to saved src */}
                 <div className="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-[#FDF6EB]/10 flex items-center justify-center">
-                  {photo.src
-                    ? <img src={photo.src} alt={photo.alt} className="w-full h-full object-cover" />
-                    : <span className="text-[#FDF6EB]/20 text-xs text-center px-1">No image</span>
+                  {localPreviews[i] || photo.src
+                    ? <img src={localPreviews[i] ?? photo.src} alt={photo.alt} className="w-full h-full object-cover" />
+                    : <span className="text-[#FDF6EB]/20 text-[10px] text-center px-1">No image</span>
                   }
                 </div>
                 <div className="flex-1 space-y-2 min-w-0">
-                  {/* Per-row file input via label */}
-                  <label className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-widest transition-colors cursor-pointer ${uploading[i] ? "opacity-40 pointer-events-none" : "bg-[#EE1C1C]/20 hover:bg-[#EE1C1C]/30 text-[#EE1C1C]"}`}>
+                  <label className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-widest transition-colors cursor-pointer ${uploading[i] ? "opacity-50 pointer-events-none" : "bg-[#EE1C1C]/20 hover:bg-[#EE1C1C]/30 text-[#EE1C1C]"}`}>
                     {uploading[i] ? (
                       <>
                         <svg className="animate-spin w-3 h-3" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
@@ -322,7 +329,7 @@ export default function AdminPage() {
                     ) : (
                       <>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                        {photo.src ? "Replace Image" : "Upload Image"}
+                        {photo.src || localPreviews[i] ? "Replace Image" : "Upload Image"}
                       </>
                     )}
                     <input
@@ -336,6 +343,9 @@ export default function AdminPage() {
                       }}
                     />
                   </label>
+                  {uploadErrors[i] && (
+                    <p className="text-red-400 text-xs">{uploadErrors[i]}</p>
+                  )}
                   <div><label className={lbl}>Alt text</label>
                     <input className={inp} value={photo.alt} placeholder="e.g. Rotisserie chicken" onChange={(e) => { const u = { ...content }; u.gallery[i].alt = e.target.value; setContent(u); }} /></div>
                 </div>
@@ -361,6 +371,7 @@ export default function AdminPage() {
                   e.target.value = "";
                 }}
               />
+
             </label>
 
             <p className="text-[#FDF6EB]/20 text-xs text-center">JPEG · PNG · WebP · GIF &nbsp;·&nbsp; max 5 MB per image</p>
