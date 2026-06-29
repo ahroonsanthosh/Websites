@@ -46,7 +46,7 @@ export function HoursLocation() {
   return (
     <section id="hours" ref={ref} className="bg-stone-950 overflow-hidden">
       {/* Hours */}
-      <div className="py-28 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-16">
+      <div className="py-28 max-w-5xl mx-auto px-8 md:px-16 lg:px-20 grid md:grid-cols-2 gap-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}

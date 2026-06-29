@@ -20,8 +20,8 @@ export function Gallery() {
   const [lightbox, setLightbox] = useState<string | null>(null);
 
   return (
-    <section ref={ref} className="py-24 px-6 bg-[#0d0905]">
-      <div className="max-w-6xl mx-auto">
+    <section ref={ref} className="py-24 bg-[#0d0905]">
+      <div className="max-w-6xl mx-auto px-8 md:px-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -33,7 +33,7 @@ export function Gallery() {
           <h2 className="font-serif text-4xl text-amber-50 mt-3">A glimpse inside</h2>
         </motion.div>
 
-        <div className="grid grid-cols-3 gap-3 auto-rows-[200px]">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[180px] md:auto-rows-[220px]">
           {siteContent.images.slice(0, 6).map((src, i) => (
             <motion.div
               key={i}
