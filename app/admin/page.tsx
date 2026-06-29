@@ -153,6 +153,12 @@ export default function AdminPage() {
           >
             {saving ? "Saving…" : "Save & Deploy"}
           </button>
+          <button
+            onClick={() => { setAuthed(false); setContent(null); setPassword(""); setStatus({ type: "", msg: "" }); }}
+            className="px-4 py-2 bg-[#FDF6EB]/10 text-[#FDF6EB]/50 text-xs font-semibold rounded-full hover:bg-[#FDF6EB]/20 hover:text-[#FDF6EB] transition-all"
+          >
+            Sign Out
+          </button>
         </div>
       </div>
 
