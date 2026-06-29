@@ -25,12 +25,15 @@ function blobEnabled(): boolean {
 export async function readJSON<T>(name: string): Promise<T> {
   if (blobEnabled()) {
     try {
-      const { head } = await import("@vercel/blob");
-      const meta = await head(`content/${name}.json`);
-      const res = await fetch(meta.url, { cache: "no-store" });
-      if (res.ok) return (await res.json()) as T;
+      const { list } = await import("@vercel/blob");
+      const { blobs } = await list({ prefix: `content/${name}.json` });
+      const blob = blobs.find((b) => b.pathname === `content/${name}.json`);
+      if (blob) {
+        const res = await fetch(blob.url, { cache: "no-store" });
+        if (res.ok) return (await res.json()) as T;
+      }
     } catch {
-      // Not yet written to Blob (or lookup failed) — fall back to bundled file.
+      // Not yet written to Blob — fall back to bundled file.
     }
   }
 
