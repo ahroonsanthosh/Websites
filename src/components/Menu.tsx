@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import RiverDivider from "./RiverDivider";
 
 interface MenuData {
   menu: { heading: string; subheading: string; images: string[] };
@@ -26,24 +27,24 @@ export default function Menu({ data }: { data: MenuData }) {
       className="bg-[var(--cream)] grain"
       aria-labelledby="menu-heading"
     >
-      <div className="px-6 md:px-12 max-w-7xl mx-auto pt-24 md:pt-32 pb-28 md:pb-36">
+      <div className="px-6 md:px-12 max-w-7xl mx-auto pt-24 md:pt-32 pb-20 md:pb-28">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-16 md:mb-20 border-b border-[var(--line-light)] pb-8"
+          className="mb-12 md:mb-16 border-b border-[var(--line-light)] pb-8"
         >
           <p className="label-engrave text-[var(--rust)] mb-5">IV — What&apos;s on the Table</p>
           <h2
             id="menu-heading"
-            className="font-[var(--font-display)] italic font-black text-[clamp(3.2rem,10vw,8rem)] leading-[0.88] text-[var(--ink)]"
+            className="font-[var(--font-display)] italic font-black text-[clamp(3rem,9vw,7.5rem)] leading-[0.88] text-[var(--ink)]"
             style={{ letterSpacing: "-0.025em" }}
           >
             {data.menu.heading}
           </h2>
         </motion.div>
 
-        <div className="space-y-5">
+        <div className="space-y-4 md:space-y-5">
           {data.menu.images.map((img, i) => (
             <motion.div
               key={i}
@@ -59,8 +60,8 @@ export default function Menu({ data }: { data: MenuData }) {
               whileHover={{ y: -2 }}
             >
               <div className="flex flex-col md:flex-row md:items-stretch">
-                {/* Arch-frame image */}
-                <div className="md:w-56 lg:w-72 flex-shrink-0 h-52 md:h-auto overflow-hidden">
+                {/* Image */}
+                <div className="w-full h-52 md:w-72 lg:w-96 md:h-auto flex-shrink-0 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={img}
@@ -70,31 +71,29 @@ export default function Menu({ data }: { data: MenuData }) {
                   />
                 </div>
 
-                {/* Text side */}
-                <div className="flex-1 p-7 md:p-9 flex flex-col justify-between">
-                  <div>
-                    <p className="label-engrave text-[var(--rust)] mb-3">
-                      {String(i + 1).padStart(2, "0")}
-                    </p>
-                    <h3
-                      className="font-[var(--font-display)] italic font-black text-3xl md:text-4xl text-[var(--ink)] mb-3"
-                      style={{ letterSpacing: "-0.015em" }}
-                    >
-                      {labels[i]}
-                    </h3>
-                    <p className="font-[var(--font-sans)] text-sm text-[var(--ink)]/60 leading-relaxed max-w-md">
-                      {subtitles[i]}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3 mt-6">
+                {/* Text */}
+                <div className="flex-1 p-6 md:p-8 flex flex-col justify-center gap-3">
+                  <p className="label-engrave text-[var(--rust)]">
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3
+                    className="font-[var(--font-display)] italic font-black text-2xl md:text-3xl text-[var(--ink)]"
+                    style={{ letterSpacing: "-0.015em" }}
+                  >
+                    {labels[i]}
+                  </h3>
+                  <p className="font-[var(--font-sans)] text-sm text-[var(--ink)]/60 leading-relaxed max-w-sm">
+                    {subtitles[i]}
+                  </p>
+                  <div className="flex items-center gap-3 mt-1">
                     <motion.div
-                      className="w-9 h-9 rounded-full border border-[var(--brass)] flex items-center justify-center text-[var(--brass)] text-sm"
+                      className="w-8 h-8 rounded-full border border-[var(--brass)] flex items-center justify-center text-[var(--brass)] text-xs flex-shrink-0"
                       whileHover={{ backgroundColor: "var(--brass)", color: "var(--ink)" }}
                       transition={{ duration: 0.2 }}
                     >
                       ↗
                     </motion.div>
-                    <span className="font-[var(--font-sans)] text-xs text-[var(--ink)]/40 tracking-wide">
+                    <span className="font-[var(--font-sans)] text-xs text-[var(--ink)]/35 tracking-wide">
                       Tap to view
                     </span>
                   </div>
@@ -104,6 +103,8 @@ export default function Menu({ data }: { data: MenuData }) {
           ))}
         </div>
       </div>
+
+      <RiverDivider from="var(--cream)" to="var(--parchment)" flip />
 
       <AnimatePresence>
         {active && (

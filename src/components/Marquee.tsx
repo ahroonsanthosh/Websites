@@ -20,7 +20,7 @@ export default function Marquee() {
     <div className="bg-[var(--rust)] grain" aria-hidden="true">
       <div className="overflow-hidden py-8 md:py-10">
         <motion.div
-          className="flex items-center gap-10 whitespace-nowrap"
+          className="flex items-center gap-10 whitespace-nowrap pl-10"
           animate={{ x: ["0%", "-33.33%"] }}
           transition={{ duration: 26, ease: "linear", repeat: Infinity }}
         >

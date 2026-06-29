@@ -32,10 +32,10 @@ export default function Features() {
   return (
     <section ref={ref} className="bg-[var(--moss)] grain" aria-label="What we offer">
       <div className="px-6 md:px-12 max-w-7xl mx-auto pt-24 md:pt-32 pb-28 md:pb-36">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 md:mb-20">
-          <p className="label-engrave text-[var(--brass)]">III — Three Things, Steeped</p>
+        <div className="mb-16 md:mb-20">
+          <p className="label-engrave text-[var(--brass)] mb-6">III — Three Things, Steeped</p>
           <h2
-            className="font-[var(--font-display)] italic font-black text-[clamp(2rem,5vw,4rem)] text-[var(--cream)] leading-[1]"
+            className="font-[var(--font-display)] italic font-black text-[clamp(2.4rem,5vw,4rem)] text-[var(--cream)] leading-[1] max-w-lg"
             style={{ letterSpacing: "-0.02em" }}
           >
             Done well,<br />or not at all.

@@ -18,7 +18,7 @@ export default function Statement() {
     <section className="bg-[var(--teal)] grain overflow-hidden" aria-hidden="true">
       <div className="py-12 md:py-16">
         <motion.div
-          className="flex items-center gap-10 md:gap-16 whitespace-nowrap"
+          className="flex items-center gap-10 md:gap-16 whitespace-nowrap pl-10"
           animate={{ x: ["0%", "-33.33%"] }}
           transition={{ duration: 28, ease: "linear", repeat: Infinity }}
         >

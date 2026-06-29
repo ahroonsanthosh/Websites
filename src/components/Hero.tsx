@@ -7,39 +7,53 @@ import RiverDivider from "./RiverDivider";
 function Heron() {
   return (
     <motion.svg
-      viewBox="0 0 200 220"
-      className="w-28 md:w-44 h-auto"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.2, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+      viewBox="0 0 160 200"
+      className="w-24 md:w-36 h-auto"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.4, delay: 0.8 }}
       aria-hidden="true"
     >
+      {/* Body / neck curve */}
       <motion.path
-        d="M40 200 C 38 170, 60 150, 55 120 C 52 95, 30 85, 35 60 C 38 40, 55 25, 70 30 C 80 33, 78 45, 70 48 M70 30 L100 10 M70 48 C 65 55, 58 60, 50 58"
+        d="M80 190 C 78 158, 96 138, 90 105 C 86 78, 62 68, 66 44 C 69 24, 88 12, 104 17 C 116 21, 112 36, 102 40"
         fill="none"
         stroke="var(--brass)"
-        strokeWidth="2"
+        strokeWidth="1.8"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 2, delay: 0.6, ease: "easeInOut" }}
+        transition={{ duration: 2.2, delay: 0.9, ease: "easeInOut" }}
       />
-      <motion.ellipse
-        cx="60" cy="58" rx="3" ry="2.4" fill="var(--brass)"
+      {/* Beak */}
+      <motion.path
+        d="M104 17 L130 4"
+        fill="none"
+        stroke="var(--brass)"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 0.7, delay: 2.8, ease: "easeOut" }}
+      />
+      {/* Wings */}
+      <motion.path
+        d="M90 105 C 72 116, 50 112, 36 128 M90 118 C 108 128, 126 124, 136 140"
+        fill="none"
+        stroke="var(--brass)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.65"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.2, delay: 2.2, ease: "easeInOut" }}
+      />
+      {/* Eye */}
+      <motion.circle
+        cx="106" cy="20" r="2.5" fill="var(--brass)"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
-      />
-      <motion.path
-        d="M55 120 C 40 130, 20 128, 10 145 M55 130 C 65 138, 80 138, 92 150"
-        fill="none"
-        stroke="var(--brass)"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        opacity="0.7"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1.4, delay: 1.6, ease: "easeInOut" }}
+        transition={{ delay: 3.2 }}
       />
     </motion.svg>
   );
@@ -57,7 +71,7 @@ export default function Hero({
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const drift = useTransform(scrollYProgress, [0, 1], [0, 30]);
+  const heronY = useTransform(scrollYProgress, [0, 1], [0, 40]);
 
   return (
     <section
@@ -66,38 +80,42 @@ export default function Hero({
       aria-label="Hero"
     >
       <motion.div
-        className="relative px-6 md:px-12 max-w-[1500px] mx-auto w-full pt-28 md:pt-36 pb-20 md:pb-28"
+        className="relative px-6 md:px-12 max-w-[1500px] mx-auto w-full pt-24 md:pt-32 pb-20 md:pb-28"
         style={{ opacity }}
       >
-        {/* Top label row */}
+        {/* Heron — decorative, absolute top-right on desktop */}
+        <motion.div
+          className="absolute top-8 right-6 md:top-12 md:right-12 hidden sm:block"
+          style={{ y: heronY }}
+        >
+          <Heron />
+        </motion.div>
+
+        {/* Top label */}
         <motion.div
           className="flex items-center gap-3 mb-10 md:mb-14"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="h-px w-10 bg-[var(--brass)]" />
+          <span className="h-px w-10 bg-[var(--brass)] flex-shrink-0" />
           <p className="label-engrave text-[var(--brass-light)]">
             Est. on the bend of the Lee · Cork&apos;s Victorian Quarter
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-14 items-end">
-          <motion.h1
-            className="font-[var(--font-display)] italic font-black leading-[0.85] text-[var(--cream)] select-none"
-            style={{ fontSize: "clamp(4.5rem, 17vw, 14rem)", letterSpacing: "-0.01em" }}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            {data.heading}
-          </motion.h1>
+        {/* Heading */}
+        <motion.h1
+          className="font-[var(--font-display)] italic font-black leading-[0.85] text-[var(--cream)] select-none"
+          style={{ fontSize: "clamp(4.5rem, 17vw, 14rem)", letterSpacing: "-0.01em" }}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          {data.heading}
+        </motion.h1>
 
-          <motion.div style={{ y: drift }} className="flex justify-start md:justify-end">
-            <Heron />
-          </motion.div>
-        </div>
-
+        {/* Subheading */}
         <motion.p
           className="font-[var(--font-sans)] text-[var(--mist)] text-base md:text-lg max-w-md mt-8 md:mt-10 leading-relaxed"
           initial={{ opacity: 0, y: 12 }}
@@ -108,6 +126,7 @@ export default function Hero({
           cup of coffee drift along at their own pace.
         </motion.p>
 
+        {/* CTAs */}
         <motion.div
           className="flex flex-wrap items-center gap-4 mt-10 md:mt-12"
           initial={{ opacity: 0, y: 12 }}
