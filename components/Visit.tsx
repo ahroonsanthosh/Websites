@@ -38,7 +38,7 @@ function InfoCard({ icon: Icon, title, children }: { icon: React.ElementType; ti
       </div>
       <div>
         <div className="text-xs tracking-[0.2em] uppercase text-[#9e9890] mb-1">{title}</div>
-        <div className="text-[#1a1510] leading-relaxed">{children}</div>
+        <div className="text-white/80 leading-relaxed">{children}</div>
       </div>
     </div>
   );
