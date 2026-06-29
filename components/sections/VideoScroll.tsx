@@ -34,7 +34,7 @@ export function VideoScroll() {
 
           <ContainerInset className="w-full max-w-3xl mx-auto h-[50vh] md:h-[60vh]">
             <HeroVideo
-              src="https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4"
+              src="https://videos.pexels.com/video-files/5995475/5995475-uhd_2560_1440_25fps.mp4"
               className="w-full h-full object-cover rounded-2xl"
             />
           </ContainerInset>

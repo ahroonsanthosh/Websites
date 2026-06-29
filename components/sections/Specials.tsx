@@ -87,8 +87,8 @@ function SpecialCard({
       transition={{ duration: 0.6, delay: index * 0.1 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="relative overflow-hidden rounded-2xl border border-stone-800/40 p-7 cursor-default group"
-      style={{ background: "rgba(255,255,255,0.015)" }}
+      className="relative overflow-hidden rounded-2xl border border-stone-700/60 p-7 cursor-default group"
+      style={{ background: "rgba(255,255,255,0.04)" }}
     >
       {/* Hover glow */}
       <motion.div

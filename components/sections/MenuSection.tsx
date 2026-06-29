@@ -62,7 +62,7 @@ export function MenuSection() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.2 }}
-          className="flex gap-1 justify-center mb-12 bg-stone-900/50 rounded-full p-1 w-fit mx-auto"
+          className="flex gap-1 justify-center mb-12 bg-stone-800/60 border border-stone-700/50 rounded-full p-1 w-fit mx-auto"
         >
           {menuCategories.map((cat, i) => (
             <button
