@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import RiverDivider from "./RiverDivider";
 
 interface HoursEntry {
   day: string;
@@ -26,24 +27,23 @@ function DayRow({ entry, index }: { entry: HoursEntry; index: number }) {
   return (
     <motion.div
       ref={ref}
-      className="flex items-center justify-between py-4 border-b border-[var(--border)] group"
+      className="flex items-center justify-between py-5 border-b border-[var(--line-light)] group"
       initial={{ opacity: 0, x: -16 }}
       animate={isInView ? { opacity: 1, x: 0 } : {}}
-      transition={{ delay: index * 0.06, duration: 0.45 }}
+      transition={{ delay: index * 0.07, duration: 0.45 }}
     >
-      <span className="font-[var(--font-display)] font-black text-xl text-[var(--charcoal)] group-hover:text-[var(--orange)] transition-colors duration-200">
+      <span className="font-[var(--font-display)] italic font-black text-xl md:text-2xl text-[var(--ink)] group-hover:text-[var(--rust)] transition-colors">
         {entry.day}
       </span>
-
       {isOpen ? (
         <div className="flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-[var(--sage)] animate-pulse" />
-          <span className="font-[var(--font-sans)] text-sm font-medium text-[var(--charcoal)]">
+          <span className="w-2 h-2 rounded-full bg-[var(--brass)] animate-pulse" />
+          <span className="font-[var(--font-sans)] text-sm font-medium text-[var(--ink)]">
             {formatTime(entry.open)} – {formatTime(entry.close)}
           </span>
         </div>
       ) : (
-        <span className="font-[var(--font-sans)] text-sm text-[var(--muted)] italic">Closed</span>
+        <span className="font-[var(--font-sans)] text-sm text-[var(--ink)]/40 italic">Closed</span>
       )}
     </motion.div>
   );
@@ -59,23 +59,17 @@ export default function Hours({ data }: { data: SiteData }) {
   const isInView = useInView(headingRef, { once: true });
 
   return (
-    <section
-      id="location"
-      className="py-20 md:py-32 bg-[var(--warm-white)]"
-      aria-labelledby="hours-heading"
-    >
-      <div className="px-5 md:px-10 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-16 md:gap-24">
+    <section id="location" className="bg-[var(--cream)] grain" aria-labelledby="hours-heading">
+      <div className="px-6 md:px-12 max-w-7xl mx-auto pt-24 md:pt-32 pb-28 md:pb-36">
+        <p className="label-engrave text-[var(--rust)] mb-6">VI — The Tides</p>
+        <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-start">
           {/* Hours column */}
           <div>
-            <p className="font-[var(--font-sans)] text-xs font-semibold tracking-widest uppercase text-[var(--orange)] mb-4">
-              Opening Hours
-            </p>
             <h2
               ref={headingRef}
               id="hours-heading"
-              className="font-[var(--font-display)] font-black text-[clamp(2rem,5vw,3.5rem)] text-[var(--charcoal)] mb-8 leading-[1]"
-              style={{ letterSpacing: "-0.02em" }}
+              className="font-[var(--font-display)] italic font-black text-[clamp(2.5rem,6vw,4.5rem)] text-[var(--ink)] mb-10 leading-[0.92]"
+              style={{ letterSpacing: "-0.025em" }}
             >
               When we&apos;re<br />open
             </h2>
@@ -86,71 +80,66 @@ export default function Hours({ data }: { data: SiteData }) {
             </div>
           </div>
 
-          {/* Location column */}
-          <div className="flex flex-col gap-10">
-            <div>
-              <p className="font-[var(--font-sans)] text-xs font-semibold tracking-widest uppercase text-[var(--orange)] mb-4">
-                Find Us
-              </p>
+          {/* Map + contact */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="flex flex-col gap-8"
+          >
+            <motion.a
+              href="https://maps.google.com/?q=8+MacCurtain+Street+Cork"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block relative overflow-hidden rounded-2xl border border-[var(--line-light)] bg-[var(--parchment)] h-56"
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.2 }}
+              aria-label="View on Google Maps"
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center gap-4">
+                <motion.div
+                  className="seal w-14 h-14 flex items-center justify-center bg-[var(--ink)] text-[var(--brass)] text-xl"
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+                >
+                  ◎
+                </motion.div>
+                <p className="font-[var(--font-display)] italic font-black text-lg text-[var(--ink)]">
+                  View on Google Maps
+                </p>
+                <p className="label-engrave text-[var(--ink)]/50">8 MacCurtain Street, Cork</p>
+              </div>
+            </motion.a>
 
-              {/* Map placeholder with bounce pin */}
-              <motion.a
-                href="https://maps.google.com/?q=8+MacCurtain+Street+Cork"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block group relative overflow-hidden rounded-2xl bg-[var(--cream)] border border-[var(--border)] h-52 mb-6"
-                whileHover={{ scale: 1.01 }}
-                transition={{ duration: 0.2 }}
-                aria-label="View on Google Maps"
-              >
-                <div className="w-full h-full flex items-center justify-center flex-col gap-3">
-                  <motion.div
-                    className="w-12 h-12 rounded-full bg-[var(--orange)] flex items-center justify-center text-white text-xl"
-                    animate={{ y: [0, -6, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-                  >
-                    ◎
-                  </motion.div>
-                  <p className="font-[var(--font-display)] font-black text-lg text-[var(--charcoal)]">
-                    View on Google Maps
-                  </p>
-                  <p className="font-[var(--font-sans)] text-sm text-[var(--muted)]">
-                    8 MacCurtain Street, Cork
-                  </p>
-                </div>
-                <div className="absolute inset-0 bg-[var(--orange)] opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-2xl" />
-              </motion.a>
-
-              {/* Contact info */}
-              <div className="space-y-5">
-                <div>
-                  <p className="font-[var(--font-sans)] text-xs font-semibold uppercase tracking-widest text-[var(--muted)] mb-1">Address</p>
-                  <p className="font-[var(--font-sans)] text-base text-[var(--charcoal)]">{data.site.address}</p>
-                </div>
-                <div>
-                  <p className="font-[var(--font-sans)] text-xs font-semibold uppercase tracking-widest text-[var(--muted)] mb-1">Phone</p>
-                  <a
-                    href={`tel:${data.site.phone.replace(/\D/g, "")}`}
-                    className="font-[var(--font-sans)] text-base text-[var(--charcoal)] hover:text-[var(--orange)] transition-colors"
-                  >
-                    {data.site.phone}
-                  </a>
-                </div>
+            <div className="space-y-6">
+              <div>
+                <p className="label-engrave text-[var(--ink)]/45 mb-2">Address</p>
+                <p className="font-[var(--font-sans)] text-base text-[var(--ink)]">{data.site.address}</p>
+              </div>
+              <div>
+                <p className="label-engrave text-[var(--ink)]/45 mb-2">Phone</p>
+                <a
+                  href={`tel:${data.site.phone.replace(/\D/g, "")}`}
+                  className="font-[var(--font-sans)] text-base text-[var(--ink)] hover:text-[var(--rust)] transition-colors"
+                >
+                  {data.site.phone}
+                </a>
               </div>
             </div>
 
-            {/* Pill CTA */}
             <a
               href="https://maps.google.com/?q=8+MacCurtain+Street+Cork"
               target="_blank"
               rel="noopener noreferrer"
-              className="pill pill-solid self-start font-[var(--font-sans)] font-semibold"
+              className="pill pill-ink self-start font-[var(--font-sans)]"
             >
               Get Directions →
             </a>
-          </div>
+          </motion.div>
         </div>
       </div>
+
+      <RiverDivider from="var(--cream)" to="var(--ink)" />
     </section>
   );
 }

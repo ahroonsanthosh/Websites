@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import RiverDivider from "./RiverDivider";
 
 export default function About({ data }: { data: { about: { heading: string; body: string; image: string } } }) {
   const ref = useRef<HTMLElement>(null);
@@ -11,18 +12,49 @@ export default function About({ data }: { data: { about: { heading: string; body
     <section
       id="about"
       ref={ref}
-      className="pt-20 md:pt-32 pb-28 md:pb-40 px-5 md:px-10 bg-[var(--cream)]"
+      className="bg-[var(--parchment)] grain"
       aria-labelledby="about-heading"
     >
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-20 items-center">
-        {/* Image — circle on mobile, square with circle overlay on desktop */}
+      <div className="pt-20 md:pt-32 pb-24 md:pb-36 px-6 md:px-12 max-w-7xl mx-auto grid md:grid-cols-[1fr_1.1fr] gap-16 md:gap-24 items-start">
+        {/* Text */}
         <motion.div
-          className="relative"
-          initial={{ opacity: 0, x: -30 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <div className="relative h-[300px] md:h-[500px] overflow-hidden rounded-3xl">
+          <p className="label-engrave text-[var(--rust)] mb-5">II — Where the River Bends</p>
+          <h2
+            id="about-heading"
+            className="font-[var(--font-display)] italic font-black text-[clamp(2.2rem,5vw,3.8rem)] leading-[1.05] text-[var(--ink)] mb-7"
+          >
+            {data.about.heading}
+          </h2>
+          <p className="drop-cap font-[var(--font-sans)] text-[var(--ink)]/75 leading-relaxed text-base md:text-lg max-w-md mb-10">
+            {data.about.body}
+          </p>
+
+          <div className="flex gap-10 pt-8 border-t border-[var(--line-light)]">
+            {[
+              { label: "Days Open", value: "5" },
+              { label: "Address", value: "No. 8" },
+              { label: "Since", value: "Cork" },
+            ].map((f) => (
+              <div key={f.label}>
+                <p className="font-[var(--font-display)] italic font-black text-2xl text-[var(--rust)]">{f.value}</p>
+                <p className="label-engrave text-[var(--ink)]/55 mt-1">{f.label}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Image */}
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, x: 30 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <div className="arch-frame h-[340px] md:h-[480px] border-4 border-[var(--brass)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={data.about.image}
@@ -31,53 +63,20 @@ export default function About({ data }: { data: { about: { heading: string; body
               loading="lazy"
             />
           </div>
-          {/* Floating tag */}
           <motion.div
-            className="absolute -bottom-5 -right-3 md:-right-8 bg-[var(--orange)] text-white px-5 py-3 rounded-2xl z-10 shadow-lg"
-            initial={{ opacity: 0, scale: 0.8, rotate: -4 }}
-            animate={isInView ? { opacity: 1, scale: 1, rotate: -4 } : {}}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            className="seal absolute -bottom-6 -left-6 w-24 h-24 bg-[var(--ink)] flex flex-col items-center justify-center text-center px-2"
+            initial={{ opacity: 0, scale: 0.7, rotate: -8 }}
+            animate={isInView ? { opacity: 1, scale: 1, rotate: -8 } : {}}
+            transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <p className="font-[var(--font-display)] font-black text-sm">Est. Cork</p>
-            <p className="font-[var(--font-sans)] text-xs opacity-90">Victorian Quarter</p>
+            <p className="font-[var(--font-display)] italic font-black text-[var(--brass-light)] text-xs leading-tight">
+              Victorian<br />Quarter
+            </p>
           </motion.div>
         </motion.div>
-
-        {/* Text */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          <p className="font-[var(--font-sans)] text-xs font-semibold tracking-widest uppercase text-[var(--orange)] mb-4">
-            Our Story
-          </p>
-          <h2
-            id="about-heading"
-            className="font-[var(--font-display)] font-black text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] text-[var(--charcoal)] mb-6"
-            style={{ letterSpacing: "-0.02em" }}
-          >
-            {data.about.heading}
-          </h2>
-          <p className="font-[var(--font-sans)] text-[var(--muted)] leading-relaxed text-base mb-8 max-w-md">
-            {data.about.body}
-          </p>
-
-          {/* Three micro-facts */}
-          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[var(--border)]">
-            {[
-              { label: "Days Open", value: "5" },
-              { label: "MacCurtain St.", value: "No. 8" },
-              { label: "Est.", value: "Cork" },
-            ].map((f) => (
-              <div key={f.label}>
-                <p className="font-[var(--font-display)] font-black text-2xl text-[var(--charcoal)]">{f.value}</p>
-                <p className="font-[var(--font-sans)] text-xs text-[var(--muted)] mt-0.5">{f.label}</p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
       </div>
+
+      <RiverDivider from="var(--parchment)" to="var(--teal)" />
     </section>
   );
 }

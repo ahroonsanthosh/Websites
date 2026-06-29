@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import RiverDivider from "./RiverDivider";
 
 const items = [
   "Honest Food",
@@ -10,26 +11,30 @@ const items = [
   "MacCurtain Street",
   "Seasonal Plates",
   "Slow Mornings",
+  "Open Doors",
 ];
 
 export default function Marquee() {
-  const repeated = [...items, ...items];
+  const repeated = [...items, ...items, ...items];
   return (
-    <div className="bg-[var(--orange)] overflow-hidden py-4" aria-hidden="true">
-      <motion.div
-        className="flex items-center gap-8 whitespace-nowrap"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 22, ease: "linear", repeat: Infinity }}
-      >
-        {repeated.map((item, i) => (
-          <span key={i} className="flex items-center gap-8 flex-shrink-0">
-            <span className="font-[var(--font-display)] font-black text-xl md:text-2xl text-white italic">
-              {item}
+    <div className="bg-[var(--rust)] grain" aria-hidden="true">
+      <div className="overflow-hidden py-8 md:py-10">
+        <motion.div
+          className="flex items-center gap-10 whitespace-nowrap"
+          animate={{ x: ["0%", "-33.33%"] }}
+          transition={{ duration: 26, ease: "linear", repeat: Infinity }}
+        >
+          {repeated.map((item, i) => (
+            <span key={i} className="flex items-center gap-10 flex-shrink-0">
+              <span className="font-[var(--font-display)] italic font-black text-xl md:text-2xl text-[var(--cream)]">
+                {item}
+              </span>
+              <span className="text-[var(--brass-light)] opacity-60 text-xs">✦</span>
             </span>
-            <span className="text-white/60 text-lg">★</span>
-          </span>
-        ))}
-      </motion.div>
+          ))}
+        </motion.div>
+      </div>
+      <RiverDivider from="var(--rust)" to="var(--cream)" flip />
     </div>
   );
 }

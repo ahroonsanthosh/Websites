@@ -1,44 +1,42 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-
-// Diagonal rotating marquee band — inspired by Hen's Teeth "Useful Links" section
-function DiagonalMarquee({ text, reverse = false }: { text: string; reverse?: boolean }) {
-  const repeated = `${text} ★ `.repeat(8);
-  return (
-    <div
-      className="overflow-hidden py-3 bg-[var(--charcoal)]"
-      style={{ transform: "rotate(-2.5deg)", margin: "0 -40px" }}
-    >
-      <motion.div
-        className="flex whitespace-nowrap"
-        animate={{ x: reverse ? ["0%", "50%"] : ["0%", "-50%"] }}
-        transition={{ duration: 18, ease: "linear", repeat: Infinity }}
-      >
-        <span className="font-[var(--font-display)] font-black text-[clamp(1.5rem,4vw,2.5rem)] text-[var(--cream)] whitespace-nowrap pr-8 italic">
-          {repeated}
-        </span>
-        <span className="font-[var(--font-display)] font-black text-[clamp(1.5rem,4vw,2.5rem)] text-[var(--cream)] whitespace-nowrap pr-8 italic">
-          {repeated}
-        </span>
-      </motion.div>
-    </div>
-  );
-}
+import { motion } from "framer-motion";
+import RiverDivider from "./RiverDivider";
 
 export default function Statement() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
+  const items = [
+    "Honest food",
+    "Great coffee",
+    "Slow mornings",
+    "MacCurtain Street",
+    "Victorian Quarter",
+    "Open Wed – Sun",
+  ];
+  const repeated = [...items, ...items, ...items];
 
   return (
-    <div ref={ref} className="overflow-hidden py-10 md:py-14 my-4 bg-[var(--warm-white)]" aria-hidden="true">
-      <motion.div style={{ y }}>
-        <DiagonalMarquee text="Honest food · Great coffee · Cork" />
-        <div className="py-2" />
-        <DiagonalMarquee text="Wed–Sun · MacCurtain Street · Victorian Quarter" reverse />
-      </motion.div>
-    </div>
+    <section className="bg-[var(--teal)] grain overflow-hidden" aria-hidden="true">
+      <div className="py-12 md:py-16">
+        <motion.div
+          className="flex items-center gap-10 md:gap-16 whitespace-nowrap"
+          animate={{ x: ["0%", "-33.33%"] }}
+          transition={{ duration: 28, ease: "linear", repeat: Infinity }}
+        >
+          {repeated.map((item, i) => (
+            <span key={i} className="flex items-center gap-10 md:gap-16 flex-shrink-0">
+              <span
+                className="font-[var(--font-display)] italic font-black text-[clamp(1.4rem,3.5vw,2.4rem)] text-[var(--brass-light)]"
+                style={{ letterSpacing: "-0.01em" }}
+              >
+                {item}
+              </span>
+              <span className="text-[var(--brass)] text-sm opacity-60">✦</span>
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
+      <RiverDivider from="var(--teal)" to="var(--moss)" flip />
+    </section>
   );
 }
