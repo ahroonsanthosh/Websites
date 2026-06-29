@@ -1,0 +1,53 @@
+{
+  "site": {
+    "name": "Bayou",
+    "tagline": "A little corner of warmth in Cork's Victorian Quarter",
+    "description": "Bayou is a cosy daytime café tucked into the heart of Cork's Victorian Quarter. We believe in slow mornings, honest food, and coffee that deserves your full attention.",
+    "address": "8 MacCurtain Street, Victorian Quarter, Cork, T23 YP94",
+    "phone": "(021) 245 5740",
+    "email": "hello@bayoucork.ie",
+    "instagram": "https://www.instagram.com/bayoucork",
+    "metaDescription": "Bayou Café — A cosy daytime café at 8 MacCurtain Street, Cork's Victorian Quarter. Serving honest food and great coffee Wed–Sun.",
+    "logo": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFudg4fgJqH6JIgKrdsYvWsplVevnZaGHlJspPUqbKG16BUAD9MtsNYU0qclkLAmNYDzDHclp69cOh79do5vrrkt1yab9BRlIlXJDGBbxp5lzIZ-B7QB62obgpbpb_LykCKuoXThA=s1360-w1360-h1020-rw"
+  },
+  "hours": [
+    { "day": "Monday", "status": "closed", "open": "", "close": "" },
+    { "day": "Tuesday", "status": "closed", "open": "", "close": "" },
+    { "day": "Wednesday", "status": "open", "open": "12:00", "close": "15:00" },
+    { "day": "Thursday", "status": "open", "open": "12:00", "close": "15:00" },
+    { "day": "Friday", "status": "open", "open": "10:00", "close": "15:00" },
+    { "day": "Saturday", "status": "open", "open": "10:00", "close": "15:00" },
+    { "day": "Sunday", "status": "open", "open": "10:00", "close": "15:00" }
+  ],
+  "hero": {
+    "heading": "Bayou",
+    "subheading": "Cork's Victorian Quarter",
+    "cta": "View the Menu",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEdt1Dt45B7JGv84rxnA8uljwCe6Li5xwU6oOxtAdFO7ptzmfLRwRR918tO3h3cXDkG4E7WPkg9zaRVeR09hw8Vv5AA3U2nFvfaeYuX_TNeuORrn46Tsdf4MGsFY5ENb5AgMB_Tcw=s1360-w1360-h1020-rw"
+  },
+  "about": {
+    "heading": "Where every visit feels like coming home",
+    "body": "Bayou is a daytime café on MacCurtain Street, set in Cork's Victorian Quarter. We open the door a few days a week — and when we do, we pour everything we have into it. Expect seasonal plates, great coffee, and the kind of quiet that's hard to find.",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAF1vA5_T3IEkoPWe4uR-sAUnK_2a9IXtB_CuhWzn8IOzKGKLML1lPJch_1EB9qDj6RMzpVD02Q7vc39OEHA3bQDHdht5rmxD5BZXo5DqUbmxErqv-vfawTAUqgI7cw9s4E9H5h3hAFOFmBN=s1360-w1360-h1020-rw"
+  },
+  "menu": {
+    "heading": "The Menu",
+    "subheading": "Honest food, made with care",
+    "images": [
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHSrpobarwgRhVt45eDa4OPUSTC9SR37ZrtIQ__Bs09JmsRXjAbw8A2gmoVyGW-ct5piALMEtvJykklRM8HrjucTICeBQQtRbYydpX3z0bso7SeYT1VUmvx4sfNuqBO0b9JsBI=s1360-w1360-h1020-rw",
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFTZ2-jfSAwaZySmmnsdrcRVUwIc8khJZZZmR00BodAugMDNQM-js5oXc30QbjD2RxMEQEgIWMuvnx0BjKGEG8orkRBaer_IInQo7mNjf-CNYvMAsCSLUMr-U3x9ZGrDQD8eTw=s1360-w1360-h1020-rw",
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFS8b_OhH_dFXYtOk8XIVdPH88otPGICU2gFLmmNT5fcAdQWHbbP8YYzzCVxuGfMjVoCstcJSVld_dve8URCHsxRYSP0amfmUaZeWhZZuOdy-D2yPdcnXPZFLVZOyL035imoHE4=s1360-w1360-h1020-rw"
+    ]
+  },
+  "gallery": {
+    "heading": "Inside Bayou",
+    "images": [
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEUg33F93WGg0ppMzcimi7v4Qdftsa-WK2EGNXm01Nl8V-cpCON4i050eOarGOVIISnr-aSTAX8_gmaDNhD-jzORu9LraSbAVDDKSsvGmPRpLd3i4W17mUk1R2vEt3SNhvOdoTKtWBe4NsH=s1360-w1360-h1020-rw",
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFyTAtzlrSWvBLPH16mHVPwIw8u43mqH8NsPNIl5TeoE_3ja2g32g8TG23ikcYuM9o-F7i7M7ZE0W7UtJ1Oz5D0Ti-CCqybGxbxCx6bneeV9eyuyTmfQ72YR_j8Tp3jZTmkh-xmzLf8d5s=s1360-w1360-h1020-rw",
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHsBNNLac12TDds6Ar_hc8iMc9LqzoSQVWJsHxUllGeXPNTMmhHWuGs7TZ1b9Dq4FPgaPqqhGvwoIuF1SOmiyHyqI5nybjEAjH8aMXDSk0knTuHR0gpA36qh8-axAYpr6JntXx6HrIPihpo=s1360-w1360-h1020-rw",
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFM4KTWzKUVJRlPvjx-RHsHDywGtH_N-UJpFxN73D3bJ7iSF2XiccTkJGvaX8P5BeUqRV2v13RwAjzXkjZ1v3DHqBlCl9XJSE9wP1ti1CJ1Za7DdMTxklRWaW1rvDL_y-GI-4r0jQ=s1360-w1360-h1020-rw",
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGwJB757yTKqWaqsPnvJ52RZCy2jg0pIvaiEeYCkI_Vf6RnbnyBp7gIUsv3KSSD9unP0vJFKcxuCyoh62JQA94RsoZooj6iO80RlJlibkKlAdlVUd-66GjAnd8sF7Pl4z8B32sphHra2SVJ=s1360-w1360-h1020-rw",
+      "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGI7-plSMGiNkNww6XKf2fm8TRtirPI-SCAuAKERVTWDguta4yajGHPTcSyLyJLumgQ7B07WjL2al39ZxCTsFse-WCUoP7EQsb-Oy0TgUtX-xseNIvxAQNe7uvMzl3foPKLk_zCmg=s1360-w1360-h1020-rw"
+    ]
+  }
+}
