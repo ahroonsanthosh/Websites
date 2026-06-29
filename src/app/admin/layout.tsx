@@ -74,7 +74,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   );
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] flex" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="admin-cursor-reset min-h-screen bg-[#0A0A0A] flex" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex w-56 flex-col bg-[#111111] border-r border-white/5 fixed inset-y-0 left-0 z-30">
         <SidebarContent />

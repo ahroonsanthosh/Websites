@@ -60,6 +60,12 @@ body {
   }
 }
 
+/* Restore normal cursor in admin */
+body:has(.admin-cursor-reset),
+body:has(.admin-cursor-reset) * {
+  cursor: auto !important;
+}
+
 ::selection {
   background: var(--orange);
   color: white;
