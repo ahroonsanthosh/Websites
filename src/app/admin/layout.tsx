@@ -106,6 +106,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <span className="font-condensed text-xl text-white tracking-wider">HANSUM</span>
         </header>
 
+        <div className="bg-blue-500/10 border-b border-blue-500/20 px-6 py-2 flex items-center gap-2">
+          <span className="text-blue-400 text-xs">⏱</span>
+          <p className="text-blue-400 text-xs font-sans">Changes may take up to 30 seconds to appear on the live site.</p>
+        </div>
         <main className="flex-1 p-6 lg:p-8">{children}</main>
       </div>
     </div>
