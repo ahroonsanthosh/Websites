@@ -29,16 +29,16 @@ export default function Nav() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-[#f8f5f0]/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(0,0,0,0.06)]"
-            : "bg-transparent"
+            : "bg-gradient-to-b from-[#1a1510]/50 to-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="#" className="flex flex-col leading-none group">
-            <span className="font-display text-xl md:text-2xl font-semibold tracking-wide text-[#1a1510]">
+            <span className={`font-display text-xl md:text-2xl font-semibold tracking-wide transition-colors duration-500 ${scrolled ? "text-[#1a1510]" : "text-white"}`}>
               NorthSouth
             </span>
-            <span className="text-[10px] tracking-[0.3em] text-[#9e9890] uppercase font-light -mt-0.5">
+            <span className={`text-[10px] tracking-[0.3em] uppercase font-light -mt-0.5 transition-colors duration-500 ${scrolled ? "text-[#9e9890]" : "text-white/50"}`}>
               Café · Tralee
             </span>
           </a>
@@ -49,7 +49,7 @@ export default function Nav() {
               <a
                 key={l.label}
                 href={l.href}
-                className="hover-underline text-sm tracking-[0.12em] uppercase text-[#1a1510]/60 hover:text-[#1a1510] transition-colors duration-300"
+                className={`hover-underline text-sm tracking-[0.12em] uppercase transition-colors duration-500 ${scrolled ? "text-[#1a1510]/60 hover:text-[#1a1510]" : "text-white/60 hover:text-white"}`}
               >
                 {l.label}
               </a>
@@ -59,7 +59,7 @@ export default function Nav() {
           {/* CTA */}
           <a
             href="#visit"
-            className="hidden md:inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase border border-[#c8864a] text-[#c8864a] px-5 py-2.5 rounded-full hover:bg-[#c8864a] hover:text-white transition-all duration-300"
+            className={`hidden md:inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase px-5 py-2.5 rounded-full transition-all duration-500 ${scrolled ? "border border-[#c8864a] text-[#c8864a] hover:bg-[#c8864a] hover:text-white" : "border border-white/30 text-white hover:border-white/60"}`}
           >
             Find Us
           </a>
@@ -67,7 +67,7 @@ export default function Nav() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(true)}
-            className="md:hidden p-2 text-[#1a1510]"
+            className={`md:hidden p-2 transition-colors duration-500 ${scrolled ? "text-[#1a1510]" : "text-white"}`}
             aria-label="Open menu"
           >
             <Menu size={22} />
