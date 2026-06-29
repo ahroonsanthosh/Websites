@@ -1,198 +1,177 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-// 21st.dev – Text Scramble / Reveal animation
-function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
-  const chars = "abcdefghijklmnopqrstuvwxyz";
-  const [display, setDisplay] = useState(text.split("").map(() => " "));
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-    timeout = setTimeout(() => {
-      let iteration = 0;
-      const letters = text.split("");
-      const interval = setInterval(() => {
-        setDisplay(
-          letters.map((char, i) => {
-            if (char === " ") return " ";
-            if (i < iteration) return char;
-            return chars[Math.floor(Math.random() * chars.length)];
-          })
-        );
-        iteration += 0.5;
-        if (iteration >= letters.length) {
-          clearInterval(interval);
-          setDisplay(letters);
-          setDone(true);
-        }
-      }, 40);
-      return () => clearInterval(interval);
-    }, delay * 1000);
-    return () => clearTimeout(timeout);
-  }, [text, delay, chars]);
-
+function RotatingBadge() {
+  const repeated = "Bayou · Cork · Café · ".repeat(3);
   return (
-    <span className={`transition-opacity duration-500 ${done ? "opacity-100" : "opacity-80"}`}>
-      {display.join("")}
-    </span>
+    <motion.div
+      className="w-20 h-20 md:w-28 md:h-28 relative flex-shrink-0"
+      animate={{ rotate: 360 }}
+      transition={{ duration: 12, ease: "linear", repeat: Infinity }}
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 100 100" className="w-full h-full">
+        <defs>
+          <path id="circle-path" d="M 50,50 m -35,0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" />
+        </defs>
+        <circle cx="50" cy="50" r="44" fill="var(--charcoal)" />
+        <text fontSize="10.5" fontWeight="600" fill="var(--cream)" letterSpacing="2" style={{ fontFamily: "var(--font-sans)" }}>
+          <textPath href="#circle-path">{repeated}</textPath>
+        </text>
+        <text x="50" y="57" textAnchor="middle" fontSize="22" fontWeight="900" fill="var(--cream)" style={{ fontFamily: "var(--font-display)" }}>
+          B
+        </text>
+      </svg>
+    </motion.div>
   );
 }
 
-// 21st.dev – Word-by-word reveal
-function WordReveal({
-  text,
-  delay = 0,
+function CircleImage({
+  src,
+  alt,
   className = "",
 }: {
-  text: string;
-  delay?: number;
+  src: string;
+  alt: string;
   className?: string;
 }) {
-  const words = text.split(" ");
   return (
-    <span className={`inline-flex flex-wrap gap-x-[0.3em] ${className}`}>
-      {words.map((word, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{
-            delay: delay + i * 0.1,
-            duration: 0.7,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          }}
-          className="inline-block"
-        >
-          {word}
-        </motion.span>
-      ))}
-    </span>
+    <motion.div
+      className={`circle-crop overflow-hidden border-4 border-[var(--warm-white)] shadow-xl flex-shrink-0 ${className}`}
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.4 }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} className="w-full h-full object-cover" fetchPriority="high" />
+    </motion.div>
   );
 }
 
-export default function Hero({ data }: { data: { heading: string; subheading: string; cta: string; image: string } }) {
+export default function Hero({
+  data,
+}: {
+  data: { heading: string; subheading: string; cta: string; image: string };
+}) {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  // Parallax on image
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, 30]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  const galleryImg =
+    "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEUg33F93WGg0ppMzcimi7v4Qdftsa-WK2EGNXm01Nl8V-cpCON4i050eOarGOVIISnr-aSTAX8_gmaDNhD-jzORu9LraSbAVDDKSsvGmPRpLd3i4W17mUk1R2vEt3SNhvOdoTKtWBe4NsH=s1360-w1360-h1020-rw";
 
   return (
     <section
       ref={containerRef}
-      className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden"
+      className="relative bg-[var(--warm-white)] overflow-hidden flex flex-col justify-center pt-8 pb-12 md:pb-16"
       aria-label="Hero"
     >
-      {/* Parallax image */}
-      <motion.div
-        className="absolute inset-0 scale-110"
-        style={{ y: imageY }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={data.image}
-          alt="Bayou Café interior"
-          className="w-full h-full object-cover"
-          fetchPriority="high"
-        />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(26,26,24,0.55)] via-[rgba(26,26,24,0.3)] to-[rgba(26,26,24,0.7)]" />
-      </motion.div>
+      <motion.div className="relative px-5 md:px-10 max-w-[1600px] mx-auto w-full" style={{ opacity }}>
+        {/* Top row: subtext + badge */}
+        <div className="flex items-start justify-between mb-6 md:mb-4">
+          <motion.p
+            className="font-[var(--font-sans)] text-sm md:text-base text-[var(--muted)] max-w-[180px] md:max-w-xs leading-snug mt-2"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            A cosy daytime café in
+            <br />
+            Cork&apos;s Victorian Quarter
+          </motion.p>
+          <RotatingBadge />
+        </div>
 
-      {/* Grain texture */}
-      <div
-        className="absolute inset-0 opacity-[0.06] pointer-events-none z-10"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          backgroundSize: "200px",
-        }}
-      />
+        {/* Heading row with inline circle images (flex, not absolute) */}
+        <div className="flex items-center justify-center gap-3 md:gap-6 mb-8 md:mb-6">
+          <motion.div style={{ y: y1 }} className="hidden sm:block">
+            <CircleImage
+              src={data.image}
+              alt="Inside Bayou café"
+              className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[190px] lg:h-[190px]"
+            />
+          </motion.div>
 
-      {/* Content */}
-      <motion.div
-        className="relative z-20 text-center px-6 max-w-4xl mx-auto"
-        style={{ y: textY, opacity }}
-      >
-        {/* Eyebrow */}
+          <motion.h1
+            className="font-[var(--font-display)] font-black leading-[0.88] text-[var(--charcoal)] select-none text-center"
+            style={{
+              fontSize: "clamp(4.2rem, 16vw, 13rem)",
+              letterSpacing: "-0.02em",
+            }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            {data.heading}
+          </motion.h1>
+
+          <motion.div style={{ y: y2 }} className="hidden sm:block">
+            <CircleImage
+              src={galleryImg}
+              alt="Bayou food and coffee"
+              className="w-[70px] h-[70px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px]"
+            />
+          </motion.div>
+        </div>
+
+        {/* Mobile-only circle row (since hidden in heading on small screens) */}
+        <div className="flex sm:hidden justify-center gap-4 mb-8">
+          <CircleImage src={data.image} alt="Inside Bayou café" className="w-20 h-20" />
+          <CircleImage src={galleryImg} alt="Bayou food and coffee" className="w-20 h-20" />
+        </div>
+
+        {/* Bottom row: status + CTAs */}
         <motion.div
-          className="flex items-center justify-center gap-4 mb-8"
-          initial={{ opacity: 0, y: 10 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5"
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
         >
-          <div className="h-px w-12 bg-[var(--terracotta)]" />
-          <span className="text-[var(--cream)] font-[var(--font-sans)] text-[10px] tracking-[0.3em] uppercase opacity-80">
-            {data.subheading}
-          </span>
-          <div className="h-px w-12 bg-[var(--terracotta)]" />
+          <div className="flex items-center gap-2 order-3 sm:order-1">
+            <span className="w-2 h-2 rounded-full bg-[var(--sage)] animate-pulse inline-block" />
+            <span className="font-[var(--font-sans)] text-sm font-medium text-[var(--muted)]">
+              Open Wed – Sun
+            </span>
+          </div>
+
+          <a
+            href="#menu"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector("#menu")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="pill pill-solid font-[var(--font-sans)] font-semibold order-1 sm:order-2"
+          >
+            See the Menu →
+          </a>
+
+          <a
+            href="#location"
+            onClick={(e) => {
+              e.preventDefault();
+              document.querySelector("#location")?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="pill pill-orange font-[var(--font-sans)] font-semibold order-2 sm:order-3"
+          >
+            Find Us
+          </a>
         </motion.div>
-
-        {/* Main heading – Scramble */}
-        <h1 className="font-[var(--font-serif)] text-[clamp(5rem,18vw,14rem)] leading-[0.9] text-[var(--cream)] font-light tracking-tight mb-8">
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.3 }}
-          >
-            <ScrambleText text={data.heading} delay={0.6} />
-          </motion.span>
-        </h1>
-
-        {/* Subtext */}
-        <div className="font-[var(--font-sans)] text-[var(--cream)] text-sm tracking-[0.15em] opacity-75 uppercase mb-12">
-          <WordReveal text="Cork · Wed – Sun · MacCurtain Street" delay={1.2} />
-        </div>
-
-        {/* CTA */}
-        <motion.a
-          href="#menu"
-          onClick={(e) => {
-            e.preventDefault();
-            document.querySelector("#menu")?.scrollIntoView({ behavior: "smooth" });
-          }}
-          className="inline-flex items-center gap-3 px-8 py-4 border border-[var(--cream)] text-[var(--cream)] font-[var(--font-sans)] text-xs tracking-[0.2em] uppercase hover:bg-[var(--cream)] hover:text-[var(--charcoal)] transition-all duration-400 group"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.6 }}
-        >
-          {data.cta}
-          <motion.span
-            className="inline-block"
-            animate={{ x: [0, 4, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          >
-            →
-          </motion.span>
-        </motion.a>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        style={{ opacity }}
-      >
-        <span className="text-[var(--cream)] font-[var(--font-sans)] text-[9px] tracking-[0.3em] uppercase opacity-50">
-          Scroll
-        </span>
-        <div className="w-px h-10 bg-[var(--cream)] opacity-30 relative overflow-hidden">
-          <motion.div
-            className="absolute top-0 left-0 w-full bg-[var(--cream)]"
-            animate={{ height: ["0%", "100%"], top: ["0%", "100%"] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          />
-        </div>
-      </motion.div>
+        className="absolute bottom-0 left-0 right-0 h-px bg-[var(--border)]"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ delay: 1, duration: 1.2 }}
+      />
     </section>
   );
 }

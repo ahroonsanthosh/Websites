@@ -1,75 +1,44 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-// 21st.dev – large kinetic type with scroll-driven transform
+// Diagonal rotating marquee band — inspired by Hen's Teeth "Useful Links" section
+function DiagonalMarquee({ text, reverse = false }: { text: string; reverse?: boolean }) {
+  const repeated = `${text} ★ `.repeat(8);
+  return (
+    <div
+      className="overflow-hidden py-3 bg-[var(--charcoal)]"
+      style={{ transform: "rotate(-2.5deg)", margin: "0 -40px" }}
+    >
+      <motion.div
+        className="flex whitespace-nowrap"
+        animate={{ x: reverse ? ["0%", "50%"] : ["0%", "-50%"] }}
+        transition={{ duration: 18, ease: "linear", repeat: Infinity }}
+      >
+        <span className="font-[var(--font-display)] font-black text-[clamp(1.5rem,4vw,2.5rem)] text-[var(--cream)] whitespace-nowrap pr-8 italic">
+          {repeated}
+        </span>
+        <span className="font-[var(--font-display)] font-black text-[clamp(1.5rem,4vw,2.5rem)] text-[var(--cream)] whitespace-nowrap pr-8 italic">
+          {repeated}
+        </span>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Statement() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const x1 = useTransform(scrollYProgress, [0, 1], ["0%", "-6%"]);
-  const x2 = useTransform(scrollYProgress, [0, 1], ["0%", "6%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-
-  const lineRef = useRef<HTMLDivElement>(null);
-  const lineInView = useInView(lineRef, { once: true });
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
 
   return (
-    <section
-      ref={ref}
-      className="py-24 md:py-36 bg-[var(--cream)] overflow-hidden relative"
-      aria-hidden="true"
-    >
-      {/* Background texture */}
-      <motion.div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{ opacity }}
-        aria-hidden="true"
-      >
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 39px, var(--charcoal) 39px, var(--charcoal) 40px)`,
-          }}
-        />
+    <div ref={ref} className="overflow-hidden py-6 bg-[var(--warm-white)]" aria-hidden="true">
+      <motion.div style={{ y }}>
+        <DiagonalMarquee text="Honest food · Great coffee · Cork" />
+        <div className="py-2" />
+        <DiagonalMarquee text="Wed–Sun · MacCurtain Street · Victorian Quarter" reverse />
       </motion.div>
-
-      {/* Line 1 – drifts left */}
-      <motion.div style={{ x: x1 }}>
-        <p className="font-[var(--font-serif)] text-[clamp(3.5rem,11vw,9rem)] leading-[1] font-light text-[var(--charcoal)] whitespace-nowrap pl-6">
-          Slow mornings. Good coffee.
-        </p>
-      </motion.div>
-
-      {/* Divider with animated dot */}
-      <div ref={lineRef} className="flex items-center gap-4 px-6 md:px-12 my-6">
-        <motion.div
-          className="h-px bg-[var(--terracotta)] origin-left"
-          initial={{ scaleX: 0 }}
-          animate={lineInView ? { scaleX: 1 } : {}}
-          transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-          style={{ width: "clamp(60px, 15vw, 160px)" }}
-        />
-        <motion.span
-          className="font-[var(--font-sans)] text-[9px] tracking-[0.3em] uppercase text-[var(--terracotta)]"
-          initial={{ opacity: 0 }}
-          animate={lineInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8, duration: 0.5 }}
-        >
-          Bayou, Cork
-        </motion.span>
-      </div>
-
-      {/* Line 2 – drifts right */}
-      <motion.div style={{ x: x2 }} className="flex justify-end pr-6">
-        <p className="font-[var(--font-serif)] italic text-[clamp(3.5rem,11vw,9rem)] leading-[1] font-light text-[rgba(26,26,24,0.12)] whitespace-nowrap">
-          A place to be.
-        </p>
-      </motion.div>
-    </section>
+    </div>
   );
 }
