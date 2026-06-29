@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,14 +18,14 @@ export default function AdminLogin() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ password }),
       });
 
       if (res.ok) {
         router.push("/admin");
         router.refresh();
       } else {
-        setError("Invalid email or password.");
+        setError("Incorrect password.");
       }
     } catch {
       setError("Something went wrong. Please try again.");
@@ -38,33 +37,16 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        {/* Logo */}
         <div className="text-center mb-10">
           <h1 className="font-condensed text-4xl text-white tracking-wider mb-1">HANSUM</h1>
           <p className="text-white/30 text-xs font-sans tracking-widest uppercase">Content Studio</p>
         </div>
 
-        {/* Card */}
         <div className="bg-[#141414] border border-white/5 rounded-2xl p-8">
           <h2 className="text-white font-sans font-semibold text-lg mb-1">Sign in</h2>
           <p className="text-white/30 text-sm font-sans mb-8">Access the content management area.</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-white/50 text-xs font-sans uppercase tracking-widest mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white font-sans text-sm placeholder:text-white/20 focus:outline-none focus:border-orange-500/50 focus:bg-white/8 transition-colors"
-                placeholder="admin@hansumrotisserie.ie"
-              />
-            </div>
-
             <div>
               <label className="block text-white/50 text-xs font-sans uppercase tracking-widest mb-2">
                 Password

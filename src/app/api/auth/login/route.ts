@@ -8,19 +8,13 @@ const JWT_SECRET = new TextEncoder().encode(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password } = body;
+    const { password } = body;
 
-    // ADMIN_EMAILS: comma-separated list of allowed emails, all share ADMIN_PASSWORD
-    const allowedEmails = (process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || "")
-      .split(",").map((e) => e.trim().toLowerCase());
-    const validEmail = allowedEmails.includes(email.toLowerCase());
-    const validPassword = password === process.env.ADMIN_PASSWORD;
-
-    if (!validEmail || !validPassword) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+    if (password !== process.env.ADMIN_PASSWORD) {
+      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
-    const token = await new SignJWT({ email, role: "admin" })
+    const token = await new SignJWT({ role: "admin" })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
       .setExpirationTime("365d")
