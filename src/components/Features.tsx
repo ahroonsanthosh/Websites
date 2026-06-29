@@ -14,9 +14,9 @@ export default function Features() {
   const isInView = useInView(ref, { once: true, margin: "-5%" });
 
   return (
-    <section ref={ref} className="py-20 bg-[var(--forest)]" aria-label="What we offer">
+    <section ref={ref} className="py-24 md:py-32 bg-[var(--forest)]" aria-label="What we offer">
       <div className="px-5 md:px-10 max-w-7xl mx-auto">
-        <div className="mb-12">
+        <div className="mb-14 md:mb-16">
           <p className="font-[var(--font-sans)] text-xs font-semibold tracking-widest uppercase text-[var(--orange-light)] mb-3">
             What we do
           </p>
@@ -25,7 +25,7 @@ export default function Features() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {pillars.map((p, i) => {
             const [hovered, setHovered] = useState(false);
             return (

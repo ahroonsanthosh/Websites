@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 
 // Polaroid-style tilt card with hover straighten
 function PolaroidCard({ src, alt, index }: { src: string; alt: string; index: number }) {
-  const rotations = [-3, 2, -1.5, 3.5, -2.5, 1, -4];
+  const rotations = [-2, 1.5, -1, 2, -1.5, 1, -2.5];
   const baseRotate = rotations[index % rotations.length];
   const [hovered, setHovered] = useState(false);
 

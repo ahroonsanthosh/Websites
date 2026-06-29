@@ -71,12 +71,12 @@ export default function Hero({
   return (
     <section
       ref={containerRef}
-      className="relative bg-[var(--warm-white)] overflow-hidden flex flex-col justify-center pt-8 pb-12 md:pb-16"
+      className="relative bg-[var(--warm-white)] overflow-hidden flex flex-col justify-center pt-16 md:pt-20 pb-20 md:pb-28"
       aria-label="Hero"
     >
       <motion.div className="relative px-5 md:px-10 max-w-[1600px] mx-auto w-full" style={{ opacity }}>
         {/* Top row: subtext + badge */}
-        <div className="flex items-start justify-between mb-6 md:mb-4">
+        <div className="flex items-start justify-between mb-10 md:mb-14">
           <motion.p
             className="font-[var(--font-sans)] text-sm md:text-base text-[var(--muted)] max-w-[180px] md:max-w-xs leading-snug mt-2"
             initial={{ opacity: 0, y: 10 }}
@@ -91,7 +91,7 @@ export default function Hero({
         </div>
 
         {/* Heading row with inline circle images (flex, not absolute) */}
-        <div className="flex items-center justify-center gap-3 md:gap-6 mb-8 md:mb-6">
+        <div className="flex items-center justify-center gap-4 md:gap-8 mb-12 md:mb-16">
           <motion.div style={{ y: y1 }} className="hidden sm:block">
             <CircleImage
               src={data.image}
@@ -123,7 +123,7 @@ export default function Hero({
         </div>
 
         {/* Mobile-only circle row (since hidden in heading on small screens) */}
-        <div className="flex sm:hidden justify-center gap-4 mb-8">
+        <div className="flex sm:hidden justify-center gap-5 mb-12">
           <CircleImage src={data.image} alt="Inside Bayou café" className="w-20 h-20" />
           <CircleImage src={galleryImg} alt="Bayou food and coffee" className="w-20 h-20" />
         </div>

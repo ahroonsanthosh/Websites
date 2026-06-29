@@ -11,10 +11,10 @@ export default function About({ data }: { data: { about: { heading: string; body
     <section
       id="about"
       ref={ref}
-      className="py-20 md:py-32 px-5 md:px-10 bg-[var(--cream)]"
+      className="pt-20 md:pt-32 pb-28 md:pb-40 px-5 md:px-10 bg-[var(--cream)]"
       aria-labelledby="about-heading"
     >
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-14 md:gap-20 items-center">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-20 items-center">
         {/* Image — circle on mobile, square with circle overlay on desktop */}
         <motion.div
           className="relative"
@@ -33,7 +33,7 @@ export default function About({ data }: { data: { about: { heading: string; body
           </div>
           {/* Floating tag */}
           <motion.div
-            className="absolute -bottom-5 -right-3 md:-right-8 bg-[var(--orange)] text-white px-5 py-3 rounded-2xl"
+            className="absolute -bottom-5 -right-3 md:-right-8 bg-[var(--orange)] text-white px-5 py-3 rounded-2xl z-10 shadow-lg"
             initial={{ opacity: 0, scale: 0.8, rotate: -4 }}
             animate={isInView ? { opacity: 1, scale: 1, rotate: -4 } : {}}
             transition={{ delay: 0.4, duration: 0.5 }}

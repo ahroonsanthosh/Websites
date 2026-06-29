@@ -33,7 +33,7 @@ export default function Statement() {
   const y = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
 
   return (
-    <div ref={ref} className="overflow-hidden py-6 bg-[var(--warm-white)]" aria-hidden="true">
+    <div ref={ref} className="overflow-hidden py-10 md:py-14 my-4 bg-[var(--warm-white)]" aria-hidden="true">
       <motion.div style={{ y }}>
         <DiagonalMarquee text="Honest food · Great coffee · Cork" />
         <div className="py-2" />
