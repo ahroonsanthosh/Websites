@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 type SiteContent = {
   business: {
@@ -40,8 +40,6 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error" | ""; msg: string }>({ type: "", msg: "" });
   const [uploading, setUploading] = useState<Record<number, boolean>>({});
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [pendingUploadIndex, setPendingUploadIndex] = useState<number | null>(null);
 
   const fetchContent = useCallback(async (pw: string) => {
     setLoading(true);
@@ -114,15 +112,6 @@ export default function AdminPage() {
     }
   }, [password]);
 
-  const handleAddAndUpload = useCallback(async (file: File) => {
-    if (!content) return;
-    const idx = content.gallery.length;
-    setContent((prev) => {
-      if (!prev) return prev;
-      return { ...prev, gallery: [...prev.gallery, { src: "", alt: file.name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ") }] };
-    });
-    handleFileUpload(file, idx);
-  }, [content, handleFileUpload]);
 
   if (!authed) {
     return (
@@ -313,25 +302,6 @@ export default function AdminPage() {
 
         {content && tab === "gallery" && (
           <div className="space-y-4">
-            {/* Hidden file input reused for per-item uploads */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
-                if (pendingUploadIndex !== null) {
-                  handleFileUpload(file, pendingUploadIndex);
-                } else {
-                  handleAddAndUpload(file);
-                }
-                setPendingUploadIndex(null);
-                e.target.value = "";
-              }}
-            />
-
             {content.gallery.map((photo, i) => (
               <div key={i} className="bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 rounded-xl p-4 flex gap-4 items-start">
                 {/* Preview */}
@@ -342,12 +312,8 @@ export default function AdminPage() {
                   }
                 </div>
                 <div className="flex-1 space-y-2 min-w-0">
-                  {/* Upload button */}
-                  <button
-                    onClick={() => { setPendingUploadIndex(i); fileInputRef.current?.click(); }}
-                    disabled={uploading[i]}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-[#EE1C1C]/20 hover:bg-[#EE1C1C]/30 text-[#EE1C1C] text-[10px] font-semibold uppercase tracking-widest rounded-lg transition-colors disabled:opacity-40"
-                  >
+                  {/* Per-row file input via label */}
+                  <label className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-widest transition-colors cursor-pointer ${uploading[i] ? "opacity-40 pointer-events-none" : "bg-[#EE1C1C]/20 hover:bg-[#EE1C1C]/30 text-[#EE1C1C]"}`}>
                     {uploading[i] ? (
                       <>
                         <svg className="animate-spin w-3 h-3" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
@@ -359,7 +325,17 @@ export default function AdminPage() {
                         {photo.src ? "Replace Image" : "Upload Image"}
                       </>
                     )}
-                  </button>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) handleFileUpload(file, i);
+                        e.target.value = "";
+                      }}
+                    />
+                  </label>
                   <div><label className={lbl}>Alt text</label>
                     <input className={inp} value={photo.alt} placeholder="e.g. Rotisserie chicken" onChange={(e) => { const u = { ...content }; u.gallery[i].alt = e.target.value; setContent(u); }} /></div>
                 </div>
@@ -369,13 +345,23 @@ export default function AdminPage() {
             ))}
 
             {/* Add new photo */}
-            <button
-              onClick={() => { setPendingUploadIndex(null); fileInputRef.current?.click(); }}
-              className="w-full py-4 border border-dashed border-[#FDF6EB]/20 rounded-2xl text-[#FDF6EB]/40 hover:text-[#FDF6EB]/70 hover:border-[#FDF6EB]/40 text-sm transition-all flex items-center justify-center gap-2"
-            >
+            <label className="w-full py-4 border border-dashed border-[#FDF6EB]/20 rounded-2xl text-[#FDF6EB]/40 hover:text-[#FDF6EB]/70 hover:border-[#FDF6EB]/40 text-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
               Upload Photo from Device
-            </button>
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file || !content) return;
+                  const idx = content.gallery.length;
+                  setContent((prev) => prev ? { ...prev, gallery: [...prev.gallery, { src: "", alt: file.name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ") }] } : prev);
+                  handleFileUpload(file, idx);
+                  e.target.value = "";
+                }}
+              />
+            </label>
 
             <p className="text-[#FDF6EB]/20 text-xs text-center">JPEG · PNG · WebP · GIF &nbsp;·&nbsp; max 5 MB per image</p>
           </div>

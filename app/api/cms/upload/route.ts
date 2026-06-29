@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const GITHUB_OWNER = "ahroonsanthosh";
 const GITHUB_REPO = "Uncles";
-const BRANCH = "claude/site-review-g0rzhi";
+const BRANCH = "claude/rotisserie-deli-website-dxo9mp";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "uncles2025";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? "";
@@ -25,7 +25,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "File too large (max 5 MB)" }, { status: 400 });
   }
 
-  const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
   const safeName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
   const path = `public/images/${safeName}`;
 
