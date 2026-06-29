@@ -107,7 +107,7 @@ export default function Hero({
         {/* Heading */}
         <motion.h1
           className="font-[var(--font-display)] italic font-black leading-[0.85] text-[var(--cream)] select-none w-full min-w-0"
-          style={{ fontSize: "clamp(3.2rem, 16vw, 14rem)", letterSpacing: "-0.01em" }}
+          style={{ fontSize: "clamp(3rem, 13vw, 10rem)", letterSpacing: "-0.01em" }}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
