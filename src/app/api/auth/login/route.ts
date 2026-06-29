@@ -10,18 +10,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { email, password } = body;
 
-    // Support multiple admins via ADMIN_CREDENTIALS JSON, or single ADMIN_EMAIL/ADMIN_PASSWORD
-    let authorized = false;
-    if (process.env.ADMIN_CREDENTIALS) {
-      try {
-        const admins: { email: string; password: string }[] = JSON.parse(process.env.ADMIN_CREDENTIALS);
-        authorized = admins.some((a) => a.email === email && a.password === password);
-      } catch { /* fall through */ }
-    }
-    if (!authorized) {
-      authorized = email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD;
-    }
-    if (!authorized) {
+    // ADMIN_EMAILS: comma-separated list of allowed emails, all share ADMIN_PASSWORD
+    const allowedEmails = (process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || "")
+      .split(",").map((e) => e.trim().toLowerCase());
+    const validEmail = allowedEmails.includes(email.toLowerCase());
+    const validPassword = password === process.env.ADMIN_PASSWORD;
+
+    if (!validEmail || !validPassword) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
