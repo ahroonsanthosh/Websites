@@ -57,7 +57,7 @@ export default function Menu() {
             initial={{ opacity: 0, y: 25 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display italic text-4xl md:text-6xl font-bold text-[#FDF6EB]"
+            className="font-display italic text-3xl md:text-6xl font-bold text-[#FDF6EB]"
           >
             <BouncyWords text="The Menu" />
           </motion.h2>
@@ -113,7 +113,7 @@ export default function Menu() {
                 transition={{ delay: i * 0.06 }}
                 variants={cardVariants}
                 whileHover="hover"
-                className="group relative bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 hover:border-[#EE1C1C]/40 rounded-2xl p-6 cursor-default"
+                className="group relative bg-[#FDF6EB]/5 border border-[#FDF6EB]/10 hover:border-[#EE1C1C]/40 rounded-2xl p-4 md:p-6 cursor-default"
                 style={{ willChange: "transform" }}
               >
                 {/* Tag — now inline with name, no absolute overlap */}

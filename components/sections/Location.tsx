@@ -31,7 +31,7 @@ export default function Location() {
               initial={{ opacity: 0, y: 25 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-display italic text-4xl md:text-6xl font-bold text-[#FDF6EB]"
+              className="font-display italic text-3xl md:text-6xl font-bold text-[#FDF6EB]"
             >
               <BouncyWords text="We're in the Market." />
             </motion.h2>
