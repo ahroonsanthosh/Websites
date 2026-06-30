@@ -37,7 +37,7 @@ function ItemRow({ item }: { item: MenuItem }) {
       <span className="font-[var(--font-sans)] text-sm text-[var(--ink)] leading-snug">
         {item.name}
         {item.v && (
-          <span className="ml-1.5 text-[10px] text-[var(--rust)] font-semibold tracking-wide uppercase">v</span>
+          <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full border border-[var(--rust)] text-[var(--rust)] text-[9px] font-semibold leading-none align-middle">v</span>
         )}
       </span>
       <span className="font-[var(--font-sans)] text-sm text-[var(--ink)]/70 whitespace-nowrap tabular-nums">
@@ -157,14 +157,20 @@ export default function Menu({ data }: { data: MenuData }) {
           ))}
         </div>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.6, duration: 0.6 }}
-          className="font-[var(--font-sans)] text-xs text-[var(--ink)]/40 tracking-wide mt-8"
+          className="mt-10 pt-8 border-t border-[var(--line-light)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
         >
-          Please ask a member of staff re allergens. (v) vegetarian.
-        </motion.p>
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-[var(--rust)] text-[var(--rust)] text-[10px] font-semibold leading-none flex-shrink-0">v</span>
+            <span className="font-[var(--font-sans)] text-xs text-[var(--ink)]/55 tracking-wide">Vegetarian</span>
+          </div>
+          <p className="font-[var(--font-sans)] text-xs text-[var(--ink)]/40 tracking-wide italic">
+            Please ask a member of staff for allergen information.
+          </p>
+        </motion.div>
       </div>
 
       <RiverDivider from="var(--cream)" to="var(--parchment)" flip />
