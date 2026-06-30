@@ -54,7 +54,10 @@ export function Specials() {
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 gap-px bg-stone-800/20 border border-stone-800/20 rounded-2xl overflow-hidden">
+        <div
+          className="grid gap-px bg-stone-800/20 border border-stone-800/20 rounded-2xl overflow-hidden"
+          style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
+        >
           {specials.map((item, i) => (
             <SpecialCard key={item.name} item={item} index={i} inView={inView} />
           ))}
@@ -78,7 +81,8 @@ function SpecialCard({
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.65, delay: index * 0.09 }}
-      className="relative group bg-[#0d0905] p-10 xl:p-12 cursor-default overflow-hidden"
+      className="relative group bg-[#0d0905] cursor-default overflow-hidden"
+      style={{ padding: "clamp(1.75rem, 4vw, 3rem)" }}
     >
       <motion.div
         initial={{ opacity: 0 }}
@@ -104,7 +108,7 @@ function SpecialCard({
       <h3 className="font-serif text-3xl text-amber-50 mb-3 leading-tight group-hover:text-amber-100 transition-colors duration-300">
         {item.name}
       </h3>
-      <p className="text-stone-500 text-sm leading-relaxed font-light max-w-xs">{item.desc}</p>
+      <p className="text-stone-500 text-sm leading-relaxed font-light">{item.desc}</p>
 
       <div className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-amber-700/50 to-transparent group-hover:w-full transition-all duration-500 ease-out" />
     </motion.div>

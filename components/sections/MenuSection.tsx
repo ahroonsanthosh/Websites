@@ -52,7 +52,7 @@ export function MenuSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-14"
+          className="text-center mb-16"
         >
           <SectionLabel>What we serve</SectionLabel>
           <SectionHeading>The Menu</SectionHeading>
@@ -63,7 +63,7 @@ export function MenuSection() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.2 }}
-          className="flex justify-center mb-12"
+          className="flex justify-center mb-16"
         >
           <div className="inline-flex gap-1 bg-stone-900 border border-stone-700/50 rounded-full p-1.5">
             {menuCategories.map((cat, i) => (
@@ -98,7 +98,7 @@ export function MenuSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22 }}
-            className="max-w-xl mx-auto"
+            className="mx-auto" style={{ maxWidth: "560px" }}
           >
             {menuCategories[activeTab].items.map((item, i) => (
               <motion.div
