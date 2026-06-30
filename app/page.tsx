@@ -26,8 +26,7 @@ const cafeImages = [
   { src: 'https://lh3.googleusercontent.com/grass-cs/ANxoTn3HiWYGK4euih0PjL-M4kYjzfD755TnVKtDCYbEJexmJeJ4a_nXQ3qCsVeYWWE4_unPTDD6ulnOwAL8cJvC0C3VK6sEFeoM09ZAQ-k-VktWVQqXyEccpMHqd5X2HB87BqsZLtpj=s1360-w1360-h1020-rw', alt: 'Café atmosphere' },
   { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFNchZIJMwteMTcvtq6e0As9Ko4RW0D4iKbsu7vqbHQ8syuvpK9EwBCG6rqHdYXZuvWAQfql5RWG6e8I3sWqVgfzvVQ2YUKl9j9KgL-4yb47ixlmX3tQx5Mr4SNQU69Q6SnTZyi=s1360-w1360-h1020-rw', alt: 'Coffee' },
   { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGetIrmGTDPP8FjFdq9UmPsFq0s39YNybDXQ4dW00U-mUMmI5SESTHF4NMe4YYf68dFHkdV55M_sVWwWJLTTSUzdX5BiGU2Y7PyPrF6UT3BEyVWL4JLbX1yYOb1Snf7GyGcEzWgQwALr8Z5=s1360-w1360-h1020-rw', alt: 'Food' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEjucPJBqxDrmgM5129OOCFoUIG35KkoC7lwMDRnFvuWD9J_eutdqCMWJ2HxEZaGzPgdnrLtIW01L4P9h2piP31WenD1VtSN8fV8zICTW3BEyVWL4JLbX1yYOb1Snf7GyGcEzWgQwALr8Z5=s1360-w1360-h1020-rw', alt: 'Morning coffee' },
-  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEjucPJBqxDrmgM5129OOCFoUIG35KkoC7lwMDRnFvuWD9J_eutdqCMWJ2HxEZaGzPgdnrLtIW01L4P9h2piP31WenD1VtSN8fV8zICTW3wFhqtRE2NZlyIpaFLOqxxbkjadO4=s1360-w1360-h1020-rw', alt: 'Café corner' },
+  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEjucPJBqxDrmgM5129OOCFoUIG35KkoC7lwMDRnFvuWD9J_eutdqCMWJ2HxEZaGzPgdnrLtIW01L4P9h2piP31WenD1VtSN8fV8zICTW3wFhqtRE2NZlyIpaFLOqxxbkjadO4=s1360-w1360-h1020-rw', alt: 'Morning coffee' },
   { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGW9rb6-TvbSDCIXZTNCWphhHfn5K9zP3ef64rmEJv5EGru66Esutc6m70ENIpuXDD8ciq2vFMHE-94iANaIvEjc5OgaLMH9PVOFBVB4EibibMKjnF-HJ_qNXGZQNC3FAtC_uWHdpd6o057=s1360-w1360-h1020-rw', alt: 'Brunch plate' },
   { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGaATlLw8NdPXIkgFTOyKruFfUaSVkxo8lFlie0HzmSC_HolNdJ-UxZfgkWYRmre_f9kojYQoN8LeD18b6VF-cBBxQDjnf9SW_OsAnuLwmWAERIv_y38Zfg3lh5bz0f0og5iNCb8X__xDfO=s1360-w1360-h1020-rw', alt: 'Fresh pastry' },
   { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEwvsUsHfA5V5jYbd0ZsfINQCHpHMXF67krdHqe71zxNum8c222A0b0T2FHqDbXSMIO2TClqZWkmynfW7cQSgz-HgJRv3E1dYhWwyiMSkkZNTWxpv9WAzu57MbZF5ihMKpbmdYX5A=s1360-w1360-h1020-rw', alt: 'Latte art' },
@@ -47,7 +46,7 @@ const menuItems = [
   {
     category: 'Coffee',
     items: ['Espresso', 'Flat White', 'Cortado', 'Filter', 'Cold Brew', 'Oat Latte'],
-    img: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFNchZIJMwteMTcvtq6e0As9Ko4RW0D4iKbsu7vqbHQ8syuvpK9EwBCG6rqHdYXZuvWAQfql5RWG6e8I3sWqVgfzvVQ2YUKl9j9KgL-4yb47ixlmX3tQx5Mr4SNQU69Q6SnTZyi=s1360-w1360-h1020-rw',
+    img: 'https://lh3.googleusercontent.com/grass-cs/ANxoTn0hWQqsNHhbECiiP6iqgNG7t5HilGu5_Vu0KS8F_f-HcUOqK29YEl_A1bt1ePlHEHV_3ZWcvZiyQijboq5qOxIwJiN7yvNb8VUsPGrWUEUmt6nmH56jvKVluNrri5RI_mlTneQ8=s1360-w1360-h1020-rw',
   },
   {
     category: 'Food',
@@ -57,7 +56,7 @@ const menuItems = [
   {
     category: 'Pastry',
     items: ['Croissant', 'Pain au Chocolat', 'Banana Bread', 'Almond Tart', 'Morning Bun', 'Kouign-Amann'],
-    img: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGW9rb6-TvbSDCIXZTNCWphhHfn5K9zP3ef64rmEJv5EGru66Esutc6m70ENIpuXDD8ciq2vFMHE-94iANaIvEjc5OgaLMH9PVOFBVB4EibibMKjnF-HJ_qNXGZQNC3FAtC_uWHdpd6o057=s1360-w1360-h1020-rw',
+    img: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGaATlLw8NdPXIkgFTOyKruFfUaSVkxo8lFlie0HzmSC_HolNdJ-UxZfgkWYRmre_f9kojYQoN8LeD18b6VF-cBBxQDjnf9SW_OsAnuLwmWAERIv_y38Zfg3lh5bz0f0og5iNCb8X__xDfO=s1360-w1360-h1020-rw',
   },
 ];
 
