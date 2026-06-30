@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { siteContent } from "@/data/content";
+import { Section, SectionLabel, SectionHeading } from "@/components/ui/section";
+import { X } from "lucide-react";
 
 const menuCategories = [
   {
@@ -43,19 +45,17 @@ export function MenuSection() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <section id="menu" ref={ref} className="py-32 bg-stone-950">
-      <div className="max-w-2xl mx-auto px-8 md:px-12">
+    <Section id="menu" className="bg-stone-950">
+      <div ref={ref}>
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <span className="text-amber-500/60 text-xs uppercase tracking-[0.4em] font-light">
-            What we do
-          </span>
-          <h2 className="font-serif text-5xl md:text-6xl text-amber-50 mt-3">The Menu</h2>
+          <SectionLabel>What we serve</SectionLabel>
+          <SectionHeading>The Menu</SectionHeading>
         </motion.div>
 
         {/* Tab bar */}
@@ -63,19 +63,19 @@ export function MenuSection() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.2 }}
-          className="flex justify-center mb-10"
+          className="flex justify-center mb-12"
         >
-          <div className="inline-flex gap-1 bg-stone-900 border border-stone-700/60 rounded-full p-1">
+          <div className="inline-flex gap-1 bg-stone-900 border border-stone-700/50 rounded-full p-1.5">
             {menuCategories.map((cat, i) => (
               <button
                 key={cat.name}
                 onClick={() => setActiveTab(i)}
-                className="relative px-6 py-2.5 text-sm rounded-full transition-colors duration-300 min-w-[90px]"
+                className="relative px-6 py-2.5 text-sm rounded-full transition-colors duration-300"
               >
                 {activeTab === i && (
                   <motion.span
                     layoutId="tab-pill"
-                    className="absolute inset-0 rounded-full bg-amber-800/60 border border-amber-700/40"
+                    className="absolute inset-0 rounded-full bg-amber-800/60 border border-amber-700/30"
                   />
                 )}
                 <span
@@ -90,14 +90,15 @@ export function MenuSection() {
           </div>
         </motion.div>
 
-        {/* Menu items */}
+        {/* Menu items — max-w narrower so list feels contained */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.22 }}
+            className="max-w-xl mx-auto"
           >
             {menuCategories[activeTab].items.map((item, i) => (
               <motion.div
@@ -105,10 +106,10 @@ export function MenuSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: i * 0.06 }}
-                className="group flex items-center justify-between py-4 border-b border-stone-800/40 last:border-0 hover:border-amber-800/30 transition-colors duration-300"
+                className="group flex items-center justify-between py-5 border-b border-stone-800/40 last:border-0 hover:border-amber-800/30 transition-colors duration-300"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-stone-200 group-hover:text-amber-200 transition-colors duration-300">
+                  <span className="text-stone-200 text-base font-light group-hover:text-amber-200 transition-colors duration-300">
                     {item.name}
                   </span>
                   {item.tag && (
@@ -117,18 +118,17 @@ export function MenuSection() {
                     </span>
                   )}
                 </div>
-                <span className="text-amber-500 font-mono text-sm tabular-nums">{item.price}</span>
+                <span className="text-amber-500 font-mono text-sm tabular-nums ml-6">{item.price}</span>
               </motion.div>
             ))}
           </motion.div>
         </AnimatePresence>
 
-        {/* Full menu CTA */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-          className="text-center mt-10"
+          transition={{ delay: 0.7 }}
+          className="text-center mt-12"
         >
           <button
             onClick={() => setMenuOpen(true)}
@@ -139,20 +139,20 @@ export function MenuSection() {
         </motion.div>
       </div>
 
-      {/* Menu image lightbox */}
+      {/* Lightbox */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-6"
             onClick={() => setMenuOpen(false)}
           >
             <motion.div
-              initial={{ scale: 0.92, opacity: 0 }}
+              initial={{ scale: 0.93, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.92, opacity: 0 }}
+              exit={{ scale: 0.93, opacity: 0 }}
               className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
@@ -162,13 +162,13 @@ export function MenuSection() {
             </motion.div>
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full border border-stone-700 text-stone-400 hover:text-white hover:border-stone-500 transition-colors text-lg"
+              className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full border border-stone-700 text-stone-400 hover:text-white transition-colors"
             >
-              ×
+              <X size={16} />
             </button>
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </Section>
   );
 }

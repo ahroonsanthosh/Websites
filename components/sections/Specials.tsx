@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { Section, SectionLabel, SectionHeading } from "@/components/ui/section";
 
 const specials = [
   {
@@ -39,32 +40,27 @@ export function Specials() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-28 bg-[#0d0905]">
-      <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-20">
-        {/* Header */}
+    <Section className="bg-[#0d0905]" wide>
+      <div ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="mb-14 text-center"
+          className="text-center mb-16 md:mb-20"
         >
-          <span className="text-amber-500/60 text-xs uppercase tracking-[0.4em] font-light">
-            The Good Stuff
-          </span>
-          <h2 className="font-serif text-4xl md:text-5xl text-amber-50 mt-3 mb-3">
-            Worth the walk.
-          </h2>
-          <p className="text-stone-500 text-sm font-light max-w-xs mx-auto">
+          <SectionLabel>The Good Stuff</SectionLabel>
+          <SectionHeading>Worth the walk.</SectionHeading>
+          <p className="text-stone-500 text-base font-light mt-5 max-w-sm mx-auto leading-relaxed">
             A few things we're properly proud of — behind the counter, every day.
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 gap-5">
+        <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
           {specials.map((item, i) => (
             <SpecialCard key={item.name} item={item} index={i} inView={inView} />
           ))}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 
@@ -81,34 +77,33 @@ function SpecialCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="relative overflow-hidden rounded-2xl border border-stone-700/70 p-8 cursor-default group"
-      style={{ background: "rgba(255,255,255,0.05)" }}
+      className="relative overflow-hidden rounded-3xl border border-stone-700/50 p-8 lg:p-10 cursor-default group"
+      style={{ background: "rgba(255,255,255,0.04)" }}
     >
-      {/* Hover glow */}
       <motion.div
         animate={{ opacity: hovered ? 1 : 0 }}
         transition={{ duration: 0.4 }}
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 50% -20%, rgba(212,165,116,0.12) 0%, transparent 65%)",
+            "radial-gradient(ellipse at 50% -10%, rgba(212,165,116,0.10) 0%, transparent 60%)",
         }}
       />
 
-      <div className="flex items-start justify-between mb-5">
+      <div className="flex items-start justify-between mb-6">
         <motion.span
-          animate={{ scale: hovered ? 1.18 : 1, rotate: hovered ? 6 : 0 }}
-          transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
-          className="text-3xl select-none"
+          animate={{ scale: hovered ? 1.2 : 1, rotate: hovered ? 8 : 0 }}
+          transition={{ duration: 0.3, type: "spring", stiffness: 280 }}
+          className="text-4xl select-none"
         >
           {item.emoji}
         </motion.span>
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3 mt-1">
           <span className="text-[10px] px-2.5 py-1 rounded-full bg-amber-900/40 text-amber-400/90 border border-amber-800/40 uppercase tracking-wider font-medium">
             {item.tag}
           </span>
@@ -116,12 +111,11 @@ function SpecialCard({
         </div>
       </div>
 
-      <h3 className="font-serif text-xl text-amber-100 mb-2 group-hover:text-amber-200 transition-colors duration-300">
+      <h3 className="font-serif text-2xl text-amber-100 mb-3 group-hover:text-amber-200 transition-colors duration-300">
         {item.name}
       </h3>
-      <p className="text-stone-500 text-sm font-light leading-relaxed">{item.desc}</p>
+      <p className="text-stone-500 text-sm leading-relaxed font-light">{item.desc}</p>
 
-      {/* Animated bottom line */}
       <motion.div
         animate={{ scaleX: hovered ? 1 : 0 }}
         transition={{ duration: 0.35 }}

@@ -16,23 +16,23 @@ export function VideoScroll() {
           style={{
             background: "radial-gradient(50% 50% at 50% 30%, #3d1a00 0%, #1a0b00 50%, #0a0604 100%)",
           }}
-          className="px-6 py-10 text-amber-50 flex flex-col items-center justify-center"
+          className="px-6 sm:px-10 md:px-16 py-16 text-amber-50 flex flex-col items-center justify-center"
         >
-          <ContainerAnimated className="space-y-4 text-center mb-8 max-w-lg mx-auto">
-            <span className="text-amber-500/60 text-xs uppercase tracking-[0.4em] font-light">
+          <ContainerAnimated className="space-y-5 text-center mb-12 max-w-xl mx-auto">
+            <span className="block text-amber-500/60 text-[11px] uppercase tracking-[0.45em] font-light">
               The vibe
             </span>
-            <h2 className="font-serif text-4xl md:text-5xl text-amber-50 leading-tight">
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-amber-50 leading-[1.05]">
               Come as you are.
               <br />
               <em className="text-amber-400 not-italic">Stay as long as you like.</em>
             </h2>
-            <p className="text-stone-400 font-light text-base max-w-sm mx-auto">
-              Good music, warm light, and a seat that actually feels like somewhere worth sitting.
+            <p className="text-stone-400 font-light text-base max-w-xs mx-auto leading-relaxed">
+              Good music, warm light, and a seat that feels like somewhere worth staying.
             </p>
           </ContainerAnimated>
 
-          <ContainerInset className="w-full max-w-3xl mx-auto h-[50vh] md:h-[60vh]">
+          <ContainerInset className="w-full max-w-4xl mx-auto h-[48vh] md:h-[58vh]">
             <HeroVideo
               src="https://videos.pexels.com/video-files/5995475/5995475-uhd_2560_1440_25fps.mp4"
               className="w-full h-full object-cover rounded-2xl"

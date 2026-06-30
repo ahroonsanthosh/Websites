@@ -5,8 +5,8 @@ import { siteContent } from "@/data/content";
 
 export function Footer() {
   return (
-    <footer className="bg-stone-950 border-t border-stone-800/30 py-16">
-      <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-20 grid md:grid-cols-3 gap-10 items-start">
+    <footer className="bg-stone-950 border-t border-stone-800/30 py-20">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 md:px-16 xl:px-24 grid md:grid-cols-3 gap-12 items-start">
         <div>
           <p className="font-serif text-2xl text-amber-100 mb-2">Dulce Bun House</p>
           <p className="text-stone-500 text-sm font-light leading-relaxed">
@@ -57,7 +57,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-20 mt-12 pt-6 border-t border-stone-800/20 flex flex-col md:flex-row justify-between items-center gap-2">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 md:px-16 xl:px-24 mt-14 pt-6 border-t border-stone-800/20 flex flex-col md:flex-row justify-between items-center gap-2">
         <p className="text-stone-700 text-xs">
           © {new Date().getFullYear()} Dulce Bun House. All rights reserved.
         </p>

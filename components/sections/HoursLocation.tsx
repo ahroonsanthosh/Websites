@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { MapPin, Phone, Clock } from "lucide-react";
 import { siteContent } from "@/data/content";
 import { PulseBeams } from "@/components/ui/pulse-beams";
+import { Section, SectionLabel } from "@/components/ui/section";
 
 const beams = [
   {
@@ -36,7 +37,7 @@ const beams = [
   },
 ];
 
-const today = new Date().getDay(); // 0=Sun, 1=Mon...
+const today = new Date().getDay();
 const dayOrder = [1, 2, 3, 4, 5, 6, 0];
 
 export function HoursLocation() {
@@ -44,106 +45,102 @@ export function HoursLocation() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="hours" ref={ref} className="bg-stone-950 overflow-hidden">
-      {/* Hours */}
-      <div className="py-28 max-w-5xl mx-auto px-8 md:px-16 lg:px-20 grid md:grid-cols-2 gap-20">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9 }}
-        >
-          <div className="flex items-center gap-3 mb-8">
-            <Clock size={16} className="text-amber-500/60" />
-            <span className="text-amber-500/60 text-xs uppercase tracking-[0.4em] font-light">
-              Opening Hours
-            </span>
-          </div>
-          <div className="space-y-0">
+    <section id="hours" className="bg-stone-950 overflow-hidden">
+      <Section className="bg-stone-950" wide>
+        <div ref={ref} className="grid md:grid-cols-2 gap-16 lg:gap-28">
+          {/* Hours */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9 }}
+          >
+            <div className="flex items-center gap-3 mb-10">
+              <Clock size={15} className="text-amber-500/60" />
+              <SectionLabel>Opening Hours</SectionLabel>
+            </div>
+
             {siteContent.hours.map((h, i) => {
-              const dayIndex = dayOrder[i];
-              const isToday = dayIndex === today;
+              const isToday = dayOrder[i] === today;
               return (
                 <motion.div
                   key={h.day}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -16 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.1 + i * 0.05 }}
-                  className={`flex justify-between py-3.5 border-b border-stone-800/30 last:border-0 ${
+                  transition={{ delay: 0.08 + i * 0.05 }}
+                  className={`flex justify-between items-center py-4 border-b border-stone-800/30 last:border-0 transition-colors duration-300 group hover:text-amber-200 ${
                     isToday ? "text-amber-300" : "text-stone-500"
-                  } hover:text-amber-200 transition-colors duration-300 group`}
+                  }`}
                 >
-                  <span className="font-light text-sm flex items-center gap-2">
+                  <span className="font-light text-sm flex items-center gap-2.5">
                     {isToday && (
                       <motion.span
-                        animate={{ scale: [1, 1.3, 1] }}
+                        animate={{ scale: [1, 1.4, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
-                        className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block"
+                        className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"
                       />
                     )}
                     {h.day}
                   </span>
-                  <span className="font-mono text-sm">
+                  <span className="font-mono text-sm tabular-nums">
                     {h.open} — {h.close}
                   </span>
                 </motion.div>
               );
             })}
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Location */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9, delay: 0.2 }}
-          id="location"
-        >
-          <div className="flex items-center gap-3 mb-8">
-            <MapPin size={16} className="text-amber-500/60" />
-            <span className="text-amber-500/60 text-xs uppercase tracking-[0.4em] font-light">
-              Find Us
-            </span>
-          </div>
-          <p className="font-serif text-2xl text-amber-100 mb-2 leading-snug">
-            48 Oliver Plunkett St
-          </p>
-          <p className="text-stone-500 mb-8 font-light">Centre, Cork, T12 C6KF</p>
-
-          <a
-            href="tel:0212413256"
-            className="group flex items-center gap-3 text-stone-400 hover:text-amber-300 transition-colors duration-300 mb-8"
+          {/* Location */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.15 }}
+            id="location"
           >
-            <Phone size={14} className="text-amber-600/50 group-hover:text-amber-500 transition-colors" />
-            <span className="font-mono text-sm">(021) 241 3256</span>
-          </a>
+            <div className="flex items-center gap-3 mb-10">
+              <MapPin size={15} className="text-amber-500/60" />
+              <SectionLabel>Find Us</SectionLabel>
+            </div>
 
-          <a
-            href="https://maps.google.com/?q=48+Oliver+Plunkett+St+Cork"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs px-6 py-3 rounded-full border border-amber-700/50 text-amber-200 hover:bg-amber-700/20 transition-all duration-300 tracking-widest uppercase"
-          >
-            <MapPin size={12} />
-            Open in Maps
-          </a>
+            <p className="font-serif text-3xl md:text-4xl text-amber-100 mb-1 leading-tight">
+              48 Oliver Plunkett St
+            </p>
+            <p className="text-stone-500 font-light mb-8">Centre, Cork, T12 C6KF</p>
 
-          {/* Simple map embed placeholder */}
-          <div className="mt-8 rounded-2xl overflow-hidden border border-stone-800/40 aspect-video">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2461.123!2d-8.4713!3d51.8979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4844900af0c99d85%3A0x9648b7a5a2e19b7f!2s48+Oliver+Plunkett+St%2C+Centre%2C+Cork!5e0!3m2!1sen!2sie!4v1"
-              width="100%"
-              height="100%"
-              style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Dulce Bun House location"
-            />
-          </div>
-        </motion.div>
-      </div>
+            <a
+              href="tel:0212413256"
+              className="group flex items-center gap-3 text-stone-400 hover:text-amber-300 transition-colors duration-300 mb-10"
+            >
+              <Phone size={14} className="text-amber-600/50 group-hover:text-amber-500 transition-colors shrink-0" />
+              <span className="font-mono text-sm">(021) 241 3256</span>
+            </a>
 
-      {/* Pulse beams connection section */}
+            <a
+              href="https://maps.google.com/?q=48+Oliver+Plunkett+St+Cork"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs px-6 py-3 rounded-full border border-amber-700/50 text-amber-200 hover:bg-amber-700/20 transition-all duration-300 tracking-widest uppercase mb-10"
+            >
+              <MapPin size={12} />
+              Open in Maps
+            </a>
+
+            <div className="rounded-2xl overflow-hidden border border-stone-800/40 aspect-video">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2461.123!2d-8.4713!3d51.8979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4844900af0c99d85%3A0x9648b7a5a2e19b7f!2s48+Oliver+Plunkett+St%2C+Centre%2C+Cork!5e0!3m2!1sen!2sie!4v1"
+                width="100%"
+                height="100%"
+                style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Dulce Bun House location"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </Section>
+
+      {/* Pulse beams sign-off */}
       <PulseBeams
         beams={beams}
         gradientColors={{ start: "#d4a574", middle: "#c8773a", end: "#6b3a1f" }}
@@ -151,10 +148,8 @@ export function HoursLocation() {
         accentColor="#6b3a1f"
         className="bg-[#0a0604] h-64 md:h-80"
       >
-        <div className="text-center">
-          <p className="font-serif text-2xl md:text-3xl text-amber-100 mb-2">
-            See you soon.
-          </p>
+        <div className="text-center px-6">
+          <p className="font-serif text-3xl md:text-4xl text-amber-100 mb-2">See you soon.</p>
           <p className="text-stone-500 text-sm font-light">Oliver Plunkett St, Cork</p>
         </div>
       </PulseBeams>
