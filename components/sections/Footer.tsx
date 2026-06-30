@@ -87,7 +87,7 @@ export default function Footer() {
 
         <div className="mt-12 pt-6 border-t border-[#FDF6EB]/5 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-[#FDF6EB]/20 text-[11px] font-accent tracking-wider">
-            © {new Date().getFullYear()} Uncle&apos;s Deli Cork. All rights reserved.
+            © {new Date().getFullYear()}{" "}Uncle&apos;s Deli Cork. All rights reserved.
           </p>
           <p className="text-[#FDF6EB]/20 text-[11px] font-accent tracking-wider">
             Unit 12, The English Market, Cork City
