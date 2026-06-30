@@ -22,15 +22,15 @@ const InfiniteGallery = dynamic(
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const cafeImages = [
-  { src: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&auto=format&fit=crop&q=80', alt: 'Café interior' },
-  { src: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&auto=format&fit=crop&q=80', alt: 'Espresso' },
-  { src: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&auto=format&fit=crop&q=80', alt: 'Morning coffee' },
-  { src: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&auto=format&fit=crop&q=80', alt: 'Café atmosphere' },
-  { src: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1200&auto=format&fit=crop&q=80', alt: 'Coffee preparation' },
-  { src: 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=1200&auto=format&fit=crop&q=80', alt: 'Latte art' },
-  { src: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1200&auto=format&fit=crop&q=80', alt: 'Café corner' },
-  { src: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&auto=format&fit=crop&q=80', alt: 'Brunch plate' },
-  { src: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200&auto=format&fit=crop&q=80', alt: 'Fresh pastry' },
+  { src: 'https://lh3.googleusercontent.com/grass-cs/ANxoTn0hWQqsNHhbECiiP6iqgNG7t5HilGu5_Vu0KS8F_f-HcUOqK29YEl_A1bt1ePlHEHV_3ZWcvZiyQijboq5qOxIwJiN7yvNb8VUsPGrWUEUmt6nmH56jvKVluNrri5RI_mlTneQ8=s1360-w1360-h1020-rw', alt: 'Café interior' },
+  { src: 'https://lh3.googleusercontent.com/grass-cs/ANxoTn3HiWYGK4euih0PjL-M4kYjzfD755TnVKtDCYbEJexmJeJ4a_nXQ3qCsVeYWWE4_unPTDD6ulnOwAL8cJvC0C3VK6sEFeoM09ZAQ-k-VktWVQqXyEccpMHqd5X2HB87BqsZLtpj=s1360-w1360-h1020-rw', alt: 'Café atmosphere' },
+  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFNchZIJMwteMTcvtq6e0As9Ko4RW0D4iKbsu7vqbHQ8syuvpK9EwBCG6rqHdYXZuvWAQfql5RWG6e8I3sWqVgfzvVQ2YUKl9j9KgL-4yb47ixlmX3tQx5Mr4SNQU69Q6SnTZyi=s1360-w1360-h1020-rw', alt: 'Coffee' },
+  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGetIrmGTDPP8FjFdq9UmPsFq0s39YNybDXQ4dW00U-mUMmI5SESTHF4NMe4YYf68dFHkdV55M_sVWwWJLTTSUzdX5BiGU2Y7PyPrF6UT3BEyVWL4JLbX1yYOb1Snf7GyGcEzWgQwALr8Z5=s1360-w1360-h1020-rw', alt: 'Food' },
+  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEjucPJBqxDrmgM5129OOCFoUIG35KkoC7lwMDRnFvuWD9J_eutdqCMWJ2HxEZaGzPgdnrLtIW01L4P9h2piP31WenD1VtSN8fV8zICTW3BEyVWL4JLbX1yYOb1Snf7GyGcEzWgQwALr8Z5=s1360-w1360-h1020-rw', alt: 'Morning coffee' },
+  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEjucPJBqxDrmgM5129OOCFoUIG35KkoC7lwMDRnFvuWD9J_eutdqCMWJ2HxEZaGzPgdnrLtIW01L4P9h2piP31WenD1VtSN8fV8zICTW3wFhqtRE2NZlyIpaFLOqxxbkjadO4=s1360-w1360-h1020-rw', alt: 'Café corner' },
+  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGW9rb6-TvbSDCIXZTNCWphhHfn5K9zP3ef64rmEJv5EGru66Esutc6m70ENIpuXDD8ciq2vFMHE-94iANaIvEjc5OgaLMH9PVOFBVB4EibibMKjnF-HJ_qNXGZQNC3FAtC_uWHdpd6o057=s1360-w1360-h1020-rw', alt: 'Brunch plate' },
+  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGaATlLw8NdPXIkgFTOyKruFfUaSVkxo8lFlie0HzmSC_HolNdJ-UxZfgkWYRmre_f9kojYQoN8LeD18b6VF-cBBxQDjnf9SW_OsAnuLwmWAERIv_y38Zfg3lh5bz0f0og5iNCb8X__xDfO=s1360-w1360-h1020-rw', alt: 'Fresh pastry' },
+  { src: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEwvsUsHfA5V5jYbd0ZsfINQCHpHMXF67krdHqe71zxNum8c222A0b0T2FHqDbXSMIO2TClqZWkmynfW7cQSgz-HgJRv3E1dYhWwyiMSkkZNTWxpv9WAzu57MbZF5ihMKpbmdYX5A=s1360-w1360-h1020-rw', alt: 'Latte art' },
 ];
 
 const hours = [
@@ -47,17 +47,17 @@ const menuItems = [
   {
     category: 'Coffee',
     items: ['Espresso', 'Flat White', 'Cortado', 'Filter', 'Cold Brew', 'Oat Latte'],
-    img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&auto=format&fit=crop&q=80',
+    img: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFNchZIJMwteMTcvtq6e0As9Ko4RW0D4iKbsu7vqbHQ8syuvpK9EwBCG6rqHdYXZuvWAQfql5RWG6e8I3sWqVgfzvVQ2YUKl9j9KgL-4yb47ixlmX3tQx5Mr4SNQU69Q6SnTZyi=s1360-w1360-h1020-rw',
   },
   {
     category: 'Food',
     items: ['Avocado Toast', 'Eggs Benedict', 'Granola Bowl', 'Sourdough & Butter', 'Seasonal Salad', 'House Scone'],
-    img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&auto=format&fit=crop&q=80',
+    img: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGetIrmGTDPP8FjFdq9UmPsFq0s39YNybDXQ4dW00U-mUMmI5SESTHF4NMe4YYf68dFHkdV55M_sVWwWJLTTSUzdX5BiGU2Y7PyPrF6UT3BEyVWL4JLbX1yYOb1Snf7GyGcEzWgQwALr8Z5=s1360-w1360-h1020-rw',
   },
   {
     category: 'Pastry',
     items: ['Croissant', 'Pain au Chocolat', 'Banana Bread', 'Almond Tart', 'Morning Bun', 'Kouign-Amann'],
-    img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&auto=format&fit=crop&q=80',
+    img: 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGW9rb6-TvbSDCIXZTNCWphhHfn5K9zP3ef64rmEJv5EGru66Esutc6m70ENIpuXDD8ciq2vFMHE-94iANaIvEjc5OgaLMH9PVOFBVB4EibibMKjnF-HJ_qNXGZQNC3FAtC_uWHdpd6o057=s1360-w1360-h1020-rw',
   },
 ];
 
