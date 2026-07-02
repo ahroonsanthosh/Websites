@@ -1,12 +1,9 @@
 'use client';
-import React from 'react';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface MinimalistHeroProps {
-  logoText: string;
-  navLinks: { label: string; href: string }[];
   mainText: string;
   readMoreLink: string;
   imageSrc: string;
@@ -16,26 +13,7 @@ interface MinimalistHeroProps {
   locationText: string;
   className?: string;
   circleClassName?: string;
-  onNavClick?: (href: string) => void;
 }
-
-const NavLink = ({
-  href,
-  children,
-  onClick,
-}: {
-  href: string;
-  children: React.ReactNode;
-  onClick?: () => void;
-}) => (
-  <a
-    href={href}
-    onClick={onClick}
-    className="hover-underline text-xs font-medium tracking-widest text-coffee-700/60 transition-colors hover:text-coffee-700 uppercase"
-  >
-    {children}
-  </a>
-);
 
 const SocialIcon = ({ href, icon: Icon }: { href: string; icon: LucideIcon }) => (
   <a
@@ -49,8 +27,6 @@ const SocialIcon = ({ href, icon: Icon }: { href: string; icon: LucideIcon }) =>
 );
 
 export const MinimalistHero = ({
-  logoText,
-  navLinks,
   mainText,
   readMoreLink,
   imageSrc,
@@ -60,45 +36,14 @@ export const MinimalistHero = ({
   locationText,
   className,
   circleClassName,
-  onNavClick,
 }: MinimalistHeroProps) => {
   return (
     <div
       className={cn(
-        'relative flex h-screen w-full flex-col items-center justify-between overflow-hidden bg-cream-100 px-6 py-8 font-body md:px-12 md:py-10',
+        'relative flex h-screen w-full flex-col items-center justify-between overflow-hidden bg-cream-100 px-6 pb-8 pt-24 font-body md:px-12 md:pb-10 md:pt-32',
         className
       )}
     >
-      {/* Header */}
-      <header className="z-30 flex w-full max-w-7xl items-center justify-between">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display text-xl font-bold tracking-[0.15em] text-coffee-800"
-        >
-          {logoText}
-        </motion.div>
-        <nav className="hidden items-center space-x-8 md:flex">
-          {navLinks.map((link) => (
-            <NavLink key={link.label} href={link.href} onClick={onNavClick ? () => onNavClick(link.href) : undefined}>
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-        <motion.button
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col space-y-1.5 md:hidden"
-          aria-label="Open menu"
-        >
-          <span className="block h-px w-6 bg-coffee-800" />
-          <span className="block h-px w-6 bg-coffee-800" />
-          <span className="block h-px w-4 bg-coffee-800" />
-        </motion.button>
-      </header>
-
       {/* Main content */}
       <div className="relative grid w-full max-w-7xl flex-grow grid-cols-1 items-center md:grid-cols-3">
         {/* Left: tagline */}

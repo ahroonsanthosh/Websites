@@ -3,26 +3,12 @@ import { Instagram } from 'lucide-react';
 import { MinimalistHero } from '@/components/ui/minimalist-hero';
 import type { SiteContent } from '@/types/content';
 
-const navLinks = [
-  { label: 'MENU', href: '#menu' },
-  { label: 'GALLERY', href: '#gallery' },
-  { label: 'ABOUT', href: '#about' },
-  { label: 'CONTACT', href: '#contact' },
-];
-
 export default function Hero({ content }: { content: SiteContent }) {
   const { hero, site } = content;
-
-  const handleNav = (href: string) => {
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <section id="top">
       <MinimalistHero
-        logoText="LOKA"
-        navLinks={navLinks}
         mainText={hero.mainText}
         readMoreLink="#about"
         imageSrc={hero.image}
@@ -31,7 +17,6 @@ export default function Hero({ content }: { content: SiteContent }) {
         socialLinks={[{ icon: Instagram, href: site.instagram }]}
         locationText="Tralee, Co. Kerry"
         circleClassName="bg-coffee-200/50"
-        onNavClick={handleNav}
       />
     </section>
   );
