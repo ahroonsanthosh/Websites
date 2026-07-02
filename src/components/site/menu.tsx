@@ -5,13 +5,14 @@ interface MenuItem {
   name: string;
   description: string;
   price: string;
+  fav?: boolean;
 }
 
 const menu: { category: string; items: MenuItem[] }[] = [
   {
     category: 'Coffee & Drinks',
     items: [
-      { name: 'Flat White', description: 'Double shot, silky milk — the house favourite', price: '€3.80' },
+      { name: 'Flat White', description: 'Double shot, silky milk — the house favourite', price: '€3.80', fav: true },
       { name: 'Cappuccino', description: 'Classic, with a dusting of chocolate if you like', price: '€3.80' },
       { name: 'Batch Brew', description: 'Rotating single origin, served black', price: '€3.20' },
       { name: 'Iced Latte', description: 'Cold, creamy and dangerously easy to drink', price: '€4.20' },
@@ -22,7 +23,7 @@ const menu: { category: string; items: MenuItem[] }[] = [
   {
     category: 'Brunch (until 3pm)',
     items: [
-      { name: 'The Full Madden', description: 'Sausage, bacon, egg, pudding, sourdough toast & relish', price: '€13.50' },
+      { name: 'The Full Madden', description: 'Sausage, bacon, egg, pudding, sourdough toast & relish', price: '€13.50', fav: true },
       { name: 'Smashed Avo & Eggs', description: 'Poached eggs, chilli, lime, toasted sourdough', price: '€11.50' },
       { name: 'French Toast', description: 'Brioche, berries, maple syrup, mascarpone', price: '€10.50' },
       { name: 'Kerry Rarebit', description: 'Melted Irish cheddar, mustard & stout on sourdough', price: '€9.50' },
@@ -34,7 +35,7 @@ const menu: { category: string; items: MenuItem[] }[] = [
     items: [
       { name: 'Butter Croissant', description: 'Flaky, golden, gone by noon', price: '€3.20' },
       { name: 'Fruit Scone', description: 'With butter, jam & cream — the traditional way', price: '€3.50' },
-      { name: 'Cinnamon Bun', description: 'Sticky, spiced and generous', price: '€3.90' },
+      { name: 'Cinnamon Bun', description: 'Sticky, spiced and generous', price: '€3.90', fav: true },
       { name: 'Guinness Brownie', description: 'Dark, fudgy, a little bit Irish', price: '€3.80' },
     ],
   },
@@ -63,7 +64,14 @@ export function Menu() {
                     className="group cursor-default transition-transform duration-300 hover:translate-x-1.5"
                   >
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="font-medium text-espresso-900 transition-colors duration-300 group-hover:text-rust-600">{item.name}</span>
+                      <span className="font-medium text-espresso-900 transition-colors duration-300 group-hover:text-rust-600">
+                        {item.name}
+                        {item.fav && (
+                          <span className="ml-1.5 text-xs text-rust-600" title="House favourite" aria-label="House favourite">
+                            ✦
+                          </span>
+                        )}
+                      </span>
                       <span className="mx-1 flex-1 border-b border-dotted border-espresso-700/30" aria-hidden="true" />
                       <span className="font-serif font-semibold text-rust-600">{item.price}</span>
                     </div>
@@ -77,7 +85,8 @@ export function Menu() {
 
         <Reveal className="mt-14 text-center" delay={0.2}>
           <p className="font-serif text-xl italic text-espresso-700/80">
-            Gluten-free & oat milk always available — just ask.
+            <span className="text-rust-600">✦</span> marks a house favourite. Gluten-free & oat milk always
+            available — just ask.
           </p>
         </Reveal>
       </div>

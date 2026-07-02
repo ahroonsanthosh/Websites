@@ -70,7 +70,7 @@ export function About() {
                   transition={{ duration: 0.55, delay: 0.1 * i, ease: [0.22, 1, 0.36, 1] }}
                   className="flex items-start gap-4"
                 >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-brand/15 text-amber-brand">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-brand/15 text-rust-600">
                     <v.icon className="h-5 w-5" />
                   </span>
                   <div>

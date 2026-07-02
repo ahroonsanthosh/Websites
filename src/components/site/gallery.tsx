@@ -1,16 +1,16 @@
 import { motion } from 'framer-motion';
 import { SectionHeading } from './reveal';
-import m1 from '@/assets/m1.webp';
 import m2 from '@/assets/m2.webp';
+import m3 from '@/assets/m3.webp';
 import m4 from '@/assets/m4.webp';
 import m5 from '@/assets/m5.webp';
 import m8 from '@/assets/m8.webp';
 
 const photos = [
   {
-    src: m1,
-    alt: 'Takeaway cup with latte art on the counter',
-    caption: 'No place like home',
+    src: m3,
+    alt: 'A flat white in a Milk Market Lane mug on the counter',
+    caption: 'The house pour',
     tall: true,
   },
   {
@@ -53,7 +53,9 @@ export function Gallery() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative mb-4 break-inside-avoid overflow-hidden rounded-2xl"
+              className={`group relative mb-4 break-inside-avoid overflow-hidden ${
+                photo.tall ? 'rounded-2xl rounded-t-[9rem]' : 'rounded-2xl'
+              }`}
             >
               <img
                 src={photo.src}

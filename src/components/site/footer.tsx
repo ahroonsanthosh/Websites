@@ -28,7 +28,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="text-cream-100/60 transition-colors hover:text-amber-brand"
+              className="inline-block text-cream-100/60 transition-all duration-300 hover:-translate-y-1 hover:text-amber-brand"
             >
               <s.icon className="h-5 w-5" />
             </a>

@@ -1,9 +1,9 @@
-import { Facebook, Instagram, MapPin } from 'lucide-react';
+import { ArrowRight, Facebook, Instagram, MapPin } from 'lucide-react';
 import { MinimalistHero } from '@/components/ui/minimalist-hero';
 import { BackgroundCircles } from '@/components/ui/background-circles';
 import { About } from '@/components/site/about';
 import { MarqueeBand } from '@/components/site/marquee';
-import heroCup from '@/assets/m3.webp';
+import heroCup from '@/assets/m1.webp';
 import { Menu } from '@/components/site/menu';
 import { Gallery } from '@/components/site/gallery';
 import { Testimonials } from '@/components/site/testimonials';
@@ -44,7 +44,7 @@ function App() {
         readMoreLink="#about"
         readMoreLabel="Our Story"
         imageSrc={heroCup}
-        imageAlt="A flat white with latte art in a Milk Market Lane mug at Madden's"
+        imageAlt="A takeaway flat white with latte art on the counter at Madden's"
         overlayText={{ part1: 'slow', part2: 'mornings.' }}
         socialLinks={socialLinks}
         locationText="Tralee, Co. Kerry"
@@ -67,9 +67,10 @@ function App() {
             href="https://maps.google.com/?q=Maddens,+11-12+Milk+Market+Ln,+Tralee,+Co.+Kerry"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-espresso-900 px-8 py-3.5 font-medium text-cream-50 shadow-lg shadow-espresso-900/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-espresso-800"
+            className="group flex items-center gap-2 rounded-full bg-espresso-900 px-8 py-3.5 font-medium text-cream-50 shadow-lg shadow-espresso-900/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-espresso-800"
           >
             Get Directions
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </a>
           <a
             href="tel:+353858570644"
