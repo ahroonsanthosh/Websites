@@ -2,6 +2,8 @@ import { Facebook, Instagram, MapPin } from 'lucide-react';
 import { MinimalistHero } from '@/components/ui/minimalist-hero';
 import { BackgroundCircles } from '@/components/ui/background-circles';
 import { About } from '@/components/site/about';
+import { MarqueeBand } from '@/components/site/marquee';
+import heroCup from '@/assets/m3.webp';
 import { Menu } from '@/components/site/menu';
 import { Gallery } from '@/components/site/gallery';
 import { Testimonials } from '@/components/site/testimonials';
@@ -35,12 +37,14 @@ function App() {
         mainText="A small, sunny coffee house down Milk Market Lane — speciality coffee, proper brunch and pastries baked the slow way, served with a Kerry welcome."
         readMoreLink="#about"
         readMoreLabel="Our Story"
-        imageSrc="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80"
-        imageAlt="A freshly made latte in a ceramic cup at Maddens"
+        imageSrc={heroCup}
+        imageAlt="A flat white with latte art in a Milk Market Lane mug at Maddens"
         overlayText={{ part1: 'slow', part2: 'mornings.' }}
         socialLinks={socialLinks}
         locationText="Tralee, Co. Kerry"
+        badgeText="MADDEN'S COFFEE • MILK MARKET LANE • "
       />
+      <MarqueeBand />
       <About />
       <Menu />
       <Gallery />

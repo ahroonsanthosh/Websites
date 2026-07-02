@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Coffee, Croissant, Heart } from 'lucide-react';
 import { Reveal, SectionHeading } from './reveal';
+import storefront from '@/assets/m6.webp';
 
 const values = [
   {
@@ -30,12 +31,18 @@ export function About() {
           <Reveal>
             <div className="relative">
               <div className="absolute -left-4 -top-4 h-full w-full rounded-t-[10rem] border-2 border-amber-brand/50" />
-              <img
-                src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80"
-                alt="Warm cafe interior with wooden tables and soft light"
-                loading="lazy"
-                className="relative w-full rounded-t-[10rem] object-cover shadow-xl shadow-espresso-900/10"
-              />
+              <div className="relative overflow-hidden rounded-t-[10rem] shadow-xl shadow-espresso-900/10">
+                <motion.img
+                  src={storefront}
+                  alt="The Madden's Coffee storefront on Milk Market Lane with a vintage red Ford parked outside"
+                  loading="lazy"
+                  initial={{ scale: 1.12 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-full object-cover"
+                />
+              </div>
             </div>
           </Reveal>
 

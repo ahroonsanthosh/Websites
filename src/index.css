@@ -43,3 +43,34 @@
     text-wrap: balance;
   }
 }
+
+/* Continuous marquee band */
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 28s linear infinite;
+}
+
+/* Auto-scrolling testimonial row; slower, pauses on hover */
+.reviews-track {
+  animation: marquee-scroll 45s linear infinite;
+}
+
+.reviews-track:hover {
+  animation-play-state: paused;
+}
+
+/* Slow spin for the circular hero badge */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}

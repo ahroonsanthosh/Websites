@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { X, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -19,9 +19,32 @@ interface MinimalistHeroProps {
   };
   socialLinks: { icon: LucideIcon; href: string; label: string }[];
   locationText: string;
+  badgeText?: string;
   circleClassName?: string;
   className?: string;
 }
+
+// Circular text that spins slowly around the hero image
+const SpinningBadge = ({ text }: { text: string }) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.6 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.7, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
+    className="absolute -right-2 top-4 z-20 h-24 w-24 md:-right-4 md:top-8 md:h-32 md:w-32"
+    aria-hidden="true"
+  >
+    <svg viewBox="0 0 100 100" className="h-full w-full animate-spin-slow">
+      <defs>
+        <path id="badge-circle" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+      </defs>
+      <circle cx="50" cy="50" r="49" className="fill-espresso-900" />
+      <text className="fill-cream-50 font-sans text-[6.8px] font-semibold uppercase tracking-[0.14em]">
+        <textPath href="#badge-circle">{text}</textPath>
+      </text>
+    </svg>
+    <span className="absolute inset-0 flex items-center justify-center text-xl">☕</span>
+  </motion.div>
+);
 
 // Helper component for navigation links
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
@@ -59,10 +82,18 @@ export const MinimalistHero = ({
   overlayText,
   socialLinks,
   locationText,
+  badgeText,
   circleClassName,
   className,
 }: MinimalistHeroProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  // Gentle parallax: circle drifts down, photo drifts up as you scroll away
+  const { scrollY } = useScroll();
+  const circleY = useTransform(scrollY, [0, 700], [0, reduceMotion ? 0 : 90]);
+  const imageY = useTransform(scrollY, [0, 700], [0, reduceMotion ? 0 : -70]);
+  const textY = useTransform(scrollY, [0, 700], [0, reduceMotion ? 0 : 40]);
 
   return (
     <div
@@ -160,6 +191,7 @@ export const MinimalistHero = ({
         {/* Center Image with Circle */}
         <div className="relative order-1 flex h-full min-h-[320px] items-center justify-center md:order-2 md:min-h-0">
           <motion.div
+            style={{ y: circleY }}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
@@ -168,34 +200,39 @@ export const MinimalistHero = ({
               circleClassName
             )}
           ></motion.div>
-          <motion.img
-            src={imageSrc}
-            alt={imageAlt}
-            loading="eager"
-            className="relative z-10 h-72 w-52 rounded-t-full object-cover shadow-2xl shadow-espresso-900/30 md:h-96 md:w-64 lg:h-[26rem] lg:w-72"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.onerror = null;
-              target.src = 'https://placehold.co/400x600/E8A33D/2C2016?text=Maddens';
-            }}
-          />
+          <motion.div style={{ y: imageY }} className="relative z-10">
+            <motion.img
+              src={imageSrc}
+              alt={imageAlt}
+              loading="eager"
+              className="h-72 w-52 rounded-t-full object-cover object-[50%_72%] shadow-2xl shadow-espresso-900/30 md:h-96 md:w-64 lg:h-[26rem] lg:w-72"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = 'https://placehold.co/400x600/E8A33D/2C2016?text=Maddens';
+              }}
+            />
+            {badgeText && <SpinningBadge text={badgeText} />}
+          </motion.div>
         </div>
 
         {/* Right Text */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          className="z-20 order-3 flex min-w-0 items-center justify-center text-center md:justify-start md:text-left"
-        >
-          <h1 className="font-serif text-5xl font-semibold leading-[0.95] text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
-            {overlayText.part1}
-            <br />
-            <span className="italic text-amber-brand">{overlayText.part2}</span>
-          </h1>
+        <motion.div style={{ y: textY }} className="z-20 order-3 min-w-0">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+            className="flex items-center justify-center text-center md:justify-start md:text-left"
+          >
+            <h1 className="font-serif text-5xl font-semibold leading-[0.95] text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
+              {overlayText.part1}
+              <br />
+              <span className="italic text-amber-brand">{overlayText.part2}</span>
+            </h1>
+          </motion.div>
         </motion.div>
       </div>
 

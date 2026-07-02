@@ -60,9 +60,10 @@ export function Menu() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.4, delay: 0.05 * i }}
+                    className="group cursor-default transition-transform duration-300 hover:translate-x-1.5"
                   >
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="font-medium text-espresso-900">{item.name}</span>
+                      <span className="font-medium text-espresso-900 transition-colors duration-300 group-hover:text-amber-brand">{item.name}</span>
                       <span className="mx-1 flex-1 border-b border-dotted border-espresso-700/30" aria-hidden="true" />
                       <span className="font-serif font-semibold text-amber-brand">{item.price}</span>
                     </div>

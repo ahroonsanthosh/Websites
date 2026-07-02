@@ -1,35 +1,40 @@
 import { motion } from 'framer-motion';
 import { SectionHeading } from './reveal';
+import m1 from '@/assets/m1.webp';
+import m2 from '@/assets/m2.webp';
+import m4 from '@/assets/m4.webp';
+import m5 from '@/assets/m5.webp';
+import m8 from '@/assets/m8.webp';
 
 const photos = [
   {
-    src: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80',
-    alt: 'Barista pouring a fresh espresso',
+    src: m1,
+    alt: 'Takeaway cup with latte art on the counter',
+    caption: 'No place like home',
     tall: true,
   },
   {
-    src: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80',
-    alt: 'Fresh croissants from the bakery',
+    src: m4,
+    alt: 'The front window with vintage lamps and moka pots',
+    caption: 'The window seat',
     tall: false,
   },
   {
-    src: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80',
-    alt: 'Coffee cup on a rustic wooden table',
-    tall: false,
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=800&q=80',
-    alt: 'Latte art being poured',
+    src: m2,
+    alt: 'Stone-walled seating with fairy lights and stools',
+    caption: 'Cosy corners',
     tall: true,
   },
   {
-    src: 'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=800&q=80',
-    alt: 'Brunch plate with eggs and toast',
+    src: m5,
+    alt: 'A keep-cup and treat outside on the lane',
+    caption: 'To the lane',
     tall: false,
   },
   {
-    src: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80',
-    alt: 'Cosy cafe corner with warm lighting',
+    src: m8,
+    alt: 'The snug with lit shelves of curiosities',
+    caption: 'The snug',
     tall: true,
   },
 ];
@@ -42,23 +47,26 @@ export function Gallery() {
 
         <div className="columns-2 gap-4 md:columns-3">
           {photos.map((photo, i) => (
-            <motion.div
+            <motion.figure
               key={photo.src}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-4 break-inside-avoid overflow-hidden rounded-2xl"
+              className="group relative mb-4 break-inside-avoid overflow-hidden rounded-2xl"
             >
               <img
                 src={photo.src}
                 alt={photo.alt}
                 loading="lazy"
-                className={`w-full object-cover transition-transform duration-700 ease-out hover:scale-105 ${
+                className={`w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
                   photo.tall ? 'aspect-[3/4]' : 'aspect-square'
                 }`}
               />
-            </motion.div>
+              <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-espresso-900/80 to-transparent p-4 pt-10 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                <span className="font-script text-2xl text-cream-50">{photo.caption}</span>
+              </figcaption>
+            </motion.figure>
           ))}
         </div>
       </div>
