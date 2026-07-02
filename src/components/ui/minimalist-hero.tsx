@@ -42,7 +42,7 @@ const SpinningBadge = ({ text }: { text: string }) => (
         <textPath href="#badge-circle">{text}</textPath>
       </text>
     </svg>
-    <span className="absolute inset-0 flex items-center justify-center text-xl">☕</span>
+    <span className="absolute inset-0 flex items-center justify-center font-serif text-xl text-amber-brand">✦</span>
   </motion.div>
 );
 
@@ -171,15 +171,15 @@ export const MinimalistHero = ({
       </AnimatePresence>
 
       {/* Main Content Area */}
-      <div className="relative grid w-full max-w-7xl flex-grow grid-cols-1 items-center gap-6 py-8 md:grid-cols-3 md:gap-0 md:py-0">
+      <div className="relative grid w-full max-w-7xl flex-grow grid-cols-1 items-center gap-6 py-8 lg:grid-cols-3 lg:gap-0 lg:py-0">
         {/* Left Text Content */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1 }}
-          className="z-20 order-3 text-center md:order-1 md:text-left"
+          className="z-20 order-3 text-center lg:order-1 lg:text-left"
         >
-          <p className="mx-auto max-w-xs text-sm leading-relaxed text-foreground/80 md:mx-0">{mainText}</p>
+          <p className="mx-auto max-w-xs text-sm leading-relaxed text-foreground/80 lg:mx-0">{mainText}</p>
           <a
             href={readMoreLink}
             className="mt-4 inline-block text-sm font-medium text-foreground underline decoration-rust-600 decoration-2 underline-offset-4 transition-colors hover:text-rust-600"
@@ -189,7 +189,7 @@ export const MinimalistHero = ({
         </motion.div>
 
         {/* Center Image with Circle */}
-        <div className="relative order-2 flex h-full min-h-[340px] items-center justify-center md:min-h-0">
+        <div className="relative order-2 flex h-full min-h-[340px] items-center justify-center lg:min-h-0">
           <motion.div
             style={{ y: circleY }}
             initial={{ scale: 0.8, opacity: 0 }}
@@ -208,7 +208,7 @@ export const MinimalistHero = ({
               fetchPriority="high"
               width={288}
               height={416}
-              className="h-72 w-52 rounded-t-full object-cover object-[50%_72%] shadow-2xl shadow-espresso-900/30 md:h-96 md:w-64 lg:h-[26rem] lg:w-72"
+              className="h-80 w-56 rounded-full object-cover object-[50%_72%] shadow-2xl shadow-espresso-900/30 md:h-[26rem] md:w-64 lg:h-[30rem] lg:w-72"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
@@ -223,14 +223,14 @@ export const MinimalistHero = ({
         </div>
 
         {/* Right Text */}
-        <motion.div style={{ y: textY }} className="z-20 order-1 min-w-0 pt-2 md:order-3 md:pt-0">
+        <motion.div style={{ y: textY }} className="z-20 order-1 min-w-0 pt-2 lg:order-3 lg:pt-0">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}
-            className="flex items-center justify-center text-center md:justify-start md:text-left"
+            className="flex items-center justify-center text-center lg:justify-start lg:text-left"
           >
-            <h1 className="font-serif text-5xl font-semibold leading-[0.95] text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
+            <h1 className="font-serif text-5xl font-semibold leading-[0.95] text-foreground sm:text-6xl md:text-7xl lg:text-[clamp(3.25rem,6.5vw,6rem)]">
               {overlayText.part1}
               <br />
               <span className="italic text-poppy">{overlayText.part2}</span>
