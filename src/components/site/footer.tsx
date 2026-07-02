@@ -15,7 +15,7 @@ export function Footer() {
     <footer className="bg-espresso-900 px-6 py-12 text-cream-100">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center">
         <p className="font-serif text-3xl font-semibold">
-          Maddens<span className="text-amber-brand">.</span>
+          Madden's<span className="text-amber-brand">.</span>
         </p>
         <p className="max-w-md text-sm leading-relaxed text-cream-100/60">
           Coffee, brunch & baked things down Milk Market Lane, Tralee. Open Monday to Saturday, 10am – 4pm.
@@ -35,7 +35,7 @@ export function Footer() {
           ))}
         </div>
         <p className="text-xs text-cream-100/40">
-          © {new Date().getFullYear()} Maddens, Tralee. Made with love (and a lot of coffee).
+          © {new Date().getFullYear()} Madden's, Tralee. Made with love (and a lot of coffee).
         </p>
       </div>
     </footer>

@@ -37,7 +37,7 @@ export function SectionHeading({
 }) {
   return (
     <Reveal className={cn('mb-12 text-center', className)}>
-      <p className="font-script text-2xl text-amber-brand">{kicker}</p>
+      <p className="font-serif text-lg italic tracking-wide text-rust-600">✦ {kicker} ✦</p>
       <h2 className="mt-2 font-serif text-4xl font-semibold text-espresso-900 md:text-5xl">{title}</h2>
     </Reveal>
   );

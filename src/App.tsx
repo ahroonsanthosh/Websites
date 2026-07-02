@@ -30,15 +30,21 @@ const socialLinks = [
 function App() {
   return (
     <main id="top">
+      <a
+        href="#about"
+        className="sr-only rounded-md bg-espresso-900 px-4 py-2 text-cream-50 focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50"
+      >
+        Skip to content
+      </a>
       <MinimalistHero
-        logoText="Maddens"
+        logoText="Madden's"
         logoAccent="."
         navLinks={navLinks}
         mainText="A small, sunny coffee house down Milk Market Lane — speciality coffee, proper brunch and pastries baked the slow way, served with a Kerry welcome."
         readMoreLink="#about"
         readMoreLabel="Our Story"
         imageSrc={heroCup}
-        imageAlt="A flat white with latte art in a Milk Market Lane mug at Maddens"
+        imageAlt="A flat white with latte art in a Milk Market Lane mug at Madden's"
         overlayText={{ part1: 'slow', part2: 'mornings.' }}
         socialLinks={socialLinks}
         locationText="Tralee, Co. Kerry"
@@ -67,7 +73,7 @@ function App() {
           </a>
           <a
             href="tel:+353858570644"
-            className="rounded-full border-2 border-espresso-900/20 px-8 py-3.5 font-medium text-espresso-900 transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-brand hover:text-amber-brand"
+            className="rounded-full border-2 border-espresso-900/20 px-8 py-3.5 font-medium text-espresso-900 transition-all duration-300 hover:-translate-y-0.5 hover:border-rust-600 hover:text-rust-600"
           >
             085 857 0644
           </a>

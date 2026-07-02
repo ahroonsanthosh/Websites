@@ -15,7 +15,7 @@ export function Visit() {
   return (
     <section id="visit" className="scroll-mt-8 bg-cream-100 px-6 py-24 md:py-32">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading kicker="find us down the lane" title="Visit Maddens" />
+        <SectionHeading kicker="find us down the lane" title="Visit Madden's" />
 
         <div className="grid gap-8 md:grid-cols-2">
           <Reveal>
@@ -35,7 +35,7 @@ export function Visit() {
                     href="https://maps.google.com/?q=Maddens,+11-12+Milk+Market+Ln,+Tralee,+Co.+Kerry"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2 inline-block text-sm font-medium text-amber-brand underline decoration-2 underline-offset-4 transition-colors hover:text-espresso-900"
+                    className="mt-2 inline-block text-sm font-medium text-rust-600 underline decoration-2 underline-offset-4 transition-colors hover:text-espresso-900"
                   >
                     Open in Google Maps
                   </a>
@@ -50,7 +50,7 @@ export function Visit() {
                   <h3 className="font-serif text-xl font-semibold text-espresso-900">Say hello</h3>
                   <a
                     href="tel:+353858570644"
-                    className="mt-1 inline-block leading-relaxed text-espresso-700/80 transition-colors hover:text-amber-brand"
+                    className="mt-1 inline-block leading-relaxed text-espresso-700/80 transition-colors hover:text-rust-600"
                   >
                     085 857 0644
                   </a>

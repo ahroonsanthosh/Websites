@@ -55,7 +55,11 @@ export function Testimonials() {
   return (
     <section id="reviews" className="scroll-mt-8 overflow-hidden bg-espresso-900 py-24 text-cream-50 md:py-32">
       <div className="px-6">
-        <SectionHeading kicker="kind words" title="What People Say" className="[&_h2]:text-cream-50" />
+        <SectionHeading
+          kicker="kind words"
+          title="What People Say"
+          className="[&_h2]:text-cream-50 [&_p]:text-amber-brand"
+        />
       </div>
 
       {/* Track is duplicated so the -50% translate loops seamlessly; hover pauses it */}

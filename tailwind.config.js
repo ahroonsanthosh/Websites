@@ -19,15 +19,17 @@ export default {
         amber: {
           brand: '#E8A33D',
         },
-        moss: {
-          600: '#5C6B4C',
-          700: '#48543B',
+        // The sign red from the Madden's Coffee storefront.
+        // poppy for large display text, rust passes AA at body sizes on cream.
+        poppy: '#D64228',
+        rust: {
+          600: '#AC431F',
+          700: '#933D1F',
         },
       },
       fontFamily: {
         serif: ['Fraunces', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        script: ['Caveat', 'cursive'],
+        sans: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
       },
     },
   },

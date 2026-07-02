@@ -49,7 +49,7 @@ export function About() {
           <div>
             <Reveal delay={0.1}>
               <p className="text-lg leading-relaxed text-espresso-700/90">
-                Maddens sits on Milk Market Lane, one of Tralee’s oldest trading lanes — a place where
+                Madden's sits on Milk Market Lane, one of Tralee’s oldest trading lanes — a place where
                 Kerry has bought, sold and gossiped for generations. We kept the tradition and added
                 good espresso.
               </p>

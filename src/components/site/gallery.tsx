@@ -64,7 +64,7 @@ export function Gallery() {
                 }`}
               />
               <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-espresso-900/80 to-transparent p-4 pt-10 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                <span className="font-script text-2xl text-cream-50">{photo.caption}</span>
+                <span className="font-serif text-lg italic text-cream-50">{photo.caption}</span>
               </figcaption>
             </motion.figure>
           ))}

@@ -1,6 +1,6 @@
-# Maddens · Coffee House, Tralee
+# Madden's · Coffee House, Tralee
 
-A single-page website for **Maddens**, a coffee house on Milk Market Lane, Tralee, Co. Kerry.
+A single-page website for **Madden's**, a coffee house on Milk Market Lane, Tralee, Co. Kerry.
 Warm, artisanal design with traditional-meets-playful character and elegant, device-friendly animations.
 
 ## Stack

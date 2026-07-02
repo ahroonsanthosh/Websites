@@ -50,7 +50,7 @@ const SpinningBadge = ({ text }: { text: string }) => (
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
   <a
     href={href}
-    className="text-xs font-medium uppercase tracking-[0.2em] text-foreground/60 transition-colors hover:text-foreground"
+    className="relative text-xs font-medium uppercase tracking-[0.2em] text-foreground/70 transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-right after:scale-x-0 after:bg-rust-600 after:transition-transform after:duration-300 hover:text-foreground hover:after:origin-left hover:after:scale-x-100"
   >
     {children}
   </a>
@@ -112,7 +112,7 @@ export const MinimalistHero = ({
           className="font-serif text-2xl font-bold tracking-wide"
         >
           {logoText}
-          {logoAccent && <span className="text-amber-brand">{logoAccent}</span>}
+          {logoAccent && <span className="text-poppy">{logoAccent}</span>}
         </motion.a>
         <div className="hidden items-center space-x-8 md:flex">
           {navLinks.map((link) => (
@@ -177,19 +177,19 @@ export const MinimalistHero = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1 }}
-          className="z-20 order-2 text-center md:order-1 md:text-left"
+          className="z-20 order-3 text-center md:order-1 md:text-left"
         >
           <p className="mx-auto max-w-xs text-sm leading-relaxed text-foreground/80 md:mx-0">{mainText}</p>
           <a
             href={readMoreLink}
-            className="mt-4 inline-block text-sm font-medium text-foreground underline decoration-amber-brand decoration-2 underline-offset-4 transition-colors hover:text-amber-brand"
+            className="mt-4 inline-block text-sm font-medium text-foreground underline decoration-rust-600 decoration-2 underline-offset-4 transition-colors hover:text-rust-600"
           >
             {readMoreLabel}
           </a>
         </motion.div>
 
         {/* Center Image with Circle */}
-        <div className="relative order-1 flex h-full min-h-[320px] items-center justify-center md:order-2 md:min-h-0">
+        <div className="relative order-2 flex h-full min-h-[340px] items-center justify-center md:min-h-0">
           <motion.div
             style={{ y: circleY }}
             initial={{ scale: 0.8, opacity: 0 }}
@@ -205,6 +205,9 @@ export const MinimalistHero = ({
               src={imageSrc}
               alt={imageAlt}
               loading="eager"
+              fetchPriority="high"
+              width={288}
+              height={416}
               className="h-72 w-52 rounded-t-full object-cover object-[50%_72%] shadow-2xl shadow-espresso-900/30 md:h-96 md:w-64 lg:h-[26rem] lg:w-72"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -220,7 +223,7 @@ export const MinimalistHero = ({
         </div>
 
         {/* Right Text */}
-        <motion.div style={{ y: textY }} className="z-20 order-3 min-w-0">
+        <motion.div style={{ y: textY }} className="z-20 order-1 min-w-0 pt-2 md:order-3 md:pt-0">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -230,7 +233,7 @@ export const MinimalistHero = ({
             <h1 className="font-serif text-5xl font-semibold leading-[0.95] text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
               {overlayText.part1}
               <br />
-              <span className="italic text-amber-brand">{overlayText.part2}</span>
+              <span className="italic text-poppy">{overlayText.part2}</span>
             </h1>
           </motion.div>
         </motion.div>
