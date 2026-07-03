@@ -3,12 +3,7 @@ import { Instagram } from 'lucide-react';
 import { MinimalistHero } from '@/components/ui/minimalist-hero';
 import type { SiteContent } from '@/types/content';
 
-const navLinks = [
-  { label: 'MENU', href: '#menu' },
-  { label: 'GALLERY', href: '#gallery' },
-  { label: 'ABOUT', href: '#about' },
-  { label: 'CONTACT', href: '#contact' },
-];
+const navLinks: { label: string; href: string }[] = [];
 
 export default function Hero({ content }: { content: SiteContent }) {
   const { hero, site } = content;
