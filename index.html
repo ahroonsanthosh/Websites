@@ -130,7 +130,7 @@
       <div class="story__grid">
         <div class="story__head">
           <p class="kicker" data-reveal>The story</p>
-          <h2 class="story__statement" data-reveal>
+          <h2 class="story__statement" data-mask>
             Some people wait to feel ready. <span class="script script--lg">the rest of us</span> just show up.
           </h2>
         </div>
@@ -201,7 +201,7 @@
       <div class="banner__media" data-parallax="0.08" aria-hidden="true"><img src="assets/img/banner.jpg" alt="" /></div>
       <div class="banner__scrim" aria-hidden="true"></div>
       <div class="banner__inner">
-        <h2 class="banner__quote" data-reveal>
+        <h2 class="banner__quote" data-mask>
           No egos. No spectators.<br />Just you, a gi, and the mats.
         </h2>
         <a href="#book" class="pill pill--gold pill--lg" data-reveal>
@@ -352,7 +352,7 @@
     <section class="results">
       <div class="results__inner">
         <p class="kicker" data-reveal>On the podium</p>
-        <h2 class="results__big" data-reveal>Our members don't just train. <span class="script script--lg">they win.</span></h2>
+        <h2 class="results__big" data-mask>Our members don't just train. <span class="script script--lg">they win.</span></h2>
         <div class="results__row">
           <div class="rc" data-reveal>
             <span class="rc__label">IBJJF Milan Open ’24</span>
@@ -369,6 +369,25 @@
             <span class="rc__val">Gold</span>
             <span class="rc__sub">Black belt division</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== GALLERY (horizontal scroll) ===================== -->
+    <section class="gallery" id="gallery" data-gallery>
+      <div class="gallery__pin">
+        <header class="gallery__head">
+          <p class="kicker">Life on the mats</p>
+          <h2 class="gallery__title" data-mask>Real people.<br />Real rounds.</h2>
+          <p class="gallery__hint">Scroll →</p>
+        </header>
+        <div class="gallery__track" data-gallery-track>
+          <figure class="gcard"><img src="assets/img/gal-1.jpg" alt="A full mat mid-class at Dragon" loading="lazy" /><figcaption>Every level, same mat</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-2.jpg" alt="Coach Piotr at a competition" loading="lazy" /><figcaption>Comp day</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-3.jpg" alt="A Dragon member celebrating on the mats" loading="lazy" /><figcaption>The wins that matter</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-4.jpg" alt="IBJJF London Open podium, gold" loading="lazy" /><figcaption>IBJJF London — gold</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-5.jpg" alt="Coaching younger members" loading="lazy" /><figcaption>Passing it on</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-6.jpg" alt="IBJJF podium, gold medal" loading="lazy" /><figcaption>Tested at the top</figcaption></figure>
         </div>
       </div>
     </section>
@@ -426,7 +445,6 @@
 
   <script src="assets/js/vendor/gsap.min.js" defer></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
-  <script src="assets/js/vendor/lenis.min.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>

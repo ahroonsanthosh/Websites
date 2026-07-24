@@ -133,78 +133,87 @@
   gsap.registerPlugin(ScrollTrigger);
   root.classList.add('gsap-on');
 
-  // Lenis smooth scroll, driven by the gsap ticker
-  var Lenis = window.Lenis;
-  if (Lenis) {
-    lenis = new Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1 });
-    window.lenis = lenis;
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
-    gsap.ticker.lagSmoothing(0);
-    lenis.on('scroll', function (e) { if (nav) nav.classList.toggle('scrolled', e.scroll > 30); });
-  } else {
-    window.addEventListener('scroll', function () { if (nav) nav.classList.toggle('scrolled', window.scrollY > 30); }, { passive: true });
-  }
+  // Native scroll (crisp + precise). ScrollTrigger uses native scroll by default;
+  // anchor links use CSS scroll-behavior:smooth + scroll-padding-top — no JS needed.
+  window.addEventListener('scroll', function () { if (nav) nav.classList.toggle('scrolled', window.scrollY > 30); }, { passive: true });
 
-  // Smooth anchor scrolling
-  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      var id = a.getAttribute('href'); if (!id || id.length < 2) return;
-      var el = document.querySelector(id); if (!el) return;
-      e.preventDefault();
-      if (lenis) lenis.scrollTo(el, { offset: -68, duration: 1.1 });
-      else el.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
-
-  /* ---- HERO intro timeline ---- */
-  gsap.set('.hero__title .w', { y: 42, filter: 'blur(10px)' });
+  /* ---- HERO intro timeline (on load) ---- */
+  gsap.set('.hero__title .w', { y: 44, filter: 'blur(10px)' });
   gsap.set(['.hero__eyebrow', '.hero__lede', '.hero__actions', '.hero__meta'], { y: 24 });
   gsap.set('.hero__scroll', { opacity: 0 });
 
   var htl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  htl.from('.hero__badge', { opacity: 0, scale: 0.6, rotation: -30, duration: 1.2, ease: 'power4.out' }, 0)
-     .to('.hero__eyebrow', { opacity: 1, y: 0, duration: 0.7 }, 0.35)
-     .to('.hero__title .w', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.95, stagger: 0.09 }, 0.45)
-     .to('.hero__lede', { opacity: 1, y: 0, duration: 0.7 }, 0.9)
-     .to('.hero__actions', { opacity: 1, y: 0, duration: 0.7 }, 1.05)
-     .to('.hero__meta', { opacity: 1, y: 0, duration: 0.7 }, 1.2)
-     .to('.hero__scroll', { opacity: 1, duration: 0.6 }, 1.35);
+  htl.from('.hero__badge', { opacity: 0, scale: 0.55, rotation: -45, duration: 1.3, ease: 'power4.out' }, 0)
+     .to('.hero__eyebrow', { opacity: 1, y: 0, duration: 0.7 }, 0.3)
+     .to('.hero__title .w', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.95, stagger: 0.08 }, 0.4)
+     .to('.hero__lede', { opacity: 1, y: 0, duration: 0.7 }, 0.95)
+     .to('.hero__actions', { opacity: 1, y: 0, duration: 0.7 }, 1.1)
+     .to('.hero__meta', { opacity: 1, y: 0, duration: 0.7 }, 1.25)
+     .to('.hero__scroll', { opacity: 1, duration: 0.6 }, 1.4);
 
-  // Badge: slow continuous spin + scroll parallax/scale
-  gsap.to('.hero__badge-img', { rotation: 360, duration: 60, ease: 'none', repeat: -1 });
-  gsap.to('.hero__badge', { yPercent: 16, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.hero__copy', { yPercent: -6, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.blob--1', { yPercent: 24, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  gsap.to('.blob--2', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  // gentle idle bob so the crest is alive at rest (doesn't touch rotation/scale)
+  gsap.to('.hero__badge-img', { y: -16, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
-  /* ---- Reveals: scroll-driven so nothing can stay hidden ----
-     (independent of ScrollTrigger batching; fires on Lenis + native scroll) */
-  var reveals = gsap.utils.toArray('[data-reveal]');
-  gsap.set(reveals, { opacity: 0, y: 28 });
-  var imgReveals = gsap.utils.toArray('[data-reveal-img]');
-  imgReveals.forEach(function (el) { var im = el.querySelector('img'); if (im) gsap.set(im, { scale: 1.14 }); });
+  /* ---- HERO: scroll drives the crest rotation + scale (Radian-style, no pin) ---- */
+  var heroScrub = gsap.timeline({
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 }
+  });
+  heroScrub
+    .to('.hero__badge-img', { rotation: 185, scale: 1.18, ease: 'none' }, 0)
+    .to('.hero__badge', { yPercent: 26, ease: 'none' }, 0)
+    .to('.hero__copy', { yPercent: -14, ease: 'none' }, 0)
+    .to('.blob--1', { yPercent: 65, ease: 'none' }, 0)
+    .to('.blob--2', { yPercent: -50, ease: 'none' }, 0);
 
-  function checkReveals() {
-    var vh = window.innerHeight;
-    for (var i = reveals.length - 1; i >= 0; i--) {
-      if (reveals[i].getBoundingClientRect().top < vh * 0.9) {
-        gsap.to(reveals[i], { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
-        reveals.splice(i, 1);
-      }
-    }
-    for (var j = imgReveals.length - 1; j >= 0; j--) {
-      if (imgReveals[j].getBoundingClientRect().top < vh * 0.85) {
-        var im = imgReveals[j].querySelector('img');
-        if (im) gsap.to(im, { scale: 1, duration: 1.3, ease: 'power3.out' });
-        imgReveals.splice(j, 1);
-      }
+  /* ---- Reveals / masks / image-scale: IntersectionObserver-driven (robust + jank-free) ---- */
+  gsap.set('[data-reveal]', { opacity: 0, y: 30 });
+  gsap.utils.toArray('[data-mask]').forEach(function (el) { gsap.set(el, { clipPath: 'inset(0 0 100% 0)', y: 24 }); });
+  gsap.utils.toArray('[data-reveal-img]').forEach(function (el) { var im = el.querySelector('img'); if (im) gsap.set(im, { scale: 1.16 }); });
+
+  function animateIn(el) {
+    if (el.hasAttribute('data-mask')) {
+      gsap.to(el, { clipPath: 'inset(-8% 0% -12% 0%)', y: 0, duration: 1.1, ease: 'power3.out' });
+    } else if (el.hasAttribute('data-reveal-img')) {
+      var im = el.querySelector('img'); if (im) gsap.to(im, { scale: 1, duration: 1.4, ease: 'power3.out' });
+    } else {
+      gsap.to(el, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
     }
   }
-  if (lenis) lenis.on('scroll', checkReveals);
-  window.addEventListener('scroll', checkReveals, { passive: true });
-  window.addEventListener('resize', checkReveals);
-  checkReveals();
+  var pending = new Set(gsap.utils.toArray('[data-reveal], [data-mask], [data-reveal-img]'));
+  function reveal(el) { if (!pending.has(el)) return; pending.delete(el); animateIn(el); }
+  if ('IntersectionObserver' in window) {
+    var rio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { reveal(e.target); rio.unobserve(e.target); } });
+    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+    pending.forEach(function (el) { rio.observe(el); });
+    // debounced safety net: after scroll settles, reveal anything at/above the fold
+    var settleT;
+    function onSettle() {
+      clearTimeout(settleT);
+      settleT = setTimeout(function () {
+        var vh = window.innerHeight;
+        pending.forEach(function (el) { if (el.getBoundingClientRect().top < vh) reveal(el); });
+      }, 140);
+    }
+    if (lenis) lenis.on('scroll', onSettle);
+    window.addEventListener('scroll', onSettle, { passive: true });
+    window.addEventListener('resize', onSettle);
+    onSettle();
+  } else {
+    pending.forEach(animateIn);
+  }
+
+  /* ---- GALLERY: pinned horizontal scroll ---- */
+  var galleryEl = document.querySelector('[data-gallery]');
+  var galleryTrack = document.querySelector('[data-gallery-track]');
+  if (galleryEl && galleryTrack && window.innerWidth > 767) {
+    // CSS position:sticky holds the viewport; GSAP only translates the track (no pin) — anchors stay correct
+    var dist = function () { return Math.max(0, galleryTrack.scrollWidth - window.innerWidth + 32); };
+    gsap.to(galleryTrack, {
+      x: function () { return -dist(); }, ease: 'none',
+      scrollTrigger: { trigger: galleryEl, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true }
+    });
+  }
 
   /* ---- Marquee: base loop + scroll-velocity skew ---- */
   var mqTrack = document.querySelector('.marquee__track');

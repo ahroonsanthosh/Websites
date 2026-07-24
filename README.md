@@ -109,12 +109,17 @@ Until then, the note nudges people to call **085 853 1940**.
 
 ## Motion stack
 
-Scroll-driven motion is built with **GSAP + ScrollTrigger** and **Lenis** smooth-scroll
-(vendored locally in `assets/js/vendor/`, no CDN needed): the hero intro timeline, the
-animated crest, scrubbed sticky storytelling, section/image reveals, parallax, the
-velocity-reactive marquee, and magnetic buttons all live in `assets/js/main.js`. If a
-visitor has **reduced-motion** enabled (or JS fails), the site drops to a static,
-fully-legible fallback — every section stays visible and usable.
+Scroll-choreographed motion is built with **GSAP + ScrollTrigger** on native scroll
+(vendored locally in `assets/js/vendor/`, no CDN). Highlights:
+
+- **Hero crest** rotates and scales as you scroll (scroll-scrubbed, Radian-style)
+- **Pinned horizontal photo gallery** ("Life on the mats") that travels sideways as you scroll
+- **Masked line-wipe reveals** on the big statements, cinematic parallax on media,
+  a scrubbed sticky "How you train" story, a velocity-reactive marquee, and magnetic buttons
+
+Scrolling is native (crisp + precise); anchor links use CSS `scroll-behavior:smooth`.
+With **reduced-motion** enabled (or if JS fails), everything drops to a static, fully
+legible fallback — every section stays visible and usable.
 
 The gold **dragon crest** (`logo-badge.svg`) is a faithful SVG rebuild of the real academy
 logo. Replace it (and `logo-mark.svg` in the nav/footer) with the official artwork whenever

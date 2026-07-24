@@ -318,6 +318,37 @@ main > section[id] { scroll-margin-top: 84px; }
 .rc__sub { color: var(--muted); font-size: .92rem; }
 
 /* ============================================================
+   GALLERY — horizontal scroll (pinned)
+   ============================================================ */
+.gallery { background: var(--ink); color: var(--paper); height: 260vh; }
+.gallery__pin { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+.gallery__head { max-width: var(--maxw); margin: 0 auto 2.2rem; padding: 0 var(--pad); width: 100%; position: relative; }
+.gallery .kicker { color: var(--gold-hi); }
+.gallery__title { font-family: var(--f-display); font-weight: 800; letter-spacing: -.03em; font-size: clamp(2.2rem, 6vw, 4.6rem); line-height: .95; margin-top: .6rem; }
+.gallery__hint { position: absolute; right: var(--pad); bottom: 2px; font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-hi); font-weight: 600; }
+.gallery__track { display: flex; gap: 1.4rem; padding: 0 var(--pad); width: max-content; will-change: transform; }
+.gcard { flex: 0 0 auto; width: min(40vw, 400px); }
+.gcard img { width: 100%; aspect-ratio: 620 / 780; object-fit: cover; border-radius: 16px; display: block; }
+.gcard figcaption { margin-top: .9rem; font-family: var(--f-display); font-weight: 600; font-size: 1.05rem; color: var(--paper); }
+.gcard figcaption::before { content: '— '; color: var(--gold-hi); }
+/* fallback: plain horizontal scroll when motion is off */
+.motion-off .gallery { height: auto; }
+.motion-off .gallery__pin { position: static; height: auto; padding: var(--sec) 0; }
+.motion-off .gallery__track { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1rem; }
+.motion-off .gcard { scroll-snap-align: start; }
+/* mobile: gallery is a normal horizontal swipe, never pinned */
+@media (max-width: 767px) {
+  .gallery { height: auto; }
+  .gallery__pin { position: static; height: auto; padding: var(--sec) 0; }
+  .gallery__track { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 1rem; }
+  .gcard { width: 74vw; scroll-snap-align: start; }
+  .gallery__hint { display: none; }
+}
+
+/* Masked line-wipe reveals for big statements (motion only) */
+.gsap-on [data-mask] { will-change: clip-path; }
+
+/* ============================================================
    BOOK — amber CTA band (Begg)
    ============================================================ */
 .book { background: var(--amber-bg); color: var(--ink); padding: var(--sec) var(--pad); position: relative; overflow: hidden; }
