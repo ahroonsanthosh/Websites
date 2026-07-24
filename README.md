@@ -49,11 +49,14 @@ images so the white text stays readable.
 
 | File | Where it shows | Recommended | Suggested photo |
 |------|----------------|-------------|-----------------|
-| `assets/img/hero.svg` → `hero.jpg` | Full-screen hero background | ~1920×1200, landscape | Wide mat/action shot, darker tones |
 | `assets/img/coach-piotr.svg` → `coach-piotr.jpg` | Coach section | ~800×1000, portrait | The black-belt studio portrait of Piotr |
-| `assets/img/why-1.svg` → `why-1.jpg` | "Coaching you can trust" | ~800×1000, portrait | Piotr coaching / teaching a technique |
-| `assets/img/why-2.svg` → `why-2.jpg` | "A real community" | ~800×1000, portrait | Group training / mat full of students |
-| `assets/img/why-3.svg` → `why-3.jpg` | "Proven on the mats" | ~800×1000, portrait | The Milan Open podium shot |
+| `assets/img/train-1.svg` → `train-1.jpg` | "Fundamentals that stick" | ~800×1000, portrait | Piotr coaching / teaching a technique |
+| `assets/img/train-2.svg` → `train-2.jpg` | "A room that has your back" | ~800×1000, portrait | Group training / mat full of students |
+| `assets/img/train-3.svg` → `train-3.jpg` | "Tested where it counts" | ~800×1000, portrait | The Milan Open podium shot |
+| `assets/img/banner.svg` → `banner.jpg` | Full-bleed statement band | ~1920×1080, landscape | Wide, moody mat/action shot (white text sits on top) |
+
+The gold **dragon crest** (`dragon-hero.svg` in the hero, `logo-mark.svg` in the nav/footer) is a
+hand-built SVG. Swap in the gym's official logo any time by replacing those files.
 
 **If you switch from `.svg` to `.jpg`/`.webp`,** update the matching `src="..."` in `index.html`
 (search for the filename). Example:
