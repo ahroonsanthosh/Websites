@@ -22,6 +22,11 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress" data-progress aria-hidden="true"></div>
+  <a href="#book" class="pill pill--gold floatcta" data-floatcta aria-hidden="true" tabindex="-1">
+    Book a free class
+    <span class="pill__ico"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </a>
 
   <!-- ===================== NAV ===================== -->
   <header class="nav" data-nav>
@@ -130,7 +135,7 @@
       <div class="story__grid">
         <div class="story__head">
           <p class="kicker" data-reveal>The story</p>
-          <h2 class="story__statement" data-mask>
+          <h2 class="story__statement" data-split>
             Some people wait to feel ready. <span class="script script--lg">the rest of us</span> just show up.
           </h2>
         </div>
@@ -144,7 +149,7 @@
             No egos on the door. Just structured, supervised classes that leave you sharper,
             safer and fitter every single week.
           </p>
-          <div class="counters">
+          <div class="counters" data-stagger-group>
             <div class="counter">
               <span class="counter__n" data-count="10" data-suffix="">0</span>
               <span class="counter__l">years teaching</span>
@@ -201,7 +206,7 @@
       <div class="banner__media" data-parallax="0.08" aria-hidden="true"><img src="assets/img/banner.jpg" alt="" /></div>
       <div class="banner__scrim" aria-hidden="true"></div>
       <div class="banner__inner">
-        <h2 class="banner__quote" data-mask>
+        <h2 class="banner__quote" data-split>
           No egos. No spectators.<br />Just you, a gi, and the mats.
         </h2>
         <a href="#book" class="pill pill--gold pill--lg" data-reveal>
@@ -218,7 +223,7 @@
         <h2 class="h-section" data-reveal>A class for every age <span class="script script--lg">&amp; level</span></h2>
       </div>
 
-      <div class="acc" data-acc>
+      <div class="acc" data-acc data-stagger-group>
         <div class="acc__item is-open" data-spotlight>
           <button class="acc__head" aria-expanded="true">
             <span class="acc__title">Kids BJJ</span>
@@ -352,22 +357,22 @@
     <section class="results">
       <div class="results__inner">
         <p class="kicker" data-reveal>On the podium</p>
-        <h2 class="results__big" data-mask>Our members don't just train. <span class="script script--lg">they win.</span></h2>
-        <div class="results__row">
-          <div class="rc" data-reveal>
-            <span class="rc__label">IBJJF Milan Open ’24</span>
-            <span class="rc__val">Gold</span>
-            <span class="rc__sub">Black belt division</span>
+        <h2 class="results__big" data-split>Our members don't just train. <span class="script script--lg">they win.</span></h2>
+        <div class="results__row" data-stagger-group>
+          <div class="rc" data-tilt>
+            <span class="rc__medal">1st</span>
+            <span class="rc__val">Milan Open</span>
+            <span class="rc__sub">IBJJF · 2024 · Black belt</span>
           </div>
-          <div class="rc" data-reveal>
-            <span class="rc__label">IBJJF London Open ’26</span>
-            <span class="rc__val">Gold</span>
-            <span class="rc__sub">Black belt division</span>
+          <div class="rc" data-tilt>
+            <span class="rc__medal">1st</span>
+            <span class="rc__val">London Open</span>
+            <span class="rc__sub">IBJJF · 2026 · Black belt</span>
           </div>
-          <div class="rc" data-reveal>
-            <span class="rc__label">IBJJF Masters Europe ’26</span>
-            <span class="rc__val">Gold</span>
-            <span class="rc__sub">Black belt division</span>
+          <div class="rc" data-tilt>
+            <span class="rc__medal">1st</span>
+            <span class="rc__val">Masters Europe</span>
+            <span class="rc__sub">IBJJF · 2026 · Black belt</span>
           </div>
         </div>
       </div>
@@ -378,10 +383,10 @@
       <div class="gallery__pin">
         <header class="gallery__head">
           <p class="kicker">Life on the mats</p>
-          <h2 class="gallery__title" data-mask>Real people.<br />Real rounds.</h2>
+          <h2 class="gallery__title" data-split>Real people.<br />Real rounds.</h2>
           <p class="gallery__hint">Scroll →</p>
         </header>
-        <div class="gallery__track" data-gallery-track>
+        <div class="gallery__track" data-gallery-track data-stagger-group>
           <figure class="gcard"><img src="assets/img/gal-1.jpg" alt="A full mat mid-class at Dragon" loading="lazy" /><figcaption>Every level, same mat</figcaption></figure>
           <figure class="gcard"><img src="assets/img/gal-2.jpg" alt="Coach Piotr at a competition" loading="lazy" /><figcaption>Comp day</figcaption></figure>
           <figure class="gcard"><img src="assets/img/gal-3.jpg" alt="A Dragon member celebrating on the mats" loading="lazy" /><figcaption>The wins that matter</figcaption></figure>
