@@ -179,6 +179,7 @@
           w.appendChild(inner); frag.appendChild(w);
         });
       } else if (node.nodeType === 1) {
+        if (node.tagName === 'BR') { frag.appendChild(node.cloneNode(true)); return; }
         var w = document.createElement('span'); w.className = 'sw';
         w.style.color = 'inherit';
         var inner = document.createElement('i');
@@ -235,16 +236,26 @@
     pending.forEach(animateIn);
   }
 
-  /* ---- GALLERY: pinned horizontal scroll ---- */
+  /* ---- GALLERY: horizontal scroll, driven 1:1 by scroll position ----
+     CSS position:sticky holds the viewport in place; this only sets the
+     track's translateX directly off scroll progress (no scrub/easing lag),
+     so the row tracks the wheel exactly like the mouse does. */
   var galleryEl = document.querySelector('[data-gallery]');
   var galleryTrack = document.querySelector('[data-gallery-track]');
   if (galleryEl && galleryTrack && window.innerWidth > 767) {
-    // CSS position:sticky holds the viewport; GSAP only translates the track (no pin) — anchors stay correct
-    var dist = function () { return Math.max(0, galleryTrack.scrollWidth - window.innerWidth + 32); };
-    gsap.to(galleryTrack, {
-      x: function () { return -dist(); }, ease: 'none',
-      scrollTrigger: { trigger: galleryEl, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true }
-    });
+    var updateGallery = function () {
+      var wrapperRect = galleryEl.getBoundingClientRect();
+      var scrollableRange = galleryEl.offsetHeight - window.innerHeight;
+      if (scrollableRange <= 0) return;
+      var scrolled = -wrapperRect.top;
+      var progress = Math.max(0, Math.min(1, scrolled / scrollableRange));
+      var maxOffset = Math.max(0, galleryTrack.scrollWidth - window.innerWidth + 32);
+      galleryTrack.style.transform = 'translateX(-' + (progress * maxOffset) + 'px)';
+    };
+    window.addEventListener('scroll', updateGallery, { passive: true });
+    window.addEventListener('resize', updateGallery);
+    new ResizeObserver(updateGallery).observe(galleryTrack);
+    updateGallery();
   }
 
   /* ---- Marquee: base loop + scroll-velocity skew ---- */

@@ -107,6 +107,22 @@ Until then, the note nudges people to call **085 853 1940**.
 
 ---
 
+## Results & reviews
+
+The results section and photo gallery reflect the real, verified placings from
+the podium photos you supplied — 3× gold at the London International Open
+(2025 Fall, 2025, 2026), gold at the Milan International Open (2024), and
+silver at the IBJJF Masters Europe Championship (2026). Double-check these
+against your own records before this goes live; get in touch if any date or
+placing needs correcting.
+
+The reviews section uses one real, sourced quote (Stefan Stamov, via the
+gym's Facebook page) plus the real aggregate ratings (Google 5.0/20 reviews,
+Facebook 100% recommend/19 reviews). I did not fabricate additional reviews —
+that would mean putting fake testimonials on a real business's site. To add
+more, paste 2–3 real quotes from your Google Business dashboard and I'll wire
+them in.
+
 ## Motion stack
 
 Scroll-choreographed motion is built with **GSAP + ScrollTrigger** on native scroll

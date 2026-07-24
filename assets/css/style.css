@@ -208,7 +208,7 @@ main > section[id] { scroll-margin-top: 84px; }
    ============================================================ */
 .story { max-width: var(--maxw); margin: 0 auto; padding: var(--sec) var(--pad); }
 .story__grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
-.story__statement { font-family: var(--f-display); font-weight: 700; letter-spacing: -.025em; font-size: clamp(1.9rem, 3.9vw, 3.3rem); line-height: 1.04; text-wrap: balance; margin-top: .9rem; max-width: 15ch; }
+.story__statement { font-family: var(--f-display); font-weight: 700; letter-spacing: -.025em; font-size: clamp(1.9rem, 3.9vw, 3.3rem); line-height: 1.04; text-wrap: balance; margin-top: .9rem; max-width: 18ch; }
 .story__statement .script--lg { font-size: 1.05em; }
 .story__body p { color: var(--ink-2); font-size: 1.08rem; margin-bottom: 1.2rem; max-width: 46ch; }
 .counters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid var(--hair); }
@@ -312,22 +312,41 @@ main > section[id] { scroll-margin-top: 84px; }
    RESULTS
    ============================================================ */
 .results { max-width: var(--maxw); margin: 0 auto; padding: var(--sec) var(--pad); }
-.results__big { font-family: var(--f-display); font-weight: 700; letter-spacing: -.025em; font-size: clamp(1.9rem, 4.2vw, 3.4rem); line-height: 1.02; text-wrap: balance; margin: .8rem 0 clamp(2rem, 4vw, 3rem); max-width: 22ch; }
+.results__big { font-family: var(--f-display); font-weight: 700; letter-spacing: -.025em; font-size: clamp(1.9rem, 4.2vw, 3.4rem); line-height: 1.02; text-wrap: balance; margin: .8rem 0 .7rem; max-width: 22ch; }
+.results__lede { color: var(--ink-2); font-size: 1.06rem; max-width: 52ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
 .results__row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
-.rc { padding: 1.6rem 1.5rem; background: var(--card); border: 1px solid var(--hair); border-radius: 18px; display: flex; flex-direction: column; gap: .5rem; transition: transform .4s var(--e), border-color .3s; }
+.rc { padding: 1.4rem 1.4rem 1.6rem; background: var(--card); border: 1px solid var(--hair); border-radius: 18px; display: flex; flex-direction: column; gap: .4rem; transition: transform .4s var(--e), border-color .3s; }
+.rc__photo { aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; margin-bottom: .9rem; }
+.rc__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rc--feature { border-color: rgba(200,137,30,.5); box-shadow: 0 22px 44px -30px rgba(200,137,30,.55); }
 .rc:hover { transform: translateY(-5px); border-color: rgba(200,137,30,.45); }
 .rc__label { font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--gold); }
-.rc__medal { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+.rc__medal { display: inline-flex; align-items: center; width: fit-content; padding: .35rem 1rem; border-radius: 100px;
   background: linear-gradient(145deg, var(--gold-hi), var(--gold-deep, #b8791a)); color: #17140f;
-  font-family: var(--f-display); font-weight: 800; font-size: .92rem; letter-spacing: -.02em; margin-bottom: .6rem;
-  box-shadow: 0 8px 18px -8px rgba(200,137,30,.8); }
+  font-family: var(--f-display); font-weight: 800; font-size: .85rem; letter-spacing: -.01em; margin-bottom: .5rem;
+  box-shadow: 0 8px 18px -8px rgba(200,137,30,.6); }
+.rc__medal--silver { background: linear-gradient(145deg, #eef0f2, #aab0b8); color: #24282c; box-shadow: 0 8px 18px -8px rgba(100,110,120,.5); }
 .rc__val { font-family: var(--f-display); font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.1rem); letter-spacing: -.02em; }
 .rc__sub { color: var(--muted); font-size: .92rem; }
 
 /* ============================================================
+   REVIEWS
+   ============================================================ */
+.reviews { background: var(--paper-2); padding: var(--sec) var(--pad); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.reviews__inner { max-width: 780px; margin: 0 auto; }
+.quote { position: relative; margin: clamp(2rem, 5vw, 3rem) 0 2rem; padding-left: clamp(1.5rem, 4vw, 2.5rem); border-left: 3px solid var(--gold); }
+.quote p { font-family: var(--f-display); font-weight: 600; letter-spacing: -.01em; font-size: clamp(1.2rem, 2.6vw, 1.6rem); line-height: 1.35; color: var(--ink); text-wrap: balance; }
+.quote cite { display: block; margin-top: 1rem; font-style: normal; font-size: .92rem; color: var(--muted); }
+.quote cite a { color: var(--gold); font-weight: 600; }
+.reviews__stats { display: flex; flex-wrap: wrap; gap: clamp(1.5rem, 4vw, 3rem); }
+.rstat { display: flex; align-items: baseline; gap: .55rem; }
+.rstat__n { font-family: var(--f-display); font-weight: 800; font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: -.02em; color: var(--gold); font-variant-numeric: tabular-nums; }
+.rstat__l { color: var(--muted); font-size: .88rem; }
+
+/* ============================================================
    GALLERY — horizontal scroll (pinned)
    ============================================================ */
-.gallery { background: var(--ink); color: var(--paper); height: 260vh; }
+.gallery { background: var(--ink); color: var(--paper); height: 300vh; }
 .gallery__pin { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; gap: 1.6rem; overflow: hidden; padding-top: 4.5rem; }
 .gallery__head { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad); width: 100%; position: relative; flex: 0 0 auto; }
 .gallery .kicker { color: var(--gold-hi); }
