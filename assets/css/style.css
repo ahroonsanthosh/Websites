@@ -107,9 +107,14 @@ main > section[id] { scroll-margin-top: 84px; }
 /* ---------- Reveal ---------- */
 [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--e), transform .9s var(--e); }
 [data-reveal].in { opacity: 1; transform: none; }
-[data-stagger] { opacity: 0; transform: translateY(30px); }
-.stagger-run [data-stagger] { animation: rise .9s var(--e) forwards; }
-@keyframes rise { to { opacity: 1; transform: none; } }
+[data-stagger] { opacity: 0; }
+/* When JS/motion is unavailable or reduced, force everything visible */
+.motion-off [data-stagger], .motion-off [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+.motion-off [data-reveal-img] > img { transform: none !important; }
+/* When GSAP drives motion, let it own these props (no CSS transition fighting it) */
+.gsap-on [data-reveal] { transition: none; }
+.gsap-on [data-reveal-img] > img { transition: none; }
+.gsap-on .marquee__track { animation: none; }
 
 [data-reveal-img] { overflow: hidden; }
 [data-reveal-img] > img { transform: scale(1.08); transition: transform 1.2s var(--e); will-change: transform; }
@@ -178,10 +183,10 @@ main > section[id] { scroll-margin-top: 84px; }
 .hero__meta li { font-size: .88rem; color: var(--muted); }
 .hero__meta strong { display: block; font-family: var(--f-display); font-weight: 700; font-size: 1.35rem; color: var(--ink); letter-spacing: -.02em; }
 
-.hero__emblem { position: relative; display: grid; place-items: center; }
-.hero__dragon { width: min(100%, 460px); filter: drop-shadow(0 30px 60px rgba(200,137,30,.35)); animation: bob 6s var(--e2) infinite alternate; }
-@keyframes bob { to { transform: translateY(-16px) rotate(1.5deg); } }
-@media (prefers-reduced-motion: reduce) { .hero__dragon { animation: none; } }
+.hero__badge { position: relative; display: grid; place-items: center; }
+.hero__badge-img { width: min(92%, 460px); position: relative; z-index: 1; filter: drop-shadow(0 40px 70px rgba(120,80,10,.4)); transform-origin: center; }
+.hero__badge-glow { position: absolute; width: 90%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(243,194,75,.6), rgba(243,194,75,0) 62%); filter: blur(30px); z-index: 0; }
+@media (prefers-reduced-motion: reduce) { .hero__badge-img { animation: none; } }
 
 .hero__scroll { position: absolute; left: 50%; bottom: 1.6rem; transform: translateX(-50%); z-index: 2; display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; text-transform: uppercase; letter-spacing: .2em; color: var(--muted); font-weight: 600; }
 .hero__scroll-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: blink 1.8s ease-in-out infinite; }
