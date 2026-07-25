@@ -1173,6 +1173,8 @@ main > section[id] { scroll-margin-top: 84px; }
   }
   var pending = new Set(gsap.utils.toArray('[data-reveal], [data-split], [data-stagger-group], [data-reveal-img]'));
   function reveal(el) { if (!pending.has(el)) return; pending.delete(el); animateIn(el); }
+  // hoisted so the resize/visibility refresh loop below can always call it safely
+  var onSettle = function () {};
   if ('IntersectionObserver' in window) {
     var rio = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) { reveal(e.target); rio.unobserve(e.target); } });
@@ -1180,13 +1182,13 @@ main > section[id] { scroll-margin-top: 84px; }
     pending.forEach(function (el) { rio.observe(el); });
     // debounced safety net: after scroll settles, reveal anything at/above the fold
     var settleT;
-    function onSettle() {
+    onSettle = function () {
       clearTimeout(settleT);
       settleT = setTimeout(function () {
         var vh = window.innerHeight;
         pending.forEach(function (el) { if (el.getBoundingClientRect().top < vh) reveal(el); });
       }, 140);
-    }
+    };
     if (lenis) lenis.on('scroll', onSettle);
     window.addEventListener('scroll', onSettle, { passive: true });
     window.addEventListener('resize', onSettle);
@@ -1201,10 +1203,12 @@ main > section[id] { scroll-margin-top: 84px; }
      so the row tracks the wheel exactly like the mouse does. */
   var galleryEl = document.querySelector('[data-gallery]');
   var galleryTrack = document.querySelector('[data-gallery-track]');
+  // hoisted so the resize/visibility refresh loop below can always call it safely
+  var updateGallery = function () {};
   if (galleryEl && galleryTrack) {
     var galleryActive = window.innerWidth > 767;
     var galleryTicking = false;
-    var updateGallery = function () {
+    updateGallery = function () {
       galleryTicking = false;
       if (!galleryActive) { galleryTrack.style.transform = ''; return; }
       var wrapperRect = galleryEl.getBoundingClientRect();
@@ -1349,6 +1353,32 @@ main > section[id] { scroll-margin-top: 84px; }
   // Recalculate once everything (fonts/images) has settled
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
   setTimeout(function () { ScrollTrigger.refresh(); }, 600);
+
+  /* ---- Robust re-measure loop ----
+     Hosting embeds (e.g. an artifact iframe shown small first, then resized to
+     full size once opened) can run this script before the real layout exists.
+     Every ScrollTrigger start/end position, and our own gallery/reveal math,
+     is measured in pixels and goes stale if that happens. Re-measure on any
+     resize, when the tab/frame becomes visible, and a few times shortly after
+     load to catch a late promotion to full size. */
+  var lastW = window.innerWidth, lastH = window.innerHeight;
+  var refreshT;
+  function fullRefresh() {
+    clearTimeout(refreshT);
+    refreshT = setTimeout(function () {
+      lastW = window.innerWidth; lastH = window.innerHeight;
+      ScrollTrigger.refresh();
+      onSettle();
+      updateGallery();
+    }, 120);
+  }
+  window.addEventListener('resize', function () {
+    // ignore mobile browser chrome show/hide (height-only jitter under 100px)
+    if (Math.abs(window.innerWidth - lastW) < 2 && Math.abs(window.innerHeight - lastH) < 100) return;
+    fullRefresh();
+  });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) fullRefresh(); });
+  [400, 1200, 2500].forEach(function (ms) { setTimeout(fullRefresh, ms); });
 })();
 
 </script>
