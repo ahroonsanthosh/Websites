@@ -242,8 +242,12 @@
      so the row tracks the wheel exactly like the mouse does. */
   var galleryEl = document.querySelector('[data-gallery]');
   var galleryTrack = document.querySelector('[data-gallery-track]');
-  if (galleryEl && galleryTrack && window.innerWidth > 767) {
+  if (galleryEl && galleryTrack) {
+    var galleryActive = window.innerWidth > 767;
+    var galleryTicking = false;
     var updateGallery = function () {
+      galleryTicking = false;
+      if (!galleryActive) { galleryTrack.style.transform = ''; return; }
       var wrapperRect = galleryEl.getBoundingClientRect();
       var scrollableRange = galleryEl.offsetHeight - window.innerHeight;
       if (scrollableRange <= 0) return;
@@ -252,9 +256,18 @@
       var maxOffset = Math.max(0, galleryTrack.scrollWidth - window.innerWidth + 32);
       galleryTrack.style.transform = 'translateX(-' + (progress * maxOffset) + 'px)';
     };
-    window.addEventListener('scroll', updateGallery, { passive: true });
-    window.addEventListener('resize', updateGallery);
-    new ResizeObserver(updateGallery).observe(galleryTrack);
+    var requestGalleryUpdate = function () {
+      if (galleryTicking) return;
+      galleryTicking = true;
+      requestAnimationFrame(updateGallery);
+    };
+    var onGalleryResize = function () {
+      galleryActive = window.innerWidth > 767;
+      requestGalleryUpdate();
+    };
+    window.addEventListener('scroll', requestGalleryUpdate, { passive: true });
+    window.addEventListener('resize', onGalleryResize);
+    new ResizeObserver(requestGalleryUpdate).observe(galleryTrack);
     updateGallery();
   }
 
