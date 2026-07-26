@@ -1,0 +1,114 @@
+{
+  "storefront-day-front": {
+    "orig_w": 1360,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      800,
+      1200,
+      1360
+    ]
+  },
+  "latte-duo": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "panini-plate": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "patio-empty": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "cappuccino-orange-cup": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "menu-chalkboard": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "storefront-evening": {
+    "orig_w": 1360,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      800,
+      1200,
+      1360
+    ]
+  },
+  "storefront-umbrellas": {
+    "orig_w": 1360,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      800,
+      1200,
+      1360
+    ]
+  },
+  "cannoli": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "patio-spread-person": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "display-counter": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "coffee-window-view": {
+    "orig_w": 765,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      765
+    ]
+  },
+  "storefront-angle-umbrella": {
+    "orig_w": 1360,
+    "orig_h": 1020,
+    "variants": [
+      480,
+      800,
+      1200,
+      1360
+    ]
+  }
+}

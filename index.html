@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morso Napoletano Café — Italian Café &amp; Food, Carrigaline</title>
+<meta name="description" content="Neapolitan classics made fresh daily by Antonio at Morso Napoletano Café, Carrigaline West, Cork — pasta bakes, panini, pizza by the slice and proper Italian coffee.">
+<link rel="canonical" href="https://ahroonsanthosh.github.io/morso/">
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Morso Napoletano Café">
+<meta property="og:title" content="Morso Napoletano Café — Italian Café &amp; Food, Carrigaline">
+<meta property="og:description" content="Neapolitan classics made fresh daily by Antonio — pasta bakes, panini, pizza by the slice and proper Italian coffee in Carrigaline West, Cork.">
+<meta property="og:image" content="https://ahroonsanthosh.github.io/morso/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://ahroonsanthosh.github.io/morso/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Morso Napoletano Café — Italian Café &amp; Food, Carrigaline">
+<meta name="twitter:description" content="Neapolitan classics made fresh daily by Antonio in Carrigaline West, Cork.">
+<meta name="twitter:image" content="https://ahroonsanthosh.github.io/morso/assets/img/og-image.jpg">
+
+<meta name="theme-color" content="#2B2E31">
+<meta name="robots" content="index, follow">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+
+<!-- Favicons -->
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+
+<!-- Fonts: preload the display face used above the fold, self-hosted -->
+<link rel="preload" href="assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/spacemono-400.woff2" as="font" type="font/woff2" crossorigin>
+<!-- baloo2-var (logo-only, decorative) deliberately not preloaded — it would
+     compete with the fonts/image that actually gate first paint; font-display:
+     swap already covers it gracefully once discovered via normal CSS. -->
+<link rel="preload" as="image" fetchpriority="high"
+      imagesrcset="assets/img/storefront-umbrellas-480.avif 480w, assets/img/storefront-umbrellas-800.avif 800w, assets/img/storefront-umbrellas-1200.avif 1200w, assets/img/storefront-umbrellas-1360.avif 1360w"
+      imagesizes="(max-width: 900px) 100vw, 62vw" href="assets/img/storefront-umbrellas-1200.avif">
+
+<!-- Critical CSS: tokens + fonts + above-the-fold shell, inlined to avoid render-blocking -->
+<style>
+  @font-face{font-family:'Fraunces';font-style:normal;font-weight:300 900;font-display:swap;src:url('assets/fonts/fraunces-var.woff2') format('woff2-variations'),url('assets/fonts/fraunces-var.woff2') format('woff2');}
+  @font-face{font-family:'Space Mono';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/spacemono-400.woff2') format('woff2');}
+  @font-face{font-family:'Logo Rounded';font-style:normal;font-weight:600 800;font-display:swap;src:url('assets/fonts/baloo2-var.woff2') format('woff2-variations'),url('assets/fonts/baloo2-var.woff2') format('woff2');}
+  :root{--cream:#F3E7D6;--ink:#211D19;--charcoal:#2B2E31;--gold:#D7A928}
+  html{background:var(--cream)}
+  body{margin:0;font-family:'Fraunces',serif;color:var(--ink);background:var(--cream)}
+  .site-header{position:fixed;inset:0 0 auto 0;height:76px;display:flex;align-items:center;z-index:80}
+  .hero{min-height:100dvh;background:var(--charcoal)}
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--gold);color:var(--ink);padding:.75em 1.25em;z-index:200}
+  .skip-link:focus{left:1rem;top:1rem}
+</style>
+<noscript><style>.preloader{display:none !important}</style></noscript>
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- JSON-LD: LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "Morso Napoletano Café",
+  "alternateName": "Morso Napoletano by Antonio",
+  "image": "https://ahroonsanthosh.github.io/morso/assets/img/og-image.jpg",
+  "url": "https://ahroonsanthosh.github.io/morso/",
+  "telephone": "+353871045453",
+  "priceRange": "€€",
+  "servesCuisine": ["Italian", "Neapolitan", "Café"],
+  "menu": "https://ahroonsanthosh.github.io/morso/#menu",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Carrigaline West",
+    "addressLocality": "Carrigaline",
+    "addressRegion": "Co. Cork",
+    "postalCode": "P43 PK63",
+    "addressCountry": "IE"
+  },
+  "sameAs": [
+    "https://www.instagram.com/morso_napoletano_cafe/?hl=en",
+    "https://www.facebook.com/p/Morso-Napoletano-Caf%C3%A9-61562862347795/"
+  ],
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "16:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "08:30", "closes": "16:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "08:30", "closes": "16:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "08:30", "closes": "16:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "08:30", "closes": "16:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:30", "closes": "16:00" }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============ SVG SPRITE (logo, ornaments, icons) ============ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<defs>
+
+  <!-- ============ BRAND MARK ============
+       Reconstruction of the storefront channel-lettering sign
+       (assets/img/source/ms1.webp, ms7.webp, ms8.webp, ms13.webp).
+       Not a hand-trace of a vector source (none exists) — a faithful
+       recreation matching the sign's proportions, letter case, script
+       pairing and sampled gold hex (#D7A928) as closely as photographs
+       allow, in a rounded geometric webfont chosen to match the sign's
+       bold rounded terminals. -->
+  <symbol id="icon-logo" viewBox="0 0 860 216">
+    <text x="2" y="150" font-family="'Logo Rounded','Baloo 2',sans-serif" font-weight="800" font-size="152" letter-spacing="-3" fill="var(--logo-gold, #D7A928)">MORSO</text>
+    <text x="562" y="98" font-family="'Caveat',cursive" font-weight="700" font-size="46" fill="var(--logo-gold, #D7A928)" transform="rotate(-6 562 98)">Napoletano</text>
+    <text x="4" y="196" font-family="'Space Mono',monospace" font-weight="700" font-size="27" letter-spacing="4.5" fill="var(--logo-white, #F3E7D6)">ITALIAN CAF&#201; &amp; FOOD</text>
+  </symbol>
+
+  <!-- compact mark for nav / favicon-style use: just the M monogram in a circle -->
+  <symbol id="icon-logo-mark" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    <text x="50" y="68" font-family="'Logo Rounded','Baloo 2',sans-serif" font-weight="800" font-size="56" text-anchor="middle" fill="currentColor">M</text>
+  </symbol>
+
+  <!-- ============ ORNAMENT 1: DIVIDER (steam swirl) ============ -->
+  <symbol id="ornament-divider" viewBox="0 0 240 32">
+    <path d="M4 16 C 20 2, 34 2, 44 16 S 68 30, 84 16 S 108 2, 124 16 S 148 30, 164 16 S 188 2, 204 16 S 228 30, 236 16"
+          fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="4" cy="16" r="3.5" fill="currentColor"/>
+    <circle cx="236" cy="16" r="3.5" fill="currentColor"/>
+  </symbol>
+
+  <!-- ============ ORNAMENT 2: UNDERLINE / ANNOTATION MARK (chalk swash) ============ -->
+  <symbol id="ornament-underline" viewBox="0 0 220 24">
+    <path d="M3 14 C 40 22, 90 4, 130 12 S 190 20, 217 9"
+          fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- ============ ORNAMENT 3: BADGE / SEAL ============ -->
+  <symbol id="ornament-badge" viewBox="0 0 200 200">
+    <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="2"/>
+    <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="1.25" stroke-dasharray="1 7" stroke-linecap="round"/>
+    <path id="badge-arc-top" d="M 30 100 A 70 70 0 0 1 170 100" fill="none"/>
+    <path id="badge-arc-bottom" d="M 170 108 A 70 70 0 0 1 30 108" fill="none"/>
+    <text font-family="'Space Mono',monospace" font-weight="700" font-size="13.5" letter-spacing="3" fill="currentColor">
+      <textPath href="#badge-arc-top" startOffset="50%" text-anchor="middle">MADE FRESH DAILY</textPath>
+    </text>
+    <text font-family="'Space Mono',monospace" font-weight="700" font-size="13.5" letter-spacing="3" fill="currentColor">
+      <textPath href="#badge-arc-bottom" startOffset="50%" text-anchor="middle">CARRIGALINE WEST</textPath>
+    </text>
+    <g transform="translate(100 100)">
+      <path d="M -16 4 C -16 -14, 16 -14, 16 4 L 14 4 C 12 16, -12 16, -14 4 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M 16 -2 C 24 -2, 24 10, 16 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M -8 -17 C -10 -22, -6 -24, -7 -28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M 0 -18 C -2 -23, 2 -25, 1 -29" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M 8 -17 C 6 -22, 10 -24, 9 -28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </symbol>
+
+  <!-- ============ UTILITY ICONS (hand-drawn, not a library) ============ -->
+  <symbol id="icon-phone" viewBox="0 0 32 32">
+    <path d="M8 4c1.5 0 2 .8 2.6 2.4l1 2.7c.4 1-.1 1.9-1 2.6l-1.4 1.1c1.3 3 3.6 5.3 6.6 6.6l1.1-1.4c.7-.9 1.6-1.4 2.6-1l2.7 1c1.6.6 2.4 1.1 2.4 2.6v2.6c0 1.6-1.3 2.8-2.9 2.6C11.8 24.6 5.4 18.2 4.4 8.9 4.2 7.3 5.4 6 7 6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-pin" viewBox="0 0 32 32">
+    <path d="M16 3c-6 0-10.5 4.6-10.5 10.4C5.5 20.9 16 30 16 30s10.5-9.1 10.5-16.6C26.5 7.6 22 3 16 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="16" cy="13.5" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+
+  <symbol id="icon-clock" viewBox="0 0 32 32">
+    <circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M16 9v7.5l5.5 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-arrow" viewBox="0 0 24 24">
+    <path d="M5 19 19 5M19 5H9M19 5v10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="icon-social-ig" viewBox="0 0 40 40">
+    <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <text x="20" y="26" font-family="'Space Mono',monospace" font-weight="700" font-size="14" text-anchor="middle" fill="currentColor">IG</text>
+  </symbol>
+
+  <symbol id="icon-social-fb" viewBox="0 0 40 40">
+    <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <text x="20" y="26" font-family="'Space Mono',monospace" font-weight="700" font-size="14" text-anchor="middle" fill="currentColor">FB</text>
+  </symbol>
+
+  <!-- ============ DRAGGABLE STICKERS (the one unnecessary delightful thing) ============ -->
+  <symbol id="sticker-cannoli" viewBox="0 0 120 80">
+    <rect x="18" y="26" width="84" height="28" rx="14" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path d="M18 26 A14 14 0 0 1 18 54" fill="currentColor" opacity=".85"/>
+    <path d="M102 26 A14 14 0 0 0 102 54" fill="currentColor" opacity=".85"/>
+    <circle cx="12" cy="40" r="4" fill="currentColor"/>
+    <circle cx="108" cy="40" r="4" fill="currentColor"/>
+    <circle cx="45" cy="34" r="2" fill="currentColor" opacity=".6"/>
+    <circle cx="60" cy="46" r="2" fill="currentColor" opacity=".6"/>
+    <circle cx="75" cy="34" r="2" fill="currentColor" opacity=".6"/>
+  </symbol>
+
+  <symbol id="sticker-espresso" viewBox="0 0 100 100">
+    <path d="M22 40h44l-4 32a8 8 0 0 1-8 7H34a8 8 0 0 1-8-7z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/>
+    <path d="M66 46c10-2 16 4 16 11s-6 12-16 11" fill="none" stroke="currentColor" stroke-width="3.2"/>
+    <path d="M30 30c-2-4 2-6 0-10M42 30c-2-4 2-6 0-10M54 30c-2-4 2-6 0-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+    <line x1="16" y1="82" x2="72" y2="82" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="sticker-pizza" viewBox="0 0 100 100">
+    <path d="M50 10 L88 82 A62 62 0 0 1 12 82 Z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/>
+    <path d="M18 74 A58 58 0 0 1 82 74" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/>
+    <circle cx="50" cy="40" r="5" fill="currentColor"/>
+    <circle cx="34" cy="58" r="5" fill="currentColor"/>
+    <circle cx="64" cy="58" r="5" fill="currentColor"/>
+  </symbol>
+
+  <symbol id="icon-close" viewBox="0 0 24 24">
+    <path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="icon-menu" viewBox="0 0 24 24">
+    <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+
+</defs>
+</svg>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__mark">
+    <svg viewBox="0 0 100 100" class="preloader__ring"><circle cx="50" cy="50" r="42" /></svg>
+    <span class="preloader__pct" id="preloaderPct">0%</span>
+  </div>
+</div>
+
+<!-- ============ HEADER / NAV ============ -->
+<header class="site-header" id="siteHeader" data-nav-hide>
+  <div class="site-header__inner">
+    <a href="#hero" class="site-header__mark" aria-label="Morso Napoletano — home">
+      <svg class="site-header__logo" viewBox="0 0 860 216" role="img" aria-label="Morso Napoletano"><use href="#icon-logo"></use></svg>
+    </a>
+    <nav class="site-header__nav" aria-label="Primary">
+      <a href="#menu">Menu</a>
+      <a href="#story">Story</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#visit">Visit</a>
+    </nav>
+    <a class="btn btn--ghost site-header__cta" href="tel:+353871045453">
+      <svg class="icon" aria-hidden="true"><use href="#icon-phone"></use></svg>
+      <span>087 104 5453</span>
+    </a>
+  </div>
+</header>
+
+<!-- ============ BOTTOM PILL NAV (mobile) ============ -->
+<nav class="pill-nav" aria-label="Quick actions">
+  <a href="#menu"><svg class="icon" aria-hidden="true"><use href="#icon-menu"></use></svg><span>Menu</span></a>
+  <a href="#visit"><svg class="icon" aria-hidden="true"><use href="#icon-clock"></use></svg><span>Hours</span></a>
+  <a href="https://www.google.com/maps/search/?api=1&query=Morso+Napoletano+Caf%C3%A9+Carrigaline+West+Co.+Cork+P43+PK63" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-pin"></use></svg><span>Directions</span></a>
+  <a href="tel:+353871045453"><svg class="icon" aria-hidden="true"><use href="#icon-phone"></use></svg><span>Call</span></a>
+</nav>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero__media">
+      <picture>
+        <source type="image/avif" srcset="assets/img/storefront-umbrellas-480.avif 480w, assets/img/storefront-umbrellas-800.avif 800w, assets/img/storefront-umbrellas-1200.avif 1200w, assets/img/storefront-umbrellas-1360.avif 1360w" sizes="(max-width: 900px) 100vw, 62vw">
+        <source type="image/webp" srcset="assets/img/storefront-umbrellas-480.webp 480w, assets/img/storefront-umbrellas-800.webp 800w, assets/img/storefront-umbrellas-1200.webp 1200w, assets/img/storefront-umbrellas-1360.webp 1360w" sizes="(max-width: 900px) 100vw, 62vw">
+        <img src="assets/img/storefront-umbrellas-1200.jpg"
+             srcset="assets/img/storefront-umbrellas-480.jpg 480w, assets/img/storefront-umbrellas-800.jpg 800w, assets/img/storefront-umbrellas-1200.jpg 1200w, assets/img/storefront-umbrellas-1360.jpg 1360w"
+             sizes="(max-width: 900px) 100vw, 62vw"
+             width="1360" height="1020"
+             alt="Morso Napoletano Café's glass-fronted kiosk in Carrigaline West, red umbrellas over green bistro tables out front"
+             fetchpriority="high" decoding="async">
+      </picture>
+      <div class="hero__scrim" aria-hidden="true"></div>
+    </div>
+    <div class="hero__content">
+      <p class="eyebrow" data-eyebrow>Carrigaline West · Italian Café &amp; Food</p>
+      <h1 class="hero__title">
+        <span class="line-mask"><span class="line-mask__inner" data-line>Morso means a bite.</span></span>
+        <span class="line-mask"><span class="line-mask__inner" data-line><em>Ours are Neapolitan.</em></span></span>
+      </h1>
+      <p class="hero__sub">Made fresh every morning by Antonio — pasta bakes, hand-folded panini, pizza by the slice and proper espresso, from a kitchen the size of a postage stamp.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--gold" href="#menu"><span class="btn__label"><span>View the Menu</span><span aria-hidden="true">View the Menu</span></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+        <a class="btn btn--outline" href="https://www.google.com/maps/search/?api=1&query=Morso+Napoletano+Caf%C3%A9+Carrigaline+West+Co.+Cork+P43+PK63" target="_blank" rel="noopener"><span class="btn__label"><span>Get Directions</span><span aria-hidden="true">Get Directions</span></span></a>
+      </div>
+    </div>
+    <a href="#marquee" class="hero__scroll-cue" data-scroll-next aria-label="Scroll to explore">
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" id="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Open Tue–Sat 8:30–4</span><span class="marquee__dot">✦</span>
+      <span>Sun 10–4</span><span class="marquee__dot">✦</span>
+      <span>Closed Mondays</span><span class="marquee__dot">✦</span>
+      <span>Napoletano by Antonio</span><span class="marquee__dot">✦</span>
+      <span>Open Tue–Sat 8:30–4</span><span class="marquee__dot">✦</span>
+      <span>Sun 10–4</span><span class="marquee__dot">✦</span>
+      <span>Closed Mondays</span><span class="marquee__dot">✦</span>
+      <span>Napoletano by Antonio</span><span class="marquee__dot">✦</span>
+    </div>
+  </div>
+
+  <!-- ============ STICKERS / DIFFERENTIATOR ============ -->
+  <section class="section stickers" id="stickers">
+    <div class="container stickers__grid">
+      <div class="stickers__copy">
+        <p class="eyebrow" data-reveal>Go on, give them a flick</p>
+        <h2 class="h2" data-reveal>Small kitchen.<br>Big <em>morso.</em></h2>
+        <p class="body-lg" data-reveal>Everything at Morso comes out of that one glass-fronted kitchen — cannoli filled to order, espresso pulled the Neapolitan way, dough stretched fresh for pizza by the slice. Nothing arrives frozen in a van.</p>
+        <svg class="ornament ornament--underline" data-reveal aria-hidden="true"><use href="#ornament-underline"></use></svg>
+      </div>
+      <div class="stickers__stage" aria-hidden="true">
+        <svg class="sticker" data-sticker="item" data-float-duration="2.6" style="--x:18%;--y:20%"><use href="#sticker-cannoli"></use></svg>
+        <svg class="sticker" data-sticker="item" data-float-duration="3.1" style="--x:55%;--y:52%"><use href="#sticker-espresso"></use></svg>
+        <svg class="sticker" data-sticker="item" data-float-duration="2.8" style="--x:74%;--y:14%"><use href="#sticker-pizza"></use></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MENU ============ -->
+  <section class="section section--charcoal menu-section" id="menu">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--on-dark" data-reveal>The chalkboard</p>
+        <h2 class="h2 h2--on-dark" data-reveal>What's on today</h2>
+        <p class="body-lg body-lg--on-dark" data-reveal>Rewritten by hand most mornings. This is the gist of it — ask at the counter for anything we've added since.</p>
+      </div>
+
+      <!-- pinned scroll-scrubbed category cycler -->
+      <div class="menu-cycler" data-cycler>
+        <div class="menu-cycler__list" role="list">
+          <button class="menu-cycler__item is-active" data-cycler-target="0" role="listitem">Dishes to Eat In</button>
+          <button class="menu-cycler__item" data-cycler-target="1" role="listitem">Panini, Focaccia &amp; Pizza</button>
+          <button class="menu-cycler__item" data-cycler-target="2" role="listitem">Coffees &amp; Hot Drinks</button>
+        </div>
+        <div class="menu-cycler__media">
+          <div class="menu-cycler__frame is-active" data-cycler-frame="0">
+            <picture>
+              <source type="image/avif" srcset="assets/img/display-counter-480.avif 480w, assets/img/display-counter-765.avif 765w" sizes="(max-width:900px) 90vw, 34vw">
+              <source type="image/webp" srcset="assets/img/display-counter-480.webp 480w, assets/img/display-counter-765.webp 765w" sizes="(max-width:900px) 90vw, 34vw">
+              <img src="assets/img/display-counter-480.jpg" srcset="assets/img/display-counter-480.jpg 480w, assets/img/display-counter-765.jpg 765w" sizes="(max-width:900px) 90vw, 34vw" width="765" height="1020" alt="The counter display case at Morso Napoletano with panini and arancini ready to order" loading="lazy" decoding="async">
+            </picture>
+          </div>
+          <div class="menu-cycler__frame" data-cycler-frame="1">
+            <picture>
+              <source type="image/avif" srcset="assets/img/panini-plate-480.avif 480w, assets/img/panini-plate-765.avif 765w" sizes="(max-width:900px) 90vw, 34vw">
+              <source type="image/webp" srcset="assets/img/panini-plate-480.webp 480w, assets/img/panini-plate-765.webp 765w" sizes="(max-width:900px) 90vw, 34vw">
+              <img src="assets/img/panini-plate-480.jpg" srcset="assets/img/panini-plate-480.jpg 480w, assets/img/panini-plate-765.jpg 765w" sizes="(max-width:900px) 90vw, 34vw" width="765" height="1020" alt="A Morso panini, sliced open, packed with Parma ham and rocket" loading="lazy" decoding="async">
+            </picture>
+          </div>
+          <div class="menu-cycler__frame" data-cycler-frame="2">
+            <picture>
+              <source type="image/avif" srcset="assets/img/latte-duo-480.avif 480w, assets/img/latte-duo-765.avif 765w" sizes="(max-width:900px) 90vw, 34vw">
+              <source type="image/webp" srcset="assets/img/latte-duo-480.webp 480w, assets/img/latte-duo-765.webp 765w" sizes="(max-width:900px) 90vw, 34vw">
+              <img src="assets/img/latte-duo-480.jpg" srcset="assets/img/latte-duo-480.jpg 480w, assets/img/latte-duo-765.jpg 765w" sizes="(max-width:900px) 90vw, 34vw" width="765" height="1020" alt="Two flat whites with leaf latte art on a wooden table" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+      </div>
+
+      <svg class="ornament ornament--divider ornament--on-dark" data-reveal aria-hidden="true"><use href="#ornament-divider"></use></svg>
+
+      <!-- EDIT MENU BELOW: plain text, safe to edit directly -->
+      <div class="menu-board">
+        <div class="menu-board__col">
+          <h3 class="menu-board__heading">Italian Dishes to Eat In</h3>
+          <ul class="menu-list">
+            <li><div class="menu-list__row"><span class="menu-list__name">Beef Lasagna</span><span class="menu-list__price">€14.90</span></div><p class="menu-list__desc">Homemade beef ragù &amp; béchamel, Parmesan, mozzarella</p></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Cannelloni Pasta</span><span class="menu-list__price">€13.90</span></div><p class="menu-list__desc">Spinach &amp; ricotta, tomato &amp; béchamel sauce</p></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Parmigiana</span><span class="menu-list__price">€13.90</span></div><p class="menu-list__desc">Aubergine baked in tomato-basil sauce, mozzarella &amp; Parmesan</p></li>
+          </ul>
+        </div>
+        <div class="menu-board__col">
+          <h3 class="menu-board__heading">Panini, Focaccia &amp; Pizza</h3>
+          <ul class="menu-list">
+            <li><div class="menu-list__row"><span class="menu-list__name">Classico</span><span class="menu-list__price">€9.90</span></div><p class="menu-list__desc">Italian cooked ham, Asiago, tomato &amp; lettuce</p></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Crudo</span><span class="menu-list__price">€9.90</span></div><p class="menu-list__desc">Parma ham, pesto, sun-dried tomato, mozzarella &amp; rocket</p></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Vegetariano</span><span class="menu-list__price">€9.90</span></div><p class="menu-list__desc">Asiago, grilled artichoke, peppers &amp; fresh tomato</p></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Margherita, by the slice</span><span class="menu-list__price">€4.90</span></div></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Special pizza, by the slice</span><span class="menu-list__price">€5.90</span></div></li>
+          </ul>
+        </div>
+        <div class="menu-board__col">
+          <h3 class="menu-board__heading">Coffees &amp; Hot Drinks</h3>
+          <ul class="menu-list menu-list--tight">
+            <li><div class="menu-list__row"><span class="menu-list__name">Espresso</span><span class="menu-list__price">€2.00 / €2.50</span></div></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Espresso Macchiato</span><span class="menu-list__price">€2.00 / €2.50</span></div></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Cappuccino</span><span class="menu-list__price">€3.50 / €3.90</span></div></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Latte</span><span class="menu-list__price">€3.80 / €3.90</span></div></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Flat White</span><span class="menu-list__price">€3.50</span></div></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Americano</span><span class="menu-list__price">€3.30</span></div></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Mocha</span><span class="menu-list__price">€4.20</span></div></li>
+            <li><div class="menu-list__row"><span class="menu-list__name">Chai Latte</span><span class="menu-list__price">€4.20</span></div></li>
+          </ul>
+          <p class="menu-board__note">Hot chocolate, tea, herbal teas, babyccino &amp; iced latte are also on the board — ask for today's price. Non-dairy milk, extra shot or syrup, €0.60.</p>
+        </div>
+      </div>
+      <p class="menu-board__disclaimer">Prices as chalked in-café and subject to change — this page is updated by hand, same as the board.</p>
+      <!-- EDIT MENU ABOVE -->
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section class="section story" id="story">
+    <div class="container story__grid">
+      <div class="story__media" data-peel>
+        <picture class="story__img story__img--back" data-peel-item="back">
+          <source type="image/avif" srcset="assets/img/storefront-day-front-480.avif 480w, assets/img/storefront-day-front-800.avif 800w, assets/img/storefront-day-front-1200.avif 1200w" sizes="(max-width:900px) 80vw, 30vw">
+          <source type="image/webp" srcset="assets/img/storefront-day-front-480.webp 480w, assets/img/storefront-day-front-800.webp 800w, assets/img/storefront-day-front-1200.webp 1200w" sizes="(max-width:900px) 80vw, 30vw">
+          <img src="assets/img/storefront-day-front-800.jpg" srcset="assets/img/storefront-day-front-480.jpg 480w, assets/img/storefront-day-front-800.jpg 800w, assets/img/storefront-day-front-1200.jpg 1200w" sizes="(max-width:900px) 80vw, 30vw" width="1360" height="1020" alt="Morso Napoletano's storefront by day, gold signage over dark corrugated cladding" loading="lazy" decoding="async">
+        </picture>
+        <picture class="story__img story__img--front" data-peel-item="front">
+          <source type="image/avif" srcset="assets/img/storefront-evening-480.avif 480w, assets/img/storefront-evening-800.avif 800w, assets/img/storefront-evening-1200.avif 1200w" sizes="(max-width:900px) 80vw, 30vw">
+          <source type="image/webp" srcset="assets/img/storefront-evening-480.webp 480w, assets/img/storefront-evening-800.webp 800w, assets/img/storefront-evening-1200.webp 1200w" sizes="(max-width:900px) 80vw, 30vw">
+          <img src="assets/img/storefront-evening-800.jpg" srcset="assets/img/storefront-evening-480.jpg 480w, assets/img/storefront-evening-800.jpg 800w, assets/img/storefront-evening-1200.jpg 1200w" sizes="(max-width:900px) 80vw, 30vw" width="1360" height="1020" alt="Morso Napoletano's storefront in the evening light" loading="lazy" decoding="async">
+        </picture>
+      </div>
+      <div class="story__copy">
+        <p class="eyebrow" data-reveal>The name</p>
+        <h2 class="h2" data-reveal>A <em>morso</em> is a bite — un morso di Napoli, right here in Carrigaline.</h2>
+        <p class="body-lg" data-reveal>Antonio runs the kitchen at Morso Napoletano: beef ragù lasagna layered the long way, cannelloni filled fresh, aubergine parmigiana baked to order, and a pizza-by-the-slice counter that doesn't quit.</p>
+        <p class="body-lg" data-reveal>It's not a big room — a glass-fronted kiosk looking out over Carrigaline West — so everything gets made in view, a few feet from where you're sitting.</p>
+        <svg class="ornament ornament--badge" data-reveal aria-hidden="true"><use href="#ornament-badge"></use></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section class="section gallery" id="gallery">
+    <div class="section-head container">
+      <p class="eyebrow" data-reveal>Inside the glass</p>
+      <h2 class="h2" data-reveal>Where it happens</h2>
+    </div>
+    <div class="gallery__rail" data-rail>
+      <figure class="gallery__item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/display-counter-480.avif 480w, assets/img/display-counter-765.avif 765w">
+          <source type="image/webp" srcset="assets/img/display-counter-480.webp 480w, assets/img/display-counter-765.webp 765w">
+          <img src="assets/img/display-counter-480.jpg" width="765" height="1020" alt="Fresh panini and arancini in the counter display case" loading="lazy" decoding="async">
+        </picture>
+        <figcaption>The counter, most mornings</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/cannoli-480.avif 480w, assets/img/cannoli-765.avif 765w">
+          <source type="image/webp" srcset="assets/img/cannoli-480.webp 480w, assets/img/cannoli-765.webp 765w">
+          <img src="assets/img/cannoli-480.jpg" width="765" height="1020" alt="A cannoli filled with chocolate ricotta, dusted with icing sugar" loading="lazy" decoding="async">
+        </picture>
+        <figcaption>Cannoli, filled to order</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/coffee-window-view-480.avif 480w, assets/img/coffee-window-view-765.avif 765w">
+          <source type="image/webp" srcset="assets/img/coffee-window-view-480.webp 480w, assets/img/coffee-window-view-765.webp 765w">
+          <img src="assets/img/coffee-window-view-480.jpg" width="765" height="1020" alt="A cappuccino by the window, looking out over Carrigaline West" loading="lazy" decoding="async">
+        </picture>
+        <figcaption>The window seat</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/patio-spread-person-480.avif 480w, assets/img/patio-spread-person-765.avif 765w">
+          <source type="image/webp" srcset="assets/img/patio-spread-person-480.webp 480w, assets/img/patio-spread-person-765.webp 765w">
+          <img src="assets/img/patio-spread-person-480.jpg" width="765" height="1020" alt="Coffee, croissant and cake laid out at an outdoor table" loading="lazy" decoding="async">
+        </picture>
+        <figcaption>Out on the patio</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/cappuccino-orange-cup-480.avif 480w, assets/img/cappuccino-orange-cup-765.avif 765w">
+          <source type="image/webp" srcset="assets/img/cappuccino-orange-cup-480.webp 480w, assets/img/cappuccino-orange-cup-765.webp 765w">
+          <img src="assets/img/cappuccino-orange-cup-480.jpg" width="765" height="1020" alt="A takeaway cappuccino dusted with cinnamon" loading="lazy" decoding="async">
+        </picture>
+        <figcaption>To go, if you're in a hurry</figcaption>
+      </figure>
+      <figure class="gallery__item">
+        <picture>
+          <source type="image/avif" srcset="assets/img/menu-chalkboard-480.avif 480w, assets/img/menu-chalkboard-765.avif 765w">
+          <source type="image/webp" srcset="assets/img/menu-chalkboard-480.webp 480w, assets/img/menu-chalkboard-765.webp 765w">
+          <img src="assets/img/menu-chalkboard-480.jpg" width="765" height="1020" alt="The hand-chalked coffee and Italian menu boards inside Morso Napoletano" loading="lazy" decoding="async">
+        </picture>
+        <figcaption>The board itself</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ VALUES / CORKBOARD ============ -->
+  <section class="section section--charcoal corkboard" id="values">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--on-dark" data-reveal>Why locals stop in</p>
+        <h2 class="h2 h2--on-dark" data-reveal>Pinned to the board</h2>
+      </div>
+      <div class="corkboard__grid" data-corkboard>
+        <p class="corkboard__card" data-rotate="odd">Focaccia &amp; panini made to order, not stacked in a fridge</p>
+        <p class="corkboard__card" data-rotate="even">Espresso pulled properly, every single cup</p>
+        <p class="corkboard__card" data-rotate="odd">A chalkboard menu that actually changes</p>
+        <p class="corkboard__card" data-rotate="even">Pizza by the slice, any time we're open</p>
+        <p class="corkboard__card" data-rotate="odd">Outdoor tables when Cork gives us the weather</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VISIT / HOURS / LOCATION ============ -->
+  <section class="section visit" id="visit">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>Find us</p>
+        <h2 class="h2" data-reveal>Carrigaline West</h2>
+      </div>
+      <div class="visit__grid">
+
+        <!-- EDIT HOURS BELOW -->
+        <div class="info-card" data-reveal>
+          <h3 class="info-card__title"><svg class="icon" aria-hidden="true"><use href="#icon-clock"></use></svg>Hours</h3>
+          <table class="hours-table">
+            <tbody>
+              <tr><th scope="row">Sunday</th><td><time>10:00–16:00</time></td></tr>
+              <tr class="hours-table--closed"><th scope="row">Monday</th><td>Closed</td></tr>
+              <tr><th scope="row">Tuesday</th><td><time>08:30–16:00</time></td></tr>
+              <tr><th scope="row">Wednesday</th><td><time>08:30–16:00</time></td></tr>
+              <tr><th scope="row">Thursday</th><td><time>08:30–16:00</time></td></tr>
+              <tr><th scope="row">Friday</th><td><time>08:30–16:00</time></td></tr>
+              <tr><th scope="row">Saturday</th><td><time>08:30–16:00</time></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- EDIT HOURS ABOVE -->
+
+        <!-- EDIT CONTACT BELOW -->
+        <div class="info-card" data-reveal>
+          <h3 class="info-card__title"><svg class="icon" aria-hidden="true"><use href="#icon-pin"></use></svg>Address</h3>
+          <address>
+            Morso Napoletano Café<br>
+            Carrigaline West<br>
+            Co. Cork, P43 PK63<br>
+            Ireland
+          </address>
+          <a class="info-card__link" href="https://www.google.com/maps/search/?api=1&query=Morso+Napoletano+Caf%C3%A9+Carrigaline+West+Co.+Cork+P43+PK63" target="_blank" rel="noopener">Get directions →</a>
+        </div>
+
+        <div class="info-card" data-reveal>
+          <h3 class="info-card__title"><svg class="icon" aria-hidden="true"><use href="#icon-phone"></use></svg>Call &amp; Follow</h3>
+          <a class="info-card__link" href="tel:+353871045453">087 104 5453</a>
+          <div class="info-card__socials">
+            <a href="https://www.instagram.com/morso_napoletano_cafe/?hl=en" target="_blank" rel="noopener" aria-label="Morso Napoletano on Instagram"><svg class="icon icon--social" aria-hidden="true"><use href="#icon-social-ig"></use></svg></a>
+            <a href="https://www.facebook.com/p/Morso-Napoletano-Caf%C3%A9-61562862347795/" target="_blank" rel="noopener" aria-label="Morso Napoletano on Facebook"><svg class="icon icon--social" aria-hidden="true"><use href="#icon-social-fb"></use></svg></a>
+          </div>
+        </div>
+        <!-- EDIT CONTACT ABOVE -->
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div>
+        <p class="eyebrow eyebrow--on-dark">Morso Napoletano · Italian Café &amp; Food</p>
+        <address class="site-footer__address">Carrigaline West, Co. Cork, P43 PK63 · <a href="tel:+353871045453">087 104 5453</a></address>
+      </div>
+      <div class="site-footer__socials">
+        <a href="https://www.instagram.com/morso_napoletano_cafe/?hl=en" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon icon--social" aria-hidden="true"><use href="#icon-social-ig"></use></svg></a>
+        <a href="https://www.facebook.com/p/Morso-Napoletano-Caf%C3%A9-61562862347795/" target="_blank" rel="noopener" aria-label="Facebook"><svg class="icon icon--social" aria-hidden="true"><use href="#icon-social-fb"></use></svg></a>
+      </div>
+    </div>
+    <div class="site-footer__wordmark" aria-hidden="true" data-footer-wordmark>MORSO</div>
+    <div class="site-footer__bottom">
+      <span>© <span id="year">2026</span> Morso Napoletano Café</span>
+      <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<noscript><style>[data-reveal],.hero__sub,.hero__ctas,.line-mask__inner,.site-footer__wordmark{opacity:1 !important;transform:none !important}</style></noscript>
+
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/vendor/lenis.min.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
