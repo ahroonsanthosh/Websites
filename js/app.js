@@ -266,11 +266,15 @@
   (function initGalleryRail() {
     var rail = document.querySelector("[data-rail]");
     if (!rail || !isDesktop.matches || reduceMotion) return;
-    var section = rail.closest(".gallery");
     var scrollDistance = function () { return rail.scrollWidth - window.innerWidth + 96; };
     var tween = gsap.to(rail, { x: function () { return -scrollDistance(); }, ease: "none" });
+    /* Trigger on the rail itself, not the whole section — the section-head
+       heading scrolls past normally first, and the horizontal takeover only
+       engages once the photo row has settled near the top of the viewport
+       (photos already properly in view), not the instant the section (still
+       mostly heading) starts entering. */
     ScrollTrigger.create({
-      trigger: section,
+      trigger: rail,
       start: "top top",
       end: function () { return "+=" + scrollDistance(); },
       pin: true,
