@@ -108,25 +108,29 @@
         "dish": "Seafood chowder",
         "wine": "Sauvignon Blanc",
         "note": "Sharp enough to cut back through the cream. It is the pairing we recommend more than any other, and the one people come back for.",
-        "img": "bl3"
+        "img": "bl3",
+        "alt": "A bowl of seafood chowder beside a toasted sandwich at Blondie."
       },
       {
         "dish": "The daily pasta",
         "wine": "Chardonnay",
         "note": "The pasta changes every day, so the glass has to be able to take whatever the kitchen decided that morning. Chardonnay has the weight for it.",
-        "img": "bl9"
+        "img": "bl10",
+        "alt": "A table mid-service at Blondie — the daily special changes, so does the glass."
       },
       {
         "dish": "Chicken, bacon and avocado salad",
         "wine": "Picpoul de Pinet",
         "note": "Cold, dry, a bit saline. It keeps a big warm salad from feeling heavy at two in the afternoon.",
-        "img": "bl4"
+        "img": "bl4",
+        "alt": "A chicken, bacon and avocado salad in a wide bowl at Blondie."
       },
       {
         "dish": "Steak and caramelised onion toastie",
         "wine": "A glass of Rioja",
         "note": "The one red we will push on you before four o'clock, and we stand over it.",
-        "img": "bl2"
+        "img": "bl2",
+        "alt": "A toasted sandwich on a plate at Blondie, cut and stacked."
       }
     ]
   },

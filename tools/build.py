@@ -209,7 +209,7 @@ def build_pairs(items):
             f'<p class="pair__wine">{WINE_MARK}{e(it["wine"])}</p>'
             f'<p class="pair__note">{e(it["note"])}</p></li>'
         )
-        alt = f'{it["dish"]} at Blondie, the dish we pour {it["wine"]} beside.'
+        alt = it.get("alt") or f'{it["dish"]} at Blondie.'
         p = pic(it["img"], "4x5", "(min-width: 62rem) 34vw, 92vw", alt)
         rows[-1] = rows[-1].replace("</li>", f'<div class="pair__shot">{p}</div></li>')
         frames.append(f'<div class="pair__frame" data-frame="{i}"{on}>{p}</div>')
