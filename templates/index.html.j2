@@ -215,18 +215,20 @@
 </section>
 
 <section class="section gallery-section gradient-field" id="gallery">
-  <div class="gallery-rail-viewport wrap">
-    <div class="section-head" data-reveal>
-      <span class="progress-index">03 / Gallery</span>
-      <h2>From the kitchen this week</h2>
-    </div>
-    <div class="gallery-rail">
-      {% for g in gallery %}
-      <figure class="gallery-card">
-        <img src="./assets/images/{{ g.image }}-720.webp" srcset="./assets/images/{{ g.image }}-480.webp 480w, ./assets/images/{{ g.image }}-720.webp 720w, ./assets/images/{{ g.image }}-960.webp 960w" sizes="(min-width: 900px) 24vw, 70vw" width="765" height="1020" loading="lazy" alt="{{ g.alt }}">
-        <figcaption class="gallery-caption mono">{{ g.caption }}</figcaption>
-      </figure>
-      {% endfor %}
+  <div class="gallery-sticky">
+    <div class="gallery-rail-viewport wrap">
+      <div class="section-head" data-reveal>
+        <span class="progress-index">03 / Gallery</span>
+        <h2>From the kitchen this week</h2>
+      </div>
+      <div class="gallery-rail">
+        {% for g in gallery %}
+        <figure class="gallery-card">
+          <img src="./assets/images/{{ g.image }}-720.webp" srcset="./assets/images/{{ g.image }}-480.webp 480w, ./assets/images/{{ g.image }}-720.webp 720w, ./assets/images/{{ g.image }}-960.webp 960w" sizes="(min-width: 900px) 24vw, 70vw" width="765" height="1020" loading="lazy" alt="{{ g.alt }}">
+          <figcaption class="gallery-caption mono">{{ g.caption }}</figcaption>
+        </figure>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </section>
