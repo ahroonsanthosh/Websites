@@ -5,6 +5,8 @@ import { GallerySection } from "@/components/sections/GallerySection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { FooterSection } from "@/components/sections/FooterSection";
 
+const R = "https://raw.githubusercontent.com/ahroonsanthosh/Brightside/main";
+
 export default function Home() {
   return (
     <main className="relative overflow-x-hidden">
@@ -35,14 +37,14 @@ export default function Home() {
         ctaPrimaryHref="#contact"
         ctaSecondaryLabel="See the Menu"
         ctaSecondaryHref="#menu"
-        productImageSrc="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=90&auto=format&fit=crop"
+        productImageSrc={R + "/Screenshot%202026-06-26%20111049.png"}
         productImageAlt="Bright Side specialty flat white with latte art"
         scrollLength={6800}
       />
 
       <MenuSection />
 
-      {/* Hero 2: granola bowl floats in from the right */}
+      {/* Hero 2: food bowl floats in from the right */}
       <CafeCinematicHero
         instanceId="hero2"
         tagline1="Eat well,"
@@ -67,8 +69,8 @@ export default function Home() {
         ctaPrimaryHref="#gallery"
         ctaSecondaryLabel="Find Us"
         ctaSecondaryHref="#contact"
-        productImageSrc="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800&q=90&auto=format&fit=crop"
-        productImageAlt="Bright Side granola bowl with seasonal fruit and honey"
+        productImageSrc={R + "/Screenshot%202026-06-26%20111113.png"}
+        productImageAlt="Bright Side fresh food bowl"
         scrollLength={6200}
       />
 

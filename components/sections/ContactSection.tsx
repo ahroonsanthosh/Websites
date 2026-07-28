@@ -6,6 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
+const R = "https://raw.githubusercontent.com/ahroonsanthosh/Brightside/main";
+
 const HOURS = [
   { day: "Monday", time: "8 am – 3 pm" },
   { day: "Tuesday", time: "8 am – 3 pm" },
@@ -27,6 +29,14 @@ export function ContactSection() {
         {
           autoAlpha: 1, y: 0, ease: "expo.out", duration: 1.1, stagger: 0.12,
           scrollTrigger: { trigger: sectionRef.current, start: "top 76%", toggleActions: "play none none none" },
+        }
+      );
+      gsap.fromTo(
+        ".contact-photo",
+        { autoAlpha: 0, scale: 1.04 },
+        {
+          autoAlpha: 1, scale: 1, ease: "expo.out", duration: 1.4,
+          scrollTrigger: { trigger: ".contact-photo", start: "top 82%", toggleActions: "play none none none" },
         }
       );
     }, sectionRef);
@@ -51,6 +61,20 @@ export function ContactSection() {
           <h2 className="text-5xl md:text-6xl font-bold text-[#2C2C2A] tracking-tight leading-none">
             You know where to find us.
           </h2>
+          <p className="mt-5 text-[#5C5C56] text-lg font-light max-w-sm mx-auto">
+            Drop in any weekday. No reservations, no fuss — just good coffee and a warm welcome.
+          </p>
+        </div>
+
+        {/* Photo strip above the details */}
+        <div className="contact-photo mb-14 rounded-3xl overflow-hidden h-56 md:h-72 shadow-[0_8px_40px_rgba(61,90,60,0.10)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={R + "/Screenshot%202026-06-26%20111202.png"}
+            alt="Inside Bright Side café on Washington Street"
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">

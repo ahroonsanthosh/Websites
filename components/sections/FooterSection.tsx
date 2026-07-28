@@ -1,7 +1,20 @@
+const R = "https://raw.githubusercontent.com/ahroonsanthosh/Brightside/main";
+
 export function FooterSection() {
   return (
-    <footer className="bg-[#1E2E1E] text-white/60 py-12 px-6">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="relative bg-[#1E2E1E] text-white/60 py-16 px-6 overflow-hidden">
+      {/* Subtle background photo at very low opacity */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={R + "/Screenshot%202026-06-26%20111156.png"}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover opacity-[0.07] pointer-events-none select-none"
+      />
+      {/* Gradient overlay to keep text readable and fade edges */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1E2E1E] via-[#1E2E1E]/80 to-[#1E2E1E]/60 pointer-events-none" />
+
+      <div className="relative max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-2.5">
           <span className="w-6 h-6 rounded-full bg-[#4A6849] flex items-center justify-center shadow-sm">
             <span className="text-[9px] text-white font-black">B</span>

@@ -6,35 +6,37 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
+const R = "https://raw.githubusercontent.com/ahroonsanthosh/Brightside/main";
+
 const PHOTOS = [
   {
-    src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=85&auto=format&fit=crop",
-    alt: "Latte art — leaf pattern on a flat white",
+    src: R + "/Screenshot%202026-06-26%20111123.png",
+    alt: "Inside Bright Side café",
     span: "col-span-2 row-span-2",
   },
   {
-    src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700&q=85&auto=format&fit=crop",
-    alt: "Cosy café interior with sage panelling",
+    src: R + "/Screenshot%202026-06-26%20111138.png",
+    alt: "Bright Side drinks and detail",
     span: "col-span-1 row-span-1",
   },
   {
-    src: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&q=85&auto=format&fit=crop",
-    alt: "Freshly baked cinnamon rolls",
+    src: R + "/Screenshot%202026-06-26%20111147.png",
+    alt: "Bright Side café counter",
     span: "col-span-1 row-span-1",
   },
   {
-    src: "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=700&q=85&auto=format&fit=crop",
-    alt: "Granola bowl with fruit and honey",
+    src: R + "/Screenshot%202026-06-26%20111156.png",
+    alt: "Bright Side café atmosphere",
     span: "col-span-1 row-span-2",
   },
   {
-    src: "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=700&q=85&auto=format&fit=crop",
-    alt: "Artisan sandwich on sourdough",
+    src: R + "/Screenshot%202026-06-26%20111049.png",
+    alt: "Specialty latte with latte art",
     span: "col-span-1 row-span-1",
   },
   {
-    src: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=700&q=85&auto=format&fit=crop",
-    alt: "Warm morning coffee on a wooden table",
+    src: R + "/Screenshot%202026-06-26%20111113.png",
+    alt: "Fresh food at Bright Side",
     span: "col-span-1 row-span-1",
   },
 ];
@@ -80,6 +82,9 @@ export function GallerySection() {
           <h2 className="text-5xl md:text-6xl font-bold text-[#2C2C2A] tracking-tight leading-none">
             A corner worth finding.
           </h2>
+          <p className="mt-5 text-[#5C5C56] text-lg font-light max-w-md mx-auto">
+            Tucked into Washington Street — small, calm, and made for mornings that deserve more than rushed.
+          </p>
         </div>
 
         <div className="gallery-grid grid grid-cols-3 grid-rows-3 gap-3 md:gap-4 h-[520px] md:h-[680px]">
