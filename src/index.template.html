@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en-IE" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{META_TITLE}}</title>
+<meta name="description" content="{{META_DESC}}">
+<link rel="canonical" href="{{SITE}}">
+<meta name="theme-color" content="{{THEME}}">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="restaurant.restaurant">
+<meta property="og:site_name" content="Blondie Café">
+<meta property="og:locale" content="en_IE">
+<meta property="og:title" content="{{META_TITLE}}">
+<meta property="og:description" content="{{META_DESC}}">
+<meta property="og:url" content="{{SITE}}">
+<meta property="og:image" content="{{SITE}}assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The room at Blondie, Main Street, Ballincollig — long tables under amber pendant lamps.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{META_TITLE}}">
+<meta name="twitter:description" content="{{META_DESC}}">
+<meta name="twitter:image" content="{{SITE}}assets/og.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/dmmono-400.woff2" as="font" type="font/woff2" crossorigin>
+{{PRELOAD}}
+<style>{{CSS}}</style>
+<script>document.documentElement.className = document.documentElement.className.replace("no-js", "js");</script>
+<script type="application/ld+json">{{JSONLD}}</script>
+</head>
+<body data-loading="1">
+<div class="ground" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ── PRELOADER ─────────────────────────────────────────────────────────── -->
+<div class="pre" id="pre" role="status" aria-live="polite">
+  <div class="pre__in">
+    <div class="pre__badge">{{BADGE}}</div>
+    <div class="pre__bar"><i id="pre-bar"></i></div>
+    <p class="pre__n"><span id="pre-n">0</span>% <span class="vh">loading Blondie</span></p>
+  </div>
+</div>
+
+<!-- ── RAIL: the trading day ─────────────────────────────────────────────── -->
+<nav class="rail" aria-label="Sections">
+  <div class="rail__inner">{{RAIL}}</div>
+</nav>
+
+<!-- ── NAV ───────────────────────────────────────────────────────────────── -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top" aria-label="Blondie Café, home">
+    <span class="nav__badge" aria-hidden="true">{{BADGE}}</span>
+    <span class="nav__word">Blondie</span>
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a class="nav__link" href="#pairing">Wine</a>
+    <a class="nav__link" href="#case">The case</a>
+    <a class="nav__link" href="#menu">Menu</a>
+    <a class="nav__link" href="#room">The room</a>
+    <a class="nav__link" href="#find">Find us</a>
+  </nav>
+  <a class="btn btn--red" href="{{BOOKING}}" target="_blank" rel="noopener">
+    Book
+    <span class="btn__ico" aria-hidden="true">{{ARROW}}{{ARROW}}</span>
+  </a>
+</header>
+
+<main id="main">
+
+<!-- ── HERO ──────────────────────────────────────────────────────────────── -->
+<section class="hero" id="top">
+  <div class="seal" aria-hidden="true">{{SEAL}}</div>
+  <div class="wrap">
+    <div class="hero__grid">
+      <div>
+        <p class="u hero__eyebrow">{{HERO_EYEBROW}}</p>
+        <h1 class="hero__h1 display">{{HERO_LINES}}</h1>
+        <p class="lede hero__body">{{HERO_BODY}}</p>
+        <div class="hero__cta">
+          <a class="btn" href="{{BOOKING}}" target="_blank" rel="noopener">
+            {{HERO_CTA}}
+            <span class="btn__ico" aria-hidden="true">{{ARROW}}{{ARROW}}</span>
+          </a>
+          <span class="hero__ctanote">{{HERO_CTANOTE}}</span>
+        </div>
+        <p class="now" id="now" style="margin-top:1.5rem"><i aria-hidden="true"></i><span>Checking the clock…</span></p>
+      </div>
+      <figure class="hero__figure" data-parallax>
+        {{HERO_PIC}}
+        <figcaption class="hero__cap">The room, a Saturday</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ───────────────────────────────────────────────────────────── -->
+<div class="mq" id="mq" aria-hidden="true">
+  <div class="mq__track" id="mq-track">{{MARQUEE}}</div>
+</div>
+<p class="vh">All-day brunch, baked this morning, wine by the glass, closed Mondays, Main Street Ballincollig.</p>
+
+<!-- ── PAIRING ───────────────────────────────────────────────────────────── -->
+<section class="band" id="pairing" data-marker="{{PAIR_CLOCK}}">
+  <div class="wrap">
+    <div class="head">
+      <p class="head__meta"><span class="head__clock">{{PAIR_CLOCK}}</span><span class="u">{{PAIR_KICKER}}</span><span class="head__rule"></span></p>
+      <h2 class="head__title display" data-reveal>{{PAIR_TITLE}}</h2>
+      <p class="lede" data-reveal>{{PAIR_BODY}}</p>
+    </div>
+    <div class="pair__grid">
+      <ol class="pair__list" id="pair-list">{{PAIR_ITEMS}}</ol>
+      <div class="pair__stage">
+        <div class="pair__sticky">
+          <div class="pair__frames" id="pair-frames">{{PAIR_FRAMES}}</div>
+          <p class="pair__stagecap u"><span>Poured by the glass</span><span id="pair-count">01 / 04</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BAKE CASE ─────────────────────────────────────────────────────────── -->
+<section class="band case" id="case" data-marker="{{CASE_CLOCK}}">
+  <div class="wrap">
+    <div class="head">
+      <p class="head__meta"><span class="head__clock">{{CASE_CLOCK}}</span><span class="u">{{CASE_KICKER}}</span><span class="head__rule"></span></p>
+      <h2 class="head__title display" data-reveal>{{CASE_TITLE}}</h2>
+    </div>
+    <div class="case__grid">
+      <div>
+        <p class="chalk case__chalk">{{CASE_CHALK}}{{UNDERLINE}}</p>
+        <p class="lede" data-reveal>{{CASE_BODY}}</p>
+        <ul class="case__list">{{CASE_ITEMS}}</ul>
+      </div>
+      <div class="case__play" id="play">
+        <p class="case__hint u">Pick one up<br><span style="text-transform:none;letter-spacing:0;font-family:var(--display)">go on, they don't break</span></p>
+        {{CRUMBS}}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MENU RAIL ─────────────────────────────────────────────────────────── -->
+<section class="band rail-sec" id="menu" data-marker="{{MENU_CLOCK}}">
+  <div class="wrap">
+    <div class="head">
+      <p class="head__meta"><span class="head__clock">{{MENU_CLOCK}}</span><span class="u">{{MENU_KICKER}}</span><span class="head__rule"></span></p>
+      <h2 class="head__title display" data-reveal>{{MENU_TITLE}}</h2>
+    </div>
+  </div>
+  <div class="rail-pin" id="rail-pin">
+    <div class="rail-track" id="rail-track">{{MENU_CARDS}}</div>
+  </div>
+</section>
+
+<!-- ── ROOM ──────────────────────────────────────────────────────────────── -->
+<section class="band" id="room" data-marker="{{ROOM_CLOCK}}">
+  <div class="wrap">
+    <div class="head">
+      <p class="head__meta"><span class="head__clock">{{ROOM_CLOCK}}</span><span class="u">{{ROOM_KICKER}}</span><span class="head__rule"></span></p>
+      <h2 class="head__title display" data-reveal>{{ROOM_TITLE}}</h2>
+      <p class="lede" data-reveal>{{ROOM_BODY}}</p>
+    </div>
+    <div class="room__pair" id="peel-big">
+      <figure class="room__peel" data-peel="left">{{ROOM_L}}</figure>
+      <figure class="room__peel" data-peel="right">{{ROOM_R}}</figure>
+    </div>
+    <div class="room__wide" data-reveal>{{ROOM_WIDE}}</div>
+    <p class="room__cap u">Twenty-odd seats · Main Street · No hovering</p>
+  </div>
+</section>
+
+<!-- ── ASKED AT THE COUNTER ──────────────────────────────────────────────── -->
+<section class="band" id="asked" data-marker="{{ASK_CLOCK}}">
+  <div class="wrap">
+    <div class="head">
+      <p class="head__meta"><span class="head__clock">{{ASK_CLOCK}}</span><span class="u">{{ASK_KICKER}}</span><span class="head__rule"></span></p>
+      <h2 class="head__title display" data-reveal>{{ASK_TITLE}}</h2>
+    </div>
+    <div class="asked__board" id="board">{{ASK_ITEMS}}</div>
+  </div>
+</section>
+
+<!-- ── FIND US ───────────────────────────────────────────────────────────── -->
+<section class="band find" id="find" data-marker="{{FIND_CLOCK}}">
+  <div class="wrap">
+    <div class="head">
+      <p class="head__meta"><span class="head__clock">{{FIND_CLOCK}}</span><span class="u">{{FIND_KICKER}}</span><span class="head__rule"></span></p>
+      <h2 class="head__title display" data-reveal>{{FIND_TITLE}}</h2>
+    </div>
+    <svg class="orn orn--divider" viewBox="0 0 320 22" aria-hidden="true">
+      <path d="M0 12h108"/><path d="M212 12h108"/>
+      <path d="M126 6h20v6a10 10 0 0 1-20 0V6Z"/><path d="M146 8h5a3.5 3.5 0 0 1 0 7h-5"/><path d="M124 19h24"/>
+      <path d="M170 4h16l-3 8a5 5 0 0 1-10 0l-3-8Z"/><path d="M178 17v-5"/><path d="M172 19h12"/>
+    </svg>
+    <div class="find__grid">
+      <div class="coupon" data-reveal>
+        <h3 class="u">Opening hours</h3>
+        <ul class="hours">{{HOURS}}</ul>
+        <p class="now" id="now2"><i aria-hidden="true"></i><span>Checking the clock…</span></p>
+      </div>
+      <div class="coupon" data-reveal>
+        <h3 class="u">Where</h3>
+        <div class="coupon__shot">{{FIND_SHOT}}</div>
+        <p class="coupon__big"><address>Main Street,<br>Ballincollig,<br>Co. Cork, P31&nbsp;EE73</address></p>
+        <p style="color:var(--ink-70)">{{FIND_BODY}}</p>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Blondie+Cafe+Main+Street+Ballincollig+P31+EE73" target="_blank" rel="noopener">
+          Directions
+          <span class="btn__ico" aria-hidden="true">{{ARROW}}{{ARROW}}</span>
+        </a>
+      </div>
+      <div class="coupon" data-reveal>
+        <h3 class="u">Booking &amp; the rest</h3>
+        <p class="coupon__big">No phone line worth ringing.</p>
+        <p style="color:var(--ink-70)">Book through OpenTable and you will have a table. Everything else — what is in the case, what the pasta is — goes up on Instagram that morning.</p>
+        <a class="btn btn--red" href="{{BOOKING}}" target="_blank" rel="noopener">
+          Book a table
+          <span class="btn__ico" aria-hidden="true">{{ARROW}}{{ARROW}}</span>
+        </a>
+        <div class="social">
+          <a href="{{INSTAGRAM}}" target="_blank" rel="noopener">{{IG}}{{IG_HANDLE}}</a>
+          <a href="{{FACEBOOK}}" target="_blank" rel="noopener">{{FB}}Facebook</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="mark" aria-hidden="true"><span id="mark">Blondie</span></div>
+    <div class="foot">
+      <p class="u">Blondie Café · Main Street, Ballincollig · Closed Mondays</p>
+      <p class="u"><a href="#top">Back to the top</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ── DOCK ──────────────────────────────────────────────────────────────── -->
+<nav class="dock" id="dock" aria-label="Quick links">
+  <a href="#menu">{{I_MENU}}Menu</a>
+  <a href="#find">{{I_PIN}}Find</a>
+  <a class="dock__cta" href="{{BOOKING}}" target="_blank" rel="noopener">{{I_BOOK}}Book</a>
+</nav>
+
+<script src="assets/vendor/lenis.min.js" defer></script>
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/Draggable.min.js" defer></script>
+<script src="assets/main.js" defer></script>
+</body>
+</html>

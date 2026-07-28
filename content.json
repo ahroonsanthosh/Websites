@@ -1,0 +1,251 @@
+{
+  "_readme": "Edit this file to change anything on the site, then commit. GitHub Actions rebuilds and republishes automatically. Hours live under `hours` — changing one takes about ten seconds. Nothing here needs a login.",
+  "business": {
+    "name": "Blondie",
+    "legalName": "Blondie Café",
+    "tagline": "All-day brunch on Main Street, Ballincollig.",
+    "street": "Main Street",
+    "town": "Ballincollig",
+    "county": "Co. Cork",
+    "eircode": "P31 EE73",
+    "country": "IE",
+    "lat": 51.8878,
+    "lng": -8.5906,
+    "priceRange": "€€",
+    "booking": "https://www.opentable.ie/s?term=Blondie%20Cork",
+    "instagram": "https://www.instagram.com/the_blondie_cafe/",
+    "instagramHandle": "@the_blondie_cafe",
+    "facebook": "https://www.facebook.com/people/Blondie-Cafe/",
+    "siteUrl": "https://ahroonsanthosh.github.io/blondie/"
+  },
+  "hours": [
+    {
+      "day": "Mon",
+      "schema": "Monday",
+      "open": "",
+      "close": "",
+      "label": "Closed",
+      "note": "We're at home."
+    },
+    {
+      "day": "Tue",
+      "schema": "Tuesday",
+      "open": "08:30",
+      "close": "16:30",
+      "label": "8.30 — 4.30",
+      "note": ""
+    },
+    {
+      "day": "Wed",
+      "schema": "Wednesday",
+      "open": "08:30",
+      "close": "16:30",
+      "label": "8.30 — 4.30",
+      "note": ""
+    },
+    {
+      "day": "Thu",
+      "schema": "Thursday",
+      "open": "08:30",
+      "close": "16:30",
+      "label": "8.30 — 4.30",
+      "note": ""
+    },
+    {
+      "day": "Fri",
+      "schema": "Friday",
+      "open": "08:30",
+      "close": "16:30",
+      "label": "8.30 — 4.30",
+      "note": ""
+    },
+    {
+      "day": "Sat",
+      "schema": "Saturday",
+      "open": "08:30",
+      "close": "16:30",
+      "label": "8.30 — 4.30",
+      "note": "Busiest 11 to 1."
+    },
+    {
+      "day": "Sun",
+      "schema": "Sunday",
+      "open": "09:00",
+      "close": "16:00",
+      "label": "9.00 — 4.00",
+      "note": "A slower start."
+    }
+  ],
+  "hero": {
+    "eyebrow": "Main Street · Ballincollig",
+    "lines": [
+      "There is no",
+      "dessert menu.",
+      "Ask us what",
+      "came out of",
+      "the oven."
+    ],
+    "body": "Blondie is a small café on Main Street doing brunch all day, soup and toasties at lunch, and whatever was baked that morning. There is a wine list too, and we will happily pour you a glass beside your chowder at half twelve.",
+    "cta": "Book a table",
+    "ctaNote": "Booking is through OpenTable"
+  },
+  "marquee": [
+    "All-day brunch",
+    "Baked this morning",
+    "Wine by the glass",
+    "Closed Mondays",
+    "Main Street, Ballincollig",
+    "Gluten-free, usually",
+    "Soup and a toastie"
+  ],
+  "pairing": {
+    "clock": "10.15",
+    "kicker": "The one true thing",
+    "title": "A glass with your toastie is not a strange request.",
+    "body": "Most cafés hand you a wine list at dinner and never mention it again. We pour by the glass from half eight, and whoever is on the floor will tell you which one actually goes with what you ordered. These are the four we suggest most.",
+    "items": [
+      {
+        "dish": "Seafood chowder",
+        "wine": "Sauvignon Blanc",
+        "note": "Sharp enough to cut back through the cream. It is the pairing we recommend more than any other, and the one people come back for.",
+        "img": "bl3"
+      },
+      {
+        "dish": "The daily pasta",
+        "wine": "Chardonnay",
+        "note": "The pasta changes every day, so the glass has to be able to take whatever the kitchen decided that morning. Chardonnay has the weight for it.",
+        "img": "bl9"
+      },
+      {
+        "dish": "Chicken, bacon and avocado salad",
+        "wine": "Picpoul de Pinet",
+        "note": "Cold, dry, a bit saline. It keeps a big warm salad from feeling heavy at two in the afternoon.",
+        "img": "bl4"
+      },
+      {
+        "dish": "Steak and caramelised onion toastie",
+        "wine": "A glass of Rioja",
+        "note": "The one red we will push on you before four o'clock, and we stand over it.",
+        "img": "bl2"
+      }
+    ]
+  },
+  "bakecase": {
+    "clock": "12.00",
+    "kicker": "The case",
+    "title": "The case changes. That is the whole point.",
+    "chalk": "ask what's fresh",
+    "body": "There is no fixed dessert menu at Blondie, and there never has been. Whatever came out of the oven that morning goes in the case, and whoever is on the floor will tell you what it is. Some of it is here most days. Some of it you get once and then spend a fortnight asking after.",
+    "items": [
+      {
+        "name": "Red velvet",
+        "note": "The one that is nearly always there."
+      },
+      {
+        "name": "Pavlova",
+        "note": "Cream, fruit, gone by two."
+      },
+      {
+        "name": "Blondies",
+        "note": "It would be strange if we didn't."
+      },
+      {
+        "name": "Something gluten-free",
+        "note": "Usually. Ask, don't assume."
+      },
+      {
+        "name": "A loaf cake",
+        "note": "Whatever fruit was good that week."
+      },
+      {
+        "name": "Scones",
+        "note": "Early. Genuinely early."
+      }
+    ]
+  },
+  "menu": {
+    "clock": "13.00",
+    "kicker": "What we do",
+    "title": "Brunch until we close, and lunch inside it.",
+    "sections": [
+      {
+        "name": "Brunch, all day",
+        "items": "Poached eggs, smashed avocado, bacon and sausage, French toast, the full Blondie",
+        "img": "bl2"
+      },
+      {
+        "name": "Soup and toasties",
+        "items": "Seafood chowder, soup of the day, toasted sandwiches, wraps, brown bread",
+        "img": "bl3"
+      },
+      {
+        "name": "Salads",
+        "items": "Chicken and bacon, roast vegetable, goat's cheese, leaves and dressing made here",
+        "img": "bl4"
+      },
+      {
+        "name": "Hot mains",
+        "items": "Savoury pie, frittata, the daily pasta special, whatever the kitchen is on",
+        "img": "bl9"
+      },
+      {
+        "name": "Sweet treats",
+        "items": "Red velvet, pavlova, blondies, loaf cakes, gluten-free options most days",
+        "img": "bl7"
+      },
+      {
+        "name": "Coffee and wine",
+        "items": "Flat whites, cappuccinos, wine by the glass or the bottle, all day",
+        "img": "bl8"
+      }
+    ]
+  },
+  "room": {
+    "clock": "14.00",
+    "kicker": "The room",
+    "title": "Low lamps, long tables, no rush.",
+    "body": "Twenty-odd seats under a row of amber pendants, a window that gets the afternoon, and staff who will not hover. People sit here for two hours with one coffee and nobody minds."
+  },
+  "asked": {
+    "clock": "15.00",
+    "kicker": "Asked at the counter",
+    "title": "The things people ask us before they sit down.",
+    "items": [
+      {
+        "q": "Can I book?",
+        "a": "Yes, through OpenTable. Search Blondie Cork. We do not have a phone line worth ringing, and we would rather tell you that than have it ring out."
+      },
+      {
+        "q": "Are you open Monday?",
+        "a": "No. Tuesday to Saturday from half eight, Sunday from nine. Monday we are at home."
+      },
+      {
+        "q": "Do you do gluten-free?",
+        "a": "Most days there is something in the case, and a good bit of the menu can be done without. Ask on the day rather than taking our word for it now."
+      },
+      {
+        "q": "Is it walk-in?",
+        "a": "Come in and we will find you something. Saturday between eleven and one is the one time we would book ahead."
+      },
+      {
+        "q": "Wine at 11am?",
+        "a": "We will pour it and we will not make a face about it."
+      },
+      {
+        "q": "Where exactly?",
+        "a": "Main Street, Ballincollig, P31 EE73. Red circular sign over the door. Parking on the street and in the car parks either end."
+      }
+    ]
+  },
+  "find": {
+    "clock": "16.30",
+    "kicker": "Find us",
+    "title": "Main Street, Ballincollig.",
+    "body": "Ten minutes west of Cork city with the traffic behind you. Look for the red sign."
+  },
+  "meta": {
+    "title": "Blondie Café — All-day brunch, Main Street, Ballincollig, Cork",
+    "description": "A small café on Main Street, Ballincollig. All-day brunch, soup and toasties, a bake case that changes every morning, and wine by the glass beside it. Closed Mondays.",
+    "themeColor": "#FBF3E7"
+  }
+}
