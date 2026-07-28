@@ -2,7 +2,7 @@ name: Build and deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, claude/blondie-cafe-site-9h3db6]
   workflow_dispatch:
 
 permissions:
