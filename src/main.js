@@ -319,14 +319,16 @@
     };
 
     mm.add("(min-width: 62rem) and (prefers-reduced-motion: no-preference)", () => {
-      const gutter = () => parseFloat(getComputedStyle(track).paddingLeft) || 0;
-      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + gutter());
+      const distance = () => Math.max(0, Math.ceil(track.scrollWidth - pin.clientWidth) + 4);
       const tween = gsap.to(track, {
         x: () => -distance(), ease: "none",
         scrollTrigger: {
           trigger: pin, pin: pin, pinSpacing: true, scrub: 0.6,
           invalidateOnRefresh: true, anticipatePin: 1,
-          start: "top top+=11%",
+          start: () => {
+            const nav = $("#nav");
+            return "top top+=" + ((nav ? nav.offsetHeight : 96) + 20);
+          },
           end: () => "+=" + distance(),
           onUpdate: self => report(self.progress)
         }
@@ -357,8 +359,8 @@
       gsap.fromTo(L, { rotation: 0, xPercent: 0 }, { rotation: -2.6, xPercent: -2, duration: 1, ease: "power2.out", scrollTrigger: st });
       gsap.fromTo(R, { rotation: 0, xPercent: 0 }, { rotation: 2.6, xPercent: 2, duration: 1, ease: "power2.out", scrollTrigger: st });
     });
-    gsap.fromTo(".room__wide", { rotation: 0 }, { rotation: -1.2, duration: 1, ease: "power2.out",
-      scrollTrigger: { trigger: ".room__wide", start: "top 90%", toggleActions: "play none none none" } });
+    gsap.fromTo(".room__mid", { rotation: 0 }, { rotation: -1.1, duration: 1, ease: "power2.out",
+      scrollTrigger: { trigger: ".room__mid", start: "top 90%", toggleActions: "play none none none" } });
   }
 
   /* ── 11. asked: corkboard, odd/even rotate opposite ways, 1:1 with scroll ─ */

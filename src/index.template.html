@@ -138,6 +138,7 @@
         <ul class="case__list">{{CASE_ITEMS}}</ul>
       </div>
       <div class="case__play" id="play">
+        <p class="case__caselabel u">Today, roughly</p>
         {{CRUMBS}}
         <p class="case__hint u">Pick one up<span> — go on, they don't break</span></p>
       </div>
@@ -171,12 +172,12 @@
       <h2 class="head__title display" data-reveal>{{ROOM_TITLE}}</h2>
       <p class="lede" data-reveal>{{ROOM_BODY}}</p>
     </div>
-    <div class="room__pair" id="peel-big">
+    <div class="room__trio" id="peel-big">
       <figure class="room__peel" data-peel="left">{{ROOM_L}}</figure>
+      <figure class="room__mid" data-reveal>{{ROOM_WIDE}}</figure>
       <figure class="room__peel" data-peel="right">{{ROOM_R}}</figure>
     </div>
-    <div class="room__wide" data-reveal>{{ROOM_WIDE}}</div>
-    <p class="room__cap u">Twenty-odd&nbsp;seats&nbsp;· Main&nbsp;Street&nbsp;· No&nbsp;hovering</p>
+    <p class="room__cap u">Three&nbsp;tables&nbsp;· One&nbsp;afternoon&nbsp;· No&nbsp;hovering</p>
   </div>
 </section>
 
@@ -208,6 +209,11 @@
       <path d="M170 4h16l-3 8a5 5 0 0 1-10 0l-3-8Z"/><path d="M178 17v-5"/><path d="M172 19h12"/>
     </svg>
     <div class="find__grid">
+      <figure class="find__shot" data-reveal>
+        {{FIND_SHOT}}
+        <figcaption class="u">The sign, over the door</figcaption>
+      </figure>
+      <div class="find__cards">
       <div class="coupon" data-reveal>
         <h3 class="u">Opening hours</h3>
         <ul class="hours">{{HOURS}}</ul>
@@ -215,7 +221,6 @@
       </div>
       <div class="coupon" data-reveal>
         <h3 class="u">Where</h3>
-        <div class="coupon__shot">{{FIND_SHOT}}</div>
         <p class="coupon__big"><address>Main Street,<br>Ballincollig,<br>Co. Cork, P31&nbsp;EE73</address></p>
         <p style="color:var(--ink-70)">{{FIND_BODY}}</p>
         <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Blondie+Cafe+Main+Street+Ballincollig+P31+EE73" target="_blank" rel="noopener">
@@ -235,6 +240,7 @@
           <a href="{{INSTAGRAM}}" target="_blank" rel="noopener">{{IG}}{{IG_HANDLE}}</a>
           <a href="{{FACEBOOK}}" target="_blank" rel="noopener">{{FB}}Facebook</a>
         </div>
+      </div>
       </div>
     </div>
   </div>

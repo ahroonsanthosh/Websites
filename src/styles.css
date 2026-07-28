@@ -286,8 +286,9 @@ section[id], div[id] { scroll-margin-top: 7rem; }
   z-index: -1;
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--cream) 86%, transparent) 0%,
-    color-mix(in srgb, var(--cream) 80%, transparent) 45%,
+    var(--cream) 0%,
+    var(--cream) 52%,
+    color-mix(in srgb, var(--cream) 88%, transparent) 76%,
     transparent 100%
   );
 }
@@ -439,7 +440,7 @@ body[data-loading="1"] { overflow: hidden; }
    ========================================================================== */
 .hero {
   min-height: 100svh;
-  min-height: 100dvh;
+  min-height: min(100dvh, 60rem);
   display: grid;
   align-content: end;
   padding-top: clamp(5.5rem, 11vh, 7.5rem);
@@ -630,6 +631,8 @@ body[data-loading="1"] { overflow: hidden; }
 }
 @media (min-width: 62rem) {
   .case__grid { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: var(--s7); align-items: stretch; }
+  /* the case travels with you while the list of what's in it scrolls past */
+  .case__play { position: sticky; top: 22vh; }
 }
 .case__chalk {
   font-size: clamp(2rem, 5vw, 3.2rem);
@@ -642,13 +645,33 @@ body[data-loading="1"] { overflow: hidden; }
 
 .case__play {
   position: relative;
-  min-height: clamp(21rem, 40vw, 26rem);
-  border: 1px solid var(--line-soft);
-  border-radius: 3px;
+  height: clamp(19rem, 30vw, 23rem);
+  border: 1px solid color-mix(in srgb, var(--clay) 32%, transparent);
+  border-radius: 4px 4px 3px 3px;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--paper) 88%, transparent), color-mix(in srgb, var(--cream-3) 55%, transparent));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    linear-gradient(180deg, rgba(255, 252, 245, 0.96), rgba(244, 231, 210, 0.92));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -14px 22px -18px rgba(30, 21, 18, 0.35),
+    0 18px 30px -26px rgba(30, 21, 18, 0.5);
   touch-action: pan-y;
+  overflow: hidden;
+}
+/* the two shelves the marks sit on */
+.case__play::before,
+.case__play::after {
+  content: "";
+  position: absolute; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--clay) 45%, transparent) 12%, color-mix(in srgb, var(--clay) 45%, transparent) 88%, transparent);
+  pointer-events: none;
+}
+.case__play::before { top: 46%; }
+.case__play::after { bottom: 12%; }
+.case__caselabel {
+  position: absolute; left: 1rem; bottom: 0.65rem;
+  color: var(--ink-55);
+  pointer-events: none;
 }
 .case__hint {
   position: absolute; left: 0; right: 0; bottom: -2.2rem;
@@ -661,7 +684,7 @@ body[data-loading="1"] { overflow: hidden; }
 
 .crumb {
   position: absolute;
-  width: clamp(5rem, 9vw, 7.5rem);
+  width: clamp(6rem, 12vw, 9.5rem);
   aspect-ratio: 1;
   cursor: grab;
   color: var(--clay);
@@ -736,6 +759,14 @@ body[data-loading="1"] { overflow: hidden; }
 @media (min-width: 62rem) {
   .rail-card__fig { max-height: 44vh; }
 }
+/* A short laptop still has to fit the whole card between the header and the
+   fold while the rail is pinned, so the pinned heading gives up a size. */
+@media (min-width: 62rem) and (max-height: 53rem) {
+  .rail-card__fig { max-height: 38vh; }
+  .rail-head .head__title { font-size: var(--step-3); }
+  .rail-pin { gap: var(--s3); }
+  .rail-head .head { gap: var(--s2); }
+}
 .rail-card__fig img {
   width: 100%; height: 100%; object-fit: cover;
   transition: transform 900ms var(--enter);
@@ -771,20 +802,23 @@ body[data-loading="1"] { overflow: hidden; }
 /* ==========================================================================
    ROOM — the peel-apart reveal (E4), one dramatic pair, one subtle
    ========================================================================== */
-.room__pair {
-  max-width: 56rem;
-  padding-inline: clamp(0.5rem, 2vw, 1.75rem);
+.room__trio {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(0.5rem, 1.5vw, 1.2rem);
+  gap: clamp(0.6rem, 1.6vw, 1.4rem);
   margin-top: var(--s5);
-  perspective: 1200px;
+  padding-inline: clamp(0.5rem, 2vw, 1.5rem);
 }
-.room__pair figure { margin: 0; overflow: hidden; border-radius: 2px; background: var(--cream-3); }
-.room__pair img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+@media (min-width: 56rem) {
+  .room__trio { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; }
+  .room__mid { transform: translateY(clamp(1rem, 3vw, 2.75rem)); }
+}
+.room__trio figure { margin: 0; overflow: hidden; border-radius: 2px; background: var(--cream-3); }
+.room__trio img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .room__peel { will-change: transform; }
-.room__wide { margin-top: clamp(1.5rem, 4vw, 3rem); margin-left: auto; max-width: 46rem; overflow: hidden; border-radius: 2px; }
-.room__wide img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+@media (max-width: 55.999rem) {
+  .room__mid { grid-column: 1 / -1; }
+}
 .room__cap { margin-top: var(--s4); color: var(--ink-55); }
 
 /* ==========================================================================
@@ -823,10 +857,21 @@ body[data-loading="1"] { overflow: hidden; }
 /* ==========================================================================
    FIND US — hours and address get hero-level attention
    ========================================================================== */
-.find { position: relative; padding-bottom: clamp(3rem, 7vw, 6rem); }
-.find__grid { display: grid; gap: var(--s5); margin-top: var(--s5); }
-@media (min-width: 56rem) { .find__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); } }
-@media (min-width: 74rem) { .find__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.find { position: relative; padding-bottom: clamp(2rem, 4vw, 3.5rem); }
+.find__grid { display: grid; gap: var(--s4); margin-top: var(--s5); align-items: start; }
+.find__shot { margin: 0; display: grid; gap: 0.6rem; }
+.find__shot > picture { overflow: hidden; border-radius: 2px; background: var(--cream-3); display: block; }
+.find__shot img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.find__shot figcaption { color: var(--ink-55); }
+.find__cards { display: grid; gap: var(--s4); align-content: start; }
+@media (min-width: 44rem) {
+  .find__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .find__cards > :first-child { grid-row: span 2; }
+}
+@media (min-width: 62rem) {
+  .find__grid { grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.38fr); gap: var(--s5); }
+  .find__shot { position: sticky; top: 8rem; }
+}
 
 .coupon {
   position: relative;
@@ -839,8 +884,6 @@ body[data-loading="1"] { overflow: hidden; }
   align-content: start;
 }
 .coupon > :first-child { margin-bottom: -0.25rem; }
-.coupon__shot { overflow: hidden; border-radius: 2px; background: var(--cream-3); }
-.coupon__shot img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .coupon h3 { color: var(--ink-55); }
 .coupon__big {
   font-family: var(--display);
