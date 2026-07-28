@@ -122,6 +122,8 @@
   </div>
 </section>
 
+<div class="seam" aria-hidden="true">{{SEAM_SVG}}</div>
+
 <!-- ── BAKE CASE ─────────────────────────────────────────────────────────── -->
 <section class="band case" id="case" data-marker="{{CASE_CLOCK}}">
   <div class="wrap">
@@ -136,25 +138,30 @@
         <ul class="case__list">{{CASE_ITEMS}}</ul>
       </div>
       <div class="case__play" id="play">
-        <p class="case__hint u">Pick one up<br><span style="text-transform:none;letter-spacing:0;font-family:var(--display)">go on, they don't break</span></p>
         {{CRUMBS}}
+        <p class="case__hint u">Pick one up<span> — go on, they don't break</span></p>
       </div>
     </div>
   </div>
 </section>
 
+<div class="seam" aria-hidden="true">{{SEAM_SVG}}</div>
+
 <!-- ── MENU RAIL ─────────────────────────────────────────────────────────── -->
 <section class="band rail-sec" id="menu" data-marker="{{MENU_CLOCK}}">
-  <div class="wrap">
-    <div class="head">
-      <p class="head__meta"><span class="head__clock">{{MENU_CLOCK}}</span><span class="u">{{MENU_KICKER}}</span><span class="head__rule"></span></p>
-      <h2 class="head__title display" data-reveal>{{MENU_TITLE}}</h2>
-    </div>
-  </div>
   <div class="rail-pin" id="rail-pin">
+    <div class="wrap rail-head">
+      <div class="head">
+        <p class="head__meta"><span class="head__clock">{{MENU_CLOCK}}</span><span class="u">{{MENU_KICKER}}</span><span class="head__rule"></span></p>
+        <h2 class="head__title display" data-reveal>{{MENU_TITLE}}</h2>
+      </div>
+      <p class="rail-progress u"><span id="rail-count">01 / 06</span><span class="rail-progress__bar"><i id="rail-bar"></i></span></p>
+    </div>
     <div class="rail-track" id="rail-track">{{MENU_CARDS}}</div>
   </div>
 </section>
+
+<div class="seam" aria-hidden="true">{{SEAM_SVG}}</div>
 
 <!-- ── ROOM ──────────────────────────────────────────────────────────────── -->
 <section class="band" id="room" data-marker="{{ROOM_CLOCK}}">
@@ -169,9 +176,11 @@
       <figure class="room__peel" data-peel="right">{{ROOM_R}}</figure>
     </div>
     <div class="room__wide" data-reveal>{{ROOM_WIDE}}</div>
-    <p class="room__cap u">Twenty-odd seats · Main Street · No hovering</p>
+    <p class="room__cap u">Twenty-odd&nbsp;seats&nbsp;· Main&nbsp;Street&nbsp;· No&nbsp;hovering</p>
   </div>
 </section>
+
+<div class="seam" aria-hidden="true">{{SEAM_SVG}}</div>
 
 <!-- ── ASKED AT THE COUNTER ──────────────────────────────────────────────── -->
 <section class="band" id="asked" data-marker="{{ASK_CLOCK}}">
@@ -183,6 +192,8 @@
     <div class="asked__board" id="board">{{ASK_ITEMS}}</div>
   </div>
 </section>
+
+<div class="seam" aria-hidden="true">{{SEAM_SVG}}</div>
 
 <!-- ── FIND US ───────────────────────────────────────────────────────────── -->
 <section class="band find" id="find" data-marker="{{FIND_CLOCK}}">
@@ -234,7 +245,7 @@
   <div class="wrap">
     <div class="mark" aria-hidden="true"><span id="mark">Blondie</span></div>
     <div class="foot">
-      <p class="u">Blondie Café · Main Street, Ballincollig · Closed Mondays</p>
+      <p class="u">Blondie&nbsp;Café&nbsp;· Main&nbsp;Street,&nbsp;Ballincollig&nbsp;· Closed&nbsp;Mondays</p>
       <p class="u"><a href="#top">Back to the top</a></p>
     </div>
   </div>

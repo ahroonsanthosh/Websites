@@ -23,7 +23,10 @@
 
   /* ── 0. failsafe ─────────────────────────────────────────────────────────
      If anything below throws, the page must still be readable. */
-  const revealAll = () => $$("[data-reveal]").forEach(el => el.classList.add("done"));
+  const revealAll = () => {
+    root.classList.add("is-lit");
+    $$("[data-reveal]").forEach(el => el.classList.add("done"));
+  };
   const finishLoad = () => {
     document.body.removeAttribute("data-loading");
     const pre = $("#pre");
@@ -51,7 +54,9 @@
         const target = document.querySelector(id);
         if (!target) return;
         ev.preventDefault();
-        if (lenis) lenis.scrollTo(target, { offset: -70 });
+        const nav = $("#nav");
+        const off = -((nav ? nav.offsetHeight : 72) + 16);
+        if (lenis) lenis.scrollTo(target, { offset: off });
         else target.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth" });
         target.setAttribute("tabindex", "-1");
         target.focus({ preventScroll: true });
@@ -138,6 +143,7 @@
   function heroTimeline() {
     const lines = $$(".hero__h1 .ln > span");
     if (!hasGSAP || REDUCED) {
+      root.classList.add("is-lit");
       gsap && gsap.set(lines, { yPercent: 0, autoAlpha: 1 });
       lines.forEach(l => { l.style.transform = "none"; l.style.opacity = 1; });
       return gsap ? gsap.timeline() : null;
@@ -151,7 +157,7 @@
       .from("#now", { autoAlpha: 0, duration: 0.6, ease: ENTER }, 0.65)
       .from(".hero__figure", { yPercent: 8, autoAlpha: 0, duration: 1.1, ease: ENTER }, 0.2)
       .from(".seal", { scale: 0.8, autoAlpha: 0, duration: 0.9, ease: ENTER }, 0.6)
-      .from(".rail__mark", { x: -12, autoAlpha: 0, duration: 0.6, stagger: 0.05, ease: ENTER }, 0.5);
+      .add(() => root.classList.add("is-lit"), 0.5);
     return tl;
   }
 
@@ -233,7 +239,7 @@
     };
 
     crumbs.forEach((el, i) => {
-      gsap.set(el, { rotation: gsap.utils.random(-11, 11) });
+      gsap.set(el, { rotation: gsap.utils.random(-11, 11), x: gsap.utils.random(-10, 10), y: gsap.utils.random(-10, 10) });
       gsap.delayedCall(i * 0.15, () => float(el));
 
       window.Draggable.create(el, {
@@ -276,17 +282,41 @@
 
     ScrollTrigger.matchMedia ? null : null;
     const mm = gsap.matchMedia();
+    const cards = $$(".rail-card", track);
+    const count = $("#rail-count"), bar = $("#rail-bar");
+    const report = p => {
+      if (bar) gsap.set(bar, { scaleX: p });
+      if (count) {
+        const i = Math.min(cards.length, Math.max(1, Math.round(p * (cards.length - 1)) + 1));
+        count.textContent = `${String(i).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
+      }
+    };
+
     mm.add("(min-width: 62rem) and (prefers-reduced-motion: no-preference)", () => {
-      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + 64);
+      const gutter = () => parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + gutter());
       const tween = gsap.to(track, {
         x: () => -distance(), ease: "none",
         scrollTrigger: {
-          trigger: pin, pin: true, scrub: 0.6, invalidateOnRefresh: true,
-          start: "top 12%",
-          end: () => "+=" + distance()
+          trigger: pin, pin: pin, pinSpacing: true, scrub: 0.6,
+          invalidateOnRefresh: true, anticipatePin: 1,
+          start: "top top+=11%",
+          end: () => "+=" + distance(),
+          onUpdate: self => report(self.progress)
         }
       });
       return () => tween.scrollTrigger && tween.scrollTrigger.kill();
+    });
+
+    // the same progress readout on a phone, driven by the native scroll
+    mm.add("(max-width: 61.999rem)", () => {
+      const onScroll = () => {
+        const max = track.scrollWidth - track.clientWidth;
+        report(max > 0 ? track.scrollLeft / max : 0);
+      };
+      onScroll();
+      track.addEventListener("scroll", onScroll, { passive: true });
+      return () => track.removeEventListener("scroll", onScroll);
     });
   }
 
@@ -296,8 +326,10 @@
     const L = $('[data-peel="left"]'), R = $('[data-peel="right"]');
     if (!L || !R) return;
     const st = { trigger: "#peel-big", start: "top 88%", toggleActions: "play none none none" };
-    gsap.fromTo(L, { rotation: 0, xPercent: 0 }, { rotation: -9, xPercent: -6, duration: 1, ease: "power2.out", scrollTrigger: st });
-    gsap.fromTo(R, { rotation: 0, xPercent: 0 }, { rotation: 9, xPercent: 6, duration: 1, ease: "power2.out", scrollTrigger: st });
+    gsap.matchMedia().add("(min-width: 44rem)", () => {
+      gsap.fromTo(L, { rotation: 0, xPercent: 0 }, { rotation: -2.6, xPercent: -2, duration: 1, ease: "power2.out", scrollTrigger: st });
+      gsap.fromTo(R, { rotation: 0, xPercent: 0 }, { rotation: 2.6, xPercent: 2, duration: 1, ease: "power2.out", scrollTrigger: st });
+    });
     gsap.fromTo(".room__wide", { rotation: 0 }, { rotation: -1.2, duration: 1, ease: "power2.out",
       scrollTrigger: { trigger: ".room__wide", start: "top 90%", toggleActions: "play none none none" } });
   }

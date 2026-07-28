@@ -207,7 +207,13 @@ p { max-width: var(--measure); }
 }
 main { padding-left: var(--rail); }
 section { position: relative; }
-.band { padding-block: clamp(4.5rem, 11vw, 10rem); }
+section[id], div[id] { scroll-margin-top: 7rem; }
+.band { padding-block: clamp(3.25rem, 6.5vw, 6.5rem); }
+
+/* The seam between sections: the same drawn rule every time, so the page has a
+   system rather than a run of unexplained gaps. */
+.seam { display: flex; justify-content: center; padding-block: clamp(1rem, 2vw, 2rem); }
+.seam svg { width: min(74%, 26rem); height: 22px; color: color-mix(in srgb, var(--clay) 55%, transparent); }
 
 /* section head: clock number + kicker + title, used by every section */
 .head { display: grid; gap: var(--s3); }
@@ -232,7 +238,7 @@ section { position: relative; }
   left: 0; top: 0; bottom: 0;
   width: var(--rail);
   display: none;
-  z-index: 40;
+  z-index: 50;
   padding-block: var(--s5);
   pointer-events: none;
 }
@@ -243,8 +249,16 @@ section { position: relative; }
   display: grid;
   gap: 1.35rem;
   pointer-events: auto;
+  opacity: 0;
+  transform: translate3d(-10px, 0, 0);
+  transition: opacity 700ms var(--enter), transform 700ms var(--enter);
 }
+/* Revealed by a class, not by a tween — a JS hiccup can never leave the page's
+   organising idea invisible behind a stray visibility:hidden. */
+.is-lit .rail__inner, .no-js .rail__inner { opacity: 1; transform: none; }
 .rail__mark {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: 2.4rem auto;
   align-items: center;
@@ -263,6 +277,19 @@ section { position: relative; }
   stroke-width: 1.4;
   stroke-linecap: round;
   transition: d 420ms var(--enter);
+}
+/* the marks stay legible when the pinned menu rail travels under them */
+.rail__inner::before {
+  content: "";
+  position: absolute;
+  inset: -1.4rem -0.9rem;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--cream) 86%, transparent) 0%,
+    color-mix(in srgb, var(--cream) 80%, transparent) 45%,
+    transparent 100%
+  );
 }
 .rail__t {
   font-family: var(--mono);
@@ -450,6 +477,7 @@ body[data-loading="1"] { overflow: hidden; }
 
 @media (max-width: 61.999rem) {
   .hero { min-height: 0; align-content: start; padding-bottom: 0; }
+  .hero__h1 { font-size: clamp(2.35rem, 8.4vw, 3.6rem); }
   .hero__grid { gap: var(--s5); }
   .hero .seal { display: none; }
   .hero__figure {
@@ -527,7 +555,7 @@ body[data-loading="1"] { overflow: hidden; }
    ========================================================================== */
 .pair__grid { display: grid; gap: var(--s5); margin-top: var(--s6); }
 @media (min-width: 62rem) {
-  .pair__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr); gap: var(--s7); align-items: start; }
+  .pair__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr); gap: var(--s7); align-items: stretch; }
 }
 
 .pair__list { display: grid; gap: var(--s6); list-style: none; padding: 0; margin: 0; counter-reset: p; }
@@ -561,13 +589,21 @@ body[data-loading="1"] { overflow: hidden; }
   .pair__stage { display: none; }
   .pair__list { gap: var(--s5); }
 }
+/* Tablet: the plate sits beside its own pairing rather than under it, so the
+   section is a column of pairs instead of five screens of stacked photographs. */
+@media (min-width: 44rem) and (max-width: 61.999rem) {
+  .pair__item { display: grid; grid-template-columns: minmax(0, 1fr) 13rem; column-gap: var(--s4); align-items: start; }
+  .pair__item > :not(.pair__shot) { grid-column: 1; }
+  .pair__shot { grid-column: 2; grid-row: 1 / span 4; margin-top: 0.35rem; }
+  .pair__list { gap: var(--s4); }
+}
 @media (min-width: 62rem) { .pair__shot { display: none; } }
 
-.pair__stage { position: relative; }
+.pair__stage { position: relative; height: 100%; }
 @media (min-width: 62rem) {
-  .pair__sticky { position: sticky; top: 22vh; }
+  .pair__sticky { position: sticky; top: 16vh; }
 }
-.pair__frames { position: relative; aspect-ratio: 4 / 5; background: var(--cream-3); overflow: hidden; border-radius: 2px; }
+.pair__frames { position: relative; max-width: 24rem; margin-inline: auto; aspect-ratio: 4 / 5; background: var(--cream-3); overflow: hidden; border-radius: 2px; }
 .pair__frame {
   position: absolute; inset: 0;
   opacity: 0; transform: scale(1.05);
@@ -576,6 +612,7 @@ body[data-loading="1"] { overflow: hidden; }
 .pair__frame img { width: 100%; height: 100%; object-fit: cover; }
 .pair__frame[data-on="1"] { opacity: 1; transform: scale(1); }
 .pair__stagecap {
+  max-width: 24rem; margin-inline: auto;
   margin-top: var(--s2);
   display: flex; justify-content: space-between; gap: var(--s2);
   color: var(--ink-55);
@@ -586,6 +623,9 @@ body[data-loading="1"] { overflow: hidden; }
    ========================================================================== */
 .case { position: relative; overflow: clip; }
 .case__grid { display: grid; gap: var(--s5); margin-top: var(--s5); }
+@media (min-width: 44rem) and (max-width: 61.999rem) {
+  .case__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: var(--s5); align-items: stretch; }
+}
 @media (min-width: 62rem) {
   .case__grid { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: var(--s7); align-items: stretch; }
 }
@@ -600,24 +640,26 @@ body[data-loading="1"] { overflow: hidden; }
 
 .case__play {
   position: relative;
-  min-height: clamp(22rem, 52vw, 34rem);
-  border: 1px dashed var(--line);
+  min-height: clamp(21rem, 40vw, 26rem);
+  border: 1px solid var(--line-soft);
   border-radius: 3px;
-  background: color-mix(in srgb, var(--paper) 45%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--paper) 88%, transparent), color-mix(in srgb, var(--cream-3) 55%, transparent));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
   touch-action: pan-y;
 }
 .case__hint {
-  position: absolute; left: 50%; bottom: 1rem;
-  transform: translateX(-50%);
+  position: absolute; left: 0; right: 0; bottom: -2.2rem;
   color: var(--ink-55); text-align: center;
   pointer-events: none;
   transition: opacity 420ms var(--interact);
 }
+.case__hint span { text-transform: none; letter-spacing: 0; font-family: var(--display); }
 .case__play[data-touched="1"] .case__hint { opacity: 0; }
 
 .crumb {
   position: absolute;
-  width: clamp(4.5rem, 8vw, 6.5rem);
+  width: clamp(5rem, 9vw, 7.5rem);
   aspect-ratio: 1;
   cursor: grab;
   color: var(--clay);
@@ -653,7 +695,12 @@ body[data-loading="1"] { overflow: hidden; }
    MENU RAIL — pinned horizontal on desktop, thumb-swipe rail on mobile
    ========================================================================== */
 .rail-sec { overflow: clip; }
-.rail-pin { position: relative; }
+.rail-pin { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s4); align-content: start; }
+.rail-head { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s4); align-items: flex-end; justify-content: space-between; }
+.rail-progress { display: flex; align-items: center; gap: var(--s2); color: var(--ink-55); }
+.rail-progress__bar { display: block; width: clamp(5rem, 14vw, 11rem); height: 1px; background: var(--line); overflow: hidden; }
+.rail-progress__bar i { display: block; height: 100%; background: var(--red); transform: scaleX(0); transform-origin: left; }
+@media (max-width: 61.999rem) { .rail-head { padding-inline: var(--gutter); } .rail-pin { gap: var(--s3); } }
 .rail-track {
   display: flex;
   gap: clamp(1rem, 2.4vw, 2rem);
@@ -662,13 +709,17 @@ body[data-loading="1"] { overflow: hidden; }
 }
 .rail-card {
   flex: none;
-  width: clamp(15rem, 62vw, 24rem);
+  width: clamp(15rem, 62vw, 21rem);
   display: grid;
   gap: var(--s2);
 }
 .rail-card__fig {
   aspect-ratio: 4 / 5; overflow: hidden; border-radius: 2px;
   background: var(--cream-3); position: relative;
+}
+/* while the rail is pinned the whole card has to fit one screen */
+@media (min-width: 62rem) {
+  .rail-card__fig { max-height: 44vh; }
 }
 .rail-card__fig img {
   width: 100%; height: 100%; object-fit: cover;
@@ -690,8 +741,12 @@ body[data-loading="1"] { overflow: hidden; }
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    scroll-padding-inline: var(--gutter);
+    padding-inline: 0;
     padding-bottom: var(--s2);
   }
+  .rail-card:first-child { margin-left: var(--gutter); }
+  .rail-card:last-child { margin-right: var(--gutter); }
   .rail-track::-webkit-scrollbar { display: none; }
   .rail-card { scroll-snap-align: start; }
 }
@@ -701,6 +756,7 @@ body[data-loading="1"] { overflow: hidden; }
    ========================================================================== */
 .room__pair {
   max-width: 56rem;
+  padding-inline: clamp(0.5rem, 2vw, 1.75rem);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(0.5rem, 1.5vw, 1.2rem);
@@ -718,6 +774,7 @@ body[data-loading="1"] { overflow: hidden; }
    ASKED AT THE COUNTER — E5 corkboard, alternating scroll-linked rotation
    ========================================================================== */
 .asked__board {
+  align-items: start;
   display: grid;
   gap: clamp(1rem, 2.4vw, 2rem);
   margin-top: var(--s6);
@@ -761,8 +818,8 @@ body[data-loading="1"] { overflow: hidden; }
   border-radius: 3px;
   background: color-mix(in srgb, var(--paper) 62%, transparent);
   display: grid;
-  gap: var(--s2);
-  align-content: space-between;
+  gap: var(--s3);
+  align-content: start;
 }
 .coupon > :first-child { margin-bottom: -0.25rem; }
 .coupon__shot { overflow: hidden; border-radius: 2px; background: var(--cream-3); }
@@ -778,7 +835,7 @@ body[data-loading="1"] { overflow: hidden; }
 .hours { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
 .hours li {
   display: grid;
-  grid-template-columns: 3.2rem 1fr auto;
+  grid-template-columns: 3.2rem minmax(0, max-content) 1fr;
   gap: var(--s2);
   align-items: baseline;
   padding-block: 0.55rem;
@@ -792,6 +849,10 @@ body[data-loading="1"] { overflow: hidden; }
 .hours__note { font-family: var(--display); font-size: var(--step--1); color: var(--ink-55); text-align: right;
   letter-spacing: 0; text-transform: none; }
 .hours__day { letter-spacing: 0.1em; text-transform: uppercase; }
+@media (max-width: 40rem) {
+  .hours li { grid-template-columns: 3.2rem 1fr; }
+  .hours__note { grid-column: 1 / -1; text-align: left; padding-left: 4.2rem; opacity: 0.75; }
+}
 
 .now {
   display: inline-flex; align-items: center; gap: 0.55rem;
@@ -817,7 +878,7 @@ body[data-loading="1"] { overflow: hidden; }
 
 /* the oversized wordmark */
 .mark {
-  margin-top: clamp(3rem, 8vw, 6rem);
+  margin-top: clamp(1.5rem, 4vw, 3.5rem);
   overflow: hidden;
   line-height: 0.78;
 }

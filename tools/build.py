@@ -100,6 +100,11 @@ CRUMBS = [
               '<path d="M24 44c4-4 8-4 12 0M40 38c4-4 8-3 10 1"/>'),
 ]
 
+SEAM_SVG = ('<svg class="orn" viewBox="0 0 320 22" aria-hidden="true">'
+            '<path d="M0 12h130"/><path d="M190 12h130"/>'
+            '<path d="M147 7h20v5a10 10 0 0 1-20 0V7Z"/><path d="M167 9h4a3 3 0 0 1 0 6h-4"/>'
+            '<path d="M145 19h24"/><path d="M156 4c0-3 3-3 3-5"/></svg>')
+
 I_MENU = ('<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" '
           'stroke-linecap="round" aria-hidden="true"><path d="M4 4v6a3 3 0 0 0 6 0V4"/>'
           '<path d="M7 10v6"/><path d="M16 4c-2 2-2 5 0 7v5"/></svg>')
@@ -226,7 +231,7 @@ def build_case_items(items):
 def build_crumbs():
     # spread across the play area; the exact resting places are randomised at
     # runtime, these are the no-JS / reduced-motion positions.
-    spots = [(8, 10), (52, 6), (30, 38), (70, 42), (14, 66), (54, 70)]
+    spots = [(6, 8), (44, 4), (74, 26), (10, 44), (40, 60), (70, 62)]
     out = []
     for i, (name, path) in enumerate(CRUMBS):
         x, y = spots[i]
@@ -355,6 +360,7 @@ def main():
         "JSONLD": build_jsonld(c),
         "ARROW": ARROW,
         "SEAL": SEAL,
+        "SEAM_SVG": SEAM_SVG,
         "UNDERLINE": UNDERLINE,
         "IG": IG, "FB": FB,
         "I_MENU": I_MENU, "I_PIN": I_PIN, "I_BOOK": I_BOOK,
@@ -365,14 +371,14 @@ def main():
             'imagesizes="(min-width: 62rem) 42vw, 100vw" fetchpriority="high" media="(min-width: 62rem)">'
         ),
         "HERO_PIC": hero_picture(),
-        "ROOM_L": pic("bl5", "4x5", "(min-width: 62rem) 27rem, 47vw",
-                      "A coffee and a folded napkin on a wooden table by the window at Blondie."),
-        "ROOM_R": pic("bl10", "4x5", "(min-width: 62rem) 27rem, 47vw",
-                      "Brunch plates and coffees on a table in the window seat at Blondie."),
+        "ROOM_L": pic("bl8", "4x5", "(min-width: 62rem) 26rem, 47vw",
+                      "A table at Blondie: two brunch plates, a flat white and a jar of orange flowers."),
+        "ROOM_R": pic("bl5", "4x5", "(min-width: 62rem) 26rem, 47vw",
+                      "A slice of red velvet with cream on a stoneware plate, coffee cups pushed to one side."),
         "ROOM_WIDE": pic("bl9", "16x9", "(min-width: 62rem) 46rem, 92vw",
                          "A full table at Blondie — eggs, toast, coffees and a jar of flowers."),
-        "FIND_SHOT": pic("bl1", "4x5", "(min-width: 74rem) 22rem, (min-width: 56rem) 40vw, 92vw",
-                         "The front of Blondie on Main Street, Ballincollig, with the red circular sign over the door."),
+        "FIND_SHOT": pic("bl10", "4x5", "(min-width: 74rem) 22rem, (min-width: 56rem) 40vw, 92vw",
+                         "The red circular Blondie sign hanging over the door on Main Street, Ballincollig."),
         "HERO_EYEBROW": e(c["hero"]["eyebrow"]),
         "HERO_LINES": build_hero_lines(c["hero"]["lines"]),
         "HERO_BODY": e(c["hero"]["body"]),

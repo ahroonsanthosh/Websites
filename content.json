@@ -77,7 +77,7 @@
     }
   ],
   "hero": {
-    "eyebrow": "Main Street · Ballincollig",
+    "eyebrow": "Main Street · Ballincollig",
     "lines": [
       "There is no",
       "dessert menu.",
@@ -109,28 +109,28 @@
         "wine": "Sauvignon Blanc",
         "note": "Sharp enough to cut back through the cream. It is the pairing we recommend more than any other, and the one people come back for.",
         "img": "bl3",
-        "alt": "A bowl of seafood chowder beside a toasted sandwich at Blondie."
+        "alt": "A cup of soup beside a toasted sandwich on a plate at Blondie."
       },
       {
         "dish": "The daily pasta",
         "wine": "Chardonnay",
         "note": "The pasta changes every day, so the glass has to be able to take whatever the kitchen decided that morning. Chardonnay has the weight for it.",
-        "img": "bl10",
-        "alt": "A table mid-service at Blondie — the daily special changes, so does the glass."
+        "img": "bl8",
+        "alt": "A table mid-service at Blondie — two plates, a flat white and a jar of flowers. The special changes, so does the glass."
       },
       {
         "dish": "Chicken, bacon and avocado salad",
         "wine": "Picpoul de Pinet",
         "note": "Cold, dry, a bit saline. It keeps a big warm salad from feeling heavy at two in the afternoon.",
         "img": "bl4",
-        "alt": "A chicken, bacon and avocado salad in a wide bowl at Blondie."
+        "alt": "A warm chicken salad with beetroot, leaves and walnuts in a wide bowl."
       },
       {
         "dish": "Steak and caramelised onion toastie",
         "wine": "A glass of Rioja",
         "note": "The one red we will push on you before four o'clock, and we stand over it.",
         "img": "bl2",
-        "alt": "A toasted sandwich on a plate at Blondie, cut and stacked."
+        "alt": "A toasted sandwich with roast potatoes and a poached egg on a white plate."
       }
     ]
   },
@@ -175,7 +175,7 @@
       {
         "name": "Brunch, all day",
         "items": "Poached eggs, smashed avocado, bacon and sausage, French toast, the full Blondie",
-        "img": "bl2"
+        "img": "bl9"
       },
       {
         "name": "Soup and toasties",
@@ -190,17 +190,17 @@
       {
         "name": "Hot mains",
         "items": "Savoury pie, frittata, the daily pasta special, whatever the kitchen is on",
-        "img": "bl9"
+        "img": "bl2"
       },
       {
         "name": "Sweet treats",
         "items": "Red velvet, pavlova, blondies, loaf cakes, gluten-free options most days",
-        "img": "bl7"
+        "img": "bl5"
       },
       {
         "name": "Coffee and wine",
         "items": "Flat whites, cappuccinos, wine by the glass or the bottle, all day",
-        "img": "bl8"
+        "img": "bl7"
       }
     ]
   },
@@ -245,7 +245,7 @@
     "clock": "16.30",
     "kicker": "Find us",
     "title": "Main Street, Ballincollig.",
-    "body": "Ten minutes west of Cork city with the traffic behind you. Look for the red sign."
+    "body": "Ten minutes west of Cork city with the traffic behind you. Look for the red circular sign hanging over the door — you will see it before you see the name."
   },
   "meta": {
     "title": "Blondie Café — All-day brunch, Main Street, Ballincollig, Cork",
