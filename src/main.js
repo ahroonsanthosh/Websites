@@ -63,6 +63,14 @@
       });
     });
 
+    // Tabbing faster than lenis can lerp leaves the focus ring off-screen.
+    document.addEventListener("focusin", ev => {
+      if (!lenis || !ev.target.closest) return;
+      const r = ev.target.getBoundingClientRect();
+      if (r.top > 80 && r.bottom < window.innerHeight - 40) return;
+      lenis.scrollTo(ev.target, { offset: -140, duration: 0.35 });
+    });
+
     let rt;
     window.addEventListener("resize", () => {
       clearTimeout(rt);
@@ -78,7 +86,8 @@
     gsap.to(g, {
       backgroundPosition: "0 -700vh",
       ease: "none",
-      scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.4 }
+      scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom",
+        scrub: 0.4, invalidateOnRefresh: true }
     });
   }
 
@@ -112,14 +121,21 @@
       modifiers: { x: gsap.utils.unitize(x => parseFloat(x) % half()) }
     });
 
+    let dir = 1, hovering = false;
+    const apply = () => tw.timeScale(hovering ? dir * 0.12 : dir);
     ScrollTrigger.create({
-      onUpdate: self => { tw.timeScale(self.direction === -1 ? -1 : 1); }
+      onUpdate: self => {
+        const d = self.direction === -1 ? -1 : 1;
+        if (d !== dir) { dir = d; apply(); }
+      }
     });
-    wrap.addEventListener("pointerenter", () => tw.timeScale(tw.timeScale() * 0.12));
-    wrap.addEventListener("pointerleave", () => tw.timeScale(tw.timeScale() > 0 ? 1 : -1));
+    wrap.addEventListener("pointerenter", () => { hovering = true; apply(); });
+    wrap.addEventListener("pointerleave", () => { hovering = false; apply(); });
   }
 
   /* ── 5. nav: hides going down, returns going up, solidifies past the hero ─ */
+  let navUpdate = null;
+
   function initNav() {
     const nav = $("#nav"), dock = $("#dock");
     if (!nav) return;
@@ -135,6 +151,7 @@
     };
     onScroll(window.scrollY);
 
+    navUpdate = onScroll;
     if (lenis) lenis.on("scroll", ({ scroll }) => onScroll(scroll));
     else window.addEventListener("scroll", () => onScroll(window.scrollY), { passive: true });
   }
@@ -263,6 +280,10 @@
     // keyboard equivalent: nudge with the arrow keys when a mark has focus
     crumbs.forEach(el => {
       el.tabIndex = 0;
+      el.setAttribute("role", "button");
+      el.setAttribute("aria-roledescription", "draggable mark");
+      el.setAttribute("aria-label", el.getAttribute("aria-label").replace(
+        "a drawn mark you can drag around", "a drawn mark. Drag it, or nudge it with the arrow keys"));
       el.addEventListener("keydown", ev => {
         const map = { ArrowLeft: [-12, 0], ArrowRight: [12, 0], ArrowUp: [0, -12], ArrowDown: [0, 12] };
         const d = map[ev.key];
@@ -270,7 +291,12 @@
         ev.preventDefault();
         play.dataset.touched = "1";
         gsap.killTweensOf(el);
-        gsap.to(el, { x: `+=${d[0]}`, y: `+=${d[1]}`, duration: 0.22, ease: "back.out(2)", onComplete: () => float(el) });
+        const dr = window.Draggable.get(el);
+        const cx = +gsap.getProperty(el, "x") + d[0];
+        const cy = +gsap.getProperty(el, "y") + d[1];
+        const nx = dr ? gsap.utils.clamp(dr.minX, dr.maxX, cx) : cx;
+        const ny = dr ? gsap.utils.clamp(dr.minY, dr.maxY, cy) : cy;
+        gsap.to(el, { x: nx, y: ny, duration: 0.22, ease: "back.out(2)", onComplete: () => float(el) });
       });
     });
   }
@@ -308,8 +334,9 @@
       return () => tween.scrollTrigger && tween.scrollTrigger.kill();
     });
 
-    // the same progress readout on a phone, driven by the native scroll
-    mm.add("(max-width: 61.999rem)", () => {
+    // Native scroll drives the same readout wherever the pin does not run:
+    // on a phone, and on a desktop that has asked for reduced motion.
+    mm.add("(max-width: 61.999rem), (prefers-reduced-motion: reduce)", () => {
       const onScroll = () => {
         const max = track.scrollWidth - track.clientWidth;
         report(max > 0 ? track.scrollLeft / max : 0);
@@ -388,6 +415,7 @@
   function initNow() {
     const rows = $$(".hours li[data-day]");
     if (!rows.length) return;
+    $$(".now").forEach(el => el.setAttribute("aria-live", "polite"));
     const map = {};
     rows.forEach(r => {
       const times = $$("time", r);
@@ -398,35 +426,48 @@
 
     // Ireland: the café keeps local time, so read the clock in Europe/Dublin.
     const fmt = new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Europe/Dublin", weekday: "long", hour: "2-digit", minute: "2-digit", hour12: false
+      timeZone: "Europe/Dublin", weekday: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23"
     });
-    const parts = Object.fromEntries(fmt.formatToParts(new Date()).map(p => [p.type, p.value]));
-    const today = parts.weekday;
-    const mins = (+parts.hour) * 60 + (+parts.minute);
+    const read = () => Object.fromEntries(fmt.formatToParts(new Date()).map(p => [p.type, p.value]));
     const toMin = t => (+t.slice(0, 2)) * 60 + (+t.slice(3, 5));
+    const order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-    rows.forEach(r => { if (r.dataset.day === today) r.dataset.today = "1"; });
-
-    const span = map[today];
-    let open = false, msg;
-    if (span && mins >= toMin(span[0]) && mins < toMin(span[1])) {
-      open = true;
-      const left = toMin(span[1]) - mins;
-      msg = left <= 45 ? `Open — last orders in ${left} min` : "Open right now";
-    } else if (span && mins < toMin(span[0])) {
-      msg = `Opens at ${span[0].replace(":", ".")} today`;
-    } else {
-      const order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-      let i = order.indexOf(today);
+    const state = () => {
+      const parts = read();
+      const today = parts.weekday;
+      const mins = (+parts.hour) * 60 + (+parts.minute);
+      const span = map[today];
+      if (span && mins >= toMin(span[0]) && mins < toMin(span[1])) {
+        const left = toMin(span[1]) - mins;
+        return { today, open: true, msg: left <= 45 ? `Open — last orders in ${left} min` : "Open right now" };
+      }
+      if (span && mins < toMin(span[0])) {
+        return { today, open: false, msg: `Opens at ${span[0].replace(":", ".")} today` };
+      }
+      const i = order.indexOf(today);
       for (let n = 1; n <= 7; n++) {
         const d = order[(i + n) % 7];
-        if (map[d]) { msg = `Closed — back ${n === 1 ? "tomorrow" : d} at ${map[d][0].replace(":", ".")}`; break; }
+        if (map[d]) return { today, open: false, msg: `Closed — back ${n === 1 ? "tomorrow" : d} at ${map[d][0].replace(":", ".")}` };
       }
-    }
-    $$(".now").forEach(el => {
-      el.dataset.open = open ? "1" : "0";
-      $("span", el).textContent = msg || "Closed";
-    });
+      return { today, open: false, msg: "Closed" };
+    };
+
+    const paint = () => {
+      const { today, open, msg } = state();
+      rows.forEach(r => {
+        if (r.dataset.day === today) r.dataset.today = "1";
+        else r.removeAttribute("data-today");
+      });
+      $$(".now").forEach(el => {
+        el.dataset.open = open ? "1" : "0";
+        const span = $("span", el);
+        if (span.textContent !== msg) span.textContent = msg;
+      });
+    };
+
+    paint();
+    // a tab left open across half four must not still claim we are serving
+    setInterval(paint, 60000);
   }
 
   /* ── 15. preloader: real load progress, then a shaped clear ─────────────── */
@@ -435,20 +476,23 @@
     if (!pre) { onDone(); return; }
     if (REDUCED || !hasGSAP) { finishLoad(); onDone(); return; }
 
-    const watched = [
-      "assets/img/out/bl6-16x9-1280.avif",
-      "assets/img/out/bl6-4x5-640.avif",
-      "assets/img/out/bl3-4x5-640.avif"
-    ];
-    let done = 0;
-    const total = watched.length + 1;         // + fonts
+    if (!bar || !num) { finishLoad(); onDone(); return; }
+
+    // Watch the hero image element the browser actually resolved from the
+    // <picture>, not a hard-coded URL that may be the wrong crop entirely.
+    const hero = $(".hero__figure img");
+    let done = 0, shown = 0;
+    const total = 2;                          // hero image + fonts
     const step = () => {
       done++;
       const p = Math.min(1, done / total);
       gsap.to(bar, { scaleX: p, duration: 0.4, ease: ENTER });
-      gsap.to({ v: +num.textContent }, {
+      gsap.to({ v: shown }, {
         v: Math.round(p * 100), duration: 0.4, ease: ENTER,
-        onUpdate() { num.textContent = Math.round(this.targets()[0].v); }
+        onUpdate() {
+          shown = Math.max(shown, Math.round(this.targets()[0].v));
+          num.textContent = shown;
+        }
       });
       if (done >= total) clear();
     };
@@ -462,11 +506,11 @@
         .to(pre, { clipPath: "ellipse(150% 0% at 50% 0%)", duration: 0.9, ease: "expo.inOut" }, 0.2);
     };
 
-    watched.forEach(src => {
-      const im = new Image();
-      im.onload = im.onerror = step;
-      im.src = src;
-    });
+    if (!hero || hero.complete) step();
+    else {
+      hero.addEventListener("load", step, { once: true });
+      hero.addEventListener("error", step, { once: true });
+    }
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(step);
     setTimeout(clear, 3500);                  // never hold the page hostage
   }
@@ -475,7 +519,12 @@
   function initReducedGuard() {
     if (!hasGSAP) return;
     gsap.matchMedia().add("(prefers-reduced-motion: reduce)", () => {
-      if (lenis) { lenis.destroy(); lenis = null; }
+      if (lenis) {
+        lenis.destroy();
+        lenis = null;
+        // lenis was the only thing driving the header state; hand it back
+        if (navUpdate) window.addEventListener("scroll", () => navUpdate(window.scrollY), { passive: true });
+      }
       gsap.globalTimeline.getChildren().forEach(t => t.progress(1).kill());
       ScrollTrigger.getAll().forEach(t => t.kill(false));
       revealAll();

@@ -421,7 +421,17 @@ def main():
     os.makedirs(DIST)
     open(os.path.join(DIST, "index.html"), "w").write(out)
 
-    shutil.copytree(os.path.join(ROOT, "assets"), os.path.join(DIST, "assets"))
+    # Only what the page actually references. The ten source photographs are
+    # 1.3 MB that no <img> ever points at, and the derivative manifest is a
+    # build input, not a runtime one.
+    shutil.copytree(
+        os.path.join(ROOT, "assets"), os.path.join(DIST, "assets"),
+        ignore=lambda d, names: (
+            [n for n in names if n.endswith(".webp")] if os.path.basename(d) == "img"
+            else ["manifest.json"] if os.path.basename(d) == "out"
+            else []
+        ),
+    )
     shutil.copy(os.path.join(ROOT, "src", "main.js"), os.path.join(DIST, "assets", "main.js"))
     open(os.path.join(DIST, ".nojekyll"), "w").write("")
     open(os.path.join(DIST, "robots.txt"), "w").write(
