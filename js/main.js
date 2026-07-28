@@ -235,23 +235,82 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * Gallery: pinned horizontal rail.
+   * Gallery: horizontal rail scrubbed under a native `position: sticky`
+   * hold, ONLY at >=900px — below that, .gallery-rail is a plain
+   * touch-scrollable row (see CSS). These two must be mutually exclusive:
+   * earlier, the GSAP scrub tween was created unconditionally, so on
+   * mobile/tablet it fought the native horizontal touch-scroll for control
+   * of the same transform — the actual cause of the reported glitching.
+   * gsap.matchMedia() keeps the tween scoped to the breakpoint and tears
+   * it down (restoring an unset height) if the window crosses back below it.
+   *
+   * The section's height is set to exactly (sticky offset + sticky box +
+   * scroll distance) so the sticky hold releases the instant the scrub
+   * ends — a bare `pin: true` here previously left a large dead gap of
+   * empty gradient after the rail finished, because its pin-spacer
+   * reserved space beyond the section's own shorter natural height.
    * ------------------------------------------------------------------ */
-  const railSection = document.querySelector(".gallery-section");
+  const gallerySection = document.querySelector(".gallery-section");
+  const gallerySticky = document.querySelector(".gallery-sticky");
   const rail = document.querySelector(".gallery-rail");
-  if (hasGSAP && rail && railSection && window.innerWidth >= 900 && !reduceMotion) {
-    const getScrollAmount = () => rail.scrollWidth - railSection.querySelector(".gallery-rail-viewport").offsetWidth;
-    let tween = gsap.to(rail, {
-      x: () => -getScrollAmount(),
-      ease: "none",
-      scrollTrigger: {
-        trigger: railSection,
-        start: "top top",
-        end: () => `+=${getScrollAmount()}`,
-        scrub: 1,
-        pin: true,
-        invalidateOnRefresh: true,
-      },
+  const galleryViewport = document.querySelector(".gallery-rail-viewport");
+  if (hasGSAP && rail && gallerySection && gallerySticky && galleryViewport && !reduceMotion) {
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 900px)", () => {
+      const getScrollAmount = () => Math.max(0, rail.scrollWidth - galleryViewport.offsetWidth);
+
+      function sizeGallerySection() {
+        const stickyTop = parseFloat(getComputedStyle(gallerySticky).top) || 0;
+        // measure the sticky element's own box (its CSS height, e.g. min(80vh,44rem))
+        // rather than the inner content, so the reserved scroll distance matches
+        // exactly what's held on screen — no leftover gap once it releases.
+        gallerySection.style.height = `${stickyTop + gallerySticky.offsetHeight + getScrollAmount()}px`;
+      }
+      sizeGallerySection();
+      // Reveal triggers for everything *after* the gallery in the DOM (testimonial
+      // cards, visit section, footer) were already created against the page's
+      // pre-resize layout. Refresh now so their start/end positions match the
+      // height just set above — otherwise they fire at the wrong scroll offset
+      // until GSAP's own lazy refresh catches up, which reads as content
+      // popping in at the wrong moment.
+      ScrollTrigger.refresh();
+
+      const galleryTween = gsap.to(rail, {
+        x: () => -getScrollAmount(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: gallerySection,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      let galleryResizeTimer;
+      const onResize = () => {
+        clearTimeout(galleryResizeTimer);
+        galleryResizeTimer = setTimeout(() => {
+          sizeGallerySection();
+          ScrollTrigger.refresh();
+        }, 220);
+      };
+      window.addEventListener("resize", onResize);
+
+      // matchMedia teardown when the breakpoint no longer matches (or on
+      // full cleanup): kill the tween/trigger, drop the listener, and
+      // clear the inline height so the mobile fallback gets its natural
+      // auto-height row back instead of an unset-but-stale 900px+ box.
+      // Cancelling the pending debounce timer matters too — otherwise a
+      // resize that was still >=900px when it fired can re-apply the
+      // height *after* teardown, once its 220ms timeout finally runs.
+      return () => {
+        clearTimeout(galleryResizeTimer);
+        window.removeEventListener("resize", onResize);
+        galleryTween.scrollTrigger && galleryTween.scrollTrigger.kill();
+        galleryTween.kill();
+        gallerySection.style.height = "";
+      };
     });
   }
 
@@ -345,5 +404,13 @@
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 220);
     });
+
+    // Font swaps (font-display: swap) and late-loading images below the
+    // fold both change document height after ScrollTriggers are first
+    // created, which drifts every trigger positioned below them — the
+    // usual cause of a reveal firing at the wrong scroll point or a
+    // scrub feeling like it "jumps." Refresh once more after both settle.
+    fontsReady.then(() => ScrollTrigger.refresh());
+    window.addEventListener("load", () => ScrollTrigger.refresh());
   }
 })();

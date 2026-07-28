@@ -483,7 +483,25 @@ h3, .h3{
 /* ==========================================================================
    Gallery rail
    ========================================================================== */
-.gallery-section{ overflow: clip; }
+.gallery-section{
+  overflow: clip;
+  /* JS gives this section an explicit height (100vh + the rail's scroll
+     distance) at >=900px, so .gallery-sticky's native `position: sticky`
+     hold ends exactly when the horizontal scrub finishes — no leftover
+     dead space the way a GSAP pin-spacer left behind previously. */
+}
+@media (min-width: 900px){
+  /* A deliberate, content-sized "stage" (not a forced 100dvh) — tall enough
+     to comfortably fit the heading + cards with a little centred breathing
+     room, but not so tall that releasing the sticky hold leaves a long
+     trailing scroll through mostly-empty gradient. scripts/main.js reads
+     this element's own rendered height to size the section exactly. */
+  .gallery-sticky{
+    position: sticky; top: 4rem;
+    height: min(80vh, 44rem);
+    display: flex; align-items: center;
+  }
+}
 .gallery-rail-viewport{ overflow: visible; }
 .gallery-rail{
   display: flex; gap: var(--space-5);
