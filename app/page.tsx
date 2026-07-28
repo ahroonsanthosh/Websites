@@ -7,83 +7,16 @@ import { FooterSection } from "@/components/sections/FooterSection";
 
 const R = "https://raw.githubusercontent.com/ahroonsanthosh/Brightside/main";
 
-function AboutStrip() {
-  return (
-    <section className="bg-[#3D5A3C] py-16 md:py-20 px-6">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-16 items-center">
-        <div className="md:col-span-3">
-          <p className="text-[10px] uppercase tracking-[0.28em] text-white/40 font-semibold mb-4">
-            About Bright Side
-          </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold text-white leading-snug tracking-tight"
-            style={{ fontFamily: "var(--font-playfair)" }}
-          >
-            A place for people who care what’s in their cup.
-          </h2>
-          <p className="mt-4 text-white/65 text-base font-light leading-relaxed max-w-md">
-            We opened Bright Side to give Cork a café that takes the craft seriously without losing the warmth. Specialty espresso, food made fresh daily, and a corner on Washington Street that feels like yours.
-          </p>
-          <div className="mt-8 flex flex-col gap-4">
-            <div className="flex items-start gap-4">
-              <span className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base flex-shrink-0">📍</span>
-              <div>
-                <p className="text-white font-semibold text-sm">23a Washington Street West</p>
-                <p className="text-white/55 text-sm">Cork City Centre · T12 VKP0</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <span className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base flex-shrink-0">☕</span>
-              <div>
-                <p className="text-white font-semibold text-sm">Monday – Friday</p>
-                <p className="text-white/55 text-sm">8 am – 3 pm · Closed weekends</p>
-              </div>
-            </div>
-            <a
-              href="https://www.instagram.com/brightsidecork/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-start gap-4 group"
-            >
-              <span className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-base flex-shrink-0">
-                <svg className="w-4 h-4 text-white/70" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-              </span>
-              <div>
-                <p className="text-white font-semibold text-sm group-hover:text-white/80 transition-colors">@brightsidecork</p>
-                <p className="text-white/55 text-sm">Follow us on Instagram</p>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        {/* Photo panel */}
-        <div className="md:col-span-2 relative h-64 md:h-96 rounded-2xl overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`${R}/Screenshot%202026-06-26%20111202.png`}
-            alt="Inside Bright Side cafe"
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1E2E1E]/40 to-transparent" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function Home() {
   return (
     <main className="relative overflow-x-hidden">
       <Navigation />
 
+      {/* Hero 1: coffee cup floats in from the right */}
       <CafeCinematicHero
         instanceId="hero1"
         tagline1="Good mornings,"
         tagline2="start here."
-        taglineSub="23a Washington St West · Cork · Mon–Fri 8am–3pm"
         cardHeading="Specialty, coffee."
         cardDescription={
           <>
@@ -98,20 +31,24 @@ export default function Home() {
         badge2Text="Mon – Fri"
         badge2Sub="8 am – 3 pm"
         badge2Emoji="☕"
-        productImageSrc={`${R}/Screenshot%202026-06-26%20111049.png`}
+        ctaHeading="Come in. Sit down."
+        ctaDescription="Bright Side is your neighbourhood café where every morning tastes like it should."
+        ctaPrimaryLabel="Find Us"
+        ctaPrimaryHref="#contact"
+        ctaSecondaryLabel="See the Menu"
+        ctaSecondaryHref="#menu"
+        productImageSrc={R + "/Screenshot%202026-06-26%20111049.png"}
         productImageAlt="Bright Side specialty flat white with latte art"
-        scrollLength={3800}
+        scrollLength={6800}
       />
-
-      <AboutStrip />
 
       <MenuSection />
 
+      {/* Hero 2: food bowl floats in from the right */}
       <CafeCinematicHero
         instanceId="hero2"
         tagline1="Eat well,"
         tagline2="feel bright."
-        taglineSub="Fresh food made in-house, every morning."
         cardHeading="Made fresh, daily."
         cardDescription={
           <>
@@ -126,10 +63,15 @@ export default function Home() {
         badge2Text="Seasonal menu"
         badge2Sub="Local ingredients"
         badge2Emoji="🍃"
-        productImageSrc={`${R}/Screenshot%202026-06-26%20111113.png`}
-        productImageAlt="Bright Side granola bowl with seasonal fruit and honey"
-        scrollLength={3200}
-        cardVariant="editorial"
+        ctaHeading="Taste the difference."
+        ctaDescription="Drop in any weekday and try what everyone in Cork is talking about."
+        ctaPrimaryLabel="See Gallery"
+        ctaPrimaryHref="#gallery"
+        ctaSecondaryLabel="Find Us"
+        ctaSecondaryHref="#contact"
+        productImageSrc={R + "/Screenshot%202026-06-26%20111113.png"}
+        productImageAlt="Bright Side fresh food bowl"
+        scrollLength={6200}
       />
 
       <GallerySection />

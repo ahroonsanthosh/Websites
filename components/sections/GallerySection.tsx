@@ -10,33 +10,33 @@ const R = "https://raw.githubusercontent.com/ahroonsanthosh/Brightside/main";
 
 const PHOTOS = [
   {
-    src: `${R}/Screenshot%202026-06-26%20111123.png`,
-    alt: "Bright Side cafe interior",
+    src: R + "/Screenshot%202026-06-26%20111123.png",
+    alt: "Inside Bright Side café",
     span: "col-span-2 row-span-2",
   },
   {
-    src: `${R}/Screenshot%202026-06-26%20111138.png`,
-    alt: "Bright Side coffee and food",
+    src: R + "/Screenshot%202026-06-26%20111138.png",
+    alt: "Bright Side drinks and detail",
     span: "col-span-1 row-span-1",
   },
   {
-    src: `${R}/Screenshot%202026-06-26%20111147.png`,
-    alt: "Bright Side seasonal dish",
+    src: R + "/Screenshot%202026-06-26%20111147.png",
+    alt: "Bright Side café counter",
     span: "col-span-1 row-span-1",
   },
   {
-    src: `${R}/Screenshot%202026-06-26%20111156.png`,
-    alt: "Bright Side cafe detail",
+    src: R + "/Screenshot%202026-06-26%20111156.png",
+    alt: "Bright Side café atmosphere",
     span: "col-span-1 row-span-2",
   },
   {
-    src: `${R}/Screenshot%202026-06-26%20111202.png`,
-    alt: "Bright Side morning setup",
+    src: R + "/Screenshot%202026-06-26%20111049.png",
+    alt: "Specialty latte with latte art",
     span: "col-span-1 row-span-1",
   },
   {
-    src: `${R}/Screenshot%202026-06-26%20111049.png`,
-    alt: "Bright Side flat white with latte art",
+    src: R + "/Screenshot%202026-06-26%20111113.png",
+    alt: "Fresh food at Bright Side",
     span: "col-span-1 row-span-1",
   },
 ];
@@ -82,6 +82,9 @@ export function GallerySection() {
           <h2 className="text-5xl md:text-6xl font-bold text-[#2C2C2A] tracking-tight leading-none">
             A corner worth finding.
           </h2>
+          <p className="mt-5 text-[#5C5C56] text-lg font-light max-w-md mx-auto">
+            Tucked into Washington Street — small, calm, and made for mornings that deserve more than rushed.
+          </p>
         </div>
 
         <div className="gallery-grid grid grid-cols-3 grid-rows-3 gap-3 md:gap-4 h-[520px] md:h-[680px]">
