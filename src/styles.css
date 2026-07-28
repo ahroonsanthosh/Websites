@@ -817,7 +817,10 @@ body[data-loading="1"] { overflow: hidden; }
 .room__trio img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .room__peel { will-change: transform; }
 @media (max-width: 55.999rem) {
-  .room__mid { grid-column: 1 / -1; }
+  /* the pair sits together on the first row; the third photograph runs full
+     width beneath it, rather than being pushed between them by DOM order */
+  .room__peel { order: 0; }
+  .room__mid { order: 1; grid-column: 1 / -1; }
 }
 .room__cap { margin-top: var(--s4); color: var(--ink-55); }
 
