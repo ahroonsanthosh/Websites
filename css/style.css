@@ -671,6 +671,7 @@ h3, .h3{
   h1, .h1{ font-size: clamp(2.4rem, 11vw, 3.6rem); }
   .section{ padding-block: var(--space-7); }
   body{ padding-bottom: 76px; } /* room for the pill nav */
+  .hero-inner{ padding-bottom: calc(var(--space-7) + 76px); } /* keep the CTA row clear of the fixed pill nav */
 }
 
 @media (prefers-reduced-motion: reduce){

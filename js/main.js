@@ -84,6 +84,11 @@
     const lines = document.querySelectorAll(".hero-title .line span");
     if (!hasGSAP || reduceMotion) {
       lines.forEach((l) => (l.style.transform = "none"));
+      // The initial gsap.set() below hides these with autoAlpha (opacity +
+      // visibility) regardless of reduced motion; only the animated branch
+      // was ever clearing it, so this group stayed permanently invisible
+      // for reduced-motion visitors. Reset it here too, instantly.
+      gsap.set([".hero-eyebrow", ".hero-sub", ".hero-meta", ".hero-cta"], { autoAlpha: 1, y: 0 });
     } else {
       gsap.to(lines, {
         yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.09,
