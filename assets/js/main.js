@@ -138,11 +138,29 @@
   window.addEventListener('scroll', function () { if (nav) nav.classList.toggle('scrolled', window.scrollY > 30); }, { passive: true });
 
   /* ---- HERO video: mirror the poster as a CSS background so the pill
-     never looks empty if the browser/host can't decode either <source> ---- */
+     never looks empty if the video can't play at all ---- */
   var vheroInsetEl = document.querySelector('[data-vhero-inset]');
   var vheroVideoEl = document.querySelector('[data-vhero-video]');
   if (vheroInsetEl && vheroVideoEl && vheroVideoEl.poster) {
     vheroInsetEl.style.backgroundImage = 'url(' + vheroVideoEl.poster + ')';
+  }
+  // Self-contained builds (dist/artifact) stash the video as base64 data-*-b64
+  // attributes instead of a data: URI directly on <source> — some browsers
+  // fail to decode a data: URI video source reliably. Build a Blob URL from
+  // it at runtime instead (still zero network requests).
+  if (vheroVideoEl) {
+    var webmB64 = vheroVideoEl.getAttribute('data-webm-b64');
+    var mp4B64 = vheroVideoEl.getAttribute('data-mp4-b64');
+    if (webmB64 || mp4B64) {
+      try {
+        var canWebm = vheroVideoEl.canPlayType && vheroVideoEl.canPlayType('video/webm; codecs="vp9"');
+        var pick = (canWebm && webmB64) ? { b64: webmB64, mime: 'video/webm' } : { b64: mp4B64, mime: 'video/mp4' };
+        var bin = atob(pick.b64);
+        var bytes = new Uint8Array(bin.length);
+        for (var bi = 0; bi < bin.length; bi++) bytes[bi] = bin.charCodeAt(bi);
+        vheroVideoEl.src = URL.createObjectURL(new Blob([bytes], { type: pick.mime }));
+      } catch (e) {}
+    }
   }
 
   /* ---- HERO intro timeline (on load) ---- */
