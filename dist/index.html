@@ -1145,6 +1145,21 @@ main > section[id] { scroll-margin-top: 84px; }
       } catch (e) {}
     }
   }
+  // Fail safe: if the video hasn't actually started playing shortly after,
+  // hide it so the poster background (already set above) is what shows,
+  // instead of a broken/blank box. Covers autoplay-policy, codec, or CSP
+  // restrictions in whatever environment renders this page — we don't need
+  // to know which one hit; we just need the hero to never look broken.
+  if (vheroVideoEl) {
+    var vheroVideoOk = false;
+    vheroVideoEl.addEventListener('playing', function () { vheroVideoOk = true; });
+    vheroVideoEl.addEventListener('error', function () { vheroVideoEl.style.display = 'none'; });
+    setTimeout(function () {
+      if (!vheroVideoOk && vheroVideoEl.readyState < 2) {
+        vheroVideoEl.style.display = 'none';
+      }
+    }, 2500);
+  }
 
   /* ---- HERO intro timeline (on load) ---- */
   gsap.set('.vhero__title .w', { y: 44, opacity: 0, filter: 'blur(10px)' });
