@@ -97,10 +97,12 @@
             class="vhero__video"
             data-vhero-video
             poster="assets/img/hero-poster.webp"
-            src="assets/video/hero.mp4"
             autoplay muted loop playsinline preload="metadata"
             aria-label="Members training at Dragon Jiu-Jitsu Academy"
-          ></video>
+          >
+            <source src="assets/video/hero.webm" type="video/webm" />
+            <source src="assets/video/hero.mp4" type="video/mp4" />
+          </video>
         </div>
 
         <div class="vhero__actions" data-stagger>

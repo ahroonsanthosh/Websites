@@ -137,6 +137,14 @@
   // anchor links use CSS scroll-behavior:smooth + scroll-padding-top — no JS needed.
   window.addEventListener('scroll', function () { if (nav) nav.classList.toggle('scrolled', window.scrollY > 30); }, { passive: true });
 
+  /* ---- HERO video: mirror the poster as a CSS background so the pill
+     never looks empty if the browser/host can't decode either <source> ---- */
+  var vheroInsetEl = document.querySelector('[data-vhero-inset]');
+  var vheroVideoEl = document.querySelector('[data-vhero-video]');
+  if (vheroInsetEl && vheroVideoEl && vheroVideoEl.poster) {
+    vheroInsetEl.style.backgroundImage = 'url(' + vheroVideoEl.poster + ')';
+  }
+
   /* ---- HERO intro timeline (on load) ---- */
   gsap.set('.vhero__title .w', { y: 44, opacity: 0, filter: 'blur(10px)' });
   gsap.set(['.hero__eyebrow', '.vhero__lede', '.vhero__actions', '.hero__meta'], { y: 24, opacity: 0 });
