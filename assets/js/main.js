@@ -138,32 +138,32 @@
   window.addEventListener('scroll', function () { if (nav) nav.classList.toggle('scrolled', window.scrollY > 30); }, { passive: true });
 
   /* ---- HERO intro timeline (on load) ---- */
-  gsap.set('.hero__title .w', { y: 44, filter: 'blur(10px)' });
-  gsap.set(['.hero__eyebrow', '.hero__lede', '.hero__actions', '.hero__meta'], { y: 24 });
+  gsap.set('.vhero__title .w', { y: 44, opacity: 0, filter: 'blur(10px)' });
+  gsap.set(['.hero__eyebrow', '.vhero__lede', '.vhero__actions', '.hero__meta'], { y: 24, opacity: 0 });
   gsap.set('.hero__scroll', { opacity: 0 });
+  gsap.set('.vhero__inset', { scale: 0.62, borderRadius: 300 });
+  gsap.set('.vhero__video', { scale: 1.22 });
 
   var htl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  htl.from('.hero__badge', { opacity: 0, scale: 0.55, rotation: -45, duration: 1.3, ease: 'power4.out' }, 0)
+  htl.from('.vhero__inset', { opacity: 0, scale: 0.4, duration: 1.3, ease: 'power4.out' }, 0)
      .to('.hero__eyebrow', { opacity: 1, y: 0, duration: 0.7 }, 0.3)
-     .to('.hero__title .w', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.95, stagger: 0.08 }, 0.4)
-     .to('.hero__lede', { opacity: 1, y: 0, duration: 0.7 }, 0.95)
-     .to('.hero__actions', { opacity: 1, y: 0, duration: 0.7 }, 1.1)
+     .to('.vhero__title .w', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.95, stagger: 0.08 }, 0.4)
+     .to('.vhero__lede', { opacity: 1, y: 0, duration: 0.7 }, 0.95)
+     .to('.vhero__actions', { opacity: 1, y: 0, duration: 0.7 }, 1.1)
      .to('.hero__meta', { opacity: 1, y: 0, duration: 0.7 }, 1.25)
      .to('.hero__scroll', { opacity: 1, duration: 0.6 }, 1.4);
 
-  // gentle idle bob so the crest is alive at rest (doesn't touch rotation/scale)
-  gsap.to('.hero__badge-img', { y: -16, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-
-  /* ---- HERO: scroll drives the crest rotation + scale (Radian-style, no pin) ---- */
-  var heroScrub = gsap.timeline({
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 }
+  /* ---- HERO: scroll expands the pill-shaped video to full-bleed (ContainerInset-style) ---- */
+  var vheroTl = gsap.timeline({
+    scrollTrigger: { trigger: '.vhero', start: 'top top', end: '62% top', scrub: 0.6 }
   });
-  heroScrub
-    .to('.hero__badge-img', { rotation: 185, scale: 1.18, ease: 'none' }, 0)
-    .to('.hero__badge', { yPercent: 26, ease: 'none' }, 0)
-    .to('.hero__copy', { yPercent: -14, ease: 'none' }, 0)
-    .to('.blob--1', { yPercent: 65, ease: 'none' }, 0)
-    .to('.blob--2', { yPercent: -50, ease: 'none' }, 0);
+  vheroTl
+    .to('.vhero__inset', { scale: 1, borderRadius: 22, ease: 'none' }, 0)
+    .to('.vhero__video', { scale: 1, ease: 'none' }, 0)
+    .to('.vhero__copy', { autoAlpha: 0.15, y: -30, ease: 'none' }, 0)
+    .to('.vhero__actions', { autoAlpha: 0.15, y: -14, ease: 'none' }, 0.05)
+    .to('.hero__meta', { autoAlpha: 0.15, y: -14, ease: 'none' }, 0.1)
+    .to('.vhero__glow', { opacity: 0, ease: 'none' }, 0);
 
   /* ---- Split headings into masked words (the signature reveal) ---- */
   function splitWords(el) {
@@ -336,7 +336,7 @@
   if (fcta) {
     gsap.set(fcta, { y: 16, scale: 0.9, autoAlpha: 0 });
     ScrollTrigger.create({
-      trigger: '.hero', start: 'bottom 60%',
+      trigger: '.vhero', start: 'bottom 60%',
       onEnter: function () { fcta.setAttribute('aria-hidden', 'false'); fcta.removeAttribute('tabindex'); gsap.to(fcta, { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }); },
       onLeaveBack: function () { fcta.setAttribute('aria-hidden', 'true'); fcta.setAttribute('tabindex', '-1'); gsap.to(fcta, { autoAlpha: 0, y: 16, scale: 0.9, duration: 0.35 }); }
     });

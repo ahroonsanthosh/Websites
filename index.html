@@ -71,48 +71,50 @@
   <main id="main">
     <span id="top"></span>
 
-    <!-- ===================== HERO ===================== -->
-    <section class="hero">
-      <div class="hero__aurora" aria-hidden="true">
-        <span class="blob blob--1"></span>
-        <span class="blob blob--2"></span>
-        <span class="blob blob--3"></span>
-      </div>
-
-      <div class="hero__inner">
-        <div class="hero__copy">
+    <!-- ===================== HERO (scroll-driven video) ===================== -->
+    <section class="vhero" id="vhero" data-vhero>
+      <div class="vhero__glow" aria-hidden="true"></div>
+      <div class="vhero__sticky">
+        <div class="vhero__copy" data-vhero-copy>
           <p class="hero__eyebrow" data-stagger>
             <span class="script">since 2014</span>
             <span class="dot">·</span> Brazilian Jiu-Jitsu · Ballincollig
           </p>
-          <h1 class="hero__title">
+          <h1 class="vhero__title">
             <span class="w" data-stagger>Cork's</span>
             <span class="w" data-stagger>home of</span>
             <span class="w w--accent" data-stagger>Brazilian</span>
             <span class="w" data-stagger>jiu-jitsu.</span>
           </h1>
-          <p class="hero__lede" data-stagger>
+          <p class="vhero__lede" data-stagger>
             Kids classes, adult beginners, and a competition team that actually competes —
             all on the same mat in Ballincollig. Your first class is free.
           </p>
-          <div class="hero__actions" data-stagger>
-            <a href="#book" class="pill pill--gold pill--lg">
-              Book a free class
-              <span class="pill__ico"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </a>
-            <a href="#timetable" class="pill pill--line pill--lg">See the timetable</a>
-          </div>
-          <ul class="hero__meta" data-stagger>
-            <li><strong>5.0</strong> Google rating</li>
-            <li><strong>10 yrs</strong> on the mats</li>
-            <li><strong>All levels</strong> welcome</li>
-          </ul>
         </div>
 
-        <div class="hero__badge" data-badge aria-hidden="true">
-          <span class="hero__badge-glow"></span>
-          <img src="assets/img/logo.webp" alt="Dragon Jiu-Jitsu Academy crest" class="hero__badge-img" data-spin />
+        <div class="vhero__inset" data-vhero-inset>
+          <video
+            class="vhero__video"
+            data-vhero-video
+            poster="assets/img/hero-poster.webp"
+            src="assets/video/hero.mp4"
+            autoplay muted loop playsinline preload="metadata"
+            aria-label="Members training at Dragon Jiu-Jitsu Academy"
+          ></video>
         </div>
+
+        <div class="vhero__actions" data-stagger>
+          <a href="#book" class="pill pill--gold pill--lg">
+            Book a free class
+            <span class="pill__ico"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a>
+          <a href="#timetable" class="pill pill--line pill--lg">See the timetable</a>
+        </div>
+        <ul class="hero__meta" data-stagger>
+          <li><strong>5.0</strong> Google rating</li>
+          <li><strong>10 yrs</strong> on the mats</li>
+          <li><strong>All levels</strong> welcome</li>
+        </ul>
       </div>
 
       <a href="#story" class="hero__scroll" aria-label="Scroll down">
