@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#16b5b0" />
+  <title>Wild Café · Tralee, Co. Kerry — Breakfast, Brunch &amp; Coffee</title>
+  <meta name="description" content="Wild Café — 17 The Mall, Tralee, Co. Kerry. Free-range breakfasts, Dingle Bay seafood chowder, fresh coffee and all-day brunch in the heart of Tralee. Takeaway available all day." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="restaurant.cafe" />
+  <meta property="og:title" content="Wild Café · Tralee, Co. Kerry" />
+  <meta property="og:description" content="Free-range breakfasts, all-day brunch and fresh coffee on The Mall, Tralee. Takeaway available all day." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=70" />
+
+  <!-- Fonts: Satisfy (script wordmark), Fraunces (display), Outfit (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Outfit:wght@300;400;500;600&family=Satisfy&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css?v=11" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2316b5b0'/%3E%3Ctext x='16' y='23' font-size='20' font-family='cursive' fill='white' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- Page loader -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <span class="loader__word">Wild</span>
+    <div class="loader__bar"><span></span></div>
+  </div>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- Shared SVG defs (branch + wave) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <path id="wavepath" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+      <g id="branch">
+        <path d="M100 200 C100 150 96 120 92 92 C90 74 96 58 110 44" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M95 150 C70 140 52 128 40 108" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M40 108 C34 100 30 92 30 82" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M40 108 C28 110 18 110 8 104" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M93 120 C116 108 134 98 150 80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M150 80 C158 72 162 64 162 54" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M150 80 C162 82 172 82 182 76" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M92 92 C76 84 64 74 58 60" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M99 175 C120 168 134 160 146 146" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+    </defs>
+  </svg>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#top" class="brand" aria-label="Wild Café home">
+        <span class="brand__name">Wild</span>
+        <span class="brand__tag">Tralee</span>
+      </a>
+
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="#story">Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#visit">Visit</a>
+        <a href="#reserve" class="nav__cta">Book a table</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__media" data-parallax="0.22">
+        <img
+          src="assets/hero.webp"
+          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1800&q=72'"
+          alt="Wild Café interior — white branch chandelier with warm Edison bulbs above a teal Wild coffee cup"
+          fetchpriority="high" />
+        <div class="hero__scrim"></div>
+      </div>
+
+      <!-- decorative branches -->
+      <svg class="hero__branch hero__branch--l" viewBox="0 30 200 180" aria-hidden="true"><use href="#branch"/></svg>
+      <svg class="hero__branch hero__branch--r" viewBox="0 30 200 180" aria-hidden="true"><use href="#branch"/></svg>
+
+      <div class="hero__content">
+        <p class="eyebrow reveal" data-reveal>17 The Mall · Tralee · Co. Kerry</p>
+        <h1 class="hero__title">
+          <span class="reveal-line"><span data-reveal-delay="0">A little</span></span>
+          <span class="reveal-line"><span data-reveal-delay="90" class="script">Wild</span></span>
+          <span class="reveal-line"><span data-reveal-delay="180">in the heart of town.</span></span>
+        </h1>
+        <p class="hero__sub reveal" data-reveal data-reveal-delay="320">
+          Free-range breakfasts, all-day brunch and proper coffee —
+          served under the branches on The Mall.
+        </p>
+        <div class="hero__actions reveal" data-reveal data-reveal-delay="420">
+          <a href="#reserve" class="btn btn--solid">Book a table</a>
+          <a href="#menu" class="btn btn--ghost">See the menu</a>
+        </div>
+        <p class="hero__takeaway reveal" data-reveal data-reveal-delay="520">☕ Takeaway available all day</p>
+      </div>
+
+      <!-- Animated waves -->
+      <div class="hero__waves" aria-hidden="true">
+        <svg viewBox="0 24 150 28" preserveAspectRatio="none">
+          <g class="wave-parallax">
+            <use href="#wavepath" x="48" y="0" fill="rgba(255,255,255,0.10)" />
+            <use href="#wavepath" x="48" y="3" fill="rgba(255,255,255,0.16)" />
+            <use href="#wavepath" x="48" y="5" fill="rgba(255,255,255,0.30)" />
+            <use href="#wavepath" x="48" y="7" fill="var(--cream)" />
+          </g>
+        </svg>
+      </div>
+
+      <a href="#story" class="hero__scroll" aria-label="Scroll to story">
+        <span class="hero__scroll-dot"></span>
+        <span class="hero__scroll-text">Scroll</span>
+      </a>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Free-range eggs</span><span class="dot">✦</span>
+        <span>Dingle Bay seafood chowder</span><span class="dot">✦</span>
+        <span>Homemade brown bread</span><span class="dot">✦</span>
+        <span>Kerry smoked salmon</span><span class="dot">✦</span>
+        <span>All-day brunch</span><span class="dot">✦</span>
+        <span>Free-range eggs</span><span class="dot">✦</span>
+        <span>Dingle Bay seafood chowder</span><span class="dot">✦</span>
+        <span>Homemade brown bread</span><span class="dot">✦</span>
+        <span>Kerry smoked salmon</span><span class="dot">✦</span>
+        <span>All-day brunch</span><span class="dot">✦</span>
+      </div>
+    </div>
+
+    <!-- ============ SCENE (pinned scroll-driven coffee reveal) ============ -->
+    <section class="scene" id="showcase" aria-label="Wild coffee moment">
+      <div class="scene__stage">
+        <div class="scene__cup" id="sceneCup">
+          <img src="assets/band.webp?v=11" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=72'" alt="Overhead view of a flat white with leaf latte art" loading="lazy" />
+        </div>
+        <div class="scene__copy">
+          <p class="eyebrow scene__eyebrow">Proudly poured</p>
+          <h2 class="scene__title">Proper coffee,<br/><span class="ital">wild mornings.</span></h2>
+          <p class="scene__sub">Small-batch and barista-made — worth slowing down for, right here on The Mall.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STORY ============ -->
+    <section class="story section" id="story">
+      <div class="story__grid">
+        <div class="story__media">
+          <div class="story__img story__img--a reveal" data-reveal>
+            <img src="assets/story-1.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=900&q=70'" alt="Teal Wild takeaway cup and a pastry on the counter at Wild Café" loading="lazy" />
+          </div>
+          <div class="story__img story__img--b reveal" data-reveal data-reveal-delay="160">
+            <img src="assets/story-2.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559305616-3f99cd43e353?auto=format&fit=crop&w=700&q=70'" alt="Flat white with leaf latte art beside cutlery" loading="lazy" />
+          </div>
+          <span class="story__badge reveal" data-reveal data-reveal-delay="280">
+            <strong>All day</strong>
+            <em>takeaway</em>
+          </span>
+        </div>
+
+        <div class="story__copy">
+          <p class="eyebrow reveal" data-reveal>Our story</p>
+          <h2 class="reveal" data-reveal data-reveal-delay="80">
+            Good food, <span class="ital">good coffee</span>, under the white branches.
+          </h2>
+          <p class="reveal" data-reveal data-reveal-delay="160">
+            Tucked on the corner of The Mall, Wild is Tralee's bright spot for a proper
+            start to the day. Step in off the street and you're under our signature
+            canopy of white branches and warm Edison light — the kind of room you settle
+            into and lose an hour in.
+          </p>
+          <p class="reveal" data-reveal data-reveal-delay="220">
+            We cook free-range, bake our own brown bread, and pour coffee worth slowing
+            down for. Breakfast, brunch, lunch or just a flat white to go — there's a
+            seat with your name on it.
+          </p>
+
+          <div class="stats reveal" data-reveal data-reveal-delay="300">
+            <div class="stat">
+              <span class="stat__num" data-count="8" data-prefix="" data-suffix="am">0</span>
+              <span class="stat__label">Kitchen fires up</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" data-count="100" data-suffix="%">0</span>
+              <span class="stat__label">Free-range eggs</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" data-count="7" data-suffix=" days">0</span>
+              <span class="stat__label">Open every week</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MENU ============ -->
+    <section class="menu section" id="menu">
+      <div class="section__head">
+        <p class="eyebrow reveal" data-reveal>On the board</p>
+        <h2 class="reveal" data-reveal data-reveal-delay="80">The <span class="ital">menu</span></h2>
+        <p class="section__lead reveal" data-reveal data-reveal-delay="140">
+          Breakfast served 8am–12pm. Brunch &amp; lunch all day after.
+          Most dishes can be made veggie or vegan — just ask.
+        </p>
+      </div>
+
+      <div class="menu__tabs reveal" data-reveal role="tablist" aria-label="Menu categories">
+        <button class="menu__tab is-active" role="tab" aria-selected="true" data-tab="breakfast">Breakfast</button>
+        <button class="menu__tab" role="tab" aria-selected="false" data-tab="eggs">Egg Dishes</button>
+        <button class="menu__tab" role="tab" aria-selected="false" data-tab="mains">Mains</button>
+        <button class="menu__tab" role="tab" aria-selected="false" data-tab="salads">Salads &amp; Bites</button>
+        <button class="menu__tab" role="tab" aria-selected="false" data-tab="sandwiches">Sandwiches</button>
+      </div>
+
+      <div class="menu__panels">
+        <!-- BREAKFAST -->
+        <div class="menu__panel is-active" data-panel="breakfast">
+          <p class="menu__group">Breakfast Grill</p>
+          <ul class="menu__list">
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Wild House Grilled Full Breakfast</span><span class="menu__dots"></span><span class="menu__price">€15.95</span></div><p class="menu__desc">2 sausages, 2 grilled bacon, white &amp; black pudding, hash brown, mushroom and eggs — served with tea &amp; toast.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Mini Breakfast</span><span class="menu__dots"></span><span class="menu__price">€11.95</span></div><p class="menu__desc">1 sausage, 1 bacon, pudding, poached egg, beans, tea &amp; toast.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Breakfast Bap</span><span class="menu__dots"></span><span class="menu__price">€11.95</span></div><p class="menu__desc">2 sausages, 2 rashers, fried egg, Ballymaloe relish on a crisp brioche bun.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Full Irish Veggie Breakfast</span><span class="menu__dots"></span><span class="menu__price">€14.95</span></div><p class="menu__desc">2 egg, mushrooms, grilled tomato, beans, avocado, toast and tea or coffee.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Scrambled Eggs on Toast</span><span class="menu__dots"></span><span class="menu__price">€9.95</span></div><p class="menu__desc">Add bacon, mushrooms, spinach or pudding — €1.50 each.</p></li>
+          </ul>
+          <p class="menu__group">Oats &amp; Pancakes</p>
+          <ul class="menu__list">
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Wild House Granola</span><span class="menu__dots"></span><span class="menu__price">€8.95</span></div><p class="menu__desc">Fruit, honey, natural Greek yoghurt.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">House Porridge</span><span class="menu__dots"></span><span class="menu__price">€9.50</span></div><p class="menu__desc">Mixed berry fruit compote, banana, peanut butter and toasted muesli.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Homemade Pancakes</span><span class="menu__dots"></span><span class="menu__price">€10.95</span></div><p class="menu__desc">Maple syrup, banana, mixed berry compote, mango coulis.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Pancakes &amp; Bacon</span><span class="menu__dots"></span><span class="menu__price">€10.95</span></div><p class="menu__desc">With crispy bacon and maple syrup.</p></li>
+          </ul>
+          <p class="menu__group">Sides &amp; Juices</p>
+          <ul class="menu__list">
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Homemade Sausage Rolls</span><span class="menu__dots"></span><span class="menu__price">€3.50</span></div></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Homemade Scones</span><span class="menu__dots"></span><span class="menu__price">€2.50</span></div></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Freshly Squeezed Orange</span><span class="menu__dots"></span><span class="menu__price">€4.00</span></div></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Freshly Squeezed Apple</span><span class="menu__dots"></span><span class="menu__price">€3.00</span></div></li>
+          </ul>
+        </div>
+
+        <!-- EGG DISHES -->
+        <div class="menu__panel" data-panel="eggs">
+          <p class="menu__group">Free-Range Egg Dishes</p>
+          <ul class="menu__list">
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Eggs Benedict</span><span class="menu__dots"></span><span class="menu__price">€13.95</span></div><p class="menu__desc">Toasted muffin, rocket, dry crispy bacon, poached egg, hollandaise sauce.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Kerry Smoked Salmon</span><span class="menu__dots"></span><span class="menu__price">€14.95</span></div><p class="menu__desc">Toasted muffin, rocket leaves, smoked salmon &amp; poached egg, capers, hollandaise.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Health Breakfast</span><span class="menu__dots"></span><span class="menu__price">€14.95</span></div><p class="menu__desc">Homemade brown bread, Ballymaloe relish, crushed avocado, crispy bacon, poached eggs &amp; hollandaise.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Honey Glazed Pulled Ham</span><span class="menu__dots"></span><span class="menu__price">€14.95</span></div><p class="menu__desc">Poached egg on brown bread, Ballymaloe relish, sprinkled with feta and hollandaise.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Four Egg Omelette</span><span class="menu__dots"></span><span class="menu__price">€13.95</span></div><p class="menu__desc">Ham, onion, tomato, mushroom, cheese, with toast.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Avocado Eggs</span><span class="menu__dots"></span><span class="menu__price">€14.95</span></div><p class="menu__desc">Smashed avocado, poached free-range eggs, hollandaise, crumbled feta, mushrooms on homemade brown bread.</p></li>
+          </ul>
+        </div>
+
+        <!-- MAINS -->
+        <div class="menu__panel" data-panel="mains">
+          <p class="menu__group">Wild Mains</p>
+          <ul class="menu__list">
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Centre Cut 6oz Sirloin Steak Sandwich</span><span class="menu__dots"></span><span class="menu__price">€16.95</span></div><p class="menu__desc">Crispy ciabatta, mushroom, onion, wholegrain mustard mayo, chips &amp; salad.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Wild Thai Curry</span><span class="menu__dots"></span><span class="menu__price">€14.95</span></div><p class="menu__desc">Chicken or vegetable. Basmati rice, cashew nuts, toasted naan — spicy. Add chips €2.50.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Wild Beef Burger</span><span class="menu__dots"></span><span class="menu__price">€15.95</span></div><p class="menu__desc">Bacon, cheese, relish, iceberg on a brioche bun with chips &amp; salad. Add egg, onion rings, mushroom, coleslaw or bacon €1 each.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Chicken Maryland Burger</span><span class="menu__dots"></span><span class="menu__price">€15.55</span></div><p class="menu__desc">Taco mayo, cheese, iceberg, coleslaw on a brioche bun with chips &amp; salad.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Pulled Pork Bap</span><span class="menu__dots"></span><span class="menu__price">€15.55</span></div><p class="menu__desc">Homemade BBQ pulled pork, melted cheese, coleslaw on a toasted brioche bun with chips &amp; side salad.</p></li>
+          </ul>
+        </div>
+
+        <!-- SALADS & BITES -->
+        <div class="menu__panel" data-panel="salads">
+          <p class="menu__group">Small Bites &amp; Salads</p>
+          <ul class="menu__list">
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Dingle Bay Seafood Chowder</span><span class="menu__dots"></span><span class="menu__price">€9.45</span></div><p class="menu__desc">Our local favourite, with homemade brown bread.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Seasonal Soup of the Day</span><span class="menu__dots"></span><span class="menu__price">€6.45</span></div><p class="menu__desc">Ask your server what's on today.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Warm Breaded Goats Cheese Salad</span><span class="menu__dots"></span><span class="menu__price">€13.95</span></div><p class="menu__desc">Mixed leaves, cherry tomato, walnut, poached pear and julienne of apple.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Famous Chicken Caesar Salad</span><span class="menu__dots"></span><span class="menu__price">€13.95</span></div><p class="menu__desc">Baby gem, chicken, bacon, homemade dressing &amp; parmesan shavings, brown bread.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Very Vegan Salad</span><span class="menu__dots"></span><span class="menu__price">€13.45</span></div><p class="menu__desc">Avocado, beetroot, chickpea, pomegranate, cherry tomato &amp; homemade dressing.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Chicken &amp; Couscous Greek Salad</span><span class="menu__dots"></span><span class="menu__price">€13.95</span></div><p class="menu__desc">Feta, pickled cucumber, roasted pepper &amp; sundried tomato.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Italian Bruschetta</span><span class="menu__dots"></span><span class="menu__price">€11.45</span></div><p class="menu__desc">Garlic ciabatta, fresh tomato &amp; basil, olive oil, rocket &amp; parmesan. Add chicken €2.50.</p></li>
+          </ul>
+        </div>
+
+        <!-- SANDWICHES -->
+        <div class="menu__panel" data-panel="sandwiches">
+          <p class="menu__group">Sandwiches</p>
+          <ul class="menu__list">
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Classic Club Sandwich</span><span class="menu__dots"></span><span class="menu__price">€13.95</span></div><p class="menu__desc">Chicken, bacon, egg, tomato, rocket, mayo with chips &amp; cup of soup.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Classic Toasted Special</span><span class="menu__dots"></span><span class="menu__price">€12.55</span></div><p class="menu__desc">Home-cooked ham, cheese, red onion, relish with chips &amp; cup of soup.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Chicken Sambo</span><span class="menu__dots"></span><span class="menu__price">€12.75</span></div><p class="menu__desc">Chicken, bacon, stuffing, cheese, mayonnaise, toasted with chips &amp; cup of soup.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Open Brown Bread</span><span class="menu__dots"></span><span class="menu__price">€12.95</span></div><p class="menu__desc">Kerry smoked salmon, wholegrain mustard, mayo, capers, baby gem, served with salad. Add chips €2.00.</p></li>
+            <li class="menu__item"><div class="menu__row"><span class="menu__name">Create Your Own</span><span class="menu__dots"></span><span class="menu__price">€9.50</span></div><p class="menu__desc">White or brown. Ham or chicken; cheese, tomato, onion, stuffing, coleslaw. Add chips €3.00, soup €3.50.</p></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="menu__note reveal" data-reveal>Allergens listed on our in-house menu. Anything you need adjusted — just ask, we're happy to help.</p>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="gallery section" id="gallery">
+      <div class="section__head">
+        <p class="eyebrow reveal" data-reveal>A look inside</p>
+        <h2 class="reveal" data-reveal data-reveal-delay="80">White branches &amp; <span class="ital">warm light</span></h2>
+      </div>
+
+      <div class="gallery__grid">
+        <figure class="gallery__item reveal" data-reveal>
+          <img src="assets/gallery-1.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&w=800&q=70'" alt="Very Vegan salad bowl with avocado, beetroot and chickpeas" loading="lazy" />
+        </figure>
+        <figure class="gallery__item reveal" data-reveal data-reveal-delay="90">
+          <img src="assets/gallery-2.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559305616-3f99cd43e353?auto=format&fit=crop&w=800&q=70'" alt="House porridge bowl topped with berries, banana and peanut butter" loading="lazy" />
+        </figure>
+        <figure class="gallery__item reveal" data-reveal data-reveal-delay="160">
+          <img src="assets/gallery-3.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=800&q=70'" alt="Homemade pancakes with berries and cream on a teal patterned plate" loading="lazy" />
+        </figure>
+        <figure class="gallery__item reveal" data-reveal data-reveal-delay="230">
+          <img src="assets/gallery-4.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=70'" alt="Pancakes with cream and berries alongside an iced coffee" loading="lazy" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ VISIT ============ -->
+    <section class="visit section" id="visit">
+      <div class="visit__grid">
+        <div class="visit__info">
+          <p class="eyebrow reveal" data-reveal>Find us</p>
+          <h2 class="reveal" data-reveal data-reveal-delay="80">Drop in to <span class="ital">The Mall</span></h2>
+
+          <div class="visit__block reveal" data-reveal data-reveal-delay="140">
+            <h3>Where</h3>
+            <p>17 The Mall, Tralee,<br/>Co. Kerry, V92 V320</p>
+            <a class="link-underline" href="https://www.google.com/maps/dir/?api=1&destination=Wild+Cafe+17+The+Mall+Tralee+Co+Kerry" target="_blank" rel="noopener">Get directions →</a>
+          </div>
+
+          <div class="visit__block reveal" data-reveal data-reveal-delay="200">
+            <h3>Hours</h3>
+            <ul class="hours" id="hoursList">
+              <li data-day="1"><span>Monday</span><span>08:00 — 18:00</span></li>
+              <li data-day="2"><span>Tuesday</span><span>08:00 — 18:00</span></li>
+              <li data-day="3"><span>Wednesday</span><span>08:00 — 18:00</span></li>
+              <li data-day="4"><span>Thursday</span><span>08:00 — 18:00</span></li>
+              <li data-day="5"><span>Friday</span><span>08:00 — 18:00</span></li>
+              <li data-day="6"><span>Saturday</span><span>08:00 — 18:00</span></li>
+              <li data-day="0"><span>Sunday</span><span>11:00 — 17:00</span></li>
+            </ul>
+            <p class="hours__status" id="hoursStatus" aria-live="polite"></p>
+          </div>
+
+          <div class="visit__block reveal" data-reveal data-reveal-delay="260">
+            <h3>Say hello</h3>
+            <p>
+              <a class="link-underline" href="tel:+353871026098">087 102 6098</a><br/>
+              <a class="link-underline" href="https://www.wildcafe.ie" target="_blank" rel="noopener">www.wildcafe.ie</a>
+            </p>
+            <div class="socials">
+              <a href="https://www.instagram.com/wildtralee" target="_blank" rel="noopener" aria-label="Wild on Instagram">Instagram @wildtralee</a>
+              <a href="#" aria-label="Wild on Facebook">Facebook</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="visit__map reveal" data-reveal data-reveal-delay="160">
+          <iframe
+            title="Map showing Wild Café, 17 The Mall, Tralee"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-9.7100%2C52.2680%2C-9.6960%2C52.2740&layer=mapnik&marker=52.2709%2C-9.7016"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESERVE ============ -->
+    <section class="reserve section" id="reserve">
+      <div class="reserve__inner">
+        <div class="reserve__intro">
+          <p class="eyebrow reveal" data-reveal>Book a table</p>
+          <h2 class="reveal" data-reveal data-reveal-delay="80">Save yourself a <span class="ital">spot under the branches</span></h2>
+          <p class="reveal" data-reveal data-reveal-delay="140">
+            Weekend brunch fills fast. Send us your details and we'll confirm by phone
+            or email. For groups of 8 or more, give us a quick call on
+            <a class="link-underline" href="tel:+353871026098">087 102 6098</a>.
+          </p>
+          <p class="reserve__wifi reveal" data-reveal data-reveal-delay="180">📶 Wifi code in-store: <strong>wildtralee</strong></p>
+        </div>
+
+        <form class="reserve__form reveal" data-reveal data-reveal-delay="120" id="reserveForm" novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required placeholder="Your name" />
+            <span class="field__error" data-error-for="name"></span>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+            <span class="field__error" data-error-for="email"></span>
+          </div>
+
+          <div class="field field--half">
+            <label for="date">Date</label>
+            <input id="date" name="date" type="date" required />
+            <span class="field__error" data-error-for="date"></span>
+          </div>
+
+          <div class="field field--half">
+            <label for="time">Time</label>
+            <input id="time" name="time" type="time" required />
+            <span class="field__error" data-error-for="time"></span>
+          </div>
+
+          <div class="field field--half">
+            <label for="guests">Guests</label>
+            <select id="guests" name="guests" required>
+              <option value="">Select…</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8+</option>
+            </select>
+            <span class="field__error" data-error-for="guests"></span>
+          </div>
+
+          <div class="field field--full">
+            <label for="notes">Notes <span class="field__opt">(optional)</span></label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Highchair, dietary needs, celebrating something?"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--solid btn--block">Request booking</button>
+          <p class="reserve__success" id="reserveSuccess" role="status" hidden>
+            Thanks — your request is in. We'll be in touch shortly to confirm. 🌿
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer__waves" aria-hidden="true">
+      <svg viewBox="0 0 150 24" preserveAspectRatio="none">
+        <use href="#wavepath" x="48" y="-22" fill="var(--teal-deep)"/>
+      </svg>
+    </div>
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="brand__name brand__name--lg">Wild</span>
+        <p>Café · The Mall, Tralee<br/>Takeaway available all day.</p>
+      </div>
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="#story">Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#visit">Visit</a>
+        <a href="#reserve">Book</a>
+      </nav>
+      <div class="footer__meta">
+        <p>17 The Mall, Tralee, Co. Kerry, V92 V320</p>
+        <p><a href="tel:+353871026098">087 102 6098</a></p>
+        <p><a href="https://www.wildcafe.ie" target="_blank" rel="noopener">www.wildcafe.ie</a> · @wildtralee</p>
+      </div>
+    </div>
+    <div class="footer__base">
+      <p>© <span id="year"></span> Wild Café, Tralee. All rights reserved.</p>
+      <p>Made with love in Co. Kerry.</p>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
+
+  <!-- GSAP (vendored locally) powers the pinned coffee scene; the rest of the
+       site works without it. Loaded with defer so it never blocks render. -->
+  <script defer src="js/vendor/gsap.min.js?v=11"></script>
+  <script defer src="js/vendor/ScrollTrigger.min.js?v=11"></script>
+  <script defer src="js/main.js?v=11"></script>
+</body>
+</html>
