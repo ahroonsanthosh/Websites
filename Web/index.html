@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#8E4332" />
+  <title>Buttermilk · Good Food, Good Times · Brunch in Tralee, Co. Kerry</title>
+  <meta name="description" content="Buttermilk — a bright all-day brunch room at Boyles of Ballyseedy, Tralee, Co. Kerry. Homemade buttermilk pancakes, the Full Irish, fried chicken, a fresh salad bar and proper coffee. Good food, good times." />
+  <meta name="author" content="Buttermilk" />
+
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:title" content="Buttermilk · Good Food, Good Times" />
+  <meta property="og:description" content="A bright all-day brunch room in Tralee, Co. Kerry. Homemade pancakes, the Full Irish, fried chicken & more." />
+  <meta property="og:locale" content="en_IE" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%238E4332'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%23F4E4CE' font-family='Georgia,serif' font-weight='bold'>B</text></svg>" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- ===== Page loader ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <span class="loader__mark">Buttermilk</span>
+  </div>
+
+  <!-- ===== Navigation ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#top" class="nav__brand" aria-label="Buttermilk home">Buttermilk</a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="#about" data-navlink>About</a>
+        <a href="#menu" data-navlink>Menu</a>
+        <a href="#gallery" data-navlink>Gallery</a>
+        <a href="#visit" data-navlink>Visit</a>
+        <a href="tel:0664018666" class="nav__cta" data-magnetic>Call Us</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+  <!-- ===== Hero — scroll-expanding video ===== -->
+  <section class="hero" id="top">
+    <div class="hero__track" data-scrollvid>
+      <div class="hero__sticky">
+        <!-- expanding video: starts as a rounded pill, fills the screen on scroll -->
+        <div class="hero__inset" data-sv-inset>
+          <video class="hero__video" data-sv-video autoplay muted loop playsinline preload="metadata" poster="assets/img/hero.jpg">
+            <source src="assets/video/buttermilk-hero.mp4" type="video/mp4" />
+          </video>
+          <div class="hero__inset-overlay" aria-hidden="true"></div>
+        </div>
+
+        <!-- brand, overlaid, fades out as the video takes over -->
+        <div class="hero__content" data-sv-copy>
+          <p class="hero__eyebrow">Brunch · Tralee, Co. Kerry</p>
+          <h1 class="hero__title" aria-label="Buttermilk">
+            <span class="word reveal-mask"><span>Butter</span></span><span class="word reveal-mask" data-delay="90"><span>milk</span></span>
+          </h1>
+          <p class="hero__tagline">Good Food <i>·</i> Good Times</p>
+          <div class="hero__actions">
+            <a href="#menu" class="btn btn--primary" data-magnetic>See the Menu</a>
+            <a href="#visit" class="btn btn--ghost" data-magnetic>Find Us</a>
+          </div>
+        </div>
+
+        <a href="#about" class="hero__scroll" aria-label="Scroll to content"><span class="hero__scroll-line"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Marquee ===== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__drift" data-marquee>
+      <div class="marquee__track">
+        <span>Homemade Buttermilk Pancakes</span><i>✳</i>
+        <span>The Full Irish</span><i>✳</i>
+        <span>Free-Range Eggs Benedict</span><i>✳</i>
+        <span>The Dirty Clucker</span><i>✳</i>
+        <span>Shakshuka</span><i>✳</i>
+        <span>Fresh Salad Bar</span><i>✳</i>
+        <span>Proper Coffee</span><i>✳</i>
+        <span>Homemade Buttermilk Pancakes</span><i>✳</i>
+        <span>The Full Irish</span><i>✳</i>
+        <span>Free-Range Eggs Benedict</span><i>✳</i>
+        <span>The Dirty Clucker</span><i>✳</i>
+        <span>Shakshuka</span><i>✳</i>
+        <span>Fresh Salad Bar</span><i>✳</i>
+        <span>Proper Coffee</span><i>✳</i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== About ===== -->
+  <section class="about section" id="about">
+    <div class="about__grid">
+      <div class="about__media">
+        <figure class="about__frame reveal-img">
+          <!-- Your photo: assets/img/about.jpg -->
+          <img src="assets/img/about.webp"
+               onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=1200&q=80';"
+               alt="Avocado and feta on toasted sourdough with a poached egg and roasted tomatoes at Buttermilk" loading="lazy" decoding="async" />
+        </figure>
+        <span class="about__sticker" data-reveal="up" data-delay="200">Made in Kerry</span>
+      </div>
+
+      <div class="about__copy">
+        <p class="eyebrow" data-reveal="up"><span class="sec-no">01</span> Our Story</p>
+        <h2 class="about__title reveal-mask"><span>A bright little brunch room in&nbsp;Tralee.</span></h2>
+        <p class="lead" data-reveal="up" data-delay="120">Tucked inside Boyles of Ballyseedy, <strong>Buttermilk</strong> is where Kerry mornings slow down.</p>
+        <p data-reveal="up" data-delay="180">We cook proper brunch all day — fluffy homemade buttermilk pancakes, free-range eggs, a Full Irish worth the trip, and a salad bar that changes with the season. Everything is made by hand using local producers we love: Matt's sausages, Burke's puddings, Garyhinch wild mushrooms and Fingal Ferguson chorizo.</p>
+        <ul class="about__points" data-reveal="up" data-delay="240" data-stagger>
+          <li><span aria-hidden="true">01</span> All-day brunch</li>
+          <li><span aria-hidden="true">02</span> Local &amp; seasonal</li>
+          <li><span aria-hidden="true">03</span> Proper coffee</li>
+          <li><span aria-hidden="true">04</span> Little ones welcome</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Menu ===== -->
+  <section class="menu section" id="menu">
+    <div class="menu__head">
+      <p class="eyebrow" data-reveal="up"><span class="sec-no">02</span> What's Cooking</p>
+      <h2 class="reveal-mask"><span>The Menu</span></h2>
+      <p class="menu__intro" data-reveal="up" data-delay="120">Served all day. Allergen numbers sit beside each dish — full key at the foot of the menu.</p>
+    </div>
+
+    <div class="menu__tabs" id="menuTabs" role="tablist" aria-label="Menu sections" data-reveal="up">
+      <span class="menu__tab-ind" id="tabInd" aria-hidden="true"></span>
+      <button class="menu__tab is-active" id="tab-brunch" data-tab="brunch" role="tab" aria-selected="true" aria-controls="panel-brunch">Brunch</button>
+      <button class="menu__tab" id="tab-mains" data-tab="mains" role="tab" aria-selected="false" aria-controls="panel-mains" tabindex="-1">Mains &amp; Fries</button>
+      <button class="menu__tab" id="tab-salads" data-tab="salads" role="tab" aria-selected="false" aria-controls="panel-salads" tabindex="-1">Salads &amp; Sandwiches</button>
+      <button class="menu__tab" id="tab-kids" data-tab="kids" role="tab" aria-selected="false" aria-controls="panel-kids" tabindex="-1">Kids</button>
+    </div>
+
+    <!-- BRUNCH -->
+    <div class="menu__panel is-active" id="panel-brunch" data-panel="brunch" role="tabpanel" aria-labelledby="tab-brunch" tabindex="0">
+      <ul class="m-list" data-stagger>
+        <li class="m-item">
+          <h3 class="m-item__name">Organic Irish Porridge Oats</h3>
+          <div class="m-item__row"><span class="m-item__variant">Blueberry compote, local honey &amp; chia seeds <em class="allerg">1d, 7</em></span><span class="lead" aria-hidden="true"></span><span class="m-item__price">€7.95</span></div>
+          <div class="m-item__row"><span class="m-item__variant">Caramelised banana, Medjool dates, pecans &amp; cinnamon <em class="allerg">1d, 7, 8e, 12</em></span><span class="lead" aria-hidden="true"></span><span class="m-item__price">€8.95</span></div>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Homemade Buttermilk Pancakes</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€9.95</span></div>
+          <p class="m-item__desc">Organic maple syrup <em class="allerg">1a, 3, 7</em></p>
+          <p class="m-item__add">Add — Bacon €2.95 · Fresh Fruit &amp; Cream €3.95 · Buttermilk Fried Chicken €4.95</p>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Eggs Benedict</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€14.95</span></div>
+          <p class="m-item__desc">Poached free-range eggs on a crispy colcannon cake, homemade hollandaise, with pulled ham or sautéed Garyhinch wild mushrooms <em class="allerg">1a, 3, 10</em></p>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Shakshuka</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€13.95</span></div>
+          <p class="m-item__desc">Poached free-range eggs in a smoky tomato &amp; pepper stew, crumbled feta, preserved lemon yoghurt, mint &amp; coriander, flat bread <em class="allerg">1a, 3, 7</em></p>
+          <p class="m-item__add">Add — Fingal Ferguson chorizo €2.95</p>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">The Full Irish</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€14.95</span></div>
+          <p class="m-item__desc">Matt's sausages &amp; bacon, Burke's black &amp; white pudding, flat cap mushroom, fried free-range egg, roasted cherry tomato, toast, tea or coffee <em class="allerg">1a, 3, 7, 12</em></p>
+          <p class="m-item__add">Mini Irish €10.95</p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- MAINS -->
+    <div class="menu__panel" id="panel-mains" data-panel="mains" role="tabpanel" aria-labelledby="tab-mains" tabindex="0" hidden>
+      <ul class="m-list" data-stagger>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Crab Cake</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€16.95</span></div>
+          <p class="m-item__desc">Golden crumbed crab cake, lemongrass beurre blanc, basil oil &amp; side salad <em class="allerg">1a, 2, 3, 10, 12</em></p>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Smashed Avocado</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€14.95</span></div>
+          <p class="m-item__desc">Toasted sourdough, poached free-range eggs, roasted cherry tomatoes, crumbled feta, cashew pesto &amp; mint <em class="allerg">1a, 3, 7, 8d, 12</em></p>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">The Dirty Clucker</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€16.95</span></div>
+          <p class="m-item__desc">Rice Krispie fried chicken, double American cheese, house slaw, pickles, ranch &amp; sriracha, toasted brioche, fries <em class="allerg">1a, 7, 9, 10, 12</em></p>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Hangover Hash</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€14.95</span></div>
+          <p class="m-item__desc">Crispy potatoes, chorizo, caramelised onion &amp; peperonata, fried egg &amp; melted gruyère <em class="allerg">1a, 3, 7, 12</em></p>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Fish &amp; Chips</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€18.95</span></div>
+          <p class="m-item__desc">Catch of the day, light citrus batter, whipped pea purée, homemade tartar &amp; fries <em class="allerg">1a, 4, 7</em></p>
+        </li>
+        <li class="m-item">
+          <h3 class="m-item__name">Fries</h3>
+          <div class="m-item__row"><span class="m-item__variant">Skinny fries</span><span class="lead" aria-hidden="true"></span><span class="m-item__price">€4.95</span></div>
+          <div class="m-item__row"><span class="m-item__variant">Pesto, Caesar &amp; parmesan <em class="allerg">3, 4, 7, 8d, 10, 12</em></span><span class="lead" aria-hidden="true"></span><span class="m-item__price">€7.95</span></div>
+          <div class="m-item__row"><span class="m-item__variant">Our chilli cheese fries <em class="allerg">7, 12</em></span><span class="lead" aria-hidden="true"></span><span class="m-item__price">€9.95</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- SALADS & SANDWICHES -->
+    <div class="menu__panel" id="panel-salads" data-panel="salads" role="tabpanel" aria-labelledby="tab-salads" tabindex="0" hidden>
+      <h3 class="m-subhead">Salad Bar <span>€4.50 each</span></h3>
+      <ul class="m-list m-list--tight" data-stagger>
+        <li class="m-item"><div class="m-item__row"><span class="m-item__variant">Carrot, beetroot, apple &amp; pecan slaw <em class="allerg">8e, 10</em></span></div></li>
+        <li class="m-item"><div class="m-item__row"><span class="m-item__variant">Quinoa, goats cheese, hazelnut &amp; roast peach <em class="allerg">7, 8b, 12</em></span></div></li>
+        <li class="m-item"><div class="m-item__row"><span class="m-item__variant">Mexican black rice, sweet potato, sweetcorn &amp; feta <em class="allerg">7</em></span></div></li>
+        <li class="m-item"><div class="m-item__row"><span class="m-item__variant">Lemon &amp; herb potato salad <em class="allerg">10</em></span></div></li>
+        <li class="m-item"><div class="m-item__row"><span class="m-item__variant">House slaw <em class="allerg">7, 8e</em></span></div></li>
+      </ul>
+      <h3 class="m-subhead">Sandwiches</h3>
+      <ul class="m-list" data-stagger>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Goats Cheese Baguette</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€10.95</span></div>
+          <p class="m-item__desc">Caramelised onion, beetroot &amp; licorice yoghurt, pistachio &amp; fennel dukkah, crunchy baguette <em class="allerg">1a, 7, 8a, 8f</em></p>
+        </li>
+        <li class="m-item">
+          <div class="m-item__row"><h3 class="m-item__name">Spiced Chickpea Flat Bread</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€10.95</span></div>
+          <p class="m-item__desc">Crushed spiced chickpeas, pickled onion, smashed avocado, vegan mayo &amp; chicory, black olive flat bread <em class="allerg">1a, 12</em></p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- KIDS -->
+    <div class="menu__panel" id="panel-kids" data-panel="kids" role="tabpanel" aria-labelledby="tab-kids" tabindex="0" hidden>
+      <ul class="m-list" data-stagger>
+        <li class="m-item"><div class="m-item__row"><h3 class="m-item__name">Soup of the Day</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€3.95</span></div><p class="m-item__desc">With bread · allergens vary depending on soup</p></li>
+        <li class="m-item"><div class="m-item__row"><h3 class="m-item__name">Matt's Sausages &amp; Handcut Fries</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€7.95</span></div><p class="m-item__desc"><em class="allerg">1a</em></p></li>
+        <li class="m-item"><div class="m-item__row"><h3 class="m-item__name">Buttermilk Chicken Goujons &amp; Fries</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€7.95</span></div><p class="m-item__desc"><em class="allerg">1a, 7</em></p></li>
+        <li class="m-item"><div class="m-item__row"><h3 class="m-item__name">Penne Rigate Pasta</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€7.95</span></div><p class="m-item__desc">Homemade tomato sauce &amp; aged parmesan <em class="allerg">1a, 7, 12</em></p></li>
+        <li class="m-item"><div class="m-item__row"><h3 class="m-item__name">Buttermilk Pancakes</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€6.95</span></div><p class="m-item__desc">Organic maple syrup <em class="allerg">1a, 3, 7</em></p><p class="m-item__add">Add — Nutella €1.95 · Fresh Fruit &amp; Cream €3.95</p></li>
+        <li class="m-item"><div class="m-item__row"><h3 class="m-item__name">Kid's Toastie</h3><span class="lead" aria-hidden="true"></span><span class="m-item__price">€6.95</span></div><p class="m-item__desc">Ham &amp; cheese or plain cheese <em class="allerg">1a, 7</em></p></li>
+      </ul>
+    </div>
+
+    <p class="menu__allergens" data-reveal="up">
+      <strong>Allergens</strong> &nbsp;1. Cereals — (a)&nbsp;Wheat, (b)&nbsp;Rye, (c)&nbsp;Barley, (d)&nbsp;Oats · 2.&nbsp;Crustaceans · 3.&nbsp;Eggs · 4.&nbsp;Fish · 5.&nbsp;Peanuts · 6.&nbsp;Soybean · 7.&nbsp;Milk · 8. Nuts — (a)&nbsp;Almonds, (b)&nbsp;Hazelnuts, (c)&nbsp;Walnuts, (d)&nbsp;Cashews, (e)&nbsp;Pecans, (f)&nbsp;Pistachios · 9.&nbsp;Celery · 10.&nbsp;Mustard · 11.&nbsp;Sesame · 12.&nbsp;Sulphur Dioxide &amp; Sulphites · 13.&nbsp;Lupins · 14.&nbsp;Molluscs
+    </p>
+  </section>
+
+  <!-- ===== Gallery ===== -->
+  <section class="gallery section" id="gallery">
+    <div class="menu__head">
+      <p class="eyebrow" data-reveal="up"><span class="sec-no">03</span> The Good Times</p>
+      <h2 class="reveal-mask"><span>A Look Around</span></h2>
+    </div>
+    <div class="gallery__grid" data-stagger>
+      <figure class="g-item reveal-img"><img src="assets/img/gallery-1.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=900&q=80';" alt="Eggs benedict and avocado toast with coffee at Buttermilk" loading="lazy" decoding="async" /><figcaption>Eggs Benedict</figcaption></figure>
+      <figure class="g-item g-item--tall reveal-img"><img src="assets/img/gallery-2.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80';" alt="Sandwiches, wraps and quiches at the Buttermilk counter" loading="lazy" decoding="async" /><figcaption>The counter</figcaption></figure>
+      <figure class="g-item reveal-img"><img src="assets/img/gallery-3.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=900&q=80';" alt="Crab cake with a side salad and a flat white" loading="lazy" decoding="async" /><figcaption>Crab cake</figcaption></figure>
+      <figure class="g-item reveal-img"><img src="assets/img/gallery-4.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=900&q=80';" alt="Cakes and pastries in the Buttermilk dessert case" loading="lazy" decoding="async" /><figcaption>Something sweet</figcaption></figure>
+      <figure class="g-item g-item--wide reveal-img"><img src="assets/img/gallery-5.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1400&q=80';" alt="An overhead spread of Buttermilk brunch dishes shared across the table" loading="lazy" decoding="async" /><figcaption>Brunch, shared</figcaption></figure>
+      <figure class="g-item reveal-img"><img src="assets/img/about.webp" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=80';" alt="Avocado and feta toast close-up with roasted tomatoes" loading="lazy" decoding="async" /><figcaption>Smashed avo</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ===== Visit ===== -->
+  <section class="visit section" id="visit">
+    <div class="visit__grid">
+      <div class="visit__info">
+        <p class="eyebrow" data-reveal="up"><span class="sec-no">04</span> Come Say Hello</p>
+        <h2 class="visit__title reveal-mask"><span>Visit Buttermilk</span></h2>
+        <div class="visit__block" data-reveal="up" data-delay="120">
+          <h3>Where</h3>
+          <p>Boyles of Ballyseedy,<br />Caherbreagh, Tralee,<br />Co. Kerry, V92&nbsp;DY0Y</p>
+          <a class="ux-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Boyles+of+Ballyseedy+Tralee+Co+Kerry"><span>Get directions</span><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="visit__block" data-reveal="up" data-delay="180">
+          <h3>Opening Hours</h3>
+          <ul class="visit__hours">
+            <li><span>Monday – Saturday</span><span>9:00 – 17:00</span></li>
+            <li><span>Sunday</span><span>10:00 – 17:00</span></li>
+          </ul>
+        </div>
+        <div class="visit__block" data-reveal="up" data-delay="240">
+          <h3>Get in Touch</h3>
+          <p><a class="ux-link" href="tel:0664018666"><span>066 401 8666</span></a></p>
+          <p><a class="ux-link" href="mailto:info@cafebuttermilk.com"><span>info@cafebuttermilk.com</span></a></p>
+          <p class="visit__social">
+            <a class="ux-link" href="https://www.instagram.com/cafebuttermilk/" target="_blank" rel="noopener"><span>Instagram</span><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </p>
+        </div>
+      </div>
+      <div class="visit__map reveal-img">
+        <iframe title="Map to Buttermilk, Boyles of Ballyseedy, Tralee" src="https://www.google.com/maps?q=Boyles%20of%20Ballyseedy%20Tralee%20Co%20Kerry&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__brand">Buttermilk</span>
+      <p class="footer__tag">Good Food · Good Times</p>
+      <p class="footer__small">Boyles of Ballyseedy, Tralee, Co. Kerry · <a href="tel:0664018666">066 401 8666</a></p>
+      <p class="footer__links">
+        <a href="https://www.instagram.com/cafebuttermilk/" target="_blank" rel="noopener">Instagram</a>
+        <span aria-hidden="true">·</span>
+        <a href="mailto:info@cafebuttermilk.com">Email</a>
+      </p>
+      <p class="footer__copy">© <span id="year"></span> Buttermilk. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <a href="#top" class="to-top" id="toTop" aria-label="Back to top"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M6 11l6-6 6 6"/></svg></a>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
