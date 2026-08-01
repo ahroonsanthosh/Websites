@@ -1,0 +1,105 @@
+{
+  "site": {
+    "name": "LOKA Coffee Shop",
+    "tagline": "Where Every Cup Tells a Story",
+    "description": "Specialty coffee & wholesome food, crafted with care in the heart of Tralee, Co. Kerry.",
+    "phone": "087 240 2723",
+    "address": "35 Lower Castle St, Tralee, Co. Kerry, V92 E895",
+    "email": "hello@lokacoffee.ie",
+    "instagram": "https://www.instagram.com/loka_coffee_shop/",
+    "facebook": "#"
+  },
+  "hero": {
+    "badge": "Open Daily · Mon–Sat · 9am – 3pm",
+    "mainText": "Specialty coffee & wholesome food, crafted with care in the heart of Tralee.",
+    "overlayPart1": "great",
+    "overlayPart2": "coffee.",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAETr9dEo42QGzKJuc1u9S4iVQlxK4CSG3UuVBSoC7HR03y-l07Mq4lC11Ht44jzJfYAlrgxf26IMEEPsrvstkYRO0RMJKSbgwkQxaLm7xomvcMgDXcG003JW4ZgJNL6rIuN_13WyW5TWg3U=s1360-w1360-h1020-rw"
+  },
+  "about": {
+    "heading": "Our Story",
+    "body1": "LOKA opened its doors on Lower Castle Street with one simple belief: a great cup of coffee, made with care, can transform your whole day.",
+    "body2": "We source our beans from ethical farms, roast to highlight their natural character, and brew every cup with intention. Our kitchen puts the same care into every plate — seasonal, local, and made to order.",
+    "quote": "A place to slow down, connect, and savour the craft.",
+    "image": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEm_0HoUqh8satPyK2X9pH8LtOKTbpHts0YhvrQ3_0e3avg3J6r8dWOFyTzjj8LwAEBFPt7glj1JRlQYpFDdlGdruEiAx9mNbrL3-h8TCeV5LNSXPo0SjYm_DL4jb231mWnajElk-swu9A=s1360-w1360-h1020-rw"
+  },
+  "menu": {
+    "categories": [
+      {
+        "id": "hot",
+        "name": "Hot Drinks",
+        "items": [
+          { "id": "h1", "name": "Espresso", "price": "€2.50", "description": "Single origin, bright & clean" },
+          { "id": "h2", "name": "Double Espresso", "price": "€3.00", "description": "" },
+          { "id": "h3", "name": "Americano", "price": "€3.00", "description": "" },
+          { "id": "h4", "name": "Flat White", "price": "€3.50", "description": "Silky microfoam, our signature" },
+          { "id": "h5", "name": "Cappuccino", "price": "€3.50", "description": "" },
+          { "id": "h6", "name": "Latte", "price": "€3.80", "description": "" },
+          { "id": "h7", "name": "Oat Milk Latte", "price": "€4.20", "description": "" },
+          { "id": "h8", "name": "Mocha", "price": "€4.00", "description": "Valrhona chocolate" },
+          { "id": "h9", "name": "Matcha Latte", "price": "€4.50", "description": "Ceremonial grade matcha" },
+          { "id": "h10", "name": "Chai Latte", "price": "€4.00", "description": "House spiced blend" }
+        ]
+      },
+      {
+        "id": "cold",
+        "name": "Cold Drinks",
+        "items": [
+          { "id": "c1", "name": "Cold Brew", "price": "€4.00", "description": "12-hour slow brew" },
+          { "id": "c2", "name": "Iced Latte", "price": "€4.00", "description": "" },
+          { "id": "c3", "name": "Iced Matcha", "price": "€4.50", "description": "" },
+          { "id": "c4", "name": "Iced Chai", "price": "€4.50", "description": "" },
+          { "id": "c5", "name": "Fresh Orange Juice", "price": "€4.00", "description": "" }
+        ]
+      },
+      {
+        "id": "breakfast",
+        "name": "Breakfast",
+        "items": [
+          { "id": "b1", "name": "Sourdough Toast", "price": "€5.00", "description": "Butter & house jam" },
+          { "id": "b2", "name": "Avocado on Sourdough", "price": "€10.50", "description": "Chilli flakes, lemon, seeds" },
+          { "id": "b3", "name": "Scrambled Eggs on Toast", "price": "€9.50", "description": "Free-range eggs, chives" },
+          { "id": "b4", "name": "Eggs Benedict", "price": "€12.00", "description": "Ham, hollandaise, sourdough" },
+          { "id": "b5", "name": "Full Irish Breakfast", "price": "€13.50", "description": "Sausages, bacon, eggs, pudding" },
+          { "id": "b6", "name": "Granola Bowl", "price": "€8.00", "description": "House granola, yoghurt, seasonal fruit" }
+        ]
+      },
+      {
+        "id": "pastries",
+        "name": "Pastries & Bakes",
+        "items": [
+          { "id": "p1", "name": "Butter Croissant", "price": "€3.50", "description": "Fresh baked daily" },
+          { "id": "p2", "name": "Pain au Chocolat", "price": "€3.80", "description": "" },
+          { "id": "p3", "name": "Banana Bread", "price": "€3.50", "description": "Toasted with butter" },
+          { "id": "p4", "name": "Scone", "price": "€4.50", "description": "Jam & Kerry cream" },
+          { "id": "p5", "name": "Blueberry Muffin", "price": "€3.50", "description": "" }
+        ]
+      }
+    ]
+  },
+  "gallery": {
+    "images": [
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAETr9dEo42QGzKJuc1u9S4iVQlxK4CSG3UuVBSoC7HR03y-l07Mq4lC11Ht44jzJfYAlrgxf26IMEEPsrvstkYRO0RMJKSbgwkQxaLm7xomvcMgDXcG003JW4ZgJNL6rIuN_13WyW5TWg3U=s1360-w1360-h1020-rw", "alt": "LOKA Coffee Shop interior" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEm_0HoUqh8satPyK2X9pH8LtOKTbpHts0YhvrQ3_0e3avg3J6r8dWOFyTzjj8LwAEBFPt7glj1JRlQYpFDdlGdruEiAx9mNbrL3-h8TCeV5LNSXPo0SjYm_DL4jb231mWnajElk-swu9A=s1360-w1360-h1020-rw", "alt": "Coffee and pastries at LOKA" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHRwygnv49W7vHcSwJxchEQl7A-8WC1KvqO8frE6T_7rcZAN4VXXmyxLK6yTvhlU2vUfs2pxMQRCQ02DGupDYtd_t_sDLhd17je4zl508OnOB5Jpfn5OPcQPMR_dIiFRfSBWnNXXmIsWWU5=s1360-w1360-h1020-rw", "alt": "Specialty coffee at LOKA" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAH37WEgDNEv5o7xECJpsCUWyrRSmtf2VOsiKQFt0GR4ywZg8tHD9QBQgribXH_OYbPVjP4zoj9BdMVrdkEqq2XDof2Yk5snndC3t8jvdvJMmRksYJXznn6WaOQaRJlJFjh66_oM5EH3vCQ=s1360-w1360-h1020-rw", "alt": "LOKA breakfast plate" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFq7PJnVkAJAD9bAOU56WIyIeBrMfUYBMyEgXzNU0vK6YWBfsdEqkiqH30cxcltOCRz1xYdj_R0Ial1PLMfflIs_kPkF_55Rd0-2yTr4AGfk_qVsKap1F9TFLXvh0CcA_dfSN9061Ln2yt9=s1360-w1360-h1020-rw", "alt": "LOKA latte art" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAE3V3gcqoqian5_aJ23LnuULFI-mMx-_Yz7ibSjPDC15f-k-su1v4ZnqNyWUMbtH_Zl0Fr_rXgFclkC5pNI9MP-k-e6Xx5VasNLmO-knatRw8GwfFmHA_SqD2miUrbLfT3oan_u2G8aRs_h=s1360-w1360-h1020-rw", "alt": "LOKA coffee shop ambiance" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEFdiLm7SdrqYyP0zXTE4MbqMqOtvvecYBh2NURMderLQZ902X7Dal5cFr6BagClLSfnzjQ-YBkWxZFLUOv1JFsgb6h9lS5L3NMChrLHI4vNJzgFqhTQ8Hv14OWOa0qs1i_mEX0ia-R_mYK=s1360-w1360-h1020-rw", "alt": "LOKA food and coffee" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAENYScarcOv5jFjzIY3deiWNzkuYhdZ59LqQ8IAfjO-THBcazgwdYRCRq0c2reNyAjwnqRFolYpJ4NJhpTBuptkUfNt3UhBgIgjdyq9WTTyual7zwtKOqpcJharYbaJ71afQlJVqs2I7rpt=s1360-w1360-h1020-rw", "alt": "LOKA cafe scene" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGCwDU-Y625NjIGxF1TN7CQCAylqevY-jdFvnQRTvzQzk4qgBPgY9Nq4E3gBRByP6kBP9NjhdhNSc67m_dwkPI0SyuEtDW_AGJszsTPbAp3Cgmn4NDOrdbVSkdepS-p_j-gSrLLbjkhFPD9=s1360-w1360-h1020-rw", "alt": "LOKA morning coffee" },
+      { "src": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGGG7PacGQT9mixYxFy6aTZA4VQTpjkGsqqylYYdvTjCsQ4xo4GA8woBBEZ5YMUUMOBTuZviZkYwzb94EVZa77ILydjL0KwifJGlrEScrmJM0lCMlRn7kIWnLdEDajd7nD71adVL39yUxs=s1360-w1360-h1020-rw", "alt": "LOKA signature dishes" }
+    ]
+  },
+  "hours": {
+    "days": [
+      { "day": "Monday", "hours": "9am – 3pm", "closed": false },
+      { "day": "Tuesday", "hours": "9am – 3pm", "closed": false },
+      { "day": "Wednesday", "hours": "9am – 3pm", "closed": false },
+      { "day": "Thursday", "hours": "9am – 3pm", "closed": false },
+      { "day": "Friday", "hours": "9am – 3pm", "closed": false },
+      { "day": "Saturday", "hours": "9am – 3pm", "closed": false },
+      { "day": "Sunday", "hours": "Closed", "closed": true }
+    ]
+  }
+}
