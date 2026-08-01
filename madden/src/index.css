@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm cream background, deep espresso foreground */
+    --background: 39 45% 97%;
+    --foreground: 26 32% 15%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    background: #e8a33d;
+    color: #2c2016;
+  }
+
+  :focus-visible {
+    outline: 2px solid #ac431f;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Continuous marquee band */
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 28s linear infinite;
+}
+
+/* Auto-scrolling testimonial row; slower, pauses on hover */
+.reviews-track {
+  animation: marquee-scroll 45s linear infinite;
+}
+
+.reviews-track:hover {
+  animation-play-state: paused;
+}
+
+/* Slow spin for the circular hero badge */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
