@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>115 Cafe — Cork City</title>
+  <meta name="description" content="115 Cafe on Oliver Plunkett Street, Cork. Specialty coffee, wholesome food and warm hospitality in the heart of the city." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+/* ─────────────────────────────────────────────────────────────
+   RESET & TOKENS
+───────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E31E24; --red-d:#B8171C; --red-l:#fdeaea;
+  --blk:#0f0f0f; --ink:#1a1a1a; --muted:#737373; --faint:#a3a3a3;
+  --line:#e5e5e5; --cream:#f8f6f3;
+  --white:#fff;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(.25,.46,.45,.94);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --r:4px;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;width:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+
+/* ─────────────────────────────────────────────────────────────
+   UTILITY
+───────────────────────────────────────────────────────────── */
+.container{max-width:1200px;margin:0 auto;padding:0 40px}
+.section{padding:120px 0}
+.eyebrow{
+  font-size:.68rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);display:flex;
+  align-items:center;gap:0;margin-bottom:16px
+}
+.display{
+  font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5rem);
+  font-weight:400;line-height:1.05;color:var(--blk)
+}
+.body-lg{font-size:1.0625rem;line-height:1.8;color:var(--muted)}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 34px;font-size:.8rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;border-radius:2px;
+  position:relative;overflow:hidden;isolation:isolate;
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease),color .28s var(--ease)
+}
+/* Fill sweep */
+.btn::before{
+  content:'';position:absolute;inset:0;z-index:-1;
+  transform:translateX(-101%);
+  transition:transform .42s cubic-bezier(.77,0,.18,1)
+}
+.btn:hover::before{transform:translateX(0)}
+.btn:hover{transform:translateY(-2px)}
+
+.btn-dark{background:var(--blk);color:var(--white)}
+.btn-dark::before{background:var(--red)}
+.btn-dark:hover{box-shadow:0 8px 28px rgba(227,30,36,.28)}
+
+.btn-outline{border:1.5px solid var(--blk);color:var(--blk)}
+.btn-outline::before{background:var(--blk)}
+.btn-outline:hover{color:var(--white)}
+
+.btn-outline-white{border:1.5px solid rgba(255,255,255,.5);color:var(--white)}
+.btn-outline-white::before{background:var(--white)}
+.btn-outline-white:hover{color:var(--blk)}
+
+/* ─────────────────────────────────────────────────────────────
+   SCROLL REVEAL SYSTEM
+───────────────────────────────────────────────────────────── */
+[data-reveal]{opacity:0;will-change:transform,opacity}
+[data-reveal="up"]{transform:translateY(40px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+[data-reveal="left"]{transform:translateX(-40px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+[data-reveal="right"]{transform:translateX(40px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+[data-reveal="scale"]{transform:scale(.94);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+[data-reveal].in-view{opacity:1;transform:none}
+
+/* Clip-path wipe reveal for images */
+[data-wipe]{
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .95s var(--ease-out)
+}
+[data-wipe].in-view{clip-path:inset(0 0 0% 0)}
+
+/* Stagger delays */
+[data-delay="1"]{transition-delay:.1s}
+[data-delay="2"]{transition-delay:.2s}
+[data-delay="3"]{transition-delay:.32s}
+[data-delay="4"]{transition-delay:.44s}
+[data-delay="5"]{transition-delay:.56s}
+[data-delay="6"]{transition-delay:.68s}
+
+/* ─────────────────────────────────────────────────────────────
+   NAV
+───────────────────────────────────────────────────────────── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:72px;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,box-shadow .4s,backdrop-filter .4s
+}
+#nav.scrolled{
+  background:rgba(255,255,255,.92);backdrop-filter:blur(16px);
+  box-shadow:0 1px 0 var(--line)
+}
+.nav-logo{
+  font-family:var(--serif);font-size:1.5rem;font-weight:500;
+  color:var(--blk);letter-spacing:-.01em
+}
+.nav-logo span{color:var(--red)}
+.nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+.nav-links a{
+  font-size:.72rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);transition:color .2s;
+  position:relative
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-3px;left:50%;right:50%;
+  height:1px;background:var(--blk);
+  transition:left .25s var(--ease),right .25s var(--ease)
+}
+.nav-links a:hover{color:var(--blk)}
+.nav-links a:hover::after{left:0;right:0}
+.nav-cta{display:flex;align-items:center}
+.nav-reserve{
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--red);
+  padding:9px 22px;border:1.5px solid var(--red);
+  border-radius:2px;transition:all .25s var(--ease)
+}
+.nav-reserve{position:relative;overflow:hidden;isolation:isolate}
+.nav-reserve::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.77,0,.18,1)}
+.nav-reserve:hover::before{transform:scaleX(1)}
+.nav-reserve:hover{color:var(--white)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--blk);transition:all .3s}
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE DRAWER
+───────────────────────────────────────────────────────────── */
+.mobile-drawer{
+  position:fixed;inset:0;z-index:200;background:var(--blk);
+  transform:translateX(100%);transition:transform .45s var(--ease-out);
+  display:flex;flex-direction:column;padding:80px 40px 40px
+}
+.mobile-drawer.open{transform:none}
+.drawer-close{
+  position:absolute;top:20px;right:24px;
+  color:var(--white);font-size:1.5rem;padding:8px
+}
+.drawer-links{list-style:none;margin-bottom:auto}
+.drawer-links li{border-bottom:1px solid rgba(255,255,255,.07)}
+.drawer-links a{
+  display:block;padding:20px 0;font-family:var(--serif);
+  font-size:2rem;color:var(--white);transition:color .2s
+}
+.drawer-links a:hover{color:var(--red)}
+.drawer-foot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;font-size:.875rem;color:rgba(255,255,255,.4)}
+.drawer-foot a{color:var(--red)}
+
+/* ─────────────────────────────────────────────────────────────
+   HERO — FULL-BLEED CINEMATIC
+───────────────────────────────────────────────────────────── */
+#hero{
+  position:relative;height:100dvh;min-height:660px;
+  overflow:hidden;display:flex;flex-direction:column;
+  justify-content:flex-end
+}
+
+/* Background photo — clips in from bottom */
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://github.com/user-attachments/assets/f01814c2-1e12-42b3-b983-6d45a6e52efb') center/cover no-repeat;
+  clip-path:inset(0 0 100% 0);
+  animation:photoReveal 1.3s 0s var(--ease-out) forwards;
+  will-change:transform
+}
+/* Gradient scrim — heavier on left for text legibility */
+.hero-scrim{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(to right, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 45%, rgba(0,0,0,.15) 100%),
+    linear-gradient(to top,   rgba(0,0,0,.5)  0%, transparent 50%)
+}
+/* Giant watermark number */
+.hero-watermark{
+  position:absolute;right:-0.05em;top:-0.1em;z-index:2;
+  font-family:var(--serif);
+  font-size:clamp(22rem,38vw,52rem);
+  font-weight:400;line-height:1;
+  color:rgba(255,255,255,.04);
+  letter-spacing:-.04em;pointer-events:none;user-select:none;
+  opacity:0;animation:lineIn .8s .6s ease forwards
+}
+/* Main content wrapper */
+.hero-content{
+  position:relative;z-index:3;
+  display:grid;grid-template-columns:1fr auto;
+  align-items:flex-end;gap:40px;
+  padding:0 72px 80px
+}
+/* Left: text */
+.hero-left{display:flex;flex-direction:column}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:12px;
+  font-size:.68rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--red);margin-bottom:28px;
+  opacity:0;animation:lineIn .6s .5s var(--ease-out) forwards
+}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--red)}
+.hero-headline{
+  font-family:var(--serif);
+  font-size:clamp(4.5rem,8.5vw,10rem);
+  font-weight:400;line-height:.92;color:#fff;
+  overflow:hidden;margin-bottom:36px
+}
+.hero-headline .hl{
+  display:block;opacity:0;transform:translateY(110%);
+  animation:lineSlide .9s var(--ease-out) forwards
+}
+.hero-headline .hl:nth-child(1){animation-delay:.4s}
+.hero-headline .hl:nth-child(2){animation-delay:.52s;font-style:italic;color:var(--red)}
+.hero-headline .hl:nth-child(3){animation-delay:.64s}
+.hero-body{
+  font-size:.9375rem;line-height:1.8;color:rgba(255,255,255,.6);
+  max-width:420px;margin-bottom:44px;
+  opacity:0;animation:lineIn .7s .95s var(--ease-out) forwards
+}
+.hero-actions{
+  display:flex;gap:14px;flex-wrap:wrap;
+  opacity:0;animation:lineIn .7s 1.1s var(--ease-out) forwards
+}
+
+/* Right: vertical meta panel */
+.hero-meta{
+  display:flex;flex-direction:column;align-items:flex-end;
+  gap:32px;padding-bottom:4px;
+  opacity:0;animation:lineIn .6s 1.2s var(--ease-out) forwards
+}
+.hero-social{display:flex;gap:16px;align-items:center}
+.hero-social a{color:rgba(255,255,255,.45);transition:color .2s;display:flex}
+.hero-social a:hover{color:var(--red)}
+.hero-social svg{width:20px;height:20px}
+.hero-scroll-hint{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.3)
+}
+.hero-scroll-hint .scroll-bar{
+  width:1px;height:52px;background:rgba(255,255,255,.15);
+  position:relative;overflow:hidden
+}
+.hero-scroll-hint .scroll-bar::after{
+  content:'';position:absolute;top:-100%;left:0;width:1px;height:100%;
+  background:var(--red);animation:scrollRun 1.8s 1.5s var(--ease) infinite
+}
+
+/* Horizontal hours strip across bottom */
+.hero-hours-bar{
+  position:absolute;bottom:0;left:0;right:0;z-index:4;
+  display:flex;align-items:center;gap:0;
+  border-top:1px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.45);backdrop-filter:blur(8px);
+  padding:14px 72px;
+  opacity:0;animation:lineIn .5s 1.3s ease forwards
+}
+.hero-hours-bar .hb-item{
+  display:flex;align-items:center;gap:12px;
+  font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);padding-right:24px;margin-right:24px;
+  border-right:1px solid rgba(255,255,255,.12)
+}
+.hero-hours-bar .hb-item:last-child{border-right:none;margin-right:0}
+.hero-hours-bar .hb-dot{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
+.hb-label{color:rgba(255,255,255,.25);font-size:.62rem}
+
+/* Hero keyframes */
+@keyframes lineSlide{to{opacity:1;transform:none}}
+@keyframes lineIn{to{opacity:1}}
+@keyframes photoReveal{to{clip-path:inset(0 0 0% 0)}}
+@keyframes scrollRun{0%{top:-100%}100%{top:100%}}
+
+/* Hero mobile */
+@media(max-width:860px){
+  .hero-content{grid-template-columns:1fr;padding:0 24px 100px}
+  .hero-headline{font-size:clamp(3.2rem,11vw,5.5rem)}
+  .hero-meta{display:none}
+  .hero-accent-line{left:24px}
+  .hero-hours-bar{padding:12px 24px;flex-wrap:wrap;gap:8px}
+  .hero-hours-bar .hb-item{font-size:.62rem;padding-right:16px;margin-right:16px}
+  .hero-watermark{font-size:clamp(12rem,55vw,22rem)}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PILLARS BAR (replaces ticker strips)
+───────────────────────────────────────────────────────────── */
+.pillars-bar{
+  background:var(--blk);
+  display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;
+  border-top:1px solid #1c1c1c
+}
+.pillar{
+  padding:28px 48px;display:flex;align-items:center;gap:18px
+}
+.pillar-num{display:none}
+.pillar-text{
+  font-size:.72rem;font-weight:400;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.38)
+}
+.pillar-sep{background:rgba(255,255,255,.07)}
+@media(max-width:700px){
+  .pillars-bar{grid-template-columns:1fr;border-right:none}
+  .pillar-sep{display:none}
+  .pillar{padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07)}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ABOUT
+───────────────────────────────────────────────────────────── */
+#about{background:var(--white)}
+.about-intro{
+  max-width:900px;margin:0 auto;text-align:center;
+  padding:0 40px;margin-bottom:80px
+}
+.about-intro .display{font-size:clamp(2.2rem,5vw,4.2rem);line-height:1.1}
+.about-intro .display em{font-style:italic;color:var(--red)}
+.about-stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  margin-bottom:80px
+}
+.stat-cell{
+  padding:40px;border-right:1px solid var(--line);text-align:center;
+  transition:background .35s var(--ease)
+}
+.stat-cell:last-child{border-right:none}
+.stat-cell:hover{background:var(--cream)}
+.stat-num{
+  font-family:var(--serif);font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:400;color:var(--blk);line-height:1;margin-bottom:8px
+}
+.stat-num span{color:var(--red)}
+.stat-label{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  min-height:560px
+}
+.about-img-col{position:relative;overflow:hidden;background:#1a1a1a;min-height:560px}
+.about-img-col img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.about-text-col{
+  padding:72px 64px;display:flex;flex-direction:column;justify-content:center;
+  background:var(--cream)
+}
+.about-text-col .display{margin-bottom:28px;font-size:clamp(2.4rem,4vw,3.8rem);line-height:1.06}
+.about-text-col .body-lg{margin-bottom:32px}
+.about-tag{
+  display:inline-flex;align-items:center;gap:14px;
+  font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--blk);border-bottom:1px solid var(--line);padding-bottom:10px;
+  transition:gap .35s var(--ease),border-color .3s
+}
+.about-tag:hover{gap:22px;border-color:var(--blk)}
+.about-tag .arrow{display:inline-block;transition:transform .35s var(--ease)}
+.about-tag:hover .arrow{transform:translateX(6px)}
+
+@media(max-width:860px){
+  .about-grid{grid-template-columns:1fr}
+  .about-img-col{height:320px}
+  .about-text-col{padding:48px 24px}
+  .about-stats-row{grid-template-columns:1fr;border-right:1px solid var(--line)}
+  .stat-cell{border-right:none;border-bottom:1px solid var(--line)}
+  .stat-cell:last-child{border-bottom:none}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MENU
+───────────────────────────────────────────────────────────── */
+#menu{background:var(--cream)}
+.menu-top{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:60px;flex-wrap:wrap;gap:24px
+}
+.menu-top .display{color:var(--blk)}
+.menu-tabs{
+  display:flex;gap:0;position:relative;
+  background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.1);
+  padding:4px;border-radius:3px
+}
+.tab-indicator{
+  position:absolute;top:4px;bottom:4px;left:4px;
+  background:var(--blk);border-radius:2px;pointer-events:none;
+  transition:left .38s cubic-bezier(.77,0,.18,1),width .38s cubic-bezier(.77,0,.18,1)
+}
+.tab-btn{
+  padding:10px 22px;border-radius:2px;
+  font-size:.72rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(0,0,0,.35);
+  transition:color .25s;position:relative;z-index:1
+}
+.tab-btn.active{color:#fff}
+.tab-btn:hover:not(.active){color:rgba(0,0,0,.7)}
+.menu-panel{display:none}
+.menu-panel.active{display:block}
+.menu-list{max-width:860px}
+.menu-cat{
+  display:flex;align-items:center;gap:20px;
+  margin:52px 0 8px;color:var(--muted);
+  font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase
+}
+.menu-cat::before,.menu-cat::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.1)}
+.menu-cat:first-child{margin-top:0}
+.menu-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:24px;padding:20px 0;border-bottom:1px solid rgba(0,0,0,.08);
+  position:relative;transition:padding-left .3s var(--ease)
+}
+.menu-row::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:var(--red);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .35s var(--ease)
+}
+.menu-row:hover{padding-left:18px;background:rgba(0,0,0,.02)}
+.menu-row:hover::before{transform:scaleY(1)}
+.menu-row-left{flex:1}
+.menu-row-name{
+  font-family:var(--serif);font-size:1.125rem;
+  color:var(--blk);font-weight:400;margin-bottom:6px
+}
+.menu-row-desc{font-size:.825rem;color:var(--muted);font-style:italic;line-height:1.6}
+.menu-row-price{
+  font-family:var(--serif);font-size:1.0625rem;
+  color:var(--red);white-space:nowrap;flex-shrink:0;font-style:italic
+}
+.menu-note{text-align:center;margin-top:40px;font-size:.78rem;color:var(--faint);letter-spacing:.02em}
+
+/* ─────────────────────────────────────────────────────────────
+   GALLERY
+───────────────────────────────────────────────────────────── */
+#gallery{background:var(--cream);overflow:hidden}
+.gallery-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:48px;flex-wrap:wrap;gap:20px
+}
+.gallery-header .display{font-size:clamp(2rem,4vw,3.2rem)}
+.ig-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border:1.5px solid var(--line);border-radius:40px;
+  font-size:.75rem;font-weight:500;color:var(--muted);transition:all .25s
+}
+.ig-pill:hover{border-color:var(--blk);color:var(--blk)}
+.ig-pill svg{width:16px;height:16px}
+
+/* Horizontal scroll strip */
+.gallery-strip{
+  display:flex;gap:14px;overflow-x:auto;
+  padding:0 40px 20px;scroll-snap-type:x mandatory;
+  -ms-overflow-style:none;scrollbar-width:none;
+  cursor:grab
+}
+.gallery-strip::-webkit-scrollbar{display:none}
+.gal-thumb{
+  flex-shrink:0;border-radius:2px;overflow:hidden;
+  scroll-snap-align:start;position:relative;
+  background:#1a1a1a
+}
+.gal-thumb img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .6s var(--ease);display:block
+}
+.gal-thumb:hover img{transform:scale(1.06)}
+.gal-thumb--tall{width:280px;height:420px}
+.gal-thumb--wide{width:520px;height:420px}
+.gal-thumb--sq{width:360px;height:420px}
+.gal-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.6) 0%,rgba(0,0,0,.15) 50%,transparent 100%);
+  opacity:0;transition:opacity .4s var(--ease)
+}
+.gal-thumb:hover .gal-overlay{opacity:1}
+.gal-caption{
+  position:absolute;bottom:0;left:0;right:0;z-index:2;
+  padding:20px 22px 22px;
+  transform:translateY(8px);opacity:0;
+  transition:transform .4s var(--ease),opacity .4s var(--ease)
+}
+.gal-thumb:hover .gal-caption{transform:translateY(0);opacity:1}
+.gal-caption-label{display:none}
+.gal-caption-name{
+  font-family:var(--serif);font-size:1.05rem;
+  color:rgba(255,255,255,.9);font-style:italic
+}
+.gallery-drag-hint{
+  text-align:center;margin-top:20px;
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  display:flex;align-items:center;justify-content:center;gap:10px
+}
+.gallery-drag-hint::before,.gallery-drag-hint::after{
+  content:'';flex:1;max-width:60px;height:1px;background:var(--line)
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   CONTACT
+───────────────────────────────────────────────────────────── */
+#contact{background:var(--white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start}
+.contact-info .display{margin-bottom:40px;font-size:clamp(2rem,4vw,3.2rem)}
+.info-block{margin-bottom:28px}
+.info-block-lbl{
+  font-size:.68rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--red);margin-bottom:8px
+}
+.info-block p{font-size:.9375rem;line-height:1.65}
+.hours-list{list-style:none}
+.hours-list li{
+  display:flex;justify-content:space-between;
+  padding:10px 0;border-bottom:1px solid var(--line);font-size:.9rem
+}
+.hours-list li:last-child{border-bottom:none}
+.hours-list li.today .day-name{color:var(--red);font-weight:600}
+.hours-list li.today .hrs{color:var(--red)}
+.hours-list .hrs{color:var(--muted)}
+.social-row{display:flex;gap:10px;margin-top:24px}
+.social-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 18px;border:1px solid var(--line);border-radius:var(--r);
+  font-size:.8rem;color:var(--ink);transition:all .2s
+}
+.social-btn:hover{border-color:var(--red);color:var(--red)}
+.social-btn svg{width:16px;height:16px}
+.contact-form{padding:0}
+.form-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.1;margin-bottom:8px}
+.form-sub{font-size:.875rem;color:var(--muted);margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--line)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{margin-bottom:28px}
+.form-group label{
+  display:block;font-size:.62rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px
+}
+/* Floating label variant */
+.form-float{position:relative;padding-top:22px;margin-bottom:28px}
+.form-float label{
+  position:absolute;left:0;top:22px;margin:0;
+  font-size:.9375rem;color:var(--muted);font-weight:400;
+  letter-spacing:0;text-transform:none;
+  transition:top .22s var(--ease),font-size .22s var(--ease),
+             color .22s var(--ease),letter-spacing .22s var(--ease);
+  pointer-events:none
+}
+.form-float input:focus~label,
+.form-float input:not(:placeholder-shown)~label{
+  top:2px;font-size:.6rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--red)
+}
+.form-float input{padding:18px 0 10px}
+
+/* Live hours status */
+.hours-status{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:14px
+}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+  animation:dotPulse 2.5s ease infinite
+}
+.status-dot--open{background:#3dbb76}
+.status-dot--closed{background:#c0392b}
+@keyframes dotPulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.4;transform:scale(.6)}
+}
+.form-group input,.form-group select,.form-group textarea,
+.form-float input{
+  width:100%;padding:11px 0;
+  border:none;border-bottom:1.5px solid var(--line);border-radius:0;
+  font-family:var(--sans);font-size:.9375rem;color:var(--ink);
+  background:transparent;outline:none;
+  transition:border-color .3s var(--ease)
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus,
+.form-float input:focus{
+  border-color:var(--red)
+}
+.form-group select{cursor:pointer;-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23737373' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 4px center
+}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-submit{width:100%;padding:16px;font-size:.8rem}
+.form-success{display:none;text-align:center;padding:24px;color:var(--red);font-size:.9375rem}
+@media(max-width:860px){
+  .contact-grid{grid-template-columns:1fr}
+  .contact-form{padding:0}
+  .form-row{grid-template-columns:1fr}
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MAP
+───────────────────────────────────────────────────────────── */
+.map-strip{height:360px;position:relative}
+.map-strip iframe{width:100%;height:100%;border:none;filter:grayscale(.15) contrast(1.05)}
+.map-badge{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  background:var(--blk);color:var(--white);
+  padding:12px 24px;border-radius:40px;
+  font-size:.8rem;font-weight:500;display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 24px rgba(0,0,0,.3);white-space:nowrap
+}
+.map-badge svg{width:14px;height:14px;color:var(--red)}
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────────────────────── */
+footer{background:var(--blk);color:rgba(255,255,255,.5);padding:72px 40px 36px}
+.footer-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;
+  padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.08)
+}
+.footer-brand .nav-logo{color:var(--white);font-size:1.75rem;margin-bottom:16px;display:block}
+.footer-brand p{font-size:.875rem;line-height:1.75;max-width:260px}
+.footer-col h4{
+  font-size:.68rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px
+}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:12px}
+.footer-col ul li a{
+  font-size:.875rem;transition:color .25s;
+  position:relative;display:inline-block
+}
+.footer-col ul li a::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:100%;
+  height:1px;background:var(--red);
+  transition:right .3s var(--ease)
+}
+.footer-col ul li a:hover{color:var(--red)}
+.footer-col ul li a:hover::after{right:0}
+.footer-bottom{
+  max-width:1200px;margin:28px auto 0;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.78rem;flex-wrap:wrap;gap:12px
+}
+.footer-bottom a:hover{color:var(--red)}
+@media(max-width:860px){
+  footer{padding:48px 24px 28px}
+  .footer-inner{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){.footer-inner{grid-template-columns:1fr}}
+
+/* ─────────────────────────────────────────────────────────────
+   NAV RESPONSIVE
+───────────────────────────────────────────────────────────── */
+@media(max-width:860px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  #nav{padding:0 24px}
+}
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ─────────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">115<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Visit</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#contact" class="nav-reserve">Reserve</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="drawer">
+  <button class="drawer-close" id="drawerClose">✕</button>
+  <ul class="drawer-links">
+    <li><a href="#about" class="drawer-link">About</a></li>
+    <li><a href="#menu" class="drawer-link">Menu</a></li>
+    <li><a href="#gallery" class="drawer-link">Gallery</a></li>
+    <li><a href="#contact" class="drawer-link">Reserve</a></li>
+  </ul>
+  <div class="drawer-foot">
+    115 Oliver Plunkett St, Cork<br>
+    <a href="tel:0214276165">(021) 427 6165</a>
+  </div>
+</div>
+
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-scrim"></div>
+  <div class="hero-watermark" aria-hidden="true">115</div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Cork City &nbsp;·&nbsp; Oliver Plunkett St</div>
+      <h1 class="hero-headline">
+        <span class="hl">Cork's</span>
+        <span class="hl">finest</span>
+        <span class="hl">café.</span>
+      </h1>
+      <p class="hero-body">Specialty coffee, wholesome food and warm Cork hospitality — seven days a week on the city's most iconic street.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-dark">Explore Menu</a>
+        <a href="#contact" class="btn btn-outline-white">Reserve a Table</a>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-social">
+        <a href="https://www.facebook.com/115cafecork/" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/115cafecork/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+      <div class="hero-scroll-hint">
+        <div class="scroll-bar"></div>
+        Scroll
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom hours bar -->
+  <div class="hero-hours-bar" aria-label="Opening hours summary">
+    <div class="hb-item"><span class="hb-dot"></span><span class="hb-label">Mon–Wed, Fri–Sat</span>&nbsp;9am – 9pm</div>
+    <div class="hb-item"><span class="hb-dot"></span><span class="hb-label">Thursday</span>&nbsp;9am – 11:30pm</div>
+    <div class="hb-item"><span class="hb-dot"></span><span class="hb-label">Sunday</span>&nbsp;11am – 8pm</div>
+    <div class="hb-item" style="margin-left:auto;border-right:none"><a href="tel:0214276165" style="color:rgba(255,255,255,.5);transition:color .2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">(021) 427 6165</a></div>
+  </div>
+</section>
+
+<!-- ── Pillars bar ───────────────────────────────────────────── -->
+<div class="pillars-bar" aria-hidden="true">
+  <div class="pillar"><span class="pillar-num">01</span><span class="pillar-text">Specialty Coffee</span></div>
+  <div class="pillar-sep"></div>
+  <div class="pillar"><span class="pillar-num">02</span><span class="pillar-text">Wholesome Food</span></div>
+  <div class="pillar-sep"></div>
+  <div class="pillar"><span class="pillar-num">03</span><span class="pillar-text">Cork City</span></div>
+</div>
+
+<!-- ── About ────────────────────────────────────────────────── -->
+<section id="about" class="section">
+  <div class="about-stats-row">
+    <div class="stat-cell" data-reveal="up">
+      <div class="stat-num"><span class="counter" data-target="7">0</span></div>
+      <div class="stat-label">Days a week</div>
+    </div>
+    <div class="stat-cell" data-reveal="up" data-delay="2">
+      <div class="stat-num">4.5<span style="color:var(--red);font-size:.55em;vertical-align:middle;margin-left:2px">★</span></div>
+      <div class="stat-label">Google rating</div>
+    </div>
+    <div class="stat-cell" data-reveal="up" data-delay="3">
+      <div class="stat-num"><span class="counter" data-target="115">0</span></div>
+      <div class="stat-label">Oliver Plunkett St</div>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-img-col" data-reveal="scale">
+      <img src="https://github.com/user-attachments/assets/8c2d8ab3-f0aa-40a7-a23f-7e69f00106ef"
+           alt="115 Cafe interior — stone wall and red sofa" loading="lazy"
+           onerror="this.style.opacity='0'" />
+    </div>
+    <div class="about-text-col">
+      <p class="eyebrow" data-reveal="up">Oliver Plunkett Street</p>
+      <h3 class="display" data-reveal="up" data-delay="2">Bold red cups.<br>Warm Cork welcome.</h3>
+      <p class="body-lg" data-reveal="up" data-delay="3">
+        Step inside to find red leather sofas, exposed stone walls and floor-to-ceiling windows flooding the room with light from the street. 115 is unmistakably Cork — vivid, warm, and always buzzing.
+      </p>
+      <p class="body-lg" data-reveal="up" data-delay="4" style="margin-top:-8px">
+        By day we serve exceptional coffee in our signature red cups alongside fresh food made to order. Come Thursday evening, the lights soften and the menu extends late into the night.
+      </p>
+      <a href="#contact" class="about-tag" data-reveal="up" data-delay="5" style="margin-top:32px">Reserve a table <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Menu ─────────────────────────────────────────────────── -->
+<section id="menu" class="section">
+  <div class="container">
+    <div class="menu-top">
+      <div>
+        <p class="eyebrow" data-reveal="up">What we serve</p>
+        <h2 class="display" data-reveal="up" data-delay="2">Good food,<br><em>done right</em></h2>
+      </div>
+      <div class="menu-tabs" role="tablist">
+        <div class="tab-indicator" aria-hidden="true"></div>
+        <button class="tab-btn active" data-tab="coffee" role="tab">Coffee</button>
+        <button class="tab-btn" data-tab="food" role="tab">Food</button>
+        <button class="tab-btn" data-tab="drinks" role="tab">Drinks</button>
+        <button class="tab-btn" data-tab="evening" role="tab">Evening</button>
+      </div>
+    </div>
+
+    <!-- Coffee -->
+    <div class="menu-panel active" id="tab-coffee">
+      <div class="menu-list">
+        <div class="menu-cat">Espresso</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Espresso</div><div class="menu-row-desc">Single origin, pulled to order</div></div><div class="menu-row-price">€2.70</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Americano</div><div class="menu-row-desc">Espresso with hot water</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Flat White</div><div class="menu-row-desc">Double ristretto, velvety microfoam</div></div><div class="menu-row-price">€3.80</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cappuccino</div><div class="menu-row-desc">Espresso, steamed milk &amp; thick foam</div></div><div class="menu-row-price">€3.80</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Latte</div><div class="menu-row-desc">Espresso with steamed milk</div></div><div class="menu-row-price">€3.80</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cortado</div><div class="menu-row-desc">Equal parts espresso and warm milk</div></div><div class="menu-row-price">€3.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Macchiato</div><div class="menu-row-desc">Espresso marked with a dash of foam</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Mocha</div><div class="menu-row-desc">Espresso, Valrhona chocolate &amp; steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
+        <div class="menu-cat">Specialty &amp; Cold</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Iced Latte</div><div class="menu-row-desc">Cold milk over espresso and ice</div></div><div class="menu-row-price">€4.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cold Brew</div><div class="menu-row-desc">Steeped 18 hours, served chilled</div></div><div class="menu-row-price">€4.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Matcha Latte</div><div class="menu-row-desc">Ceremonial grade, oat milk</div></div><div class="menu-row-price">€4.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Chai Latte</div><div class="menu-row-desc">Spiced chai blend, steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Hot Chocolate</div><div class="menu-row-desc">Valrhona dark chocolate, steamed milk</div></div><div class="menu-row-price">€4.20</div></div>
+      </div>
+      <p class="menu-note">Oat, almond &amp; soy available — 50c supplement &nbsp;·&nbsp; Decaf on request</p>
+    </div>
+
+    <!-- Food -->
+    <div class="menu-panel" id="tab-food">
+      <div class="menu-list">
+        <div class="menu-cat">Breakfast &amp; Brunch</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Avocado Toast</div><div class="menu-row-desc">Sourdough, smashed avocado, chilli flakes, lemon oil</div></div><div class="menu-row-price">€9.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Full Irish Breakfast</div><div class="menu-row-desc">Bacon, sausage, egg, black &amp; white pudding, beans, sourdough</div></div><div class="menu-row-price">€13.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Eggs Benedict</div><div class="menu-row-desc">Free-range poached eggs, hollandaise, toasted muffin</div></div><div class="menu-row-price">€12.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Granola Bowl</div><div class="menu-row-desc">House granola, Greek yoghurt, seasonal berries, wildflower honey</div></div><div class="menu-row-price">€8.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Smoked Salmon Bagel</div><div class="menu-row-desc">Cream cheese, capers, red onion, fresh dill</div></div><div class="menu-row-price">€11.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">French Toast</div><div class="menu-row-desc">Brioche, maple syrup, mixed berries, softly whipped cream</div></div><div class="menu-row-price">€10.50</div></div>
+        <div class="menu-cat">Lunch</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Club Sandwich</div><div class="menu-row-desc">Free-range chicken, crispy bacon, lettuce, tomato, house mayo</div></div><div class="menu-row-price">€13.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Soup of the Day</div><div class="menu-row-desc">Made fresh each morning, brown soda bread &amp; butter</div></div><div class="menu-row-price">€7.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Caesar Salad</div><div class="menu-row-desc">Romaine, aged parmesan, house croutons, classic dressing</div></div><div class="menu-row-price">€12.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Toasted Panini</div><div class="menu-row-desc">Seasonal fillings — ask your server</div></div><div class="menu-row-price">€10.50</div></div>
+        <div class="menu-cat">From the Bakery</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Croissant</div><div class="menu-row-desc">Butter / ham &amp; comté / almond frangipane</div></div><div class="menu-row-price">€3.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Banana Bread</div><div class="menu-row-desc">House-baked, served warm with salted butter</div></div><div class="menu-row-price">€4.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Scone</div><div class="menu-row-desc">Plain or fruit, with Dromona butter, jam &amp; clotted cream</div></div><div class="menu-row-price">€4.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cake of the Day</div><div class="menu-row-desc">Baked in-house — ask at the counter</div></div><div class="menu-row-price">€5.00</div></div>
+      </div>
+      <p class="menu-note">Gluten-free &amp; vegan options — please ask &nbsp;·&nbsp; Full allergen info on request</p>
+    </div>
+
+    <!-- Drinks -->
+    <div class="menu-panel" id="tab-drinks">
+      <div class="menu-list">
+        <div class="menu-cat">Teas &amp; Infusions</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Breakfast Tea</div><div class="menu-row-desc">Barry's Gold Blend — the Cork classic</div></div><div class="menu-row-price">€3.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Green Tea</div><div class="menu-row-desc">Japanese sencha, gently brewed</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Peppermint</div><div class="menu-row-desc">Fresh &amp; calming, naturally caffeine-free</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Chamomile</div><div class="menu-row-desc">Floral &amp; soothing — perfect after lunch</div></div><div class="menu-row-price">€3.20</div></div>
+        <div class="menu-cat">Cold &amp; Soft</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Fresh Orange Juice</div><div class="menu-row-desc">Squeezed to order</div></div><div class="menu-row-price">€4.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">San Pellegrino</div><div class="menu-row-desc">Sparkling mineral water, 500ml</div></div><div class="menu-row-price">€2.80</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Still Water</div><div class="menu-row-desc">500ml</div></div><div class="menu-row-price">€2.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Soft Drinks</div><div class="menu-row-desc">Coke, Diet Coke, 7Up, Fanta</div></div><div class="menu-row-price">€3.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Smoothie of the Day</div><div class="menu-row-desc">Seasonal fruits — ask at the counter</div></div><div class="menu-row-price">€5.50</div></div>
+      </div>
+      <p class="menu-note">Seasonal specials change weekly &nbsp;·&nbsp; Still water always complimentary</p>
+    </div>
+
+    <!-- Evening -->
+    <div class="menu-panel" id="tab-evening">
+      <div class="menu-list">
+        <div class="menu-cat">Small Plates</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Charcuterie Board</div><div class="menu-row-desc">Cured meats, artisan Irish cheeses, house pickles &amp; chutney</div></div><div class="menu-row-price">€16.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Bruschetta</div><div class="menu-row-desc">Toasted sourdough, slow-roasted tomato, aged balsamic, basil oil</div></div><div class="menu-row-price">€9.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Loaded Fries</div><div class="menu-row-desc">Hand-cut, mature cheddar, house sauce, pickled jalapeño, scallions</div></div><div class="menu-row-price">€10.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Sliders</div><div class="menu-row-desc">Three beef patties, pickled onion, aged cheddar, sriracha mayo</div></div><div class="menu-row-price">€13.50</div></div>
+        <div class="menu-cat">Evening Drinks</div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">House Wine</div><div class="menu-row-desc">Red or white — today's selection from your server</div></div><div class="menu-row-price">€7.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Craft Beer</div><div class="menu-row-desc">Rotating Irish taps — ask what's pouring</div></div><div class="menu-row-price">€6.50</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Prosecco</div><div class="menu-row-desc">By the glass</div></div><div class="menu-row-price">€8.00</div></div>
+        <div class="menu-row"><div class="menu-row-left"><div class="menu-row-name">Cocktail of the Week</div><div class="menu-row-desc">Changes weekly — ask your server</div></div><div class="menu-row-price">€10.00</div></div>
+      </div>
+      <p class="menu-note">Thursday evenings until 11:30pm &nbsp;·&nbsp; Please enjoy responsibly</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gallery ───────────────────────────────────────────────── -->
+<section id="gallery" class="section">
+  <div class="container">
+    <div class="gallery-header">
+      <div>
+        <p class="eyebrow" data-reveal="up">Gallery</p>
+        <h2 class="display" data-reveal="up" data-delay="2">Life at 115</h2>
+      </div>
+      <a href="https://www.instagram.com/115cafecork/" target="_blank" rel="noopener" class="ig-pill" data-reveal="up" data-delay="3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+        @115cafecork
+      </a>
+    </div>
+  </div>
+  <div class="gallery-strip" id="galleryStrip">
+    <div class="gal-thumb gal-thumb--tall">
+      <img src="https://github.com/user-attachments/assets/c1d4ec60-0446-4e09-af0e-7df75312333b" alt="Coffee and cake" loading="lazy" style="object-position:center 25%" onerror="this.closest('.gal-thumb').style.display='none'" />
+      <div class="gal-overlay"></div>
+      <div class="gal-caption"><div class="gal-caption-name">Red Cup, Red Chair</div></div>
+    </div>
+    <div class="gal-thumb gal-thumb--sq">
+      <img src="https://github.com/user-attachments/assets/062d8885-fd12-4064-aad6-6f054169e8f5" alt="Fresh pastries" loading="lazy" onerror="this.closest('.gal-thumb').style.display='none'" />
+      <div class="gal-overlay"></div>
+      <div class="gal-caption"><div class="gal-caption-label">Bakery</div><div class="gal-caption-name">Baked Fresh Daily</div></div>
+    </div>
+    <div class="gal-thumb gal-thumb--wide">
+      <img src="https://github.com/user-attachments/assets/8c2d8ab3-f0aa-40a7-a23f-7e69f00106ef" alt="Stone wall interior" loading="lazy" onerror="this.closest('.gal-thumb').style.display='none'" />
+      <div class="gal-overlay"></div>
+      <div class="gal-caption"><div class="gal-caption-label">Interior</div><div class="gal-caption-name">Stone &amp; Warmth</div></div>
+    </div>
+    <div class="gal-thumb gal-thumb--tall">
+      <img src="https://github.com/user-attachments/assets/cdcc1268-5bd9-4ff0-97e3-4ca5b1992d57" alt="115 Cafe" loading="lazy" onerror="this.closest('.gal-thumb').style.display='none'" />
+      <div class="gal-overlay"></div>
+      <div class="gal-caption"><div class="gal-caption-label">115 Cork</div><div class="gal-caption-name">A Local Favourite</div></div>
+    </div>
+    <div class="gal-thumb gal-thumb--sq">
+      <img src="https://github.com/user-attachments/assets/381c1b29-8ca5-42df-852d-d6408f73a6a1" alt="115 Cafe" loading="lazy" onerror="this.closest('.gal-thumb').style.display='none'" />
+      <div class="gal-overlay"></div>
+      <div class="gal-caption"><div class="gal-caption-label">Cork City</div><div class="gal-caption-name">Heart of the City</div></div>
+    </div>
+    <div class="gal-thumb gal-thumb--tall">
+      <img src="https://github.com/user-attachments/assets/1462120c-00a2-4e17-a61e-47d1aae68daa" alt="115 Cafe" loading="lazy" onerror="this.closest('.gal-thumb').style.display='none'" />
+      <div class="gal-overlay"></div>
+      <div class="gal-caption"><div class="gal-caption-label">The Detail</div><div class="gal-caption-name">Craft in Every Cup</div></div>
+    </div>
+    <div class="gal-thumb gal-thumb--sq">
+      <img src="https://github.com/user-attachments/assets/1b0c178e-523c-4b3c-a08e-86af095905ad" alt="115 Cafe" loading="lazy" onerror="this.closest('.gal-thumb').style.display='none'" />
+      <div class="gal-overlay"></div>
+      <div class="gal-caption"><div class="gal-caption-label">Our Story</div><div class="gal-caption-name">Since Always</div></div>
+    </div>
+  </div>
+  <div class="gallery-drag-hint">Drag to explore</div>
+</section>
+
+
+<!-- ── Contact ───────────────────────────────────────────────── -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p class="eyebrow" data-reveal="up">Visit Us</p>
+        <h2 class="display" data-reveal="up" data-delay="2">Come find us<br><em>in the heart of Cork</em></h2>
+
+        <div class="info-block" data-reveal="up" data-delay="3">
+          <div class="info-block-lbl">Address</div>
+          <p>115 Oliver Plunkett Street<br>Centre, Cork, T12 EV25</p>
+        </div>
+        <div class="info-block" data-reveal="up" data-delay="3">
+          <div class="info-block-lbl">Phone</div>
+          <p><a href="tel:0214276165" style="color:var(--red)">(021) 427 6165</a></p>
+        </div>
+        <div class="info-block" data-reveal="up" data-delay="4">
+          <div class="info-block-lbl">Opening Hours</div>
+          <ul class="hours-list" id="hoursList"></ul>
+        </div>
+        <div data-reveal="up" data-delay="5">
+          <div class="info-block-lbl" style="margin-bottom:12px">Follow Us</div>
+          <div class="social-row">
+            <a href="https://www.facebook.com/115cafecork/" target="_blank" rel="noopener" class="social-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              Facebook
+            </a>
+            <a href="https://www.instagram.com/115cafecork/" target="_blank" rel="noopener" class="social-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form" data-reveal="right" data-delay="3">
+        <div class="form-title">Make a Reservation</div>
+        <p class="form-sub">Book a table or send us a message — we'll confirm shortly.</p>
+        <form id="reservationForm" novalidate>
+          <div class="form-row">
+            <div class="form-float"><input type="text" id="fname" placeholder=" " required /><label for="fname">First Name</label></div>
+            <div class="form-float"><input type="text" id="lname" placeholder=" " required /><label for="lname">Last Name</label></div>
+          </div>
+          <div class="form-row">
+            <div class="form-float"><input type="email" id="email" placeholder=" " required /><label for="email">Email</label></div>
+            <div class="form-float"><input type="tel" id="phone" placeholder=" " /><label for="phone">Phone</label></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="date">Date</label><input type="date" id="date" required /></div>
+            <div class="form-group">
+              <label for="time">Time</label>
+              <select id="time" required>
+                <option value="">Select time</option>
+                <option>9:00 AM</option><option>9:30 AM</option><option>10:00 AM</option>
+                <option>10:30 AM</option><option>11:00 AM</option><option>11:30 AM</option>
+                <option>12:00 PM</option><option>12:30 PM</option><option>1:00 PM</option>
+                <option>1:30 PM</option><option>2:00 PM</option><option>2:30 PM</option>
+                <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+                <option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="guests">Guests</label>
+            <select id="guests">
+              <option>1 guest</option><option selected>2 guests</option><option>3 guests</option>
+              <option>4 guests</option><option>5 guests</option><option>6+ guests</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="notes">Special Requests</label>
+            <textarea id="notes" placeholder="Dietary requirements, celebrations, accessibility needs…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark form-submit">Reserve My Table</button>
+        </form>
+        <div class="form-success" id="formSuccess">✓ Thank you — we'll confirm your reservation shortly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Map ───────────────────────────────────────────────────── -->
+<div class="map-strip">
+  <iframe title="115 Cafe location"
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2461.3539539870657!2d-8.474!3d51.8985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x484440e0bed6d7b7%3A0x8db3b25cdbd03dc!2s115%20Oliver%20Plunkett%20St%2C%20Cork!5e0!3m2!1sen!2sie!4v1680000000000"
+    loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  <div class="map-badge">
+    <svg viewBox="0 0 24 24" fill="var(--red)" stroke="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    115 Oliver Plunkett St, Cork
+  </div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo nav-logo">115<span style="color:var(--red)">.</span></a>
+      <p>A beloved cafe on Cork's most iconic street. Exceptional coffee, real food, warm welcome — every single day.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Reservations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:0214276165">(021) 427 6165</a></li>
+        <li><a href="https://www.facebook.com/115cafecork/" target="_blank">Facebook</a></li>
+        <li><a href="https://www.instagram.com/115cafecork/" target="_blank">Instagram</a></li>
+        <li><span>115 Oliver Plunkett St, Cork</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 115 Cafe, Cork. All rights reserved.</span>
+    <span>Made with ♥ in Cork City</span>
+  </div>
+</footer>
+
+<script>
+/* ── Data ──────────────────────────────────────────────── */
+const HOURS = [
+  {day:'Monday',    h:'9am – 9pm'},
+  {day:'Tuesday',   h:'9am – 9pm'},
+  {day:'Wednesday', h:'9am – 9pm'},
+  {day:'Thursday',  h:'9am – 11:30pm'},
+  {day:'Friday',    h:'9am – 9pm'},
+  {day:'Saturday',  h:'9am – 9pm'},
+  {day:'Sunday',    h:'11am – 8pm'},
+];
+const todayIdx = (new Date().getDay()+6)%7;
+
+/* ── Hours list in contact ─────────────────────────────── */
+document.getElementById('hoursList').innerHTML =
+  HOURS.map((h,i)=>`<li class="${i===todayIdx?'today':''}">
+    <span class="day-name">${h.day}</span><span class="hrs">${h.h}</span>
+  </li>`).join('');
+
+/* ── Nav scroll ────────────────────────────────────────── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll',()=>
+  nav.classList.toggle('scrolled',window.scrollY>80),{passive:true});
+
+/* ── Mobile drawer ─────────────────────────────────────── */
+const drawer = document.getElementById('drawer');
+document.getElementById('hamburger').addEventListener('click',()=>drawer.classList.add('open'));
+document.getElementById('drawerClose').addEventListener('click',()=>drawer.classList.remove('open'));
+document.querySelectorAll('.drawer-link').forEach(a=>
+  a.addEventListener('click',()=>drawer.classList.remove('open')));
+
+/* ── Menu tabs + sliding indicator ────────────────────── */
+const tabIndicator = document.querySelector('.tab-indicator');
+function moveIndicator(btn){
+  if(!tabIndicator) return;
+  tabIndicator.style.left = btn.offsetLeft + 'px';
+  tabIndicator.style.width = btn.offsetWidth + 'px';
+}
+const firstActive = document.querySelector('.tab-btn.active');
+if(firstActive) requestAnimationFrame(()=>moveIndicator(firstActive));
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    moveIndicator(btn);
+    const panel = document.getElementById('tab-'+btn.dataset.tab);
+    panel.classList.add('active');
+    panel.querySelectorAll('.menu-row').forEach((row,i)=>{
+      row.style.opacity='0';row.style.transform='translateY(10px)';
+      requestAnimationFrame(()=>{
+        row.style.transition=`opacity .45s ${i*.045}s var(--ease-out), transform .45s ${i*.045}s var(--ease-out)`;
+        row.style.opacity='1';row.style.transform='none';
+      });
+    });
+  });
+});
+
+/* ── Scroll reveal ─────────────────────────────────────── */
+const revealObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in-view');
+      revealObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+
+document.querySelectorAll('[data-reveal]').forEach(el=>{
+  const d = el.dataset.delay;
+  if(d) el.style.transitionDelay = ({1:'.1s',2:'.2s',3:'.32s',4:'.44s',5:'.56s',6:'.68s'}[d]||'0s');
+  revealObs.observe(el);
+});
+
+document.querySelectorAll('[data-wipe]').forEach(el=>{
+  const d = el.dataset.delay;
+  if(d) el.style.transitionDelay = ({1:'.1s',2:'.2s',3:'.32s'}[d]||'0s');
+  revealObs.observe(el);
+});
+
+/* Observe about-text-col for red rule animation */
+const atc = document.querySelector('.about-text-col');
+if(atc) revealObs.observe(atc);
+
+/* ── Counter animation with completion bounce ──────────── */
+const counterObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el=e.target;
+    const target=+el.dataset.target;
+    const suffix=el.dataset.suffix||'';
+    const dur=1400;const start=performance.now();
+    const tick=now=>{
+      const p=Math.min((now-start)/dur,1);
+      const ease=1-Math.pow(1-p,3);
+      el.textContent=Math.round(ease*target)+suffix;
+      if(p<1){ requestAnimationFrame(tick); }
+      else{
+        el.style.transition='transform .5s cubic-bezier(.34,1.56,.64,1)';
+        el.style.transform='scale(1.1)';
+        setTimeout(()=>{ el.style.transform='none'; },500);
+      }
+    };
+    requestAnimationFrame(tick);
+    counterObs.unobserve(el);
+  });
+},{threshold:0.5});
+document.querySelectorAll('.counter').forEach(el=>counterObs.observe(el));
+
+/* ── Gallery staggered entry ───────────────────────────── */
+const galStrip = document.getElementById('galleryStrip');
+if(galStrip){
+  const thumbs = [...galStrip.querySelectorAll('.gal-thumb')];
+  thumbs.forEach(t=>{ t.style.opacity='0'; t.style.transform='translateY(28px)'; });
+  const galObs = new IntersectionObserver(([entry])=>{
+    if(!entry.isIntersecting) return;
+    thumbs.forEach((t,i)=>{
+      setTimeout(()=>{
+        t.style.transition='opacity .6s var(--ease-out), transform .6s var(--ease-out)';
+        t.style.opacity='1'; t.style.transform='none';
+      }, i*60);
+    });
+    galObs.unobserve(entry.target);
+  },{threshold:0.05});
+  galObs.observe(galStrip);
+}
+
+/* ── Live open/closed indicator ────────────────────────── */
+(function(){
+  const now=new Date();
+  const day=(now.getDay()+6)%7;
+  const hm=now.getHours()*60+now.getMinutes();
+  const ranges=[[9*60,21*60],[9*60,21*60],[9*60,21*60],[9*60,23.5*60],[9*60,21*60],[9*60,21*60],[11*60,20*60]];
+  const [o,c]=ranges[day];
+  const open=hm>=o&&hm<c;
+  const list=document.getElementById('hoursList');
+  if(!list) return;
+  const dot=document.createElement('div');
+  dot.className='hours-status';
+  dot.innerHTML=`<span class="status-dot ${open?'status-dot--open':'status-dot--closed'}"></span>${open?'Open now':'Closed now'}`;
+  list.parentElement.insertBefore(dot,list);
+})();
+
+/* ── Parallax on hero bg ───────────────────────────────── */
+const heroBg = document.querySelector('.hero-bg');
+if(heroBg && window.innerWidth>860){
+  window.addEventListener('scroll',()=>{
+    const y = window.scrollY;
+    if(y<window.innerHeight)
+      heroBg.style.transform=`translateY(${y*0.28}px)`;
+  },{passive:true});
+}
+
+/* ── Gallery drag-to-scroll ────────────────────────────── */
+const strip = document.getElementById('galleryStrip');
+if(strip){
+  let isDown=false,startX,scrollLeft;
+  strip.addEventListener('mousedown',e=>{
+    isDown=true;startX=e.pageX-strip.offsetLeft;scrollLeft=strip.scrollLeft;
+    strip.style.cursor='grabbing';
+  });
+  strip.addEventListener('mouseleave',()=>{isDown=false;strip.style.cursor='grab'});
+  strip.addEventListener('mouseup',()=>{isDown=false;strip.style.cursor='grab'});
+  strip.addEventListener('mousemove',e=>{
+    if(!isDown)return;
+    e.preventDefault();
+    const x=e.pageX-strip.offsetLeft;
+    strip.scrollLeft=scrollLeft-(x-startX)*1.4;
+  });
+  strip.style.cursor='grab';
+}
+
+/* ── Form ───────────────────────────────────────────────── */
+document.getElementById('reservationForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  this.style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+});
+const dateInput = document.getElementById('date');
+if(dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
