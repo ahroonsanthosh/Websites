@@ -1,0 +1,156 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import WaveBadge from "./ornaments/WaveBadge.astro";
+
+const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/photos/*.webp", { eager: true });
+
+const chapters = (await getCollection("timeline")).sort((a, b) => a.data.weight - b.data.weight);
+---
+
+<section id="story" class="story">
+  <div class="container story__intro">
+    <p class="eyebrow">The Story</p>
+    <h2 class="story__title">From a van in a field to a foyer full of people.</h2>
+  </div>
+
+  <div class="container story__grid" data-story-root>
+    <ol class="story__list" data-story-list>
+      {chapters.map((chapter, i) => (
+        <li class="story__item" data-story-item data-index={i}>
+          <span class="story__year eyebrow">{chapter.data.year}</span>
+          <h3 class="story__chapter-title">{chapter.data.title}</h3>
+          <p class="story__body">{chapter.data.body}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="story__visual">
+      {chapters.map((chapter, i) => {
+        const src = chapter.data.image ? photos[`../assets/photos/${chapter.data.image}`]?.default : null;
+        return (
+          <div class="story__pane" data-story-pane data-index={i}>
+            {src ? (
+              <Image
+                src={src}
+                alt={chapter.data.imageAlt}
+                widths={[360, 560]}
+                sizes="(min-width: 62rem) 26rem, 80vw"
+                width={574}
+                height={764}
+                loading="lazy"
+                class="story__image"
+              />
+            ) : (
+              <div class="story__fallback">
+                <div class="story__fallback-badge">
+                  <WaveBadge label="Some Dose" sub={chapter.data.year} />
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .story { padding-block: var(--space-9); background: var(--paper); }
+  .story__intro { max-width: 42rem; margin-bottom: var(--space-8); }
+  .story__title {
+    font-size: var(--step-3);
+    margin-top: var(--space-3);
+    font-variation-settings: "opsz" 60, "SOFT" 30;
+  }
+
+  .story__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .story__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+  .story__item {
+    max-width: 34rem;
+  }
+  .story__item .story__year,
+  .story__item .story__chapter-title,
+  .story__item .story__body {
+    color: #6b6259;
+    transition: color 420ms var(--ease-interact);
+  }
+  .story__item[data-active="true"] .story__year { color: var(--teal-700); }
+  .story__item[data-active="true"] .story__chapter-title,
+  .story__item[data-active="true"] .story__body {
+    color: var(--fg);
+  }
+  .story__chapter-title {
+    font-size: var(--step-2);
+    margin-top: var(--space-2);
+  }
+  .story__body { margin-top: var(--space-3); }
+
+  .story__visual {
+    position: relative;
+    aspect-ratio: 574 / 764;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .story__pane {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 480ms var(--ease-interact);
+  }
+  .story__pane[data-active="true"] { opacity: 1; }
+  .story__image { width: 100%; height: 100%; object-fit: cover; }
+  .story__fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(155deg, var(--blush-100), var(--teal-300));
+    padding: var(--space-6);
+  }
+  .story__fallback-badge { width: 13rem; }
+
+  @media (min-width: 62rem) {
+    .story__grid { grid-template-columns: 1fr 1fr; align-items: start; }
+    .story__visual { position: sticky; top: 7rem; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-story-root]");
+  if (root) {
+    const items = Array.from(root.querySelectorAll<HTMLElement>("[data-story-item]"));
+    const panes = Array.from(root.querySelectorAll<HTMLElement>("[data-story-pane]"));
+
+    const setActive = (index: number) => {
+      items.forEach((el) => (el.dataset.active = String(el.dataset.index === String(index))));
+      panes.forEach((el) => (el.dataset.active = String(el.dataset.index === String(index))));
+    };
+
+    setActive(0);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            setActive(Number(el.dataset.index));
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" }
+    );
+    items.forEach((el) => observer.observe(el));
+  }
+</script>

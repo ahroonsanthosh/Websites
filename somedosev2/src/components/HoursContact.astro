@@ -1,0 +1,110 @@
+---
+import { getEntry } from "astro:content";
+import WaveDivider from "./ornaments/WaveDivider.astro";
+
+const settings = (await getEntry("settings", "general"))!.data;
+const shopHours = (await getEntry("locations", "congress-road"))!.data.hours;
+const isWeekday = (day: string) => !["Saturday", "Sunday"].includes(day);
+const now = new Date();
+const currentDay = now.toLocaleDateString("en-IE", { weekday: "long", timeZone: "Europe/Dublin" });
+---
+
+<section id="hours" class="hc">
+  <div class="hc__wave-top">
+    <WaveDivider color="var(--blush-300)" flip />
+  </div>
+  <div class="container hc__grid">
+    <div class="hc__hours" data-reveal>
+      <p class="eyebrow hc__eyebrow">Come On In</p>
+      <h2 class="hc__title">8:30 to 3:30. Five days a week. That's the whole schedule.</h2>
+      <table class="hc__table">
+        <caption class="visually-hidden">Some Dose Turners Cross opening hours</caption>
+        <tbody>
+          {shopHours.map((h) => (
+            <tr class:list={["hc__row", { "hc__row--today": h.day === currentDay }]}>
+              <th scope="row">{h.day}</th>
+              <td>{isWeekday(h.day) ? <time>{h.time}</time> : h.time}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="hc__note">
+        Opera House stand keeps foyer hours &mdash; before curtain, during
+        interval, whenever the box office is lit.
+      </p>
+    </div>
+
+    <div class="hc__contact" data-reveal>
+      <p class="eyebrow hc__eyebrow">Say Hello</p>
+      <a class="hc__email" href={`mailto:${settings.email}`}>{settings.email}</a>
+      <div class="hc__socials">
+        <a href={settings.instagram} target="_blank" rel="noopener" class="hc__social" aria-label="Some Dose on Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg>
+          <span>Instagram</span>
+        </a>
+        <a href={settings.facebook} target="_blank" rel="noopener" class="hc__social" aria-label="Some Dose on Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13.8 9.2h1.6V6.6h-1.9c-1.9 0-3 1.1-3 3v1.6H8.9v2.6h1.6v6.1h2.6v-6.1h1.9l.4-2.6h-2.3V9.9c0-.5.2-.7.7-.7Z" fill="currentColor"/></svg>
+          <span>Facebook</span>
+        </a>
+        <a href={settings.operaHousePage} target="_blank" rel="noopener" class="hc__social" aria-label="Some Dose at Cork Opera House">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 20v-6h6v6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          <span>Opera House</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hc {
+    position: relative;
+    padding-block: var(--space-6) var(--space-9);
+    background: linear-gradient(180deg, var(--blush-50), var(--teal-300) 65%, var(--teal-700));
+    color: var(--navy-900);
+  }
+  .hc__wave-top { margin-bottom: var(--space-6); }
+  .hc__grid { display: grid; gap: var(--space-8); }
+  .hc__eyebrow { color: var(--teal-900); }
+  .hc__title {
+    font-size: var(--step-3);
+    margin-top: var(--space-3);
+    max-width: 20ch;
+    font-variation-settings: "opsz" 60, "SOFT" 30;
+  }
+
+  .hc__table { margin-top: var(--space-6); width: 100%; max-width: 26rem; border-collapse: collapse; font-family: var(--font-mono); font-size: var(--step-0); }
+  .hc__row th, .hc__row td { text-align: left; padding-block: var(--space-2); border-bottom: 1px dashed color-mix(in srgb, var(--navy-900) 25%, transparent); font-weight: 400; }
+  .hc__row td { text-align: right; }
+  .hc__row--today th, .hc__row--today td { font-weight: 700; color: var(--neon); }
+  .hc__note { margin-top: var(--space-5); max-width: 34ch; font-family: var(--font-mono); font-size: var(--step--1); }
+
+  .hc__email {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--step-1);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    word-break: break-word;
+  }
+  .hc__socials { margin-top: var(--space-6); display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .hc__social {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--paper) 70%, transparent);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    transition: transform 180ms var(--ease-interact), background-color 180ms var(--ease-interact);
+    min-height: 44px;
+  }
+  .hc__social svg { width: 1.15rem; height: 1.15rem; }
+  .hc__social:hover { transform: translateY(-2px); background: var(--paper); }
+
+  @media (min-width: 62rem) {
+    .hc__grid { grid-template-columns: 1.2fr 0.8fr; }
+  }
+</style>

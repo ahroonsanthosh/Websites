@@ -1,0 +1,19 @@
+{
+  "name": "Turners Cross",
+  "weight": 2,
+  "kind": "shop",
+  "address": "23C Congress Road, Turners Cross, Cork, T12 TK80",
+  "mapUrl": "https://www.google.com/maps/search/?api=1&query=23C+Congress+Road+Turners+Cross+Cork+T12+TK80",
+  "blurb": "The original shop. Pink kickboard, neon sign, a full case of tray bakes. This is where Some Dose put down roots after the van.",
+  "hours": [
+    { "day": "Monday", "time": "8:30am – 3:30pm" },
+    { "day": "Tuesday", "time": "8:30am – 3:30pm" },
+    { "day": "Wednesday", "time": "8:30am – 3:30pm" },
+    { "day": "Thursday", "time": "8:30am – 3:30pm" },
+    { "day": "Friday", "time": "8:30am – 3:30pm" },
+    { "day": "Saturday", "time": "Closed" },
+    { "day": "Sunday", "time": "Closed" }
+  ],
+  "image": "sd9.webp",
+  "imageAlt": "The Some Dose Coffee shopfront in Turners Cross, Cork, with the wave logo sign and bunting flags"
+}

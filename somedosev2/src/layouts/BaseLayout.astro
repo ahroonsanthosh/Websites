@@ -1,0 +1,102 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { getCollection } from "astro:content";
+import frauncesUrl from "../styles/fonts/fraunces-variable.woff2?url";
+import spaceMonoUrl from "../styles/fonts/space-mono-400.woff2?url";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const settingsEntries = await getCollection("settings");
+const settings = settingsEntries[0].data;
+const metaDescription = description ?? settings.metaDescription;
+
+const base = import.meta.env.BASE_URL;
+const faviconHref = `${base}favicon.svg`;
+const ogImageHref = `${base}og-image.jpg`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  name: settings.businessName,
+  url: Astro.site?.toString(),
+  image: new URL(ogImageHref, Astro.site).toString(),
+  telephone: undefined,
+  email: settings.email,
+  priceRange: "€€",
+  servesCuisine: "Coffee, pastries, tray bakes",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "23C Congress Road, Turners Cross",
+    addressLocality: "Cork",
+    postalCode: "T12 TK80",
+    addressCountry: "IE",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 51.8886,
+    longitude: -8.4756,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:30",
+      closes: "15:30",
+    },
+  ],
+  sameAs: [settings.instagram, settings.facebook, settings.operaHousePage],
+};
+---
+
+<!doctype html>
+<html lang="en-IE">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={faviconHref} />
+    <meta name="theme-color" content="#fbf3ec" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+    <meta property="og:image" content={new URL(ogImageHref, Astro.site).toString()} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_IE" />
+    <meta property="og:site_name" content="Some Dose" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={new URL(ogImageHref, Astro.site).toString()} />
+
+    <link rel="preload" href={frauncesUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={spaceMonoUrl} as="font" type="font/woff2" crossorigin />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import "../scripts/reveal";
+    </script>
+  </body>
+</html>

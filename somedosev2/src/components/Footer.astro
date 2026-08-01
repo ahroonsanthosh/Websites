@@ -1,0 +1,121 @@
+---
+import { getEntry } from "astro:content";
+import WaveMark from "./ornaments/WaveMark.astro";
+
+const settings = (await getEntry("settings", "general"))!.data;
+const opera = (await getEntry("locations", "opera-house"))!.data;
+const congress = (await getEntry("locations", "congress-road"))!.data;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__top">
+    <div class="site-footer__brand">
+      <WaveMark size="3rem" />
+      <p class="site-footer__word">Some Dose</p>
+      <p class="script site-footer__tagline">{settings.tagline}</p>
+    </div>
+
+    <div class="site-footer__cards">
+      <div class="ticket">
+        <p class="eyebrow">Visit</p>
+        <p class="ticket__line">{opera.name}</p>
+        <p class="ticket__line">{congress.name}</p>
+        <a class="ticket__link" href="#find-us">All locations &rarr;</a>
+      </div>
+      <div class="ticket">
+        <p class="eyebrow">Hours</p>
+        <p class="ticket__line">Mon&ndash;Fri, 8:30&ndash;3:30</p>
+        <p class="ticket__line">Sat &amp; Sun, closed</p>
+        <a class="ticket__link" href="#hours">Full hours &rarr;</a>
+      </div>
+      <div class="ticket">
+        <p class="eyebrow">Say Hello</p>
+        <p class="ticket__line"><a href={`mailto:${settings.email}`}>{settings.email}</a></p>
+        <a class="ticket__link" href={settings.instagram} target="_blank" rel="noopener">@some_dose &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>&copy; {year} Some Dose Coffee Co. Cork, Ireland.</p>
+    <button type="button" class="back-to-top" data-back-to-top aria-label="Back to top">&uarr;</button>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy-900);
+    color: var(--paper);
+    padding-block: var(--space-8) var(--space-6);
+  }
+  .site-footer__top {
+    display: grid;
+    gap: var(--space-8);
+  }
+  .site-footer__word {
+    font-size: var(--step-4);
+    margin-top: var(--space-4);
+    font-variation-settings: "opsz" 80, "SOFT" 50, "WONK" 1;
+  }
+  .site-footer__tagline { color: var(--teal-300); margin-top: var(--space-2); font-size: var(--step-1); }
+
+  .site-footer__cards { display: grid; gap: var(--space-5); }
+  .ticket {
+    border: 1.5px dashed color-mix(in srgb, var(--paper) 40%, transparent);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    position: relative;
+  }
+  .ticket .eyebrow { color: var(--teal-300); }
+  .ticket__line { margin-top: var(--space-2); font-family: var(--font-mono); font-size: var(--step--1); }
+  .ticket__line a { text-decoration-thickness: 1.5px; text-underline-offset: 3px; word-break: break-word; }
+  .ticket__link {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--paper);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+
+  .site-footer__bottom {
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid color-mix(in srgb, var(--paper) 15%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: color-mix(in srgb, var(--paper) 70%, transparent);
+  }
+  .back-to-top {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--paper) 40%, transparent);
+    background: transparent;
+    color: var(--paper);
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 200ms var(--ease-interact), background-color 200ms var(--ease-interact);
+  }
+  .back-to-top:hover { background: var(--teal-700); transform: translateY(-3px); }
+  .back-to-top:active { transform: translateY(0) scale(0.96); }
+
+  @media (min-width: 48rem) {
+    .site-footer__top { grid-template-columns: 1fr 1.4fr; }
+    .site-footer__cards { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>("[data-back-to-top]");
+  btn?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  });
+</script>

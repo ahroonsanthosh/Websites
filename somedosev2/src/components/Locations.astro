@@ -1,0 +1,137 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/photos/*.webp", { eager: true });
+const locations = (await getCollection("locations")).sort((a, b) => a.data.weight - b.data.weight);
+const [flagship, ...rest] = locations;
+
+const dayCode: Record<string, string> = {
+  Monday: "Mo", Tuesday: "Tu", Wednesday: "We", Thursday: "Th", Friday: "Fr", Saturday: "Sa", Sunday: "Su",
+};
+const isWeekday = (day: string) => day in dayCode;
+---
+
+<section id="find-us" class="locations">
+  <div class="container locations__head">
+    <p class="eyebrow">Find Us</p>
+    <h2 class="locations__title">Three spots. One dose.</h2>
+  </div>
+
+  <div class="container locations__stack">
+    <article class="loc-card loc-card--flagship" data-reveal>
+      <div class="loc-card__media">
+        <Image
+          src={photos[`../assets/photos/${flagship.data.image}`].default}
+          alt={flagship.data.imageAlt}
+          widths={[360, 560, 750]}
+          sizes="(min-width: 62rem) 30rem, 92vw"
+          width={750}
+          height={748}
+          loading="lazy"
+          class="loc-card__img"
+        />
+      </div>
+      <div class="loc-card__body">
+        <p class="eyebrow loc-card__kind">Flagship stand</p>
+        <h3 class="loc-card__name">{flagship.data.name}</h3>
+        <p class="loc-card__blurb">{flagship.data.blurb}</p>
+        <address class="loc-card__address">{flagship.data.address}</address>
+        <ul class="loc-card__hours">
+          {flagship.data.hours.map((h) => (
+            <li>
+              <span>{h.day}</span>
+              {isWeekday(h.day) ? <time>{h.time}</time> : <span>{h.time}</span>}
+            </li>
+          ))}
+        </ul>
+        <a class="btn btn--accent" href={flagship.data.mapUrl} target="_blank" rel="noopener">Get Directions</a>
+      </div>
+    </article>
+
+    <div class="locations__pair">
+      {rest.map((loc) => (
+        <article class="loc-card" data-reveal>
+          <div class="loc-card__media loc-card__media--small">
+            <Image
+              src={photos[`../assets/photos/${loc.data.image}`].default}
+              alt={loc.data.imageAlt}
+              widths={[300, 450]}
+              sizes="(min-width: 62rem) 22rem, 90vw"
+              loading="lazy"
+              class="loc-card__img"
+            />
+          </div>
+          <div class="loc-card__body">
+            <p class="eyebrow loc-card__kind">{loc.data.kind === "shop" ? "The shop" : "Stockist"}</p>
+            <h3 class="loc-card__name">{loc.data.name}</h3>
+            <p class="loc-card__blurb">{loc.data.blurb}</p>
+            <address class="loc-card__address">{loc.data.address}</address>
+            <ul class="loc-card__hours loc-card__hours--compact">
+              {loc.data.hours.map((h) => (
+                <li>
+                  <span>{h.day}</span>
+                  {isWeekday(h.day) ? <time>{h.time}</time> : <span>{h.time}</span>}
+                </li>
+              ))}
+            </ul>
+            <a class="btn btn--ghost" href={loc.data.mapUrl} target="_blank" rel="noopener">Directions</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .locations { padding-block: var(--space-9); background: var(--blush-50); }
+  .locations__head { max-width: 36rem; margin-bottom: var(--space-8); }
+  .locations__title { font-size: var(--step-3); margin-top: var(--space-3); font-variation-settings: "opsz" 60, "SOFT" 30; }
+  .locations__stack { display: flex; flex-direction: column; gap: var(--space-7); }
+  .locations__pair { display: grid; gap: var(--space-6); }
+
+  .loc-card {
+    display: grid;
+    background: var(--paper);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform 220ms var(--ease-interact), box-shadow 220ms var(--ease-interact);
+  }
+  .loc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-pop); }
+  .loc-card__media { aspect-ratio: 16/10; overflow: hidden; }
+  .loc-card__media--small { aspect-ratio: 4/3; }
+  .loc-card__img { width: 100%; height: 100%; object-fit: cover; }
+  .loc-card__body { padding: var(--space-6); }
+  .loc-card__kind { color: var(--teal-700); }
+  .loc-card__name { font-size: var(--step-2); margin-top: var(--space-2); }
+  .loc-card__blurb { margin-top: var(--space-3); max-width: 34ch; }
+  .loc-card__address {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    margin-top: var(--space-5);
+    color: color-mix(in srgb, var(--ink) 75%, transparent);
+  }
+  .loc-card__hours {
+    list-style: none;
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    max-width: 24rem;
+  }
+  .loc-card__hours li { display: flex; justify-content: space-between; gap: var(--space-4); }
+  .loc-card__hours--compact { max-width: none; }
+  .loc-card .btn { margin-top: var(--space-5); }
+
+  @media (min-width: 48rem) {
+    .locations__pair { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 62rem) {
+    .loc-card--flagship { grid-template-columns: 1.1fr 0.9fr; }
+    .loc-card--flagship .loc-card__media { aspect-ratio: auto; height: 100%; }
+  }
+</style>

@@ -1,0 +1,10 @@
+{
+  "name": "Sweet & Savoury",
+  "weight": 2,
+  "note": "Baked for the case, not the freezer",
+  "items": [
+    { "name": "Croissants & Pain au Chocolat", "price": "€3.20–3.80" },
+    { "name": "Artisan Tray Bakes & Brownies", "price": "€4.00–4.80" },
+    { "name": "Vegan & Gluten-Free Snacks", "price": "€3.50–4.90", "note": "always a few on the case" }
+  ]
+}

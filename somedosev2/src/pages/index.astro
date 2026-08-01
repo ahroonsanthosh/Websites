@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Story from "../components/Story.astro";
+import Menu from "../components/Menu.astro";
+import Locations from "../components/Locations.astro";
+import Gallery from "../components/Gallery.astro";
+import HoursContact from "../components/HoursContact.astro";
+import WaveDivider from "../components/ornaments/WaveDivider.astro";
+---
+
+<BaseLayout title="Some Dose Coffee — Cork Opera House &amp; Turners Cross">
+  <Hero />
+  <Story />
+  <Menu />
+  <div class="container section-wave">
+    <WaveDivider color="var(--blush-500)" />
+  </div>
+  <Locations />
+  <Gallery />
+  <HoursContact />
+</BaseLayout>
+
+<style>
+  .section-wave {
+    padding-block: var(--space-4);
+  }
+</style>

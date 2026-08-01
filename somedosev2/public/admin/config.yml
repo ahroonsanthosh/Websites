@@ -1,0 +1,96 @@
+backend:
+  name: github
+  repo: ahroonsanthosh/somedosev2
+  branch: main
+  base_url: https://your-oauth-proxy.example.com
+  auth_endpoint: auth
+
+media_folder: "public/uploads"
+public_folder: "/somedosev2/uploads"
+
+site_url: https://ahroonsanthosh.github.io/somedosev2/
+display_url: https://ahroonsanthosh.github.io/somedosev2/
+logo_url: /somedosev2/favicon.svg
+
+locale: "en"
+
+collections:
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - file: "src/content/settings/general.json"
+        label: "General"
+        name: "general"
+        fields:
+          - { label: "Business Name", name: "businessName", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Contact Email", name: "email", widget: "string" }
+          - { label: "Instagram URL", name: "instagram", widget: "string" }
+          - { label: "Facebook URL", name: "facebook", widget: "string" }
+          - { label: "Cork Opera House Page", name: "operaHousePage", widget: "string" }
+          - { label: "Meta Description (SEO)", name: "metaDescription", widget: "text" }
+
+  - name: "locations"
+    label: "Locations"
+    folder: "src/content/locations"
+    create: false
+    delete: false
+    identifier_field: "name"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Display Order (1 = shown first/biggest)", name: "weight", widget: "number" }
+      - label: "Kind"
+        name: "kind"
+        widget: "select"
+        options: ["flagship", "shop", "stockist"]
+      - { label: "Address", name: "address", widget: "string" }
+      - { label: "Google Maps URL", name: "mapUrl", widget: "string" }
+      - { label: "Blurb", name: "blurb", widget: "text" }
+      - label: "Hours"
+        name: "hours"
+        widget: "list"
+        fields:
+          - { label: "Day / Label", name: "day", widget: "string" }
+          - { label: "Time", name: "time", widget: "string" }
+      - label: "Photo"
+        name: "image"
+        widget: "select"
+        hint: "Pick from the photos already in src/assets/photos — ask a developer to add a new one first."
+        options: ["sd1.webp", "sd2.webp", "sd3.webp", "sd4.webp", "sd5.webp", "sd6.webp", "sd7.webp", "sd9.webp", "sd10.webp", "sd11.webp"]
+      - { label: "Photo Alt Text", name: "imageAlt", widget: "string" }
+
+  - name: "menu"
+    label: "Menu Categories"
+    folder: "src/content/menuCategories"
+    create: false
+    delete: false
+    identifier_field: "name"
+    fields:
+      - { label: "Category Name", name: "name", widget: "string" }
+      - { label: "Display Order", name: "weight", widget: "number" }
+      - { label: "Category Note", name: "note", widget: "string", required: false }
+      - label: "Items"
+        name: "items"
+        widget: "list"
+        fields:
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Price", name: "price", widget: "string" }
+          - { label: "Small note/tag", name: "note", widget: "string", required: false }
+
+  - name: "timeline"
+    label: "Our Story (Timeline)"
+    folder: "src/content/timeline"
+    create: false
+    delete: false
+    identifier_field: "title"
+    fields:
+      - { label: "Year / Label", name: "year", widget: "string" }
+      - { label: "Order", name: "weight", widget: "number" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body copy", name: "body", widget: "text" }
+      - label: "Photo (leave blank to show the wave badge instead)"
+        name: "image"
+        widget: "select"
+        required: false
+        options: ["", "sd1.webp", "sd2.webp", "sd3.webp", "sd4.webp", "sd5.webp", "sd6.webp", "sd7.webp", "sd9.webp", "sd10.webp", "sd11.webp"]
+      - { label: "Photo Alt Text", name: "imageAlt", widget: "string", required: false }

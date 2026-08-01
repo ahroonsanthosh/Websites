@@ -1,0 +1,110 @@
+---
+import { Image } from "astro:assets";
+import { getEntry } from "astro:content";
+
+const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/photos/*.webp", { eager: true });
+const settings = (await getEntry("settings", "general"))!.data;
+
+const shots = [
+  { file: "sd3.webp", alt: "A cup of coffee on a windowsill table, overlooking a cloudy street in Cork" },
+  { file: "sd6.webp", alt: "Tray bakes and croissants laid out on marble tiles under a glass dome" },
+  { file: "sd11.webp", alt: "A matcha latte with heart latte art, held up in front of shelves of coffee bags" },
+  { file: "sd5.webp", alt: "A latte with cocoa dusting and leaf art, on a wooden table beside a plant" },
+  { file: "sd4.webp", alt: "Chocolate chip cookies and a filled croissant on a tiled bakery counter" },
+  { file: "sd7.webp", alt: "A bear drawn in latte art foam, in a navy cup" },
+  { file: "sd10.webp", alt: "Wooden shelving stocked with coffee bags, cushions and candles" },
+  { file: "sd2.webp", alt: "A flat white with leaf latte art beside a slice of carrot cake" },
+];
+---
+
+<section class="gallery">
+  <div class="container gallery__head">
+    <p class="eyebrow">As It Happens</p>
+    <h2 class="gallery__title">A dose of what's in the cup today.</h2>
+    <a class="gallery__ig" href={settings.instagram} target="_blank" rel="noopener">@some_dose on Instagram &rarr;</a>
+  </div>
+
+  <div class="gallery__marquee" data-marquee>
+    <ul class="gallery__track">
+      {[...shots, ...shots].map((shot, i) => (
+        <li class="gallery__item" aria-hidden={i >= shots.length ? "true" : undefined}>
+          <a href={settings.instagram} target="_blank" rel="noopener" tabindex={i >= shots.length ? -1 : 0}>
+            <Image
+              src={photos[`../assets/photos/${shot.file}`].default}
+              alt={shot.alt}
+              widths={[220, 340]}
+              sizes="16rem"
+              width={340}
+              height={453}
+              loading="lazy"
+              class="gallery__img"
+            />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .gallery { padding-block: var(--space-9) var(--space-8); background: var(--paper); overflow: hidden; }
+  .gallery__head { max-width: 36rem; margin-bottom: var(--space-7); }
+  .gallery__title { font-size: var(--step-3); margin-top: var(--space-3); font-variation-settings: "opsz" 60, "SOFT" 30; }
+  .gallery__ig {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--teal-700);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+
+  .gallery__marquee { width: 100%; }
+  .gallery__track {
+    list-style: none;
+    display: flex;
+    gap: var(--space-5);
+    width: max-content;
+    animation: marquee 42s linear infinite;
+    animation-play-state: paused;
+  }
+  .gallery__marquee.is-playing .gallery__track { animation-play-state: running; }
+  .gallery__marquee:hover .gallery__track,
+  .gallery__marquee:focus-within .gallery__track {
+    animation-play-state: paused;
+  }
+
+  .gallery__item {
+    flex: 0 0 auto;
+    width: 13rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform 220ms var(--ease-interact);
+  }
+  .gallery__item:has(a:hover),
+  .gallery__item:has(a:focus-visible) { transform: translateY(-6px) rotate(-1deg); }
+  .gallery__img { aspect-ratio: 3/4; object-fit: cover; width: 100%; height: 100%; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery__track { animation: none !important; flex-wrap: wrap; width: 100%; }
+    .gallery__item[aria-hidden="true"] { display: none; }
+  }
+</style>
+
+<script>
+  const marquee = document.querySelector<HTMLElement>("[data-marquee]");
+  if (marquee) {
+    const observer = new IntersectionObserver(
+      ([entry]) => marquee.classList.toggle("is-playing", entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(marquee);
+  }
+</script>

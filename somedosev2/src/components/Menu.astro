@@ -1,0 +1,156 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import flatlay from "../assets/photos/sd2.webp";
+import pastries from "../assets/photos/sd4.webp";
+import UnderlineMark from "./ornaments/UnderlineMark.astro";
+
+const categories = (await getCollection("menuCategories")).sort((a, b) => a.data.weight - b.data.weight);
+---
+
+<section id="menu" class="menu">
+  <div class="container menu__head">
+    <p class="eyebrow">On The Case</p>
+    <h2 class="menu__title">
+      <span class="script">Roughly</span> what things cost.
+    </h2>
+    <p class="menu__disclaimer">
+      Prices move with the bean market and the barista's mood — treat these as a
+      friendly estimate, not a receipt.
+    </p>
+  </div>
+
+  <div class="container menu__grid">
+    <div class="menu__lists" data-reveal-group>
+      {categories.map((cat) => (
+        <div class="menu__category" data-reveal>
+          <h3 class="menu__category-title">
+            {cat.data.name}
+            <span class="menu__underline">
+              <UnderlineMark color="var(--neon)" />
+            </span>
+          </h3>
+          {cat.data.note && <p class="menu__note">{cat.data.note}</p>}
+          <ul class="menu__items">
+            {cat.data.items.map((item) => (
+              <li class="menu__item">
+                <span class="menu__item-name">
+                  {item.name}
+                  {item.note && <span class="menu__item-tag">{item.note}</span>}
+                </span>
+                <span class="menu__item-dots" aria-hidden="true"></span>
+                <span class="menu__item-price">{item.price}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="menu__photos">
+      <Image
+        src={flatlay}
+        alt="A flat white with leaf-pattern latte art beside a slice of carrot cake, on a blush pink table"
+        widths={[320, 500]}
+        sizes="(min-width: 62rem) 22rem, 60vw"
+        width={765}
+        height={1020}
+        loading="lazy"
+        class="menu__photo menu__photo--a"
+      />
+      <Image
+        src={pastries}
+        alt="A tray of cookies, a filled croissant, and Danish pastries on a tiled counter"
+        widths={[280, 420]}
+        sizes="(min-width: 62rem) 16rem, 46vw"
+        width={765}
+        height={1020}
+        loading="lazy"
+        class="menu__photo menu__photo--b"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .menu { padding-block: var(--space-9); background: linear-gradient(180deg, var(--paper), var(--blush-50)); }
+  .menu__head { max-width: 40rem; margin-bottom: var(--space-8); }
+  .menu__title { font-size: var(--step-3); margin-top: var(--space-3); font-variation-settings: "opsz" 60, "SOFT" 30; }
+  .menu__disclaimer { margin-top: var(--space-4); font-family: var(--font-mono); font-size: var(--step--1); color: color-mix(in srgb, var(--ink) 65%, transparent); }
+
+  .menu__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .menu__category { margin-bottom: var(--space-8); }
+  .menu__category:last-child { margin-bottom: 0; }
+  .menu__category-title {
+    font-size: var(--step-2);
+    display: inline-block;
+    position: relative;
+  }
+  .menu__underline {
+    display: block;
+    margin-top: -0.35em;
+  }
+  .menu__note {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--teal-700);
+    margin-top: var(--space-3);
+  }
+
+  .menu__items { list-style: none; margin-top: var(--space-5); display: flex; flex-direction: column; }
+  .menu__item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding-block: var(--space-3);
+    border-bottom: 1px dashed color-mix(in srgb, var(--ink) 20%, transparent);
+    border-radius: var(--radius-sm);
+    transition: background-color 200ms var(--ease-interact), padding-inline 200ms var(--ease-interact);
+  }
+  .menu__item:hover, .menu__item:focus-within {
+    background: color-mix(in srgb, var(--teal-300) 25%, transparent);
+    padding-inline: var(--space-3);
+  }
+  .menu__item-name { font-size: var(--step-0); }
+  .menu__item-tag {
+    display: inline-block;
+    margin-left: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: var(--teal-700);
+    background: var(--teal-300);
+    padding: 0.1em 0.5em;
+    border-radius: var(--radius-pill);
+    transform: rotate(-2deg);
+  }
+  .menu__item-dots {
+    flex: 1;
+    border-bottom: 1px dotted transparent;
+    min-width: var(--space-4);
+  }
+  .menu__item-price {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: var(--step--1);
+    white-space: nowrap;
+  }
+
+  .menu__photos {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-4);
+    align-items: end;
+  }
+  .menu__photo { border-radius: var(--radius-md); box-shadow: var(--shadow-card); object-fit: cover; width: 100%; height: 100%; }
+  .menu__photo--a { aspect-ratio: 3/4; }
+  .menu__photo--b { aspect-ratio: 3/4; transform: translateY(var(--space-6)); }
+
+  @media (min-width: 62rem) {
+    .menu__grid { grid-template-columns: 1.2fr 0.8fr; }
+  }
+</style>

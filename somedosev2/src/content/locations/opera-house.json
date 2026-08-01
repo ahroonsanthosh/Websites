@@ -1,0 +1,13 @@
+{
+  "name": "Cork Opera House",
+  "weight": 1,
+  "kind": "flagship",
+  "address": "Cork Opera House, Emmet Place, Centre, Cork, T12 DW6P",
+  "mapUrl": "https://www.google.com/maps/search/?api=1&query=Cork+Opera+House+Emmet+Place+Cork+T12+DW6P",
+  "blurb": "Our home now. Find the stand in the foyer — before curtain, during the interval, or just because you're passing Emmet Place. No ticket required for a flat white.",
+  "hours": [
+    { "day": "Foyer hours", "time": "Follow Cork Opera House box office & show times" }
+  ],
+  "image": "sd7.webp",
+  "imageAlt": "A bear drawn in latte art foam, in a navy cup"
+}

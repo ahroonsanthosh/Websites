@@ -1,0 +1,184 @@
+---
+import { Image } from "astro:assets";
+import heroImg from "../assets/photos/sd9.webp";
+import WaveDivider from "./ornaments/WaveDivider.astro";
+---
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow hero__eyebrow">Turners Cross &middot; Cork Opera House</p>
+      <h1 class="hero__title">
+        Coffee that started
+        <span class="script hero__script">in a field.</span>
+      </h1>
+      <p class="hero__lede">
+        Some Dose began as a wedding coffee van in 2020. These days it's a shop in
+        Turners Cross and a stand inside Cork Opera House — same flat white,
+        bigger stage.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--accent" href="#find-us">Find Us</a>
+        <a class="btn btn--ghost" href="#menu">See the Menu</a>
+      </div>
+    </div>
+
+    <div class="hero__frame" data-steam-trigger>
+      <Image
+        src={heroImg}
+        alt="The Some Dose Coffee shopfront in Turners Cross, with the wave logo sign, bunting, and two takeaway cups held up front and centre"
+        widths={[400, 600, 765]}
+        sizes="(min-width: 62rem) 32rem, 90vw"
+        width={765}
+        height={1020}
+        loading="eager"
+        fetchpriority="high"
+        format="avif"
+        class="hero__img"
+      />
+      <div class="hero__badge" data-steam-badge>
+        <svg class="hero__steam" viewBox="0 0 40 50" aria-hidden="true" focusable="false">
+          <path
+            class="hero__steam-path"
+            d="M20 46 C 12 38, 28 32, 20 24 C 12 16, 28 10, 22 3"
+            fill="none"
+            stroke="var(--teal-700)"
+            stroke-width="2.4"
+            stroke-linecap="round"
+          ></path>
+        </svg>
+        <span class="hero__badge-text">Since<br />2020</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__wave">
+    <WaveDivider color="var(--teal-500)" />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: var(--space-7);
+    padding-bottom: var(--space-6);
+    background: linear-gradient(180deg, var(--blush-50) 0%, var(--paper) 100%);
+    overflow: clip;
+  }
+  .hero__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+  .hero__eyebrow { color: var(--teal-700); margin-bottom: var(--space-4); }
+  .hero__title {
+    font-size: var(--step-5);
+    font-variation-settings: "opsz" 72, "SOFT" 40, "WONK" 1;
+    max-width: 14ch;
+  }
+  .hero__script {
+    display: block;
+    color: var(--neon);
+    font-size: 0.62em;
+    font-weight: 600;
+    margin-top: var(--space-2);
+  }
+  .hero__lede {
+    margin-top: var(--space-5);
+    max-width: 42ch;
+    font-size: var(--step-1);
+    color: color-mix(in srgb, var(--ink) 82%, transparent);
+  }
+  .hero__actions {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .hero__frame {
+    position: relative;
+    justify-self: center;
+    width: min(100%, 24rem);
+    border-radius: var(--radius-md) var(--radius-md) 3rem var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    isolation: isolate;
+  }
+  .hero__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 765 / 1020;
+    object-fit: cover;
+  }
+  .hero__badge {
+    position: absolute;
+    right: -0.75rem;
+    bottom: -0.75rem;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: var(--shadow-pop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero__badge-text {
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .hero__steam {
+    position: absolute;
+    width: 2.4rem;
+    height: 3rem;
+    top: -0.3rem;
+  }
+  .hero__steam-path {
+    stroke-dasharray: 70;
+    stroke-dashoffset: 70;
+    opacity: 0.7;
+    transition: stroke-dashoffset 2400ms var(--ease-entrance);
+  }
+  .hero__frame:hover .hero__steam-path,
+  .hero__frame:focus-within .hero__steam-path {
+    stroke-dashoffset: 0;
+  }
+
+  .hero__wave {
+    margin-top: var(--space-8);
+  }
+
+  @media (min-width: 62rem) {
+    .hero__grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+    .hero__frame { justify-self: end; width: 100%; max-width: 26rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__steam-path { transition: none; stroke-dashoffset: 0; }
+  }
+</style>
+
+<script>
+  const triggers = document.querySelectorAll<HTMLElement>("[data-steam-trigger]");
+  triggers.forEach((el) => {
+    let timer: number | undefined;
+    const start = () => {
+      timer = window.setTimeout(() => el.classList.add("steam-done"), 1800);
+    };
+    const stop = () => window.clearTimeout(timer);
+    el.addEventListener("pointerenter", start);
+    el.addEventListener("pointerleave", stop);
+    el.addEventListener("focusin", start);
+    el.addEventListener("focusout", stop);
+  });
+</script>

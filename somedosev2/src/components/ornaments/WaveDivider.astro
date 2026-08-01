@@ -1,0 +1,51 @@
+---
+interface Props {
+  class?: string;
+  flip?: boolean;
+  color?: string;
+}
+const { class: className = "", flip = false, color = "currentColor" } = Astro.props;
+const styleParts = [`color:${color}`];
+if (flip) styleParts.push("transform:scaleY(-1)");
+---
+
+<svg
+  class={`wave-divider ${className}`}
+  viewBox="0 0 1200 90"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+  style={styleParts.join(";")}
+>
+  <path
+    class="wave-divider__stroke"
+    d="M0 55 C 90 10, 180 10, 260 45 C 340 80, 430 80, 510 45 C 590 10, 680 10, 760 45 C 840 80, 930 80, 1010 45 C 1070 22, 1140 15, 1200 30"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="5"
+    stroke-linecap="round"
+  ></path>
+</svg>
+
+<style>
+  .wave-divider {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .wave-divider__stroke {
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    transition: stroke-dashoffset 1100ms var(--ease-entrance);
+  }
+  .wave-divider.is-visible .wave-divider__stroke {
+    stroke-dashoffset: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wave-divider__stroke {
+      stroke-dashoffset: 0 !important;
+      transition: none;
+    }
+  }
+</style>

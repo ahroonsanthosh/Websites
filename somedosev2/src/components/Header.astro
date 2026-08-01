@@ -1,0 +1,220 @@
+---
+import WaveMark from "./ornaments/WaveMark.astro";
+import { getEntry } from "astro:content";
+
+const links = [
+  { href: "#story", label: "Story" },
+  { href: "#menu", label: "Menu" },
+  { href: "#find-us", label: "Find Us" },
+  { href: "#hours", label: "Hours" },
+];
+
+const flagship = (await getEntry("locations", "opera-house"))!.data;
+---
+
+<header class="topbar" data-topbar>
+  <div class="container topbar__row">
+    <a href="#main" class="topbar__brand">
+      <WaveMark size="2.1rem" />
+      <span class="topbar__word">Some Dose</span>
+    </a>
+    <nav class="topbar__nav" aria-label="Primary, desktop">
+      {links.map((l) => (
+        <a href={l.href} class="topbar__link">{l.label}</a>
+      ))}
+    </nav>
+    <a href="mailto:somedosecoffee@gmail.com" class="btn btn--ghost topbar__cta">Say Hello</a>
+  </div>
+</header>
+
+<nav class="dock" aria-label="Primary" data-dock>
+  <ul class="dock__list">
+    {links.map((l) => (
+      <li>
+        <a href={l.href} class="dock__link" data-dock-link>
+          <span>{l.label}</span>
+        </a>
+      </li>
+    ))}
+    <li>
+      <a href={flagship.mapUrl} target="_blank" rel="noopener" class="dock__link dock__link--cta">
+        <span>Directions</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: transparent;
+    transition: background-color 260ms var(--ease-interact), box-shadow 260ms var(--ease-interact), backdrop-filter 260ms;
+    padding-block: var(--space-4);
+  }
+  .topbar[data-scrolled="true"] {
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgba(32, 29, 26, 0.08);
+  }
+  .topbar__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+  .topbar__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .topbar__word {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: var(--step--1);
+    white-space: nowrap;
+  }
+  .topbar__nav {
+    display: none;
+    gap: var(--space-6);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+  }
+  .topbar__link {
+    position: relative;
+    text-decoration: none;
+    padding-block: var(--space-1);
+  }
+  .topbar__link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    height: 2px;
+    width: 0;
+    background: var(--teal-500);
+    transition: width 220ms var(--ease-interact), left 220ms var(--ease-interact);
+  }
+  .topbar__link:hover::after,
+  .topbar__link:focus-visible::after {
+    width: 100%;
+    left: 0;
+  }
+  .topbar__cta { display: none; }
+
+  @media (min-width: 62rem) {
+    .topbar__nav { display: flex; }
+    .topbar__cta { display: inline-flex; }
+  }
+
+  /* ---- bottom dock nav (mobile-first, persistent, thumb reach) ---- */
+  .dock {
+    position: fixed;
+    left: 50%;
+    bottom: var(--space-4);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+    transform: translate(-50%, 0);
+    z-index: 70;
+    transition: transform 320ms var(--ease-interact);
+  }
+  .dock[data-hidden="true"] {
+    transform: translate(-50%, calc(100% + 1.5rem));
+  }
+  @media (min-width: 62rem) {
+    .dock { display: none; }
+  }
+  .dock__list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2);
+    border-radius: var(--radius-pill);
+    background: linear-gradient(100deg, var(--blush-300), var(--paper) 45%, var(--teal-300) 100%);
+    box-shadow: var(--shadow-pop);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+  .dock__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding-inline: var(--space-4);
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--navy-900);
+    transition: background-color 180ms var(--ease-interact), color 180ms var(--ease-interact), transform 180ms var(--ease-interact);
+  }
+  .dock__link:hover { background: rgba(255, 255, 255, 0.55); }
+  .dock__link:active { transform: scale(0.96); }
+  .dock__link[aria-current="true"] {
+    background: var(--navy-900);
+    color: var(--paper);
+  }
+  .dock__link--cta {
+    background: var(--navy-900);
+    color: var(--paper);
+  }
+  .dock__link--cta:hover { background: var(--teal-700); }
+
+  @media (max-width: 26rem) {
+    .dock__link span:not(.dock__link--cta span) { font-size: 0.72rem; }
+    .dock__link { padding-inline: var(--space-3); }
+  }
+</style>
+
+<script>
+  const topbar = document.querySelector<HTMLElement>("[data-topbar]");
+  const dock = document.querySelector<HTMLElement>("[data-dock]");
+  const dockLinks = document.querySelectorAll<HTMLAnchorElement>("[data-dock-link]");
+
+  let lastY = window.scrollY;
+
+  const onScroll = () => {
+    const y = window.scrollY;
+    if (topbar) topbar.dataset.scrolled = String(y > 24);
+    if (dock) {
+      const goingDown = y > lastY && y > 120;
+      dock.dataset.hidden = String(goingDown);
+    }
+    lastY = y;
+  };
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  const sectionIds = Array.from(dockLinks)
+    .map((l) => l.getAttribute("href"))
+    .filter((h): h is string => !!h && h.startsWith("#") && h.length > 1);
+
+  const sections = sectionIds
+    .map((id) => document.querySelector(id))
+    .filter((el): el is Element => !!el);
+
+  if (sections.length) {
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const id = `#${entry.target.id}`;
+            dockLinks.forEach((l) => {
+              l.removeAttribute("aria-current");
+              if (l.getAttribute("href") === id) l.setAttribute("aria-current", "true");
+            });
+          }
+        }
+      },
+      { rootMargin: "-40% 0px -50% 0px" }
+    );
+    sections.forEach((s) => sectionObserver.observe(s));
+  }
+</script>

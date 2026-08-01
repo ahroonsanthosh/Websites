@@ -1,0 +1,13 @@
+{
+  "name": "Hanleys, Frankfield Road",
+  "weight": 3,
+  "kind": "stockist",
+  "address": "Hanleys, Frankfield Road, Ballyphehane, Cork",
+  "mapUrl": "https://www.google.com/maps/search/?api=1&query=Hanleys+Frankfield+Road+Ballyphehane+Cork",
+  "blurb": "Our beans and a few of our favourite things, on the shelf at Hanleys. Smaller dose, same standards.",
+  "hours": [
+    { "day": "Availability", "time": "During Hanleys' opening hours, while stocked" }
+  ],
+  "image": "sd10.webp",
+  "imageAlt": "Wooden retail shelving stocked with coffee bags, cushions and gifts"
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ahroonsanthosh.github.io/somedosev2/sitemap.xml

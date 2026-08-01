@@ -1,0 +1,13 @@
+{
+  "name": "Coffee & Drinks",
+  "weight": 1,
+  "note": "Oat and coconut, no questions asked — +€0.40–0.50",
+  "items": [
+    { "name": "Espresso / Macchiato", "price": "€3.00–3.30" },
+    { "name": "Americano", "price": "€3.30–3.60" },
+    { "name": "Flat White", "price": "€3.60–3.90" },
+    { "name": "Latte / Cappuccino", "price": "€3.80–4.20" },
+    { "name": "Custom-Shaved Mocha", "price": "€4.20–4.80", "note": "ask for the shave" },
+    { "name": "Chai Latte", "price": "€4.00–4.50" }
+  ]
+}
