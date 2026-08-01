@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#3d2415"/>
+  <circle cx="400" cy="280" r="180" fill="#c8864a" opacity="0.3"/>
+  <text x="400" y="295" font-family="Georgia,serif" font-size="32" fill="#f8f5f0" text-anchor="middle" opacity="0.6">Food Photo</text>
+</svg>
