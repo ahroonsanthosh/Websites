@@ -1,0 +1,681 @@
+/* ==========================================================================
+   Balance — design tokens
+   Colours sampled directly from the real signage/storefront/food photography
+   in assets/images. Structural idea: a cream-to-teal gradient runs the length
+   of the page, mirroring the actual paint colour of the shopfront in
+   Riverstown as you scroll from morning (cream) toward the door (teal).
+   ========================================================================== */
+:root{
+  --cream-50:  #faf6ee;
+  --cream-100: #f2e9d8;
+  --cream-200: #e8dcc4;
+  --ink-900:   #201c17;
+  --ink-600:   #55504a;
+  --ink-400:   #7a746c;
+
+  --teal-900:  #0a3a3e;
+  --teal-800:  #0a5f64; /* AA-safe teal for text on the cream/gradient field */
+  --teal-700:  #0d7d84; /* brand paint colour — fills, borders, large UI */
+  --teal-600:  #12939c;
+  --teal-500:  #16a6b3;
+  --teal-100:  #d9edee;
+
+  --honey-500: #d99a3f;
+  --honey-700: #9c6a1f;
+  --honey-800: #7a5217; /* AA-safe honey for text on the cream/gradient field */
+
+  --paper: var(--cream-50);
+  --ink: var(--ink-900);
+
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-interact: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+  --space-10: 10rem;
+
+  --container-w: min(72rem, 92vw);
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-accent: "Caveat", cursive;
+  --font-utility: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-body: "Fraunces", ui-serif, Georgia, serif;
+
+  color-scheme: light;
+}
+
+@font-face{
+  font-family: "Fraunces"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/fraunces-text.woff2") format("woff2");
+}
+@font-face{
+  font-family: "Fraunces"; font-weight: 500; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/fraunces-medium.woff2") format("woff2");
+}
+@font-face{
+  font-family: "Fraunces"; font-weight: 600; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/fraunces-semibold.woff2") format("woff2");
+}
+@font-face{
+  font-family: "Fraunces"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/fraunces-display.woff2") format("woff2");
+}
+@font-face{
+  font-family: "Fraunces"; font-weight: 500; font-style: italic; font-display: swap;
+  src: url("../assets/fonts/fraunces-italic.woff2") format("woff2");
+}
+@font-face{
+  font-family: "Caveat"; font-weight: 500 700; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/caveat.woff2") format("woff2");
+}
+@font-face{
+  font-family: "Space Mono"; font-weight: 400; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/spacemono-400.woff2") format("woff2");
+}
+@font-face{
+  font-family: "Space Mono"; font-weight: 700; font-style: normal; font-display: swap;
+  src: url("../assets/fonts/spacemono-700.woff2") format("woff2");
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ -webkit-text-size-adjust: 100%; scroll-behavior: auto; }
+html, body{ margin: 0; padding: 0; }
+body{
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  /* the one structural idea: a single cream-to-teal gradient runs the full
+     height of the page, mirroring the real paint colour of the shopfront,
+     from the hero (hidden behind its photo) to the footer (behind teal-900) */
+  background: linear-gradient(
+    180deg,
+    var(--cream-50) 0%,
+    var(--cream-50) 8%,
+    var(--cream-100) 24%,
+    var(--cream-200) 40%,
+    #c9dbd6 56%,
+    #6fb0ac 72%,
+    var(--teal-700) 86%,
+    var(--teal-900) 100%
+  );
+}
+img, svg{ display: block; max-width: 100%; }
+a{ color: inherit; }
+button{ font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+ul{ list-style: none; margin: 0; padding: 0; }
+h1,h2,h3,h4,p,figure{ margin: 0; }
+
+.visually-hidden{
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+.skip-link{
+  position: absolute; top: -100%; left: var(--space-4);
+  background: var(--ink-900); color: var(--cream-50);
+  padding: var(--space-3) var(--space-5); border-radius: 999px;
+  z-index: 1000; transition: top 0.2s var(--ease-interact);
+  font-family: var(--font-utility); font-size: 0.85rem;
+}
+.skip-link:focus{ top: var(--space-4); }
+
+:focus-visible{ outline: 3px solid var(--honey-800); outline-offset: 3px; }
+
+/* ==========================================================================
+   Type
+   ========================================================================== */
+.eyebrow{
+  font-family: var(--font-utility);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--teal-800);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.eyebrow::before{
+  content: "";
+  width: 1.6em; height: 1px;
+  background: currentColor;
+  display: inline-block;
+}
+
+h1, .h1{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 8vw, 6.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
+}
+h2, .h2{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+h3, .h3{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  line-height: 1.15;
+}
+.lede{
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.6;
+  color: var(--ink-600);
+  max-width: 42ch;
+}
+.script{
+  font-family: var(--font-accent);
+  font-weight: 600;
+  color: var(--teal-800);
+}
+.mono{ font-family: var(--font-utility); }
+
+/* ==========================================================================
+   Layout helpers
+   ========================================================================== */
+.wrap{ width: var(--container-w); margin-inline: auto; }
+.section{ position: relative; padding-block: var(--space-9); }
+.section-head{
+  display: flex; flex-direction: column; gap: var(--space-4);
+  margin-bottom: var(--space-7);
+}
+.progress-index{
+  font-family: var(--font-utility); font-size: 0.75rem; letter-spacing: 0.1em;
+  color: var(--ink-400);
+}
+
+/* page-long gradient: cream at the hero, deepening to teal by the footer.
+   Applied once to body (see below) so it flows continuously behind every
+   section rather than repeating per-section. */
+.gradient-field{ position: relative; }
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn{
+  position: relative;
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  padding: 0.9em 1.6em;
+  border-radius: 999px;
+  font-family: var(--font-utility);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1.5px solid currentColor;
+}
+.btn-fill{
+  background: var(--teal-700); color: var(--cream-50); border-color: var(--teal-700);
+}
+.btn-line{ color: var(--teal-800); }
+.btn::before{
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--ink-900);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-interact);
+  z-index: -1;
+}
+.btn:hover::before, .btn:focus-visible::before{ transform: translateY(0); }
+.btn:hover, .btn:focus-visible{ color: var(--cream-50); border-color: var(--ink-900); }
+.btn .btn-icon{ display: inline-grid; place-items: center; width: 1em; height: 1em; }
+
+/* ==========================================================================
+   Nav
+   ========================================================================== */
+.site-header{
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: var(--space-4) 0;
+  transform: translateY(0);
+  transition: transform 0.4s var(--ease-interact), background-color 0.3s ease, box-shadow .3s ease;
+}
+.site-header.is-solid{
+  background: rgba(250, 246, 238, 0.86);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(32,28,23,0.08);
+}
+.site-header.is-hidden{ transform: translateY(-110%); }
+.nav-row{ display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); }
+.nav-mark{ width: clamp(2.2rem, 4vw, 2.6rem); height: auto; color: var(--teal-700); flex-shrink: 0; }
+.nav-links{ display: flex; gap: var(--space-6); font-family: var(--font-utility); font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.nav-links a{
+  text-decoration: none; position: relative; padding-bottom: 4px;
+}
+.nav-links a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:0; height:1.5px; background: currentColor;
+  transition: right 0.3s var(--ease-interact);
+}
+.nav-links a:hover::after, .nav-links a:focus-visible::after{ right: 0; }
+.nav-call{ display: none; }
+
+/* bottom pill nav, thumb reach, mobile only */
+.pill-nav{
+  position: fixed; left: 50%; bottom: var(--space-4); transform: translateX(-50%);
+  z-index: 210;
+  display: flex; gap: var(--space-2);
+  background: var(--ink-900); color: var(--cream-50);
+  border-radius: 999px; padding: var(--space-2);
+  box-shadow: 0 10px 30px rgba(10,10,8,0.35);
+}
+.pill-nav a{
+  display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 999px;
+  text-decoration: none; color: inherit;
+}
+.pill-nav a svg{ width: 20px; height: 20px; }
+.pill-nav a.is-cta{ background: var(--teal-500); color: var(--ink-900); }
+
+@media (min-width: 860px){
+  .pill-nav{ display: none; }
+  .nav-call{ display: inline-flex; }
+}
+@media (max-width: 859px){
+  .nav-links{ display: none; }
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero{
+  position: relative;
+  min-height: 100dvh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  overflow: hidden;
+  color: var(--cream-50);
+}
+.hero-media{ position: absolute; inset: 0; z-index: 0; }
+.hero-media img{ width: 100%; height: 100%; object-fit: cover; }
+.hero-scrim{
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(10,20,20,0.35) 0%, rgba(10,20,20,0.18) 40%, rgba(9,25,26,0.82) 100%);
+}
+.hero-inner{
+  position: relative; z-index: 2;
+  width: var(--container-w); margin-inline: auto;
+  padding-block: clamp(6rem, 16vh, 9rem) var(--space-7);
+}
+.hero-eyebrow{ color: var(--teal-100); }
+.hero-eyebrow::before{ background: var(--teal-100); }
+.hero-title{
+  color: var(--cream-50);
+  margin-top: var(--space-4);
+}
+.hero-title .line{ display: block; overflow: hidden; }
+.hero-title .line span{ display: inline-block; will-change: transform; }
+.hero-sub{
+  margin-top: var(--space-5);
+  max-width: 46ch;
+  font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+  color: rgba(250,246,238,0.88);
+}
+.hero-meta{
+  margin-top: var(--space-7);
+  display: flex; flex-wrap: wrap; gap: var(--space-6);
+  font-family: var(--font-utility); font-size: 0.82rem; letter-spacing: 0.03em;
+  color: rgba(250,246,238,0.85);
+  border-top: 1px solid rgba(250,246,238,0.25);
+  padding-top: var(--space-5);
+}
+.hero-meta dl{ display: flex; gap: var(--space-2); margin: 0; }
+.hero-meta dt{ opacity: 0.65; }
+.hero-meta dd{ margin: 0; }
+.hero-cta{ display: flex; gap: var(--space-4); margin-top: var(--space-6); flex-wrap: wrap; }
+
+.scroll-cue{
+  position: absolute; bottom: var(--space-6); right: var(--space-5); z-index: 2;
+  display: flex; align-items: center; gap: var(--space-3);
+  font-family: var(--font-utility); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(250,246,238,0.75);
+}
+.scroll-cue .line{ width: 1px; height: 34px; background: rgba(250,246,238,0.5); position: relative; overflow: hidden; }
+.scroll-cue .line::after{
+  content:""; position:absolute; top:-100%; left:0; width:100%; height:100%; background: var(--cream-50);
+  animation: scrollcue 2.2s ease-in-out infinite;
+}
+@keyframes scrollcue{ 0%{ top:-100%; } 50%{ top:0; } 100%{ top:100%; } }
+
+/* ==========================================================================
+   Marquee
+   ========================================================================== */
+.marquee-band{
+  background: var(--ink-900); color: var(--cream-100);
+  padding-block: var(--space-4);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-track{
+  display: inline-flex;
+  will-change: transform;
+}
+.marquee-track span{
+  font-family: var(--font-utility);
+  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-inline: var(--space-6);
+  display: inline-flex; align-items: center; gap: var(--space-6);
+}
+.marquee-track span::after{ content: "\2665"; color: var(--teal-500); font-size: 0.8em; }
+
+/* ==========================================================================
+   About / differentiator
+   ========================================================================== */
+.about{ overflow: clip; }
+.about-grid{
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--space-8);
+  align-items: center;
+}
+.about-copy p{ margin-top: var(--space-4); }
+.about-heart{
+  width: clamp(3rem, 6vw, 4rem); height: auto; color: var(--teal-600);
+  margin-bottom: var(--space-5);
+}
+.squiggle{
+  width: clamp(7rem, 14vw, 11rem); height: auto; color: var(--honey-500);
+  display: block; margin-top: var(--space-3); margin-bottom: var(--space-2);
+}
+.about-media{ position: relative; }
+.about-media .frame{
+  position: relative; border-radius: 18px; overflow: hidden;
+  aspect-ratio: 4/5;
+  box-shadow: 0 30px 60px -20px rgba(10,40,40,0.35);
+}
+.about-media img{ width: 100%; height: 100%; object-fit: cover; }
+.about-tag{
+  position: absolute; top: 1.1rem; right: -1rem;
+  background: var(--cream-50); color: var(--teal-700);
+  padding: 0.3em 1em 0.5em;
+  border-radius: 6px;
+  font-size: 1.6rem;
+  transform: rotate(4deg);
+  box-shadow: 0 10px 24px -8px rgba(10,40,40,0.4);
+}
+.about-badge{
+  position: absolute; bottom: -1.8rem; left: -1.8rem;
+  width: clamp(6rem, 12vw, 8.5rem); height: auto;
+  color: var(--teal-700);
+  filter: drop-shadow(0 10px 20px rgba(10,40,40,0.25));
+}
+.about-badge .ring{ animation: spin 26s linear infinite; transform-origin: 100px 100px; }
+.about-facts{
+  margin-top: var(--space-7);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5);
+}
+.about-facts .fact{ border-top: 1px solid var(--ink-900); padding-top: var(--space-3); }
+.about-facts .fact strong{
+  display: block; font-family: var(--font-display); font-size: 1.5rem; font-weight: 600;
+}
+.about-facts .fact span{ font-family: var(--font-utility); font-size: 0.75rem; color: var(--ink-600); }
+
+@keyframes spin{ to{ transform: rotate(360deg); } }
+
+/* ==========================================================================
+   Menu
+   ========================================================================== */
+.menu-section{ position: relative; }
+.menu-tabs{
+  display: flex; flex-wrap: wrap; gap: var(--space-2);
+  border-bottom: 1px solid rgba(32,28,23,0.15);
+  margin-bottom: var(--space-6);
+  position: relative;
+}
+.menu-tab{
+  font-family: var(--font-utility); font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: var(--space-3) var(--space-4);
+  position: relative;
+  color: var(--ink-600);
+  transition: color 0.25s var(--ease-interact);
+}
+.menu-tab[aria-selected="true"]{ color: var(--teal-800); }
+.menu-tab-indicator{
+  position: absolute; bottom: -1px; height: 2px; background: var(--teal-700);
+  transition: transform 0.35s var(--ease-interact), width 0.35s var(--ease-interact);
+  left: 0; width: 0;
+}
+.menu-panels{ position: relative; }
+.menu-panel{ display: none; }
+.menu-panel.is-active{ display: block; }
+.menu-note{ font-size: 0.9rem; color: var(--ink-400); margin-bottom: var(--space-5); max-width: 60ch; }
+.menu-list{ display: grid; gap: 0; }
+.menu-item{
+  display: grid; grid-template-columns: 1fr auto; gap: var(--space-5);
+  padding-block: var(--space-4);
+  border-bottom: 1px dashed rgba(32,28,23,0.18);
+  align-items: baseline;
+}
+.menu-item.is-signature .menu-item-name::after{
+  content: "House favourite";
+  display: inline-block;
+  margin-left: var(--space-3);
+  font-family: var(--font-utility); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--honey-800); border: 1px solid var(--honey-700); border-radius: 999px; padding: 0.15em 0.7em;
+  vertical-align: middle;
+}
+.menu-item-name{ font-family: var(--font-display); font-size: 1.05rem; }
+.menu-item-note{ display: block; font-size: 0.85rem; color: var(--ink-400); margin-top: 2px; }
+.menu-item-price{ font-family: var(--font-utility); font-size: 0.95rem; white-space: nowrap; color: var(--teal-800); }
+.menu-addons{
+  margin-top: var(--space-5); font-family: var(--font-utility); font-size: 0.78rem; color: var(--ink-600);
+  background: var(--cream-100); border-radius: 12px; padding: var(--space-4);
+}
+
+/* ==========================================================================
+   Gallery rail
+   ========================================================================== */
+.gallery-section{
+  overflow: clip;
+  /* JS gives this section an explicit height (100vh + the rail's scroll
+     distance) at >=900px, so .gallery-sticky's native `position: sticky`
+     hold ends exactly when the horizontal scrub finishes — no leftover
+     dead space the way a GSAP pin-spacer left behind previously. */
+}
+@media (min-width: 900px){
+  /* A deliberate, content-sized "stage" (not a forced 100dvh) — tall enough
+     to comfortably fit the heading + cards with a little centred breathing
+     room, but not so tall that releasing the sticky hold leaves a long
+     trailing scroll through mostly-empty gradient. scripts/main.js reads
+     this element's own rendered height to size the section exactly. */
+  .gallery-sticky{
+    position: sticky; top: 4rem;
+    height: min(80vh, 44rem);
+    display: flex; align-items: center;
+  }
+}
+.gallery-rail-viewport{ overflow: visible; }
+.gallery-rail{
+  display: flex; gap: var(--space-5);
+  will-change: transform;
+  /* below 900px the pinned/scrubbed rail (JS) doesn't engage — fall back to
+     a native horizontally-scrollable, snap-aligned row so every card stays
+     reachable instead of silently overflowing the clipped section */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  padding-bottom: var(--space-3);
+}
+.gallery-card{
+  flex: 0 0 clamp(15rem, 32vw, 22rem);
+  position: relative; border-radius: 16px; overflow: hidden;
+  aspect-ratio: 3/4;
+  scroll-snap-align: start;
+}
+@media (min-width: 900px){
+  .gallery-rail{ overflow: visible; scroll-snap-type: none; padding-bottom: 0; }
+}
+.gallery-card img{ width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-interact); }
+.gallery-card:hover img{ transform: scale(1.06); }
+.gallery-caption{
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: var(--space-4);
+  background: linear-gradient(0deg, rgba(9,25,26,0.85), transparent);
+  color: var(--cream-50);
+  font-family: var(--font-utility); font-size: 0.78rem; letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   Testimonials — alternating rotation stack (corkboard of notes)
+   ========================================================================== */
+.testimonials-section{ position: relative; }
+.testimonial-stack{
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6);
+}
+.testimonial-card{
+  background: var(--cream-50);
+  border: 1px solid rgba(32,28,23,0.1);
+  border-radius: 4px;
+  padding: var(--space-5);
+  box-shadow: 0 14px 30px -18px rgba(10,30,30,0.35);
+  will-change: transform;
+}
+.testimonial-card:nth-child(odd){ transform: rotate(-3deg); }
+.testimonial-card:nth-child(even){ transform: rotate(3deg); }
+.testimonial-quote{ font-family: var(--font-display); font-style: italic; font-size: 1.05rem; line-height: 1.5; }
+.testimonial-byline{
+  margin-top: var(--space-4); display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-utility); font-size: 0.75rem; color: var(--ink-600);
+}
+.testimonial-stars{ color: var(--honey-800); letter-spacing: 0.1em; }
+
+/* ==========================================================================
+   Hours / location / contact
+   ========================================================================== */
+.visit-section{ color: var(--cream-50); }
+.visit-grid{
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);
+}
+.visit-section .eyebrow{ color: var(--teal-100); }
+.visit-section .eyebrow::before{ background: var(--teal-100); }
+.visit-section h2{ color: var(--cream-50); }
+.hours-table{ margin-top: var(--space-6); width: 100%; border-collapse: collapse; }
+.hours-table tr{ border-bottom: 1px solid rgba(250,246,238,0.2); }
+.hours-table td{ padding-block: var(--space-3); }
+.hours-table td:first-child{ font-family: var(--font-display); font-size: 1.1rem; }
+.hours-table td:last-child{ font-family: var(--font-utility); text-align: right; color: var(--teal-100); }
+.contact-list{ margin-top: var(--space-6); display: grid; gap: var(--space-4); }
+.contact-list a{ text-decoration: none; display: flex; align-items: center; gap: var(--space-3); }
+.contact-list svg{ width: 1.2rem; height: 1.2rem; color: var(--teal-500); flex-shrink: 0; }
+.contact-list .label{ font-family: var(--font-utility); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal-100); display: block; }
+.contact-list .value{ font-family: var(--font-display); font-size: 1.1rem; }
+.address-block address{ font-style: normal; }
+.features-tags{ margin-top: var(--space-6); display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.features-tags li{
+  font-family: var(--font-utility); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;
+  border: 1px solid rgba(250,246,238,0.35); border-radius: 999px; padding: 0.4em 0.9em;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer{
+  background: var(--teal-900); color: var(--cream-50);
+  padding-top: var(--space-8);
+  overflow: hidden;
+}
+.footer-top{
+  display: flex; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap;
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid rgba(250,246,238,0.15);
+}
+.footer-links{ display: flex; gap: var(--space-8); font-family: var(--font-utility); font-size: 0.85rem; }
+.footer-links a{ text-decoration: none; }
+.footer-links h4{ font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal-100); margin-bottom: var(--space-3); font-weight: 400; }
+.footer-links li + li{ margin-top: var(--space-2); }
+.footer-wordmark{
+  width: 100%;
+  overflow: hidden;
+  line-height: 0.8;
+  padding-block: var(--space-6);
+}
+.footer-wordmark svg{
+  width: 100%;
+  color: rgba(250,246,238,0.9);
+  transform: translateY(8%);
+}
+.footer-bottom{
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3);
+  padding-block: var(--space-5);
+  border-top: 1px solid rgba(250,246,238,0.15);
+  font-family: var(--font-utility); font-size: 0.72rem; color: rgba(250,246,238,0.6);
+}
+
+/* ==========================================================================
+   Reveal system
+   ========================================================================== */
+/* Progressive enhancement: content is fully visible with no JS or before it
+   runs. Only once `.js` is set (synchronously, in <head>) does data-reveal
+   content hide pending its scroll-triggered entrance — so a JS-disabled or
+   slow-scripting visitor never sees a permanently blank section. */
+.js [data-reveal]{ opacity: 0; transform: translateY(24px); }
+.js [data-reveal]{ transition: opacity 0.8s var(--ease-entrance), transform 0.8s var(--ease-entrance); }
+[data-reveal].is-revealed{ opacity: 1; transform: none; }
+
+/* draggable float icons (E1) */
+.float-icon{
+  position: absolute;
+  touch-action: none;
+  cursor: grab;
+  color: var(--cream-50);
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.25));
+  will-change: transform;
+}
+.float-icon:active{ cursor: grabbing; }
+.float-icon svg{ width: 100%; height: 100%; }
+
+/* preloader */
+.preloader{
+  position: fixed; inset: 0; z-index: 500;
+  background: var(--cream-50);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: var(--space-4);
+}
+.preloader-mark{ width: clamp(3rem, 8vw, 4.5rem); color: var(--teal-700); }
+.preloader-count{ font-family: var(--font-utility); font-size: 0.85rem; letter-spacing: 0.1em; color: var(--ink-600); }
+.preloader.is-done{ pointer-events: none; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 759px){
+  .float-icon{ display: none; } /* E1 idle-float icons are a desktop-only delight */
+  .scroll-cue{ display: none; } /* thumb-reach pill nav already covers this role */
+}
+
+@media (max-width: 900px){
+  .about-grid{ grid-template-columns: 1fr; }
+  .about-media{ order: -1; }
+  .visit-grid{ grid-template-columns: 1fr; }
+  .testimonial-stack{ grid-template-columns: 1fr; }
+  .about-facts{ grid-template-columns: 1fr 1fr; }
+  .footer-top{ flex-direction: column; }
+  h1, .h1{ font-size: clamp(2.4rem, 11vw, 3.6rem); }
+  .section{ padding-block: var(--space-7); }
+  body{ padding-bottom: 76px; } /* room for the pill nav */
+  .hero-inner{ padding-bottom: calc(var(--space-7) + 76px); } /* keep the CTA row clear of the fixed pill nav */
+}
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  [data-reveal]{ opacity: 1 !important; transform: none !important; }
+  .marquee-track{ transform: none !important; }
+}

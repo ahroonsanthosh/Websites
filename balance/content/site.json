@@ -1,0 +1,120 @@
+{
+  "business": {
+    "name": "Balance",
+    "fullName": "Balance District",
+    "tagline": "Food to Make you Feel Good",
+    "type": "Cafe & Deli",
+    "address": {
+      "line1": "3 Old Court",
+      "line2": "Riverstown, Glanmire",
+      "city": "Cork",
+      "postcode": "T45 DW01",
+      "country": "IE"
+    },
+    "geo": { "lat": 51.9226, "lng": -8.3865 },
+    "phone": "+353214824277",
+    "phoneDisplay": "(021) 482 4277",
+    "priceRange": "€€",
+    "priceNote": "€10–€20 per person",
+    "social": {
+      "instagram": "https://www.instagram.com/balancefoodglanmire",
+      "instagramHandle": "@balancefoodglanmire",
+      "facebook": "https://www.facebook.com/FoodToMakeYouFeelGood"
+    },
+    "features": ["Outdoor seating", "Vegan options", "High chairs", "Sit in or take away"]
+  },
+  "hours": [
+    { "days": "Monday – Friday", "time": "8:15am – 4:00pm" },
+    { "days": "Saturday", "time": "9:00am – 3:30pm" },
+    { "days": "Sunday", "time": "Closed" }
+  ],
+  "differentiator": "Scratch-made, quality-forward food in an everyday neighbourhood cafe — not a wellness-cafe gimmick despite the name. The full breakfast and the bread come up again and again as the things to order.",
+  "menu": {
+    "note": "Prices and dishes transcribed from the menu in store. Any deviation from menu items is charged individually.",
+    "sections": [
+      {
+        "id": "bakes",
+        "title": "Morning Fresh Bakes & Pancakes",
+        "items": [
+          { "name": "Freshly baked scone with butter, jam, cream", "price": "€4.00" },
+          { "name": "Oat pancake stack, selection of toppings, berry compote, maple syrup, blueberries & linseed crunch", "price": "€9.50" },
+          { "name": "Pancake with lemon & sugar, or nutella", "price": "€6.50", "note": "with bacon & maple syrup €9.50" },
+          { "name": "Sausage roll with pickled cucumber & relish", "price": "€5.50", "note": "with salads €7.95" }
+        ]
+      },
+      {
+        "id": "breakfast",
+        "title": "Traditional Breakfast",
+        "items": [
+          { "name": "Balance full breakfast — 2 bacon, 2 sausage, black & white pudding, baked tomato, mushrooms, egg & toast, tea or americano", "price": "€14.00", "signature": true },
+          { "name": "Balance mini — 1 bacon, 1 sausage, choice of egg, tomato, toast, tea or americano", "price": "€10.00" },
+          { "name": "Balance vegetarian — tomato, mushrooms, choice of eggs, beans, cubed potatoes, toast, tea or americano", "price": "€10.50" },
+          { "name": "French toast with bacon & maple syrup", "price": "€9.50" },
+          { "name": "Breakfast ciabatta with bacon, sausage, pudding, tomato & relish", "price": "€7.50" },
+          { "name": "House granola with berry compote and natural yogurt", "price": "€7.50" },
+          { "name": "Porridge with a selection of toppings", "price": "€6.00" }
+        ],
+        "addOns": "Add Bacon €2.30 · Sausage €1.50 · Egg €1.50 · Pudding €1.50 · Avocado €1.00. Full, Mini & Veg breakfasts served with tea or americano — latte/cappuccino/mocha 50c extra."
+      },
+      {
+        "id": "eggs",
+        "title": "Balance Eggs",
+        "items": [
+          { "name": "High protein omelette — 2 egg whites & 1 egg with chicken, spinach, tomato, seeds, toast", "price": "€10.50", "note": "add salads €12.40" },
+          { "name": "Free range eggs poached or scrambled with toast or soda", "price": "€7.50" },
+          { "name": "Omelette — your choice of chicken, ham, tomato, onion, mushrooms, peppers, spinach & cheese, with toast", "price": "€10.50", "note": "add salads €12.40" },
+          { "name": "Devil's eggs — avocado toast, poached eggs, black & white pudding, fiery chilli sauce", "price": "€11.95" },
+          { "name": "Avocado toast with poached eggs, bacon and grilled pear", "price": "€11.95", "signature": true },
+          { "name": "Scrambled eggs with coconut oil, almonds and smoked salmon, homemade soda bread", "price": "€11.95" },
+          { "name": "Spiced potato hash with chorizo, cheese, roasted red pepper, chipotle fried or poached egg", "price": "€10.95" }
+        ]
+      },
+      {
+        "id": "sandwiches",
+        "title": "Sandwiches & Salads",
+        "items": [
+          { "name": "Chicken & stuffing, cheese, pickled cucumber, mayo, red onion", "price": "Fresh €7.50 · Toasted €7.95" },
+          { "name": "Chicken & pesto, mozzarella, sun-dried tomatoes, leaves, mayo", "price": "Fresh €7.50 · Toasted €7.95" },
+          { "name": "Baked ham, pickled cucumber, tomato, onion, cheese, relish", "price": "Fresh €7.50 · Toasted €7.95" },
+          { "name": "Tuna with onion, mayo, peppers, spinach, cheese", "price": "Fresh €7.50 · Toasted €7.95" },
+          { "name": "Cajun chicken, bacon & cheese wrap" },
+          { "name": "Mixed bean wrap, toasted, cheese, onion, peppers & taco sauce" },
+          { "name": "Toasted ciabatta — plain or Cajun chicken, peppers, onions, cheese, chipotle or taco sauce" },
+          { "name": "Open brown soda with egg salad, tomato, onions & leaves", "price": "€7.95" },
+          { "name": "Smoked salmon, cream cheese, pickled cucumber, homemade soda", "price": "€9.95" }
+        ],
+        "addOns": "Add salads €3.50 · add crisps & coleslaw €2.20 · add soup €3.00"
+      },
+      {
+        "id": "soup",
+        "title": "Soup",
+        "items": [
+          { "name": "Soup of the day, served with freshly baked brown soda", "price": "€6.50" }
+        ]
+      },
+      {
+        "id": "salads",
+        "title": "Fresh Salads",
+        "items": [
+          { "name": "Warm chicken salad, bacon, black pudding, sundried tomato, toasted seeds, dressing & salads", "price": "€12.95" },
+          { "name": "Chicken and chorizo salad, fresh leaves, roasted sweet potato, sundried tomato & butter beans", "price": "€12.95" },
+          { "name": "Portion of potato cubes", "price": "€4.00" }
+        ]
+      }
+    ]
+  },
+  "testimonials": [
+    { "name": "Phillip O’Brien", "rating": 5, "when": "9 months ago", "quote": "I had breakfast here today. The full breakfast is very good and the bread really nice and good value." },
+    { "name": "Pat Dillon", "rating": 5, "when": "a year ago", "quote": "Excellent food. I just had a soup and sandwich which was one of the tastiest lunches that I ever had. It’s a small local cafe but big on taste and flavour." },
+    { "name": "Shardey Olynyk", "rating": 5, "when": "3 years ago", "quote": "Amazing cafe! I’m from Australia and this was easily the best coffee I’ve had on my entire trip. I had the quiche which was amazing." },
+    { "name": "Richard Neary", "rating": 5, "when": "a year ago", "quote": "Really nice cafe-restaurant. I had the hash and chorizo. Very reasonable price and very tasty and filling. The place is busy and popular." },
+    { "name": "Catherine Squires", "rating": 5, "when": "2 years ago", "quote": "Food is delicious, lovely and fresh, mostly homemade in house. Staff are great!" },
+    { "name": "Jackie O Sullivan", "rating": 5, "when": "2 years ago", "quote": "Brilliant little cafe in Glanmire village — good value, friendly staff, great service." }
+  ],
+  "gallery": [
+    { "image": "avocado-toast", "alt": "Avocado toast topped with a poached egg and chilli jam on freshly baked bread", "caption": "Avocado toast, poached egg, chilli jam" },
+    { "image": "full-breakfast", "alt": "Balance full breakfast with potatoes, bacon, black pudding and coleslaw on a wooden table", "caption": "The full breakfast — the one regulars order" },
+    { "image": "grazing-board", "alt": "Sharing board with cheeses, cured meats, fruit, olives, crackers and fresh bread", "caption": "Sharing board, made to split" },
+    { "image": "veg-plate", "alt": "Vegetable frittata plate with pickled cucumber, beetroot, slaw and fresh leaves", "caption": "Frittata, slaw, whatever's fresh that morning" }
+  ]
+}
