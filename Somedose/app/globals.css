@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FDFAF6;
+  --foreground: #1B2A5E;
+  --color-teal: #5ABFC0;
+  --color-blush: #F2B8C6;
+  --color-navy: #1B2A5E;
+  --color-cream: #FDFAF6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Smooth image loading */
+img {
+  transition: opacity 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #FDFAF6; }
+::-webkit-scrollbar-thumb { background: #5ABFC0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #1B2A5E; }
+
+/* Selection */
+::selection { background: #F2B8C6; color: #1B2A5E; }
+
+/* Teal section glow utility */
+.teal-glow-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 50%, rgba(90,191,192,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 80% 30%, rgba(90,191,192,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 50% 100%, rgba(90,191,192,0.08) 0%, transparent 60%);
+}
