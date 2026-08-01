@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2b1d14" />
+  <title>Parkgate Coffee · Tralee, Co. Kerry</title>
+  <meta name="description" content="Parkgate Coffee — Best of Kerry Awards, Best Coffee. Speciality coffee, fresh bakes and a warm welcome on Prince's Street, Tralee, Co. Kerry." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Parkgate Coffee · Tralee" />
+  <meta property="og:description" content="🏆 Best of Kerry Awards, Best Coffee — speciality coffee & fresh bakes on Prince's St, Tralee." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%E2%98%95%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===== Page loader ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__mark">
+      <span class="loader__steam"></span>
+      <span class="loader__steam"></span>
+      <span class="loader__steam"></span>
+      <svg viewBox="0 0 64 48" width="58" height="44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path d="M6 14h40v14a14 14 0 0 1-14 14H20A14 14 0 0 1 6 28V14Z" />
+        <path d="M46 18h6a8 8 0 0 1 0 16h-6" />
+      </svg>
+    </div>
+    <p class="loader__word">Parkgate</p>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header class="nav" id="nav">
+    <a href="#home" class="nav__brand" aria-label="Parkgate Coffee home">
+      <svg class="gate-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="18" cy="29" r="4.5"/><circle cx="82" cy="29" r="4.5"/>
+        <rect x="13" y="35" width="10" height="53"/><rect x="77" y="35" width="10" height="53"/>
+        <path d="M28 46 C28 31 50 23 50 23 C50 23 72 31 72 46"/>
+        <path d="M50 23 V11"/><path d="M43.5 13 H56.5"/>
+        <path d="M34 42 V88 M42 38 V88 M50 36 V88 M58 38 V88 M66 42 V88"/>
+        <path d="M30 56 H70 M30 73 H70"/><path d="M9 88 H91"/>
+      </svg>
+      <span class="nav__brand-text">Parkgate<em>Coffee</em></span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <a href="#story">Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#visit">Visit</a>
+      <a href="#visit" class="nav__cta">Find Us</a>
+    </nav>
+
+    <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+  <div class="nav__scrim" id="navScrim" aria-hidden="true"></div>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="home">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__glow" aria-hidden="true"></div>
+
+      <div class="hero__grid">
+        <div class="hero__inner">
+          <p class="hero__eyebrow reveal" data-reveal>🏆 Best of Kerry Awards · Best Coffee</p>
+          <h1 class="hero__title">
+            <span class="reveal" data-reveal style="--d:.05s">Slow mornings,</span>
+            <span class="reveal hero__title-accent" data-reveal style="--d:.16s">serious coffee.</span>
+          </h1>
+          <p class="hero__lede reveal" data-reveal style="--d:.28s">
+            A little black-and-amber coffee house on Prince's Street, Tralee —
+            speciality coffee, fresh bakes and the kind of welcome Kerry is known for.
+          </p>
+          <div class="hero__actions reveal" data-reveal style="--d:.38s">
+            <a href="#menu" class="btn btn--solid">See the menu</a>
+            <a href="#visit" class="btn btn--ghost">Plan a visit</a>
+          </div>
+
+          <dl class="hero__stats reveal" data-reveal style="--d:.5s">
+            <div><dt>Beans by</dt><dd>Roasted Brown</dd></div>
+            <div><dt>Bakes</dt><dd>Fresh daily</dd></div>
+            <div><dt>Award</dt><dd>Best of Kerry</dd></div>
+          </dl>
+        </div>
+
+        <div class="hero__media reveal" data-reveal style="--d:.3s">
+          <div class="showcase__card" data-tilt-card>
+            <div class="showcase__screen">
+              <video
+                class="showcase__video"
+                src="images/cup.mp4"
+                autoplay muted loop playsinline
+                poster="images/cup-church.webp"
+                aria-label="A Parkgate Coffee cup">
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="#story" class="hero__scroll" aria-label="Scroll to story">
+        <span></span>
+      </a>
+    </section>
+
+    <!-- ===== Marquee ===== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Speciality coffee</span><span>•</span><span>Beans by Roasted Brown</span><span>•</span>
+        <span>Fresh bakes daily</span><span>•</span><span>Breakfast pots</span><span>•</span>
+        <span>Prince's St, Tralee</span><span>•</span><span>Best of Kerry · Best Coffee</span><span>•</span>
+        <span>Speciality coffee</span><span>•</span><span>Beans by Roasted Brown</span><span>•</span>
+        <span>Fresh bakes daily</span><span>•</span><span>Breakfast pots</span><span>•</span>
+        <span>Prince's St, Tralee</span><span>•</span><span>Best of Kerry · Best Coffee</span><span>•</span>
+      </div>
+    </div>
+
+    <!-- ===== Story ===== -->
+    <section class="story" id="story">
+      <div class="story__media reveal" data-reveal>
+        <div class="story__img">
+          <img src="images/cup-church.webp" alt="A Parkgate Coffee cup held in front of St John's church, Tralee" loading="lazy" decoding="async" />
+        </div>
+        <div class="story__badge">
+          <span>Best of</span>
+          <strong>Kerry</strong>
+        </div>
+      </div>
+      <div class="story__copy">
+        <p class="kicker reveal" data-reveal>Our story</p>
+        <h2 class="reveal" data-reveal style="--d:.08s">A little café with a serious love of coffee.</h2>
+        <p class="reveal" data-reveal style="--d:.16s">
+          Parkgate is a small, independent coffee house on Prince's Street in the heart
+          of Tralee. We pour speciality coffee with beans from Irish roasters
+          <strong>Roasted&nbsp;Brown</strong>, and bake fresh every morning — from
+          millionaire's shortbread to a proper pear &amp; almond tart.
+        </p>
+        <p class="reveal" data-reveal style="--d:.24s">
+          Grab a flat white on your way past, settle in with a breakfast pot, or take
+          a little home — we stock brewing kit and beans too, from AeroPress and Bialetti
+          to KeepCup, Chilly's bottles and Urney chocolates.
+        </p>
+        <ul class="story__points reveal" data-reveal style="--d:.32s">
+          <li><span>✺</span> Speciality beans by Roasted Brown</li>
+          <li><span>✺</span> Fresh bakes &amp; gluten-free options</li>
+          <li><span>✺</span> Plant-based always · 20c off with a clean KeepCup</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Menu ===== -->
+    <section class="menu" id="menu">
+      <header class="section-head">
+        <p class="kicker reveal" data-reveal>The menu</p>
+        <h2 class="reveal" data-reveal style="--d:.08s">What we pour &amp; bake</h2>
+        <p class="section-head__sub reveal" data-reveal style="--d:.16s">
+          Speciality coffee, proper hot drinks and fresh bakes. Bakery changes daily —
+          ask the team what's good today.
+        </p>
+      </header>
+
+      <div class="menu__grid">
+        <article class="menu-card reveal" data-reveal>
+          <div class="menu-card__head">
+            <h3>Coffee</h3><span>From €3.20</span>
+          </div>
+          <ul>
+            <li><span>Espresso</span><span class="dots"></span><span>3.20</span></li>
+            <li><span>Flat White</span><span class="dots"></span><span>3.80</span></li>
+            <li><span>Latte</span><span class="dots"></span><span>3.90</span></li>
+            <li><span>Cappuccino</span><span class="dots"></span><span>3.90</span></li>
+            <li><span>Americano</span><span class="dots"></span><span>3.90</span></li>
+            <li><span>Mocha</span><span class="dots"></span><span>4.50</span></li>
+          </ul>
+        </article>
+
+        <article class="menu-card reveal" data-reveal style="--d:.1s">
+          <div class="menu-card__head">
+            <h3>Not Coffee</h3><span>From €2.00</span>
+          </div>
+          <ul>
+            <li><span>Hot Chocolate</span><span class="dots"></span><span>4.10</span></li>
+            <li><span>Chai Latte</span><span class="dots"></span><span>3.90</span></li>
+            <li><span>Matcha Latte</span><span class="dots"></span><span>4.30</span></li>
+            <li><span>Tea &amp; Herbal Tea</span><span class="dots"></span><span>2.80</span></li>
+            <li><span>Small Hot Choc</span><span class="dots"></span><span>3.20</span></li>
+            <li><span>Babycino</span><span class="dots"></span><span>2.00</span></li>
+          </ul>
+        </article>
+
+        <article class="menu-card reveal" data-reveal style="--d:.2s">
+          <div class="menu-card__head">
+            <h3>Bakery</h3><span>From €2.00</span>
+          </div>
+          <ul>
+            <li><span>Pear &amp; Almond Tart</span><span class="dots"></span><span>4.20</span></li>
+            <li><span>Banana &amp; Walnut Loaf</span><span class="dots"></span><span>3.70</span></li>
+            <li><span>Mars Cookie</span><span class="dots"></span><span>3.50</span></li>
+            <li><span>Millionaire's Shortbread <em>gf</em></span><span class="dots"></span><span>2.70</span></li>
+            <li><span>Vegan Snickers Bar</span><span class="dots"></span><span>2.70</span></li>
+            <li><span>Brownie Bites <em>gf</em></span><span class="dots"></span><span>2.00</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="menu__note reveal" data-reveal>
+        Add-ons: extra shot +80c · dairy alternative +60c · syrup +50c · iced +50c ·
+        decaf +20c. &nbsp;Bring a clean KeepCup for <strong>20c off</strong>.
+      </p>
+    </section>
+
+    <!-- ===== Gallery ===== -->
+    <section class="gallery" id="gallery">
+      <header class="section-head">
+        <p class="kicker reveal" data-reveal>The room</p>
+        <h2 class="reveal" data-reveal style="--d:.08s">A look inside Parkgate</h2>
+      </header>
+      <div class="gallery__grid">
+        <figure class="gallery__item gallery__item--tall reveal" data-reveal data-img="images/bakery.webp">
+          <figcaption>Fresh bakes, every day</figcaption>
+        </figure>
+        <figure class="gallery__item reveal" data-reveal style="--d:.08s" data-img="images/retail.webp">
+          <figcaption>Beans &amp; brewing kit</figcaption>
+        </figure>
+        <figure class="gallery__item reveal" data-reveal style="--d:.16s" data-img="images/menu-board.webp">
+          <figcaption>At the counter</figcaption>
+        </figure>
+        <figure class="gallery__item gallery__item--wide reveal" data-reveal style="--d:.24s" data-img="images/storefront.webp">
+          <figcaption>Prince's Street at dusk</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Visit ===== -->
+    <section class="visit" id="visit">
+      <div class="visit__panel">
+        <div class="visit__info">
+          <p class="kicker reveal" data-reveal>Visit us</p>
+          <h2 class="reveal" data-reveal style="--d:.08s">Come say hello</h2>
+          <p class="reveal" data-reveal style="--d:.16s">
+            You'll find us on Prince's Street, just off the centre of Tralee —
+            machine on, counter stocked, and a seat waiting.
+          </p>
+
+          <ul class="visit__details reveal" data-reveal style="--d:.24s">
+            <li>
+              <span class="visit__icon" aria-hidden="true">📍</span>
+              <div>
+                <strong>Find us</strong>
+                <p>Prince's St, Tralee, Co. Kerry, V92 K295</p>
+              </div>
+            </li>
+            <li>
+              <span class="visit__icon" aria-hidden="true">🕗</span>
+              <div>
+                <strong>Opening hours</strong>
+                <p>Mon–Fri · 8am – 4pm<br>Sat · 9am – 4pm<br>Sun · 10am – 4pm</p>
+              </div>
+            </li>
+            <li>
+              <span class="visit__icon" aria-hidden="true">✉️</span>
+              <div>
+                <strong>Say hi</strong>
+                <p><a href="mailto:info@parkgatecoffee.ie">info@parkgatecoffee.ie</a><br><a href="https://www.instagram.com/parkgatecoffee" target="_blank" rel="noopener">@parkgatecoffee</a></p>
+              </div>
+            </li>
+          </ul>
+
+          <a class="btn btn--solid reveal" data-reveal style="--d:.32s"
+             href="https://www.google.com/maps/dir/?api=1&destination=Parkgate%2C+Prince%27s+St%2C+Tralee%2C+Co.+Kerry+V92+K295"
+             target="_blank" rel="noopener">Get directions →</a>
+        </div>
+
+        <div class="visit__map reveal" data-reveal>
+          <iframe
+            title="Map showing Parkgate Coffee in Tralee, Co. Kerry"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-9.7145%2C52.2650%2C-9.6945%2C52.2730&layer=mapnik&marker=52.2690%2C-9.7045">
+          </iframe>
+          <a class="visit__map-link" href="https://www.openstreetmap.org/?mlat=52.2690&mlon=-9.7045#map=17/52.2690/-9.7045" target="_blank" rel="noopener">View larger map</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="nav__brand-text">Parkgate<em>Coffee</em></span>
+        <p>🏆 Best of Kerry Awards · Best Coffee</p>
+        <p>Prince's St, Tralee, Co. Kerry, V92&nbsp;K295</p>
+      </div>
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="#story">Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#visit">Visit</a>
+      </nav>
+      <div class="footer__social">
+        <a href="https://www.instagram.com/parkgatecoffee" target="_blank" rel="noopener" aria-label="Parkgate Coffee on Instagram">Instagram</a>
+        <a href="https://www.facebook.com/parkgatecoffee/" target="_blank" rel="noopener" aria-label="Parkgate Coffee on Facebook">Facebook</a>
+        <a href="mailto:info@parkgatecoffee.ie" aria-label="Email Parkgate Coffee">Email</a>
+      </div>
+    </div>
+    <div class="footer__base">
+      <p>© <span id="year"></span> Parkgate Coffee, Tralee. All rights reserved.</p>
+      <p>Made with care in Co. Kerry.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
