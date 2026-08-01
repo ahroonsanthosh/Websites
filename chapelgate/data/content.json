@@ -1,0 +1,103 @@
+{
+  "_readme": "Edit the values below to update the live site. No code needed. Save the file and push — GitHub Actions rebuilds the site automatically.",
+
+  "business": {
+    "name": "Chapel Gate Café",
+    "shortName": "Chapel Gate",
+    "tagline": "Coffee, cake, and a reason behind both.",
+    "kicker": "Cafe · Social Enterprise · Ballincollig",
+    "address": {
+      "line1": "Chapel Gate",
+      "line2": "Ballincollig, Cork",
+      "postcode": "P31 XP38",
+      "mapsQuery": "Chapel Gate Cafe, Ballincollig, Cork, P31 XP38"
+    },
+    "phone": "087 954 3916",
+    "phoneHref": "tel:+353879543916",
+    "tripadvisorUrl": "https://www.tripadvisor.ie/Restaurant_Review-g315859-d11833295-Reviews-Chapel_Gate_Cafe-Ballincollig_Cork_County_Cork.html"
+  },
+
+  "hours": [
+    { "days": "Tuesday – Friday", "time": "8:30am – 4pm", "note": "" },
+    { "days": "Monday", "time": "8:30am – 4pm", "note": "bank holidays only" },
+    { "days": "Saturday – Sunday", "time": "Closed", "note": "" }
+  ],
+
+  "hoursStructured": [
+    { "day": "Monday", "opens": null, "closes": null, "note": "Open bank holidays only, 08:30–16:00" },
+    { "day": "Tuesday", "opens": "08:30", "closes": "16:00" },
+    { "day": "Wednesday", "opens": "08:30", "closes": "16:00" },
+    { "day": "Thursday", "opens": "08:30", "closes": "16:00" },
+    { "day": "Friday", "opens": "08:30", "closes": "16:00" },
+    { "day": "Saturday", "opens": null, "closes": null },
+    { "day": "Sunday", "opens": null, "closes": null }
+  ],
+
+  "hero": {
+    "eyebrow": "Walk-in only, no booking needed",
+    "headlineLines": ["Good coffee.", "No fuss.", "Real purpose."],
+    "sub": "A neighbourhood café at Chapel Gate, Ballincollig — pulling shots and plating traybakes to help fund the charity shop next door."
+  },
+
+  "menu": {
+    "sectionLabel": "What's on the counter",
+    "headline": "Nothing you can't pronounce",
+    "categories": [
+      {
+        "id": "breakfast",
+        "label": "Breakfast",
+        "desc": "Fry-ups, toast, and the all-day breakfast board — served from open till close.",
+        "photo": false
+      },
+      {
+        "id": "sandwiches",
+        "label": "Sandwiches",
+        "desc": "Made to order at the counter, on whatever's fresh that morning.",
+        "photo": false
+      },
+      {
+        "id": "jacket-potatoes",
+        "label": "Jacket Potatoes",
+        "desc": "Old reliable. A few fillings, always done properly.",
+        "photo": false
+      },
+      {
+        "id": "cakes",
+        "label": "Cakes & Traybakes",
+        "desc": "Baked in-house and changing with whoever was in the kitchen that day.",
+        "photo": true,
+        "images": ["cg6-shortbread", "cg7-plated-cake"]
+      },
+      {
+        "id": "coffee",
+        "label": "Coffee",
+        "desc": "Java Republic beans. Oat, almond, and soya milk on request, no charge for asking.",
+        "photo": true,
+        "images": ["cg8-cappuccino"]
+      }
+    ]
+  },
+
+  "difference": {
+    "sectionLabel": "The other half of the building",
+    "headline": "This café pays a wage next door",
+    "body": "Chapel Gate Café is a social enterprise — every coffee sold helps fund Balance, the charity shop right beside us that supports adults with special needs. You're not just buying a scone. You're keeping the lights on for the shop next door.",
+    "cta": "Read about Balance Charity Shop",
+    "image": "cg3-balance-shop"
+  },
+
+  "gallery": {
+    "sectionLabel": "Inside the gate",
+    "images": [
+      { "src": "cg1-hero-interior", "alt": "The bakery counter at Chapel Gate Café, with cakes, sandwiches and pendant lighting overhead" },
+      { "src": "cg2-interior-close", "alt": "The coffee station at the counter, stocked with Java Republic teas and coffee" },
+      { "src": "cg5-street-view", "alt": "Chapel Gate Café's building seen from across the car park in Ballincollig" },
+      { "src": "cg8-cappuccino", "alt": "A cappuccino dusted with cocoa, served on a dark wooden table" }
+    ]
+  },
+
+  "footer": {
+    "wordmark": "chapel gate café",
+    "note": "Built for the people who keep both doors open."
+  }
+}

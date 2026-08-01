@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>document.documentElement.classList.add('js','is-loading')</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{business.name}} — {{business.tagline}}</title>
+<meta name="description" content="{{business.name}} is a social-enterprise cafe at {{business.address.line1}}, {{business.address.line2}}. {{hero.sub}}">
+<link rel="canonical" href="{{site.url}}/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{business.name}} — {{business.tagline}}">
+<meta property="og:description" content="{{hero.sub}}">
+<meta property="og:url" content="{{site.url}}/">
+<meta property="og:image" content="{{site.url}}/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{business.name}} — {{business.tagline}}">
+<meta name="twitter:description" content="{{hero.sub}}">
+<meta name="twitter:image" content="{{site.url}}/assets/img/og-image.jpg">
+<meta name="theme-color" content="#8E8F58">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="assets/logo/favicon.svg">
+<link rel="sitemap" href="sitemap.xml">
+
+<link rel="preload" href="assets/fonts/fraunces-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/fonts-deferred.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="css/fonts-deferred.css"></noscript>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "{{business.name}}",
+  "image": "{{site.url}}/assets/img/og-image.jpg",
+  "url": "{{site.url}}/",
+  "telephone": "{{business.phone}}",
+  "priceRange": "€",
+  "servesCuisine": "Cafe",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{business.address.line1}}",
+    "addressLocality": "Ballincollig",
+    "addressRegion": "Cork",
+    "postalCode": "{{business.address.postcode}}",
+    "addressCountry": "IE"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 51.8897,
+    "longitude": -8.5967
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday"], "opens": "08:30", "closes": "16:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday"], "opens": "08:30", "closes": "16:00" }
+  ],
+  "menu": "{{site.url}}/#menu",
+  "sameAs": ["{{business.tripadvisorUrl}}"]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div id="preloader" aria-hidden="true">
+  <div class="preloader-mark">{{>logoInline}}</div>
+  <div class="preloader-bar"><span></span></div>
+</div>
+
+<nav id="siteNav" class="site-nav" aria-label="Primary">
+  <a href="#hero" class="nav-brand" aria-label="{{business.name}}, back to top">
+    <span class="nav-brand-badge">{{>badgeInline}}</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#menu" data-nav-link>Menu</a></li>
+    <li><a href="#difference" data-nav-link>The Difference</a></li>
+    <li><a href="#gallery" data-nav-link>Gallery</a></li>
+    <li><a href="#visit" data-nav-link>Visit</a></li>
+  </ul>
+  <a class="nav-call" href="{{business.phoneHref}}">
+    <svg viewBox="0 0 24 24" aria-hidden="true" class="icon-phone"><path d="M6.6 10.8c1.4 2.8 3.7 5.1 6.5 6.5l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .5 1 1V20c0 .6-.4 1-1 1C10.1 21 3 13.9 3 5c0-.6.5-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.3 1.1L6.6 10.8z" fill="currentColor"/></svg>
+    <span>{{business.phone}}</span>
+  </a>
+</nav>
+
+<main id="main">
+
+  <section id="hero" class="section hero" data-hero>
+    <picture class="hero-media">
+      <source media="(max-width: 640px)" type="image/avif" srcset="assets/img/cg1-hero-mobile-480.avif 480w, assets/img/cg1-hero-mobile-750.avif 750w">
+      <source media="(max-width: 640px)" type="image/webp" srcset="assets/img/cg1-hero-mobile-480.webp 480w, assets/img/cg1-hero-mobile-750.webp 750w">
+      <source type="image/avif" srcset="assets/img/cg1-hero-interior-640.avif 640w, assets/img/cg1-hero-interior-960.avif 960w, assets/img/cg1-hero-interior-1360.avif 1360w">
+      <source type="image/webp" srcset="assets/img/cg1-hero-interior-640.webp 640w, assets/img/cg1-hero-interior-960.webp 960w, assets/img/cg1-hero-interior-1360.webp 1360w">
+      <img src="assets/img/cg1-hero-interior-1360.webp" alt="The counter at Chapel Gate Café, bakes and sandwiches under warm pendant lighting" width="1360" height="766" fetchpriority="high" decoding="async">
+    </picture>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="eyebrow" data-reveal>{{hero.eyebrow}}</p>
+      <h1 class="hero-headline">
+        {{#each hero.headlineLines}}
+        <span class="line-mask"><span class="line-inner">{{this}}</span></span>
+        {{/each}}
+      </h1>
+      <p class="hero-sub" data-reveal>{{hero.sub}}</p>
+      <div class="hero-actions" data-reveal>
+        <a href="#menu" class="btn btn-primary" data-btn-hover>
+          <span class="btn-face">
+            <span class="btn-txt">See the menu</span>
+            <span class="btn-txt btn-txt-dup" aria-hidden="true">See the menu</span>
+          </span>
+        </a>
+        <a href="https://www.google.com/maps/search/?api=1&query={{business.address.mapsQueryEncoded}}" target="_blank" rel="noopener" class="btn btn-ghost" data-btn-hover>
+          <span class="btn-face">
+            <span class="btn-txt">Get directions</span>
+            <span class="btn-txt btn-txt-dup" aria-hidden="true">Get directions</span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"><span></span></div>
+  </section>
+
+  <section class="marquee-section" aria-hidden="true">
+    <div class="marquee" data-marquee>
+      <div class="marquee-track">
+        <span>{{business.address.line1}}, {{business.address.line2}}</span>
+        <span class="dot">·</span>
+        <span>Tue–Fri 8:30–4</span>
+        <span class="dot">·</span>
+        <span>Walk-in only</span>
+        <span class="dot">·</span>
+        <span>{{business.phone}}</span>
+        <span class="dot">·</span>
+        <span>Est. beside Balance Charity Shop</span>
+        <span class="dot">·</span>
+      </div>
+      <div class="marquee-track" aria-hidden="true">
+        <span>{{business.address.line1}}, {{business.address.line2}}</span>
+        <span class="dot">·</span>
+        <span>Tue–Fri 8:30–4</span>
+        <span class="dot">·</span>
+        <span>Walk-in only</span>
+        <span class="dot">·</span>
+        <span>{{business.phone}}</span>
+        <span class="dot">·</span>
+        <span>Est. beside Balance Charity Shop</span>
+        <span class="dot">·</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section about">
+    <div class="container about-grid">
+      <div class="about-copy">
+        <p class="section-counter" data-reveal><span data-reveal-child>01 / 05</span> — Who we are</p>
+        <h2 class="display-md" data-reveal>{{business.kicker}}</h2>
+        <p class="body-lg" data-reveal>Chapel Gate Café sits at the corner unit in Ballincollig, sharing a wall — and a purpose — with Balance Charity Shop next door. We do the coffee and cake. The takings help keep the shop running.</p>
+        <svg class="ornament ornament-underline" viewBox="0 0 240 24" aria-hidden="true" data-draw-on>
+          <path d="M2 18 Q 40 2, 80 14 T 160 12 T 238 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <p class="script-line" data-reveal>real coffee, real reason.</p>
+      </div>
+      <div class="about-media" data-reveal>
+        <picture>
+          <source type="image/avif" srcset="assets/img/cg4-exterior-sign-640.avif 640w, assets/img/cg4-exterior-sign-960.avif 960w, assets/img/cg4-exterior-sign-1360.avif 1360w" sizes="(max-width: 720px) 92vw, 42vw">
+          <source type="image/webp" srcset="assets/img/cg4-exterior-sign-640.webp 640w, assets/img/cg4-exterior-sign-960.webp 960w, assets/img/cg4-exterior-sign-1360.webp 1360w" sizes="(max-width: 720px) 92vw, 42vw">
+          <img src="assets/img/cg4-exterior-sign-960.webp" alt="The Chapel Gate Café shopfront and sign, next to the Balance Charity Shop entrance" width="1360" height="1017" loading="lazy" decoding="async">
+        </picture>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="section menu">
+    <div class="container">
+      <p class="section-counter" data-reveal><span data-reveal-child>02 / 05</span> — {{menu.sectionLabel}}</p>
+      <h2 class="display-lg" data-reveal>{{menu.headline}}</h2>
+      <div class="menu-grid">
+        {{#each menu.categories}}
+        <article class="menu-card{{#if this.photo}} has-photo{{/if}}" data-reveal data-hover-card>
+          <div class="menu-card-media">
+            {{#if this.photo}}
+            <picture>
+              <source type="image/avif" srcset="assets/img/{{this.images.0}}-420.avif 420w, assets/img/{{this.images.0}}-640.avif 640w" sizes="(max-width: 640px) 90vw, 320px">
+              <source type="image/webp" srcset="assets/img/{{this.images.0}}-420.webp 420w, assets/img/{{this.images.0}}-640.webp 640w" sizes="(max-width: 640px) 90vw, 320px">
+              <img src="assets/img/{{this.images.0}}-420.webp" alt="{{this.label}} at Chapel Gate Café" width="420" height="560" loading="lazy" decoding="async">
+            </picture>
+            {{else}}
+            <span class="menu-card-glyph" data-glyph="{{this.id}}" aria-hidden="true"></span>
+            {{/if}}
+          </div>
+          <h3>{{this.label}}</h3>
+          <p>{{this.desc}}</p>
+        </article>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="section gallery">
+    <div class="container">
+      <h2 class="visually-hidden">{{gallery.sectionLabel}}</h2>
+      <p class="section-counter" data-reveal><span data-reveal-child>03 / 05</span> — {{gallery.sectionLabel}}</p>
+      <div class="bento-grid">
+        {{#each gallery.images}}
+        <figure class="bento-cell bento-cell-{{@index}}" data-reveal>
+          <picture>
+            <source type="image/avif" srcset="assets/img/{{this.src}}-480.avif 480w, assets/img/{{this.src}}-720.avif 720w">
+            <source type="image/webp" srcset="assets/img/{{this.src}}-480.webp 480w, assets/img/{{this.src}}-720.webp 720w">
+            <img src="assets/img/{{this.src}}-720.webp" alt="{{this.alt}}" loading="lazy" decoding="async" sizes="(max-width: 720px) 50vw, 25vw">
+          </picture>
+        </figure>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <section id="difference" class="section difference">
+    <div class="container difference-grid">
+      <div class="difference-sticky">
+        <p class="section-counter" data-reveal><span data-reveal-child>04 / 05</span> — {{difference.sectionLabel}}</p>
+        <h2 class="display-lg" data-reveal>{{difference.headline}}</h2>
+        <p class="body-lg" data-reveal>{{difference.body}}</p>
+        <a href="{{business.tripadvisorUrl}}" target="_blank" rel="noopener" class="btn btn-outline" data-btn-hover>
+          <span class="btn-face">
+            <span class="btn-txt">Find us on Tripadvisor</span>
+            <span class="btn-txt btn-txt-dup" aria-hidden="true">Find us on Tripadvisor</span>
+          </span>
+        </a>
+      </div>
+      <div class="difference-cycler" data-cycler>
+        <div class="cycler-pane active" data-cycler-pane>
+          <picture>
+            <source type="image/avif" srcset="assets/img/cg1-hero-interior-640.avif">
+            <img src="assets/img/cg1-hero-interior-640.webp" alt="Bakes and coffee on the Chapel Gate Café counter" loading="lazy" decoding="async">
+          </picture>
+          <p>Every coffee we pull starts as an ordinary cup.</p>
+        </div>
+        <div class="cycler-pane" data-cycler-pane>
+          <picture>
+            <source type="image/avif" srcset="assets/img/cg3-balance-shop-420.avif">
+            <img src="assets/img/cg3-balance-shop-420.webp" alt="Balance Charity Shop entrance next door to Chapel Gate Café" loading="lazy" decoding="async">
+          </picture>
+          <p>Its takings help keep Balance Charity Shop, right next door, open.</p>
+        </div>
+        <div class="cycler-pane" data-cycler-pane>
+          <picture>
+            <source type="image/avif" srcset="assets/img/cg5-street-view-640.avif">
+            <img src="assets/img/cg5-street-view-640.webp" alt="Chapel Gate Café's building on the corner in Ballincollig" loading="lazy" decoding="async">
+          </picture>
+          <p>Balance supports adults with special needs across Ballincollig.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" class="section hours-location">
+    <div class="container hours-grid">
+      <div class="hours-card" data-reveal>
+        <p class="section-counter"><span data-reveal-child>05 / 05</span> — Find us</p>
+        <h2 class="display-md">Opening hours</h2>
+        <dl class="hours-list">
+          {{#each hours}}
+          <div class="hours-row">
+            <dt>{{this.days}}</dt>
+            <dd>{{this.time}}{{#if this.note}} <span class="hours-note">({{this.note}})</span>{{/if}}</dd>
+          </div>
+          {{/each}}
+        </dl>
+        <p class="hours-footnote">Walk-ins only — we don't take table bookings, just come by.</p>
+      </div>
+
+      <div class="visit-card" data-reveal>
+        <h3 class="display-sm">Get here</h3>
+        <address>
+          {{business.address.line1}}<br>
+          {{business.address.line2}}<br>
+          {{business.address.postcode}}
+        </address>
+        <a class="tel-link" href="{{business.phoneHref}}">{{business.phone}}</a>
+        <a href="https://www.google.com/maps/search/?api=1&query={{business.address.mapsQueryEncoded}}" target="_blank" rel="noopener" class="btn btn-primary btn-block" data-btn-hover>
+          <span class="btn-face">
+            <span class="btn-txt">Open in Google Maps</span>
+            <span class="btn-txt btn-txt-dup" aria-hidden="true">Open in Google Maps</span>
+          </span>
+        </a>
+
+        <button type="button" class="bean-trigger" id="beanTrigger" aria-describedby="beanHint">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C7 2 3 6 3 11c0 4.4 3.4 8 8 9.5-1-1.7-1-3.4 0-5C11.7 14 12.6 12.7 12 11c-.6-1.7-2.3-2.3-1-4.5C12 4.8 13.7 4 12 2z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2c1.7 2 0 2.8-1 4.5C9.7 8.7 11.4 9.3 12 11c.6 1.7-.3 3-1 5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+          <span>spill a few beans</span>
+        </button>
+        <span id="beanHint" class="visually-hidden">Drops an animated pile of coffee beans for fun. No effect on the page content.</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="siteFooter" class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-seal" aria-hidden="true" data-seal>{{>badgeInline}}</div>
+    <div class="footer-info">
+      <address>{{business.address.line1}}, {{business.address.line2}}, {{business.address.postcode}}</address>
+      <a href="{{business.phoneHref}}">{{business.phone}}</a>
+      <a href="{{business.tripadvisorUrl}}" target="_blank" rel="noopener">Tripadvisor</a>
+    </div>
+    <p class="footer-note">{{footer.note}}</p>
+  </div>
+  <div class="footer-wordmark" aria-hidden="true">
+    <span class="footer-wordmark-inner">{{footer.wordmark}}</span>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; <span data-year></span> {{business.name}}. Social enterprise, Ballincollig.</p>
+    <a href="#hero" class="back-to-top" data-btn-hover>Back to top ↑</a>
+  </div>
+</footer>
+
+<canvas id="beanCanvas" aria-hidden="true"></canvas>
+
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/vendor/lenis.min.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>
