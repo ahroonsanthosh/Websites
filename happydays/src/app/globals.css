@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:      #FEFAF5;
+  --surface: #F5EDE0;
+  --border:  #E2CEAF;
+  --text:    #1A110A;
+  --muted:   #8A7055;
+  --accent:  #D4501A;
+  --green:   #2D6A4F;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-dm-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Keyframes ─────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+@keyframes rule-in {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes tag-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
+.rule-animate { transform-origin: left; animation: rule-in 0.9s ease-out 0.6s both; }
+
+/* ── Nav ────────────────────────────────────── */
+.mobile-menu {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.mobile-menu.open {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav-link {
+  position: relative;
+  text-decoration: none;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s ease;
+}
+.nav-link:hover::after { transform: scaleX(1); }
+
+/* ── Hero ───────────────────────────────────── */
+.hero-img {
+  transition: transform 8s ease-out;
+}
+.hero-img:hover { transform: scale(1.03); }
+
+/* ── Gallery ────────────────────────────────── */
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+.gallery-item:hover img { transform: scale(1.04); }
+
+.gallery-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(26,17,10,0.75));
+  padding: 2rem 1rem 1rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Menu ───────────────────────────────────── */
+.menu-row {
+  transition: background 0.2s ease;
+}
+.menu-row:hover { background: var(--surface); }
+.menu-row:hover .menu-price { color: var(--accent); }
+.menu-price { transition: color 0.2s ease; }
+
+/* ── Footer ─────────────────────────────────── */
+.footer-wordmark {
+  letter-spacing: 0.15em;
+  transition: letter-spacing 0.4s ease, color 0.3s ease;
+}
+.footer-wordmark:hover { letter-spacing: 0.3em; color: var(--accent); }
+
+/* ── Tag pill ───────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tag-orange { background: #FEE4D8; color: var(--accent); }
+.tag-green  { background: #D4EDE3; color: var(--green); }
+
+/* ── CTA button ─────────────────────────────── */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-dm-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.cta-btn:hover { background: #b8401200; color: var(--accent); outline: 2px solid var(--accent); transform: translateY(-1px); }
+.cta-btn:active { transform: translateY(0); }
+
+.cta-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background: transparent;
+  color: var(--accent);
+  font-family: var(--font-dm-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 2px solid var(--accent);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.cta-outline:hover { background: var(--accent); color: #fff; }
