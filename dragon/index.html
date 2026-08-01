@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dragon Jiu-Jitsu Academy — Brazilian Jiu-Jitsu in Cork</title>
+  <meta name="description" content="Dragon Jiu-Jitsu Academy — Cork's home of Brazilian Jiu-Jitsu since 2014. Kids, teens and adults BJJ in Ballincollig. Your first class is free." />
+  <meta name="theme-color" content="#f3efe6" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Dragon Jiu-Jitsu Academy — Brazilian Jiu-Jitsu in Cork" />
+  <meta property="og:description" content="Cork's home of Brazilian Jiu-Jitsu since 2014. Your first class is free." />
+
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress" data-progress aria-hidden="true"></div>
+  <a href="#book" class="pill pill--gold floatcta" data-floatcta aria-hidden="true" tabindex="-1">
+    Book a free class
+    <span class="pill__ico"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </a>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" data-nav>
+    <div class="nav__inner">
+      <span class="nav__edge">Ballincollig · Cork</span>
+
+      <a href="#top" class="nav__logo" aria-label="Dragon Jiu-Jitsu Academy home">
+        <img src="assets/img/logo-sm.webp" alt="" width="30" height="30" />
+        <span class="nav__logo-text">Dragon <em>Jiu-Jitsu</em></span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#story">Story</a>
+        <a href="#programmes">Programmes</a>
+        <a href="#timetable">Timetable</a>
+        <a href="#book" class="pill pill--dark">
+          Free class
+          <span class="pill__ico"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </nav>
+
+      <button class="nav__burger" aria-label="Open menu" aria-expanded="false" data-burger>
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="drawer" data-drawer aria-hidden="true">
+    <nav class="drawer__nav" aria-label="Mobile">
+      <a href="#story" data-drawer-link>Our story</a>
+      <a href="#train" data-drawer-link>How you train</a>
+      <a href="#programmes" data-drawer-link>Programmes</a>
+      <a href="#coach" data-drawer-link>Coach Piotr</a>
+      <a href="#timetable" data-drawer-link>Timetable</a>
+      <a href="#book" class="drawer__cta" data-drawer-link>Book a free class</a>
+    </nav>
+    <div class="drawer__foot">
+      <a href="tel:+353858531940">085 853 1940</a>
+      <span>Since 2014</span>
+    </div>
+  </div>
+
+  <main id="main">
+    <span id="top"></span>
+
+    <!-- ===================== HERO (scroll-driven video) ===================== -->
+    <section class="vhero" id="vhero" data-vhero>
+      <div class="vhero__glow" aria-hidden="true"></div>
+      <div class="vhero__sticky">
+        <div class="vhero__copy" data-vhero-copy>
+          <p class="hero__eyebrow" data-stagger>
+            <span class="script">since 2014</span>
+            <span class="dot">·</span> Brazilian Jiu-Jitsu · Ballincollig
+          </p>
+          <h1 class="vhero__title">
+            <span class="w" data-stagger>Cork's</span>
+            <span class="w" data-stagger>home of</span>
+            <span class="w w--accent" data-stagger>Brazilian</span>
+            <span class="w" data-stagger>jiu-jitsu.</span>
+          </h1>
+          <p class="vhero__lede" data-stagger>
+            Kids classes, adult beginners, and a competition team that actually competes —
+            all on the same mat in Ballincollig. Your first class is free.
+          </p>
+        </div>
+
+        <div class="vhero__inset" data-vhero-inset>
+          <video
+            class="vhero__video"
+            data-vhero-video
+            poster="assets/img/hero-poster.webp"
+            autoplay muted loop playsinline preload="metadata"
+            aria-label="Members training at Dragon Jiu-Jitsu Academy"
+          >
+            <source src="assets/video/hero.webm" type="video/webm" />
+            <source src="assets/video/hero.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div class="vhero__actions" data-stagger>
+          <a href="#book" class="pill pill--gold pill--lg">
+            Book a free class
+            <span class="pill__ico"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a>
+          <a href="#timetable" class="pill pill--line pill--lg">See the timetable</a>
+        </div>
+        <ul class="hero__meta" data-stagger>
+          <li><strong>5.0</strong> Google rating</li>
+          <li><strong>10 yrs</strong> on the mats</li>
+          <li><strong>All levels</strong> welcome</li>
+        </ul>
+      </div>
+
+      <a href="#story" class="hero__scroll" aria-label="Scroll down">
+        <span class="hero__scroll-dot"></span> scroll
+      </a>
+    </section>
+
+    <!-- ===================== MARQUEE ===================== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Respect<i>◆</i>Stay humble<i>◆</i>Train hard<i>◆</i>Never give up<i>◆</i></span>
+        <span>Respect<i>◆</i>Stay humble<i>◆</i>Train hard<i>◆</i>Never give up<i>◆</i></span>
+        <span>Respect<i>◆</i>Stay humble<i>◆</i>Train hard<i>◆</i>Never give up<i>◆</i></span>
+      </div>
+    </div>
+
+    <!-- ===================== STORY ===================== -->
+    <section class="story" id="story">
+      <div class="story__grid">
+        <div class="story__head">
+          <p class="kicker" data-reveal>The story</p>
+          <h2 class="story__statement" data-split>
+            Ten years on the same mat.
+          </h2>
+        </div>
+        <div class="story__body" data-reveal>
+          <p>
+            Dragon has been Ballincollig's grappling home since 2014 — built on the idea that
+            real jiu-jitsu should be taught patiently, in a room where a nervous first-timer and
+            a competition black belt train side by side.
+          </p>
+          <p>
+            No egos on the door. Just structured, supervised classes that leave you sharper,
+            safer and fitter every single week.
+          </p>
+          <div class="counters" data-stagger-group>
+            <div class="counter">
+              <span class="counter__n" data-count="10" data-suffix="">0</span>
+              <span class="counter__l">years teaching</span>
+            </div>
+            <div class="counter">
+              <span class="counter__n" data-count="5.0" data-decimals="1">0</span>
+              <span class="counter__l">Google rating</span>
+            </div>
+            <div class="counter">
+              <span class="counter__n" data-count="20" data-suffix="+">0</span>
+              <span class="counter__l">classes a week</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TRAIN (sticky storytelling) ===================== -->
+    <section class="train" id="train">
+      <div class="train__sticky">
+        <div class="train__text">
+          <p class="kicker">How you'll train</p>
+          <ol class="train__list" data-train-list>
+            <li data-train="0" class="is-active">Fundamentals that actually stick</li>
+            <li data-train="1">A room that has your back</li>
+            <li data-train="2">Tested where it counts</li>
+          </ol>
+          <div class="train__panels">
+            <p class="train__panel is-active" data-train-panel="0">
+              Every class is structured and led by a black belt. You'll drill the details that
+              matter, slowly enough to learn them and often enough to keep them.
+            </p>
+            <p class="train__panel" data-train-panel="1">
+              Students, shift-workers, parents and kids all share these mats. You'll leave your
+              first session with new training partners — and a reason to come back.
+            </p>
+            <p class="train__panel" data-train-panel="2">
+              Our competitors medal from local opens to the IBJJF Milan International Open. The
+              exact game we teach you is pressure-tested at the highest level.
+            </p>
+          </div>
+          <div class="train__progress" aria-hidden="true"><span data-train-bar></span></div>
+        </div>
+        <div class="train__media">
+          <figure class="train__fig is-active" data-train-media="0"><img src="assets/img/train-1.webp" alt="A coach guiding a student through a technique" loading="lazy" /></figure>
+          <figure class="train__fig" data-train-media="1"><img src="assets/img/train-2.webp" alt="Members training together on a full mat" loading="lazy" /></figure>
+          <figure class="train__fig" data-train-media="2"><img src="assets/img/train-3.webp" alt="A Dragon athlete on the competition podium" loading="lazy" /></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FULL-BLEED STATEMENT ===================== -->
+    <section class="banner">
+      <div class="banner__media" data-parallax="0.08" aria-hidden="true"><img src="assets/img/banner.webp" alt="" /></div>
+      <div class="banner__scrim" aria-hidden="true"></div>
+      <div class="banner__inner">
+        <h2 class="banner__quote" data-split>
+          No egos on the mat.<br />Just you, a gi, and the work.
+        </h2>
+        <a href="#book" class="pill pill--gold pill--lg" data-reveal>
+          Step on the mat
+          <span class="pill__ico"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== PROGRAMMES (accordion) ===================== -->
+    <section class="prog" id="programmes">
+      <div class="prog__head">
+        <p class="kicker" data-reveal>Programmes</p>
+        <h2 class="h-section" data-reveal>A class for every age and level</h2>
+      </div>
+
+      <div class="acc" data-acc data-stagger-group>
+        <div class="acc__item is-open" data-spotlight>
+          <button class="acc__head" aria-expanded="true">
+            <span class="acc__title">Kids BJJ</span>
+            <span class="acc__ages">Ages 5–13</span>
+            <span class="acc__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="acc__body"><div class="acc__inner">
+            <p>Confidence, focus and a bit of anti-bullying know-how, taught through age-grouped classes kids actually look forward to. Split into 5–8, 8–10 and 10–13 so nobody's in over their head.</p>
+          </div></div>
+        </div>
+        <div class="acc__item" data-spotlight>
+          <button class="acc__head" aria-expanded="false">
+            <span class="acc__title">Teens BJJ</span>
+            <span class="acc__ages">Ages 13–16</span>
+            <span class="acc__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="acc__body"><div class="acc__inner">
+            <p>Teenagers get their own class and their own age group — somewhere better than a screen to burn off energy and build a bit of discipline along the way.</p>
+          </div></div>
+        </div>
+        <div class="acc__item" data-spotlight>
+          <button class="acc__head" aria-expanded="false">
+            <span class="acc__title">Adults BJJ</span>
+            <span class="acc__ages">Beginner → advanced</span>
+            <span class="acc__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="acc__body"><div class="acc__inner">
+            <p>Structured Gi classes, fundamentals through intermediate. Turn up knowing nothing — you'll be coached at your own pace, not thrown in with the black belts.</p>
+          </div></div>
+        </div>
+        <div class="acc__item" data-spotlight>
+          <button class="acc__head" aria-expanded="false">
+            <span class="acc__title">No-Gi</span>
+            <span class="acc__ages">All levels</span>
+            <span class="acc__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="acc__body"><div class="acc__inner">
+            <p>Wrestling, scrambles and submissions, no Gi to grab onto. Faster pace than the Gi classes, and it sharpens your Gi game too.</p>
+          </div></div>
+        </div>
+        <div class="acc__item" data-spotlight>
+          <button class="acc__head" aria-expanded="false">
+            <span class="acc__title">Competition &amp; Open Mat</span>
+            <span class="acc__ages">By invitation · members</span>
+            <span class="acc__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="acc__body"><div class="acc__inner">
+            <p>Sharpen your game in the competition class, then test it live on open mat. Our team's brought home gold from London three times, plus Milan.</p>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COACH ===================== -->
+    <section class="coach" id="coach">
+      <div class="coach__media" data-reveal-img>
+        <img src="assets/img/coach.webp" alt="Coach Piotr, black belt and head coach at Dragon" loading="lazy" />
+        <span class="coach__tag">Black belt · Head coach</span>
+      </div>
+      <div class="coach__body">
+        <p class="kicker" data-reveal>Your coach</p>
+        <h2 class="coach__name" data-reveal>Piotr</h2>
+        <p class="coach__role" data-reveal>Founder &amp; head coach</p>
+        <div class="coach__text" data-reveal>
+          <p>Piotr founded Dragon in 2014 and still leads the room himself. A competitive black belt, he coaches with the patience of a teacher and the eye of an athlete — breaking the art down so anyone can learn it, then building it back up for those chasing the podium.</p>
+          <p>First class or fiftieth fight, you're learning from someone who lives it every single day.</p>
+        </div>
+        <a href="#book" class="pill pill--dark pill--lg" data-reveal>
+          Train with Piotr
+          <span class="pill__ico"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== TIMETABLE ===================== -->
+    <section class="tt" id="timetable">
+      <div class="tt__head">
+        <p class="kicker" data-reveal>Timetable</p>
+        <h2 class="h-section" data-reveal>Find your class</h2>
+        <p class="tt__note" data-reveal>Private classes available Monday–Friday, 9:00am–3:00pm.</p>
+      </div>
+
+      <div class="tt__tabs" role="tablist" aria-label="Day" data-tt-tabs>
+        <button role="tab" class="tt__tab is-active" data-day="0">Mon</button>
+        <button role="tab" class="tt__tab" data-day="1">Tue</button>
+        <button role="tab" class="tt__tab" data-day="2">Wed</button>
+        <button role="tab" class="tt__tab" data-day="3">Thu</button>
+        <button role="tab" class="tt__tab" data-day="4">Fri</button>
+        <button role="tab" class="tt__tab" data-day="5">Sat</button>
+      </div>
+
+      <div class="tt__panels" data-tt-panels>
+        <div class="tt__panel is-active" data-day-panel="0">
+          <div class="tt__row"><span class="tt__time">9:00–15:00</span><span class="tt__name">Private classes</span></div>
+          <div class="tt__row"><span class="tt__time">4:30pm</span><span class="tt__name">Kids BJJ <em>Age 5–8</em></span></div>
+          <div class="tt__row"><span class="tt__time">5:30pm</span><span class="tt__name">Kids BJJ <em>Age 8–10</em></span></div>
+          <div class="tt__row"><span class="tt__time">6:30pm</span><span class="tt__name">Adults BJJ <em>Intermediate</em></span></div>
+        </div>
+        <div class="tt__panel" data-day-panel="1">
+          <div class="tt__row"><span class="tt__time">9:00–15:00</span><span class="tt__name">Private classes</span></div>
+          <div class="tt__row"><span class="tt__time">5:30pm</span><span class="tt__name">Teens BJJ <em>Age 13–16</em></span></div>
+          <div class="tt__row"><span class="tt__time">6:30pm</span><span class="tt__name">Adults BJJ <em>Beginners</em></span></div>
+          <div class="tt__row"><span class="tt__time">7:30pm</span><span class="tt__name">Sparring</span></div>
+        </div>
+        <div class="tt__panel" data-day-panel="2">
+          <div class="tt__row"><span class="tt__time">9:00–15:00</span><span class="tt__name">Private classes</span></div>
+          <div class="tt__row"><span class="tt__time">4:30pm</span><span class="tt__name">Kids BJJ <em>Age 8–10</em></span></div>
+          <div class="tt__row"><span class="tt__time">5:30pm</span><span class="tt__name">Kids BJJ <em>Age 10–13</em></span></div>
+          <div class="tt__row"><span class="tt__time">6:30pm</span><span class="tt__name">Adults BJJ <em>No-Gi</em></span></div>
+        </div>
+        <div class="tt__panel" data-day-panel="3">
+          <div class="tt__row"><span class="tt__time">9:00–15:00</span><span class="tt__name">Private classes</span></div>
+          <div class="tt__row"><span class="tt__time">5:30pm</span><span class="tt__name">Teens BJJ <em>Age 13–16</em></span></div>
+          <div class="tt__row"><span class="tt__time">6:30pm</span><span class="tt__name">Adults BJJ <em>Beginners</em></span></div>
+          <div class="tt__row"><span class="tt__time">7:30pm</span><span class="tt__name">Sparring</span></div>
+        </div>
+        <div class="tt__panel" data-day-panel="4">
+          <div class="tt__row"><span class="tt__time">9:00–15:00</span><span class="tt__name">Private classes</span></div>
+          <div class="tt__row"><span class="tt__time">4:30pm</span><span class="tt__name">Kids BJJ <em>Age 5–8</em></span></div>
+          <div class="tt__row"><span class="tt__time">5:30pm</span><span class="tt__name">Kids BJJ <em>Age 10–13</em></span></div>
+          <div class="tt__row"><span class="tt__time">6:30pm</span><span class="tt__name">Open mat / Sparring</span></div>
+        </div>
+        <div class="tt__panel" data-day-panel="5">
+          <div class="tt__row"><span class="tt__time">9:00am</span><span class="tt__name">Kids competition class</span></div>
+          <div class="tt__row"><span class="tt__time">10:30am</span><span class="tt__name">Open mat <em>Mixed levels</em></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== RESULTS ===================== -->
+    <section class="results" id="results">
+      <div class="results__inner">
+        <p class="kicker" data-reveal>Results</p>
+        <h2 class="results__big" data-split>Three-time London champion.</h2>
+        <p class="results__lede" data-reveal>Plus gold in Milan and a silver at the Masters Europe championship. All IBJJF, all black belt.</p>
+        <div class="results__row" data-stagger-group>
+          <div class="rc rc--feature" data-tilt>
+            <div class="rc__photo"><img src="assets/img/podium-london26.webp" alt="Gold medal, London International Open 2026" loading="lazy" /></div>
+            <span class="rc__medal">×3 gold</span>
+            <span class="rc__val">London International Open</span>
+            <span class="rc__sub">2025 Fall · 2025 · 2026</span>
+          </div>
+          <div class="rc" data-tilt>
+            <div class="rc__photo"><img src="assets/img/podium-milan24.webp" alt="Gold medal, Milan International Open 2024" loading="lazy" /></div>
+            <span class="rc__medal">Gold</span>
+            <span class="rc__val">Milan International Open</span>
+            <span class="rc__sub">2024</span>
+          </div>
+          <div class="rc" data-tilt>
+            <div class="rc__photo"><img src="assets/img/podium-europe26.webp" alt="Silver medal, IBJJF Masters Europe Championship 2026" loading="lazy" /></div>
+            <span class="rc__medal rc__medal--silver">Silver</span>
+            <span class="rc__val">Masters Europe Championship</span>
+            <span class="rc__sub">2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== REVIEWS ===================== -->
+    <section class="reviews" id="reviews">
+      <div class="reviews__inner">
+        <p class="kicker" data-reveal>Word around Ballincollig</p>
+        <h2 class="h-section" data-reveal>What members say</h2>
+        <blockquote class="quote" data-reveal>
+          <p>“We are blessed with having the best coach mentoring and teaching our kids, on top of the great input and support by Ahroon, Eoin and everyone else involved!”</p>
+          <cite>Stefan Stamov · <a href="https://www.facebook.com/dragonbjjacademy/" target="_blank" rel="noopener">via Facebook</a></cite>
+        </blockquote>
+        <div class="reviews__stats" data-stagger-group>
+          <div class="rstat"><span class="rstat__n">5.0</span><span class="rstat__l">Google · 20 reviews</span></div>
+          <div class="rstat"><span class="rstat__n">100%</span><span class="rstat__l">Facebook · 19 reviews recommend</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== GALLERY (horizontal scroll) ===================== -->
+    <section class="gallery" id="gallery" data-gallery>
+      <div class="gallery__pin">
+        <header class="gallery__head">
+          <p class="kicker">Life on the mats</p>
+          <h2 class="gallery__title" data-split>Real people.<br />Real rounds.</h2>
+          <p class="gallery__hint">Scroll →</p>
+        </header>
+        <div class="gallery__track" data-gallery-track data-stagger-group>
+          <figure class="gcard"><img src="assets/img/gal-1.webp" alt="A full mat mid-class at Dragon" loading="lazy" /><figcaption>Every level, same mat</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-2.webp" alt="Coach Piotr at a competition" loading="lazy" /><figcaption>Comp day</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-5.webp" alt="Coaching younger members" loading="lazy" /><figcaption>Passing it on</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-7.webp" alt="Two members exchanging grips mid-roll" loading="lazy" /><figcaption>Standing exchange</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-8.webp" alt="A member passing guard during sparring" loading="lazy" /><figcaption>Working the pass</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-4.webp" alt="Gold medal, London International Open 2026" loading="lazy" /><figcaption>London Open — gold, 2026</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/gal-6.webp" alt="Gold medal, London International Open 2025" loading="lazy" /><figcaption>London Open — gold, 2025</figcaption></figure>
+          <figure class="gcard"><img src="assets/img/podium-londonfall25.webp" alt="Gold medal, London Fall International Open 2025" loading="lazy" /><figcaption>London Fall Open — gold, 2025</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BOOK (amber CTA) ===================== -->
+    <section class="book" id="book">
+      <div class="book__inner">
+        <p class="book__eyebrow" data-reveal><span class="script">come and roll</span></p>
+        <h2 class="book__title" data-reveal>Your first class is free.</h2>
+        <p class="book__sub" data-reveal>Walk in, borrow a gi, and see what all the fuss is about. No pressure, no commitment — just come and train.</p>
+        <form class="book__form" data-trial-form novalidate data-reveal>
+          <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" aria-label="Your name" required />
+          <input id="email" name="email" type="text" placeholder="Email or phone" autocomplete="email" aria-label="Email or phone" required />
+          <button type="submit" class="pill pill--dark">
+            Book me in
+            <span class="pill__ico"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+        </form>
+        <p class="book__note" data-form-note data-reveal>Prefer to talk? Call <a href="tel:+353858531940">085 853 1940</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="assets/img/logo-sm.webp" alt="" width="46" height="46" />
+        <p class="footer__word">Dragon <em>Jiu-Jitsu Academy</em></p>
+        <p class="footer__ethos">Respect · Stay humble · Train hard · Never give up</p>
+      </div>
+      <div class="footer__col">
+        <h4>Find us</h4>
+        <a href="https://maps.google.com/?q=Dragon+BJJ+Academy+Ballincollig+Cork" target="_blank" rel="noopener">Unit 8b, Inishmoore Industrial Estate,<br />Ballincollig, Co. Cork</a>
+        <a href="tel:+353858531940">085 853 1940</a>
+      </div>
+      <div class="footer__col">
+        <h4>Train</h4>
+        <a href="#programmes">Programmes</a>
+        <a href="#timetable">Timetable</a>
+        <a href="#book">Free class</a>
+      </div>
+      <div class="footer__col">
+        <h4>Follow</h4>
+        <a href="https://www.instagram.com/dragon_bjj_academy/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/dragonbjjacademy/" target="_blank" rel="noopener">Facebook</a>
+        <span class="footer__stars">★★★★★ <em>5.0 · Google</em></span>
+      </div>
+    </div>
+    <div class="footer__bar">
+      <span>© <span data-year>2026</span> Dragon Jiu-Jitsu Academy · Ballincollig, Cork</span>
+      <a href="#top" class="footer__up">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/vendor/gsap.min.js" defer></script>
+  <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
