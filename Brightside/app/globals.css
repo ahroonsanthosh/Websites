@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F7F3EC;
+  --foreground: #2C2C2A;
+  --sage: #3D5A3C;
+  --cream: #F7F3EC;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #F7F3EC;
+  color: #2C2C2A;
+  overflow-x: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.gsap-pin-spacer {
+  overflow: hidden !important;
+}
+
+img {
+  image-rendering: auto;
+}
+
+::selection {
+  background: rgba(61, 90, 60, 0.18);
+  color: #2C2C2A;
+}
