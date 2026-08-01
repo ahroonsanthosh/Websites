@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --slate-800: #3d2b1f;
+  --slate-600: #6b4b35;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-cream text-cocoa font-body antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #e8b45a;
+  color: #1a110c;
+}
+
+/* Underline sweep for nav links */
+.link-sweep {
+  position: relative;
+}
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.link-sweep:hover::after,
+.link-sweep:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Dotted price leaders on menu rows */
+.dot-leader {
+  flex: 1;
+  margin: 0 0.75rem;
+  border-bottom: 2px dotted rgba(43, 29, 22, 0.25);
+  transform: translateY(-6px);
+  transition: border-color 0.3s ease;
+}
+.group\/row:hover .dot-leader {
+  border-color: rgba(196, 82, 106, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
