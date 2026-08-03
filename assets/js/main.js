@@ -182,11 +182,9 @@
   gsap.set('.vhero__title .w', { y: 44, opacity: 0, filter: 'blur(10px)' });
   gsap.set(['.hero__eyebrow', '.vhero__lede', '.vhero__actions', '.hero__meta'], { y: 24, opacity: 0 });
   gsap.set('.hero__scroll', { opacity: 0 });
-  gsap.set('.vhero__inset', { scale: 0.62, borderRadius: 300 });
-  gsap.set('.vhero__video', { scale: 1.22 });
 
   var htl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  htl.from('.vhero__inset', { opacity: 0, scale: 0.4, duration: 1.3, ease: 'power4.out' }, 0)
+  htl.from('.vhero__inset', { opacity: 0, duration: 1.1, ease: 'power4.out' }, 0)
      .to('.hero__eyebrow', { opacity: 1, y: 0, duration: 0.7 }, 0.3)
      .to('.vhero__title .w', { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.95, stagger: 0.08 }, 0.4)
      .to('.vhero__lede', { opacity: 1, y: 0, duration: 0.7 }, 0.95)
@@ -194,16 +192,26 @@
      .to('.hero__meta', { opacity: 1, y: 0, duration: 0.7 }, 1.25)
      .to('.hero__scroll', { opacity: 1, duration: 0.6 }, 1.4);
 
-  /* ---- HERO: scroll expands the pill-shaped video to full-bleed (ContainerInset-style) ---- */
+  /* ---- HERO: scroll grows the clipped video pill until it covers the
+     whole viewport edge-to-edge, then the section releases (ContainerInset-
+     style). The "from" clip reads the CSS resting shape (so the responsive
+     media-query values above stay the single source of truth) and animates
+     toward inset(0) — true full-bleed, not just a bigger rounded box. ---- */
   var vheroTl = gsap.timeline({
-    scrollTrigger: { trigger: '.vhero', start: 'top top', end: '62% top', scrub: 0.6 }
+    scrollTrigger: { trigger: '.vhero', start: 'top top', end: '62% top', scrub: 0.6, invalidateOnRefresh: true }
   });
   vheroTl
-    .to('.vhero__inset', { scale: 1, borderRadius: 22, ease: 'none' }, 0)
-    .to('.vhero__video', { scale: 1, ease: 'none' }, 0)
-    .to('.vhero__copy', { autoAlpha: 0.15, y: -30, ease: 'none' }, 0)
-    .to('.vhero__actions', { autoAlpha: 0.15, y: -14, ease: 'none' }, 0.05)
-    .to('.hero__meta', { autoAlpha: 0.15, y: -14, ease: 'none' }, 0.1)
+    .fromTo(vheroInsetEl,
+      { clipPath: function () {
+          var cs = getComputedStyle(vheroInsetEl);
+          var v = cs.getPropertyValue('--vhero-pill').trim();
+          var r = cs.getPropertyValue('--vhero-pill-r').trim();
+          return 'inset(' + v + ' round ' + r + ')';
+        } },
+      { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', duration: 1 }, 0)
+    .to('.vhero__copy', { autoAlpha: 0, y: -30, ease: 'none' }, 0)
+    .to('.vhero__actions', { autoAlpha: 0, y: -14, ease: 'none' }, 0.05)
+    .to('.hero__meta', { autoAlpha: 0, y: -14, ease: 'none' }, 0.1)
     .to('.vhero__glow', { opacity: 0, ease: 'none' }, 0);
 
   /* ---- Split headings into masked words (the signature reveal) ---- */
