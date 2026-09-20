@@ -208,6 +208,23 @@ CLAUDE.md section 7 sets and it holds.
 - **REQUIRED CHANGE:** Guard renderer construction, expose the capability set
   from `App`, and render a plain DOM fallback carrying the company's actual
   content if the context cannot be created.
+- **REMEDIATED (R15, 2026-09-20).** The requirement was read from the installed
+  source rather than assumed: Three.js 0.180's `WebGLRenderer` requests exactly
+  one context name, `'webgl2'`, with no WebGL 1 path, so **WebGL 2 is the
+  minimum capability**, and it rethrows after logging, so construction failures
+  are catchable. `src/core/webgl-support.ts` probes for WebGL 2 on a throwaway
+  canvas before anything is constructed, releasing the probe context through
+  `WEBGL_lose_context` so it does not cost the application a context slot.
+  `src/main.ts` now boots in three guarded steps (canvas present, capability
+  present, renderer constructs) because a driver can refuse the attributed
+  context the renderer asks for after granting the bare one the probe asks for.
+  Nothing is retried. `src/core/fatal.ts` is the reusable failure state: it
+  reveals the page content, shows one plain-language sentence and hides the
+  canvas. Technical detail is logged in development only, and the production
+  bundle contains **zero `console.*` calls**, the branch having been eliminated
+  by `import.meta.env.DEV`. Verified in a browser with WebGL genuinely disabled
+  at the browser level, and separately with the attributed context refused:
+  both reach the fallback with **no uncaught exception**.
 
 ### F-07 The canvas is `aria-hidden` with no accessible name
 
@@ -223,6 +240,19 @@ CLAUDE.md section 7 sets and it holds.
 - **REQUIRED CHANGE:** Give the canvas a `role` and an `aria-label` when it
   starts carrying content, and plan the DOM text alternative alongside the
   scene rather than after it.
+- **REMEDIATED (R15, 2026-09-20), with the opposite decision to the one this
+  finding anticipated, and deliberately so.** The canvas keeps
+  `aria-hidden="true"`, because it still draws nothing: naming an empty canvas
+  would advertise content that does not exist. What was actually missing was
+  the other half, the text alternative, and that is what was added. `index.html`
+  now carries a `<main id="main">` with the company's real facts, always in the
+  accessibility tree and visually offscreen while the experience carries them,
+  so the page has accessible content rather than none. The canvas has no
+  `tabindex` and is not focusable, so keyboard users cannot be trapped in it;
+  tab order runs through the one real control and out. The trigger to revisit
+  is unchanged: when the canvas starts carrying information with no HTML
+  equivalent, it needs a role and a name, and the `<main>` becomes the visible
+  alternative rather than the offscreen one.
 
 ### F-08 The dev harness is wired into the production build
 
@@ -236,6 +266,22 @@ CLAUDE.md section 7 sets and it holds.
 - **REQUIRED CHANGE:** Gate the second entry behind a mode check, or delete the
   harness when the real opening interaction replaces it. The file already
   documents itself as temporary.
+- **REMEDIATED (R14, 2026-09-20).** The cause was confirmed before the fix and
+  is narrower than "the harness is imported": nothing in `src/` references
+  `src/dev/` at all. Naming `dev/hand-flower.html` in `rollupOptions.input` was
+  itself the inclusion, because an entry drags its whole import graph into the
+  build. The entry was removed rather than gated, so the harness is **absent
+  from the production dependency graph** instead of being included and then
+  eliminated. It stays fully available in development, since `vite dev` serves
+  any HTML under the project root. Evidence: `dist/` contains no `dev/`
+  directory and no `devHandFlower` chunk; searches across every emitted file
+  including sourcemaps find no `hand-flower`, `__handFlower`, `RoomEnvironment`,
+  `bloomProgress`, `src/dev` or `devHandFlower`; the one `GLTFLoader` hit is
+  documentation text inside Three.js's own bundle, and the emitted JavaScript
+  contains the identifier zero times. The `three` chunk fell from 541.41 kB to
+  466.14 kB (136.33 kB to 116.62 kB gzip), which is the loader and environment
+  code that had been shipping, and the Rollup chunk-size advisory (F-10) went
+  with it.
 
 ### F-09 No resource hints beyond Vite's defaults
 
@@ -297,9 +343,10 @@ because they are cheap now and structural later, are F-03 (an ordered update
 registry), F-02 (delta time through the loop) and F-05 (a disposal walker). None
 of them is a repair; all three are the seams the next phase attaches to.
 
-**Update, 2026-09-20: F-02 and F-03 are remediated under R6, and F-05 under
-R7** (see the notes on each). All three seams the verdict named are now in
-place.
+**Update, 2026-09-20: F-02 and F-03 are remediated under R6, F-05 under R7, and
+F-06, F-07 and F-08 under R14 and R15** (see the notes on each). All three seams
+the verdict named are in place, and F-10 resolved itself when the dev harness
+left the build.
 
 The remaining items are either genuinely low impact (F-01, F-09, F-10) or
 correctly deferred until the canvas carries content (F-06, F-07).

@@ -25,12 +25,20 @@ export default defineConfig({
     target: 'es2022',
     sourcemap: true,
     assetsInlineLimit: 0,
+    // No `rollupOptions.input`. The default is `<root>/index.html` and that is
+    // the only thing that should ever be built.
+    //
+    // The development harness at `dev/hand-flower.html` used to be declared
+    // here as a second entry, which is why it shipped: naming it made its whole
+    // import graph, including GLTFLoader and RoomEnvironment, part of the
+    // production build. Nothing in `src/` imports it, so removing the entry
+    // removes it from the graph entirely rather than relying on dead-code
+    // elimination to strip it afterwards.
+    //
+    // It remains fully available during development: `vite dev` serves any HTML
+    // file under the project root, so `npm run dev` still has it at
+    // http://localhost:5173/dev/hand-flower.html
     rollupOptions: {
-      input: {
-        // Temporary: the dev harness for the hand/flower asset. Remove with it.
-        main: fileURLToPath(new URL('./index.html', import.meta.url)),
-        devHandFlower: fileURLToPath(new URL('./dev/hand-flower.html', import.meta.url)),
-      },
       output: {
         manualChunks: {
           three: ['three'],
