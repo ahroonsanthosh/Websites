@@ -1,0 +1,31 @@
+{
+  "name": "heloria-labs",
+  "version": "0.0.0",
+  "description": "Heloria Labs realtime WebGL experience.",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahroonsanthosh/hl.git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "howler": "^2.2.4",
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@types/howler": "^2.2.13",
+    "@types/node": "^26.6.2",
+    "@types/three": "^0.186.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0",
+    "vite-plugin-glsl": "^1.6.1"
+  },
+  "private": true,
+  "type": "module"
+}
