@@ -345,6 +345,74 @@ CLAUDE.md section 7 sets and it holds.
   is Draco-compressed and its textures are KTX2, the asset phase stays
   dominated by bytes on the wire.
 
+- **REMEDIATED (R5, 2026-09-20), with a correction to the figure above.**
+
+  **Correction first.** The 1,646 ms transfer recorded under R9 **does not
+  reproduce**. Measured repeatedly on cold browser contexts, the same 3.6 MB
+  file over localhost transfers in **19 to 26 ms**. The 1,646 ms was the Vite
+  dev server's first-ever serve of that file, not a property of the asset. The
+  claim that transfer was "about 84 per cent" of the asset phase rests on that
+  single reading and should not be relied on. The decomposition's *shape* still
+  holds; that one number does not.
+
+  **Asset.** `public/models/heloria-hand-flower.glb` is 3,691,240 bytes;
+  `heloria-hand-flower.draco.glb` is **1,511,988 bytes**, a **59.0 per cent**
+  reduction. The two were compared field by field before switching: identical
+  meshes, 6 primitives, 48,536 triangles, skins of 29 and 21 joints, the same
+  6 materials, the same 6 WebP images, 56 nodes with identical names including
+  `HeloriaFlowerAnchor`, 189 accessors, and one clip named `Animation` with
+  150 channels, 150 samplers and a duration of exactly 6.25 s. The only
+  difference is `KHR_draco_mesh_compression` in `extensionsUsed`.
+
+  **Decoder.** The glTF-variant decoder from the installed package,
+  `three@0.180.0` at `examples/jsm/libs/draco/gltf/`, copied verbatim to
+  `public/vendor/draco/` and md5-verified against the source. Taking it from
+  the installed package guarantees it matches the `DRACOLoader` driving it.
+  Served from **`/vendor/draco/`**, never a CDN. At runtime a WebAssembly
+  browser fetches `draco_wasm_wrapper.js` (57.4 KB) and `draco_decoder.wasm`
+  (188.2 KB); the 512 KB asm.js build is kept only so a browser with
+  WebAssembly disabled by policy gets a decoder rather than a 404.
+  `src/core/gltf.ts` holds the configuration and preloads the decoder, so it
+  transfers alongside the asset rather than after it.
+
+  **Measured, and the result is not the expected one.** Three alternating
+  rounds, fresh cold contexts, same machine and session:
+
+  | | plain | draco |
+  | --- | --- | --- |
+  | GLB transferred | 3,605 KB | 1,476.8 KB |
+  | GLB network, median | 22.7 ms | **13.0 ms** |
+  | `loadAsync` total, median | **144.3 ms** | 212.6 ms |
+  | to first render, median | **305.8 ms** | 410.9 ms |
+
+  **Over localhost, Draco is about 68 ms slower end to end.** The transfer
+  saving is roughly 10 ms because there is no real network to save, while
+  Draco decoding costs real CPU. The byte reduction is the deterministic,
+  environment-independent result; the wall-clock result on this machine is
+  not a win and is not claimed as one.
+
+  Break-even is where bytes saved divided by bandwidth exceeds decode cost:
+  2.13 MB against roughly 68 ms of decode, so about **31 MB/s, near 250 Mbps**.
+  Below that Draco wins, and every real mobile and most broadband connections
+  are far below it. Localhost is the one environment where the compressed asset
+  is the wrong choice. Decoding also runs in a worker, so it delays asset
+  readiness without blocking the first frame or interactivity.
+
+  **Verified.** Typecheck and build clean; the decoder is emitted to
+  `dist/vendor/draco/` and served by the production preview with
+  `application/wasm` on the binary; **zero external requests** of any kind;
+  no 404s, no CORS errors, no uncaught exceptions; the compressed asset yields
+  identical bounds (0.104 x 0.1369 x 0.1304), 6 skinned meshes, 2 skeletons,
+  6 materials, 150 tracks at 6.25 s, and identical anchor positions at
+  p 0, 0.25, 0.5, 0.75 and 1; R7 disposal releases it fully, memory returning
+  from 6 geometries and 8 textures to 0 and 0 across two cycles; R14 holds,
+  with no dev code and no `DRACOLoader` in the production bundle; R15 holds
+  across all three failure paths.
+
+  **Remaining limitation.** The textures are untouched and still WebP, so the
+  526 KB that becomes roughly 51 MB of GPU memory (A-01) is unchanged. That is
+  R4.
+
 ### F-10 Chunk size advisory on `three`
 
 - **FILE/SYSTEM:** build output

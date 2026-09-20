@@ -24,7 +24,7 @@ import {
   type AnimationClip,
   type Object3D,
 } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createGLTFLoader } from '@/core/gltf';
 import { mark, Milestone, timeline } from '@/core/timing';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { PMREMGenerator } from 'three';
@@ -90,7 +90,10 @@ function setProgress(p: number): void {
 }
 
 mark(Milestone.AssetLoadStart);
-new GLTFLoader().load('/models/heloria-hand-flower.glb', (gltf) => {
+// The Draco-compressed build of the same asset: byte for byte the same
+// meshes, skins, materials, nodes and 150-track 6.25s clip, at 1.44 MB
+// instead of 3.52 MB. The decoder is self-hosted; see src/core/gltf.ts.
+createGLTFLoader().load('/models/heloria-hand-flower.draco.glb', (gltf) => {
   // Transfer, parse and decode are all behind us by the time this fires.
   mark(Milestone.AssetLoadEnd);
   const root = gltf.scene;
