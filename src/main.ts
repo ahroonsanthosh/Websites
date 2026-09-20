@@ -2,6 +2,7 @@ import '@/styles/main.css';
 
 import { App } from '@/core/App';
 import { showFatal } from '@/core/fatal';
+import { mark, Milestone, reportTimeline } from '@/core/timing';
 import { detectWebGLSupport } from '@/core/webgl-support';
 
 /**
@@ -21,6 +22,8 @@ import { detectWebGLSupport } from '@/core/webgl-support';
  * refused context does not become available by asking again.
  */
 function boot(): void {
+  mark(Milestone.BootStart);
+
   const canvas = document.querySelector<HTMLCanvasElement>('#webgl');
 
   if (!canvas) {
@@ -44,7 +47,12 @@ function boot(): void {
     return;
   }
 
+  // `start()` draws synchronously, so by this line a real frame has been
+  // rendered and the first-frame milestone is recorded. Anything expensive
+  // belongs after this point, not before it.
   app.start();
+
+  reportTimeline();
 
   if (import.meta.hot) {
     import.meta.hot.dispose(() => {

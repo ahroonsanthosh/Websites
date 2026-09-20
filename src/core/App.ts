@@ -9,6 +9,7 @@ import {
 } from 'three';
 
 import { disposeObject } from '@/core/dispose';
+import { mark, Milestone } from '@/core/timing';
 import { UpdateRegistry } from '@/core/UpdateRegistry';
 import { Viewport, type ViewportSize } from '@/core/Viewport';
 
@@ -58,6 +59,9 @@ export class App {
   private deltaSeconds = 0;
   private frameCount = 0;
 
+  /** Plain boolean rather than a lookup, so the render path pays nothing. */
+  private firstFrameMarked = false;
+
   constructor({ canvas, maxPixelRatio = 2, clearColor = 0x05070a }: AppOptions) {
     this.canvas = canvas;
 
@@ -85,6 +89,8 @@ export class App {
     canvas.addEventListener('webglcontextlost', this.handleContextLost, false);
     canvas.addEventListener('webglcontextrestored', this.handleContextRestored, false);
     document.addEventListener('visibilitychange', this.handleVisibilityChange, false);
+
+    mark(Milestone.RendererCreated);
   }
 
   /** Seconds since the app started, as the sum of the clamped deltas. */
@@ -105,6 +111,14 @@ export class App {
   start(): void {
     if (this.running || this.disposed) return;
     this.running = true;
+
+    // Draw once, synchronously, before joining the ticker. Waiting for the
+    // first ticker callback would put the first frame a whole animation frame
+    // after the renderer exists, for no reason: the scene is already valid the
+    // moment the renderer is constructed. This also means the first frame
+    // cannot be delayed by whatever else is queued ahead of the next rAF.
+    this.render();
+
     // GSAP's ticker is the single clock for the whole app, so future motion
     // and the render loop never drift apart across two rAF callbacks.
     gsap.ticker.add(this.tick);
@@ -178,6 +192,12 @@ export class App {
   /** The draw. Kept separate from orchestration so it stays the last step. */
   private render(): void {
     this.renderer.render(this.scene, this.camera);
+
+    if (!this.firstFrameMarked) {
+      this.firstFrameMarked = true;
+      // After the render, not before: the milestone is a frame that exists.
+      mark(Milestone.FirstFrame);
+    }
   }
 
   private readonly handleContextLost = (event: Event): void => {

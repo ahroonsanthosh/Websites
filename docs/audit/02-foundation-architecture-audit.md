@@ -295,6 +295,55 @@ CLAUDE.md section 7 sets and it holds.
 - **SEVERITY:** Low now
 - **REQUIRED CHANGE:** Add hints when the first-frame asset set is decided, not
   before; hinting the wrong thing is worse than not hinting.
+- **REMEDIATED IN PART (R9, 2026-09-20), and the baseline it shares with A-07
+  is corrected.** Recorded here because R9 is a startup-delivery finding and
+  this is the startup-delivery entry.
+
+  **The 2,791 ms baseline did not measure what it was taken to measure.** It
+  was recorded on `/dev/hand-flower.html`, not on the production entry, and it
+  was time to *asset ready*, not time to first frame. The production entry
+  loads no asset at all: a search of `src/main.ts` and `src/core/` finds no
+  fetch, no loader and no asset reference. External instrumentation of a cold
+  load then showed that even the dev harness already drew its first frame at
+  about 148 ms, because it calls `setAnimationLoop` before the GLB resolves.
+  What was actually true is that the first frame was an empty black scene with
+  no progress reported, so it was indistinguishable from nothing.
+
+  **The measured bottleneck**, decomposed on a cold context against the real
+  3.52 MB asset: 0 to 239 ms modules, renderer and first frame; 239 to
+  1,889 ms GLB transfer; 1,889 to 2,181 ms parse and decode; 2,181 to
+  2,206 ms scene insertion. **Transfer is 1,646 ms of the 1,967 ms asset
+  phase, about 84 per cent of it.** That is A-01 and A-06 (KTX2 and Draco),
+  not a boot-order problem.
+
+  **The change.** `src/core/timing.ts` records six milestones with
+  `performance.mark` and builds `performance.measure` spans: boot start,
+  renderer created, first frame, asset load start, asset load end, scene
+  ready. Marks ship; reporting does not, and the production bundle contains
+  **zero `console.*` calls**. `App.start()` now draws one frame synchronously
+  before joining the ticker, rather than waiting a whole animation frame for
+  the first callback, and `App.render()` marks the first frame after it
+  returns, guarded by a boolean so the hot path pays one comparison.
+
+  **Measured result.** Production build, cold: first paint 144 to 156 ms,
+  renderer created 75 to 96 ms, **first WebGL frame 81 to 98 ms**. The gap
+  between renderer creation and first frame fell from about 37 ms to 2.3 and
+  5.6 ms. With the real asset, in the harness: **first frame 243.7 ms against
+  scene ready 2,205.9 ms**, so the first frame precedes final readiness by
+  about 1,962 ms, and the separation is now measurable rather than asserted.
+
+  **Verified.** Typecheck and build clean; cold-context loads, not warm cache;
+  one render loop in production (`gsap.ticker` only, zero `requestAnimationFrame`
+  and zero `setAnimationLoop` in `App`); no uncaught errors; the built page
+  still renders a single colour, so visual output is unchanged; the hand and
+  flower still report identical bounds, anchor positions at every sampled
+  point, six skinned meshes, six materials and the 150-track 6.25 s clip;
+  R14 holds, with no dev chunk in `dist/`; R15 holds across all three failure
+  paths.
+
+  **Still open, and out of R9's scope:** the transfer itself. Until the asset
+  is Draco-compressed and its textures are KTX2, the asset phase stays
+  dominated by bytes on the wire.
 
 ### F-10 Chunk size advisory on `three`
 
@@ -343,10 +392,10 @@ because they are cheap now and structural later, are F-03 (an ordered update
 registry), F-02 (delta time through the loop) and F-05 (a disposal walker). None
 of them is a repair; all three are the seams the next phase attaches to.
 
-**Update, 2026-09-20: F-02 and F-03 are remediated under R6, F-05 under R7, and
-F-06, F-07 and F-08 under R14 and R15** (see the notes on each). All three seams
-the verdict named are in place, and F-10 resolved itself when the dev harness
-left the build.
+**Update, 2026-09-20: F-02 and F-03 are remediated under R6, F-05 under R7,
+F-06, F-07 and F-08 under R14 and R15, and the startup-timing half of R9 under
+F-09** (see the notes on each). All three seams the verdict named are in place,
+and F-10 resolved itself when the dev harness left the build.
 
 The remaining items are either genuinely low impact (F-01, F-09, F-10) or
 correctly deferred until the canvas carries content (F-06, F-07).

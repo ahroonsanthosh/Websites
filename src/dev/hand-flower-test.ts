@@ -25,6 +25,7 @@ import {
   type Object3D,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { mark, Milestone, timeline } from '@/core/timing';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { PMREMGenerator } from 'three';
 
@@ -88,7 +89,10 @@ function setProgress(p: number): void {
   readout!.textContent = `bloomProgress ${clamped.toFixed(3)}`;
 }
 
+mark(Milestone.AssetLoadStart);
 new GLTFLoader().load('/models/heloria-hand-flower.glb', (gltf) => {
+  // Transfer, parse and decode are all behind us by the time this fires.
+  mark(Milestone.AssetLoadEnd);
   const root = gltf.scene;
   scene.add(root);
 
@@ -139,6 +143,7 @@ new GLTFLoader().load('/models/heloria-hand-flower.glb', (gltf) => {
       });
       return names;
     })())),
+    timeline: () => timeline(),
     setProgress: (p: number) => setProgress(p),
     sampleAnchor: (p: number) => {
       setProgress(p);
@@ -149,10 +154,16 @@ new GLTFLoader().load('/models/heloria-hand-flower.glb', (gltf) => {
     },
   };
   setProgress(0);
+  mark(Milestone.SceneReady);
 });
 
 slider.addEventListener('input', () => setProgress(Number(slider.value) / 1000));
 
+let firstFrameMarked = false;
 renderer.setAnimationLoop(() => {
   renderer.render(scene, camera);
+  if (!firstFrameMarked) {
+    firstFrameMarked = true;
+    mark(Milestone.FirstFrame);
+  }
 });
