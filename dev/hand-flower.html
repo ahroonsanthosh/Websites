@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heloria dev: hand and flower</title>
+    <style>
+      html, body { height: 100%; margin: 0; background: #05070a; color: #c8ccd4;
+        font: 12px ui-monospace, monospace; }
+      #webgl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+      .panel { position: fixed; left: 16px; bottom: 16px; z-index: 2; display: grid; gap: 8px; }
+      input { width: 320px; }
+    </style>
+  </head>
+  <body>
+    <canvas id="webgl"></canvas>
+    <div class="panel">
+      <span id="readout">loading</span>
+      <input id="bloom" type="range" min="0" max="1000" value="0" />
+    </div>
+    <script type="module" src="/src/dev/hand-flower-test.ts"></script>
+  </body>
+</html>

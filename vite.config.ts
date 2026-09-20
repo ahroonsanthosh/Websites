@@ -26,6 +26,11 @@ export default defineConfig({
     sourcemap: true,
     assetsInlineLimit: 0,
     rollupOptions: {
+      input: {
+        // Temporary: the dev harness for the hand/flower asset. Remove with it.
+        main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        devHandFlower: fileURLToPath(new URL('./dev/hand-flower.html', import.meta.url)),
+      },
       output: {
         manualChunks: {
           three: ['three'],
