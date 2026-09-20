@@ -608,6 +608,220 @@ CLAUDE.md section 7 sets and it holds.
   that the value is unchanged, and it is, at every sampled pose.
 
 
+- **REMEDIATED (R8, 2026-09-20), with M-01 confirmed but demoted.**
+
+  A-04's premise was inverted under R12. M-01's is not wrong, but it is not
+  first either: the skin has no subsurface scattering, and it also had a
+  roughness field that did not vary, normals that were flat, and a specular
+  response 72% too strong. Three measurable defects, of which subsurface is
+  the only one that cannot be fixed in this pipeline.
+
+  **What shipped, measured inside eroded UV islands.**
+
+  | | Before | After |
+  | --- | --- | --- |
+  | roughness mean | 0.4509 | 0.4465 |
+  | roughness sd | **0.0125** | **0.0555** |
+  | roughness p01..p99 | 0.4235..0.4784 (0.055) | 0.3333..0.5804 (0.247) |
+  | roughness mean neighbour delta | 0.00489 | 0.01930 |
+  | normal deviation from flat, mean | **0.475 deg** | **1.913 deg** |
+  | normal deviation p90 / p99 | 0.716 / 2.560 | 3.374 / 5.205 |
+  | base colour mean, sRGB | 0.5929 / 0.4697 / 0.4200 | 0.5931 / 0.4698 / 0.4202 |
+  | runtime material | `MeshStandardMaterial` | `MeshPhysicalMaterial` |
+  | ior | none, glTF implicit 1.5 | 1.40 |
+  | specular factor | none, implicit 1.0 | 0.84 |
+  | F0 at normal incidence | **0.0400** | **0.0233** |
+
+  The base colour is untouched, to four decimal places on all three channels.
+
+  **Cause 1: the roughness map was a constant.** The network was one noise
+  mapped 0..1 into 0.34..0.56, which reads as a 0.22 spread and measured a
+  standard deviation of 0.0125 on the baked map: the entire hand sat between
+  about 0.44 and 0.46. One gloss level over a whole object is what a moulded
+  object looks like, and this was the largest single contributor.
+
+  The arithmetic behind it matters more than the numbers, because it is the
+  same mistake twice. Blender's noise `Fac` does not span 0..1; recovered by
+  inverting the shipped map it spans 0.380 to 0.629 with a standard deviation
+  of 0.057. A Map Range reading 0..1 therefore delivers about a quarter of the
+  amplitude it appears to ask for. The first attempt at this remediation hit
+  the same wall from the other side: `Pointiness` was mapped from an assumed
+  0.42..0.58, and a diagnostic bake of the raw socket showed it actually
+  occupies 0.482 to 0.533 on this mesh, a band five hundredths wide, because a
+  smooth organic mesh has no sharp edges. Both ranges are now measured and
+  recorded as constants.
+
+  Roughness is now driven by two signals: `Pointiness`, mapped 0.482..0.533
+  into 0.56..0.38 so that convex ridges (knuckles, tendons) are drier and take
+  a tighter highlight while concave folds scatter more widely, and a 3.3 mm
+  noise at plus or minus 0.09 so neighbouring patches of equal convexity are
+  not identical. Clamped to 0.28..0.70. Pointiness is the only anatomy-aware
+  input available without painting a map, and without it the field is noise
+  that happens to be sitting on a hand.
+
+  **Cause 2: the normal map was flat because its features were too fine, not
+  too weak.** The bump ran voronoi at scale 95 and noise at 210. Object
+  coordinates are centimetres, so those are periods of 0.105 mm and 0.048 mm.
+  The object is 16.77 x 5.40 x 22.95 cm with 497 cm2 of evaluated surface and
+  UV islands covering 68.2% of each map, which puts one texel at:
+
+      normal    256^2   1.055 mm
+      roughness 512^2   0.527 mm
+      basecolor 1024^2  0.264 mm
+
+  The authored detail was ten to twenty times finer than the normal map can
+  represent. The bake averaged it away, and raising the strength would only
+  have produced louder aliasing. The features are now 4.55 mm (voronoi) and
+  9.1 mm (noise), both above the roughly 4.2 mm floor that four texels per
+  period implies, and the strength was raised from 0.10/0.008 to 0.55/0.085
+  to suit.
+
+  This was tuned against measurement, in three passes, not by eye. The first
+  full export measured 4.330 degrees of mean deviation and rendered visibly
+  blotchy: the 9.1 mm component was too heavily weighted and the pointiness
+  span too wide, so the hand read as rough rather than as skin. Strength went
+  0.90 to 0.55, distance 0.140 to 0.085, the broad component's weight 0.45 to
+  0.30, and the pointiness span 0.26 to 0.18.
+
+  **Cause 3: the bake was discarding the authored specular response.**
+  `bake_object` ends by replacing the procedural network with a fresh
+  Principled wired to the three baked maps. That is right for what glTF
+  carries as textures and it silently reset everything else, including the
+  author's IOR 1.40 and Specular IOR Level 0.42.
+
+  The consequence is larger than it sounds, because Blender's exporter only
+  writes `KHR_materials_ior` when transmission, volume or specular is also
+  written, and only writes `KHR_materials_specular` when the specular level is
+  not the neutral 0.5 (`ior.py` and `specular.py` in the installed 4.5
+  exporter). A material sitting at defaults emits neither, so the runtime fell
+  back to glTF's implicit IOR of 1.5 and the skin shipped at F0 = 0.040 where
+  a dielectric at IOR 1.40 is 0.0278 and the author's specular level takes it
+  to 0.0233. It was reflecting 72% more light at its highlights than the
+  material it was supposed to be. Structurally it also meant Three.js
+  instantiated `MeshStandardMaterial`, which has no `ior`, `specularIntensity`
+  or `sheen` at all.
+
+  `BAKED_MATERIAL_PARAMS` in `tools/export_glb.py` now restores them, and the
+  material definition itself is re-applied to the opened master from
+  `build_hand_flower.make_skin_material` at export time, so editing the
+  definition and re-running the export is the whole loop: nothing is hand
+  edited and the `.blend` does not have to be regenerated to pick up a change.
+
+  **Cause 4: no subsurface, and it stays that way.** There is no ratified glTF
+  subsurface extension. The installed Three.js 0.180 `GLTFLoader` parses ior,
+  specular, sheen, transmission, volume, clearcoat, anisotropy, iridescence,
+  dispersion and `EXT_materials_bump`; the Blender 4.5 exporter writes ior,
+  specular, sheen, transmission, volume, clearcoat and anisotropy. The
+  intersection contains no way to express subsurface scattering, so the
+  authored Subsurface Weight 0.22, radius (1.0, 0.32, 0.20), scale 0.35 has no
+  representation and none was invented.
+
+  `KHR_materials_transmission` plus `KHR_materials_volume` was the one
+  candidate and was rejected on two grounds, both specific rather than
+  aesthetic. The skin mesh is open at the forearm and at five nail beds (R12),
+  and a thickness-driven volume needs a closed surface for thickness to mean
+  anything. And Three.js implements transmission with an extra full-scene
+  render into a transmission target, which is an architectural cost R8 was not
+  asked to take.
+
+  **Sheen was tested and rejected.** `KHR_materials_sheen` is supported at
+  both ends and is a real lobe rather than an invented parameter, so it was
+  measured rather than assumed: at 0.25 weight, 0.35 roughness and a warm
+  tint, over 63 renders it moved local gradient energy from +1.3% to +2.2%,
+  but raised peak luminance under the neutral dome by 1.6% and peak overall by
+  0.5%. It brightens the rim rather than restraining the highlight, which is
+  the opposite of what was wanted. No clearcoat, no anisotropy and no
+  iridescence: none of them has a demonstrated reason on skin.
+
+  **Comparison methodology.** 63 renders per material, at identical geometry,
+  camera, environment, exposure (1.05) and resolution (288 square): seven
+  viewpoints (palm, back, knuckles, fingertips, grazing, low angle, close up)
+  at three bloom positions (0, 0.5, 1) under three lighting rigs. The rigs are
+  the point: the production pair of directionals over `RoomEnvironment`, a
+  featureless grey dome with no directional content at all, and a single hard
+  key with no environment. Nothing was tuned per rig.
+
+  Pixel RMSE is not the measure. The two that are: local gradient energy
+  inside the subject mask, which says how much surface structure survives, and
+  the luminance percentiles plus blown-highlight fraction, which say how
+  restrained the highlight is.
+
+  | | before | after |
+  | --- | --- | --- |
+  | detail, production rig | 0.00656 | 0.00680 (+3.7%) |
+  | detail, neutral dome | 0.00441 | 0.00445 (+1.0%) |
+  | detail, single key | 0.00957 | 0.00955 (-0.2%) |
+  | p99 luminance, all rigs | 0.70151 | 0.68907 (-1.8%) |
+  | blown-highlight fraction | 0.01372 | 0.01363 (-0.7%) |
+  | mean luminance | 0.46497 | 0.45758 (-1.6%) |
+
+  Local gradient energy rose in all seven viewpoints (+2.5% to +5.1%) and at
+  all three bloom positions (+3.3% to +4.0%), so the gain is not one lucky
+  frame. Mean luminance moving 1.6% is the appearance being preserved rather
+  than restyled.
+
+  **An honest note on the parameter half.** Before the textures were touched,
+  the ior and specular restoration was measured on its own over the same 252
+  renders. It is correct and it is small: peak luminance -0.7% under the
+  production rig and -4.1% under the single key, blown-highlight fraction
+  -8.0%, and local gradient energy unmoved. At roughness 0.45 under strong
+  image-based lighting the specular term is a small part of total radiance, so
+  a 42% cut in F0 is under 2% of luminance. The parameters had to be restored
+  because the asset was misrepresenting its own material, but they are not
+  what made the hand look like vinyl. The absence of surface structure was.
+
+  **Verification, against the pre-R8 asset loaded side by side.** Geometry
+  identical: 53,305 vertices, 145,608 indices, 3 meshes, 56 nodes, 6
+  primitives. Animation identical: 150 channels, 150 samplers, 6.25 s. Bounds
+  identical at all five sampled poses, 0.104 x 0.1369 x 0.1304, which also
+  reconciles the figure R12 could not reproduce; that measurement was taken
+  before any mixer update and this one after, and the recorded value is the
+  posed one. `HeloriaFlowerAnchor` identical to six decimal places at p = 0,
+  0.25, 0.5, 0.75 and 1. Six materials, no more and no fewer. R4 texture sizes
+  and colour spaces unchanged: skin 1024/512/256 and nail 512/256/256, sRGB
+  base colour, linear roughness and normal. R5 intact: `KHR_draco_mesh_compression`
+  and `EXT_texture_webp` both still required, the decoder still served from
+  `/vendor/draco/`, no external request from any page. R12 intact: petal,
+  sepal and centre single-sided, stem, skin and nail double-sided. R7 intact:
+  6 geometries, 8 textures and 4 programs return to zero through the disposal
+  walker. R14 intact: no dev code in `dist/`. Typecheck, build, dev, dev
+  harness, preview and a cold-cache preview are all clean, with no console
+  error or warning anywhere and no uncaught exception. No file under `src/`
+  changed, so the frame loop and its allocation behaviour are untouched by
+  construction.
+
+  Draco GLB 1,140,972 to 1,177,436 bytes (+3.2%), uncompressed 3,320,352 to
+  3,356,796. The growth is the roughness and normal maps now carrying
+  information, which WebP cannot compress as hard as it compressed a constant.
+
+  **Remaining limitations.**
+
+  1. **No subsurface.** No warm shadow terminator, no edge translucency
+     through the fingers. Not representable in this pipeline, as above. This
+     keeps M-01 open, not closed.
+  2. **Pore-scale detail is unrepresentable at 256 square.** Pores are 0.1 to
+     0.3 mm against a 1.055 mm texel. The normal map carries mesoscale relief
+     only, by design. R4's 256 square stands, but its reasoning does not: it
+     was chosen because the map was empty, and it is kept because the content
+     is deliberately mesoscale and four texels per period fit.
+  3. **WebP softens the relief.** The bake measures 2.719 degrees of mean
+     deviation and the shipped map 1.913, the difference being quality 88.
+  4. **A featureless environment shows almost none of this** (+1.0%). Nothing
+     is wrong: a perfectly uniform dome supplies no directional light for
+     structure to reveal. It is recorded so the +3.7% is not mistaken for a
+     universal figure.
+  5. **`MeshPhysicalMaterial` is the more expensive shader.** Program count
+     after the first render goes from 3 to 4. Not measured as a frame cost,
+     because the scene is one hand.
+  6. **The nail material has the same defect, unfixed.** Its authored coat
+     (0.35) and subsurface (0.28) are discarded by the same bake reset. It is
+     absent from `BAKED_MATERIAL_PARAMS` deliberately: changing the nails is
+     outside what R8 was asked to do.
+  7. **Palm creases still read as drawn lines** (M-04). They live in the base
+     colour, which R8 did not touch, and fixing them means geometry or a
+     painted map.
+
+
 ### F-10 Chunk size advisory on `three`
 
 - **FILE/SYSTEM:** build output
@@ -657,7 +871,8 @@ of them is a repair; all three are the seams the next phase attaches to.
 
 **Update, 2026-09-20: F-02 and F-03 are remediated under R6, F-05 under R7,
 F-06, F-07 and F-08 under R14 and R15, the startup-timing half of R9 under
-F-09, and A-01 and A-04 under R4 and R12** (see the notes on each). All three seams the verdict named are in place,
+F-09, A-01 and A-04 under R4 and R12, and the representable part of M-01
+under R8** (see the notes on each). All three seams the verdict named are in place,
 and F-10 resolved itself when the dev harness left the build.
 
 The remaining items are either genuinely low impact (F-01, F-09, F-10) or

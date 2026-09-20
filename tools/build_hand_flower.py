@@ -123,14 +123,67 @@ def smoothstep(a, b, x):
 # Materials
 # --------------------------------------------------------------------------
 
+# Skin relief and roughness, tuned against measurements of the baked maps
+# rather than by eye. Every one of these is re-measured after a bake: see the
+# R8 note in docs/audit/02-foundation-architecture-audit.md.
+SKIN_BUMP_STRENGTH = 0.55
+SKIN_BUMP_DISTANCE = 0.085
+SKIN_BUMP_BROAD_MIX = 0.30        # weight of the 9 mm undulation against the 4.5 mm cells
+
+# The input ranges below are measured on this mesh, not assumed, because both
+# of these signals occupy far less than 0..1 and a Map Range that spans 0..1
+# therefore delivers a fraction of the amplitude it appears to ask for. That
+# is the arithmetic that made the original roughness map a flat field: one
+# noise mapped 0..1 -> 0.34..0.56 looks like a 0.22 spread and measured 0.0125
+# of standard deviation on the baked map.
+#
+#   Blender noise Fac, recovered by inverting the shipped roughness map:
+#     p01 0.380, mean 0.504, p99 0.629, sd 0.057
+#   Pointiness, from a diagnostic bake of the raw socket on this mesh:
+#     p01 0.482, mean 0.513, p99 0.533, sd 0.0105
+#
+# Pointiness in particular is far narrower than its nominal 0..1: a smooth
+# organic mesh has no sharp edges, so the whole hand lives inside a band five
+# hundredths wide.
+SKIN_NOISE_FAC_RANGE = (0.38, 0.63)
+SKIN_POINTINESS_RANGE = (0.482, 0.533)
+SKIN_ROUGH_CONCAVE = 0.56         # folds: moist, wide scatter
+SKIN_ROUGH_CONVEX = 0.38          # knuckles and tendons: dry, tighter highlight
+SKIN_ROUGH_JITTER = 0.09
+SKIN_ROUGH_MIN = 0.28
+SKIN_ROUGH_MAX = 0.70
+
+
 def make_skin_material():
     """Procedural skin.
 
     The prototype hand ships with its texture set unlinked and the image files
     absent, so there is nothing to restore. Rather than leave the material
-    broken, the skin is rebuilt procedurally: mottled base colour, pore-scale
-    bump from a voronoi/noise pair, roughness that varies across the surface,
-    and subsurface scattering scaled for centimetre units.
+    broken, the skin is rebuilt procedurally: mottled base colour, relief from
+    a voronoi/noise pair, roughness that varies across the surface, and
+    subsurface scattering scaled for centimetre units.
+
+    **Feature scales are chosen against the map that has to carry them.** The
+    object is 16.77 x 5.40 x 22.95 cm with 497 cm2 of evaluated surface, and
+    the UV islands cover 68.2% of each map, so one texel spans:
+
+        normal    256^2   1.055 mm
+        roughness 512^2   0.527 mm
+        basecolor 1024^2  0.264 mm
+
+    Wanting four texels across a period, the finest structure the normal map
+    can hold is about 4.2 mm, and the finest the roughness map can hold is
+    about 2.1 mm. Object coordinates are centimetres, so a Blender noise or
+    voronoi `Scale` of S has a period of 10/S millimetres, which puts the
+    ceilings at S = 2.4 for anything feeding the normal and S = 4.7 for
+    anything feeding roughness.
+
+    This is the correction R8 made. The bump previously ran voronoi at 95 and
+    noise at 210, which is a period of 0.105 mm and 0.048 mm: ten to twenty
+    times finer than the normal map can represent. The bake averaged it to
+    nothing, and the shipped map measured 0.475 degrees of mean deviation from
+    flat, which is why grazing light found no surface to catch. The fix is not
+    more strength, it is features the map can actually hold.
     """
     mat = bpy.data.materials.get("HELORIA_SKIN") or bpy.data.materials.new("HELORIA_SKIN")
     mat.use_nodes = True
@@ -171,38 +224,91 @@ def make_skin_material():
     nt.links.new(fine.outputs["Color"], tint.inputs[7])
     nt.links.new(tint.outputs[2], bsdf.inputs["Base Color"])
 
-    # Pores: voronoi cells at skin scale, plus noise so they are not regular.
+    # Relief, at the two scales a 256^2 map can hold. Pores are 0.1 to 0.3 mm
+    # and are simply not representable here; what is representable, and what
+    # actually reads at the distances this hand is seen from, is the mesoscale
+    # structure: the crosshatch slack of the skin and the broader mounds over
+    # the knuckles and tendons.
     vor = nt.nodes.new("ShaderNodeTexVoronoi"); vor.location = (-680, -220)
     vor.feature = "F1"
-    vor.inputs["Scale"].default_value = 95.0
+    vor.inputs["Scale"].default_value = 2.2      # 4.55 mm cells, 4.3 texels across
     nt.links.new(coord.outputs["Object"], vor.inputs["Vector"])
 
     micro = nt.nodes.new("ShaderNodeTexNoise"); micro.location = (-680, -430)
-    micro.inputs["Scale"].default_value = 210.0
-    micro.inputs["Detail"].default_value = 6.0
+    micro.inputs["Scale"].default_value = 1.1    # 9.1 mm, broad slack and mounds
+    micro.inputs["Detail"].default_value = 3.0   # extra octaves would land under
+    micro.inputs["Roughness"].default_value = 0.45  # the map's resolution again
     nt.links.new(coord.outputs["Object"], micro.inputs["Vector"])
 
     bmix = nt.nodes.new("ShaderNodeMix"); bmix.data_type = "FLOAT"
-    bmix.location = (-420, -300); bmix.inputs["Factor"].default_value = 0.45
+    bmix.location = (-420, -300); bmix.inputs["Factor"].default_value = SKIN_BUMP_BROAD_MIX
     nt.links.new(vor.outputs["Distance"], bmix.inputs[2])
     nt.links.new(micro.outputs["Fac"], bmix.inputs[3])
 
+    # Strength and distance are set for a measured result, not by eye: the
+    # baked map is re-measured after every change and the target is a mean
+    # deviation from flat of a few degrees. Skin is not a rough surface; it is
+    # a smooth one with structure, and a normal map that reads as sandpaper is
+    # as wrong as one that reads as vinyl.
     bump = nt.nodes.new("ShaderNodeBump"); bump.location = (-160, -320)
-    bump.inputs["Strength"].default_value = 0.10
-    bump.inputs["Distance"].default_value = 0.008
+    bump.inputs["Strength"].default_value = SKIN_BUMP_STRENGTH
+    bump.inputs["Distance"].default_value = SKIN_BUMP_DISTANCE
     nt.links.new(bmix.outputs[0], bump.inputs["Height"])
     nt.links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
 
-    # Roughness: skin is never uniform, and the variation is what sells it.
-    rough = nt.nodes.new("ShaderNodeTexNoise"); rough.location = (-680, -640)
-    rough.inputs["Scale"].default_value = 3.4
-    rough.inputs["Detail"].default_value = 5.0
+    # Roughness. The previous network was one noise mapped into 0.34 to 0.56,
+    # which sounds like variation and is not: measured inside the UV islands
+    # the shipped map had a standard deviation of 0.0125 around a mean of
+    # 0.451, so the whole hand sat between roughly 0.44 and 0.46. One gloss
+    # level over an entire object is the signature of something moulded, and
+    # it was the largest single contributor to the vinyl read.
+    #
+    # Two signals now drive it.
+    #
+    # Pointiness is the convexity of the surface, and it is the only
+    # anatomy-aware input available without painting a map. Convex ridges, the
+    # knuckles and the tendons on the back of the hand, are exposed, stretched
+    # and drier, and take a tighter highlight; the concave folds hold moisture
+    # and scatter more widely. Without it the field is noise that happens to
+    # be sitting on a hand, and it drifts across anatomy rather than following
+    # it.
+    geo = nt.nodes.new("ShaderNodeNewGeometry"); geo.location = (-900, -860)
+    pmap = nt.nodes.new("ShaderNodeMapRange"); pmap.location = (-680, -860)
+    pmap.inputs["From Min"].default_value = SKIN_POINTINESS_RANGE[0]
+    pmap.inputs["From Max"].default_value = SKIN_POINTINESS_RANGE[1]
+    # Inverted on purpose: high pointiness is convex, and convex is glossier.
+    pmap.inputs["To Min"].default_value = SKIN_ROUGH_CONCAVE
+    pmap.inputs["To Max"].default_value = SKIN_ROUGH_CONVEX
+    pmap.clamp = True
+    nt.links.new(geo.outputs["Pointiness"], pmap.inputs["Value"])
+
+    # A mesoscale break-up on top, so neighbouring patches of the same
+    # convexity are not identical. Scale 3.0 is a 3.3 mm period, which the
+    # 512^2 roughness map holds with six texels across.
+    rough = nt.nodes.new("ShaderNodeTexNoise"); rough.location = (-900, -640)
+    rough.inputs["Scale"].default_value = 3.0
+    rough.inputs["Detail"].default_value = 3.0
     nt.links.new(coord.outputs["Object"], rough.inputs["Vector"])
-    rmap = nt.nodes.new("ShaderNodeMapRange"); rmap.location = (-420, -640)
-    rmap.inputs["To Min"].default_value = 0.34
-    rmap.inputs["To Max"].default_value = 0.56
+    rmap = nt.nodes.new("ShaderNodeMapRange"); rmap.location = (-680, -640)
+    rmap.inputs["From Min"].default_value = SKIN_NOISE_FAC_RANGE[0]
+    rmap.inputs["From Max"].default_value = SKIN_NOISE_FAC_RANGE[1]
+    rmap.inputs["To Min"].default_value = -SKIN_ROUGH_JITTER
+    rmap.inputs["To Max"].default_value = SKIN_ROUGH_JITTER
+    rmap.clamp = True
     nt.links.new(rough.outputs["Fac"], rmap.inputs["Value"])
-    nt.links.new(rmap.outputs["Result"], bsdf.inputs["Roughness"])
+
+    radd = nt.nodes.new("ShaderNodeMath"); radd.operation = "ADD"
+    radd.location = (-420, -760)
+    nt.links.new(pmap.outputs["Result"], radd.inputs[0])
+    nt.links.new(rmap.outputs["Result"], radd.inputs[1])
+
+    # Clamped, because neither end is physical for skin: below about 0.28 it
+    # becomes wet-looking, above about 0.70 it goes chalky.
+    rclamp = nt.nodes.new("ShaderNodeClamp"); rclamp.location = (-200, -760)
+    rclamp.inputs["Min"].default_value = SKIN_ROUGH_MIN
+    rclamp.inputs["Max"].default_value = SKIN_ROUGH_MAX
+    nt.links.new(radd.outputs[0], rclamp.inputs["Value"])
+    nt.links.new(rclamp.outputs["Result"], bsdf.inputs["Roughness"])
 
     bsdf.inputs["Subsurface Weight"].default_value = 0.22
     bsdf.inputs["Subsurface Radius"].default_value = (1.0, 0.32, 0.20)

@@ -20,6 +20,14 @@ import sys
 import bpy
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+
+# The skin material is defined once, in the builder, and re-applied to the
+# opened master here rather than being baked into the .blend. Editing
+# `make_skin_material` and re-running this script is then the whole loop: the
+# definition and the exported asset cannot drift apart, and tuning a material
+# does not require regenerating the rig and the flower.
+import build_hand_flower  # noqa: E402
 ROOT = os.path.dirname(HERE)
 MASTER = os.path.join(ROOT, "assets", "production", "heloria-hand-flower.blend")
 OUT_DIR = os.path.join(ROOT, "public", "models")
@@ -55,6 +63,74 @@ BAKE_SIZES = {
 }
 # Centimetre master -> metre web asset.
 EXPORT_SCALE = 0.01
+
+
+# Non-texture material parameters that have to survive the bake.
+#
+# `bake_object` finishes by replacing the procedural network with a fresh
+# Principled wired to the three baked maps. That is correct for the parts glTF
+# carries as textures, and it silently discards everything else the author set:
+# IOR, specular level, subsurface, coat. For the skin those were IOR 1.40 and
+# Specular IOR Level 0.42, and losing them is not cosmetic.
+#
+# Blender only writes `KHR_materials_ior` when one of transmission, volume or
+# specular is also written (see the exporter's `ior.py`), and it only writes
+# `KHR_materials_specular` when the specular level is not the neutral 0.5. A
+# rebuilt material sits at Blender's defaults, so neither extension was
+# emitted, and the runtime therefore fell back to glTF's implicit IOR of 1.5.
+# Measured consequence: the skin shipped with a normal-incidence reflectance of
+# F0 = 0.040, where a dielectric at IOR 1.40 is F0 = 0.0278 and the author's
+# 0.42 specular level takes it to 0.0233. The hand was reflecting 72% more
+# light at its highlights than the material it was supposed to be.
+#
+# The second consequence is structural. With no extensions on the material,
+# Three.js instantiates `MeshStandardMaterial`, which has no `ior`, no
+# `specularIntensity` and no `sheen` at all; the extensions are what make it a
+# `MeshPhysicalMaterial` and put those controls within reach.
+#
+# Only the skin is listed. The nail material loses its authored coat (0.35) and
+# subsurface (0.28) to the same reset and is recorded as a known defect in the
+# R8 note rather than changed here, because altering the nails is outside what
+# R8 was asked to do.
+BAKED_MATERIAL_PARAMS = {
+    "HELORIA_SKIN": {
+        "IOR": 1.40,
+        "Specular IOR Level": 0.42,
+    },
+}
+
+
+def refresh_source_materials():
+    """Re-apply the builder's material definitions to the opened master.
+
+    Keeps `tools/build_hand_flower.make_skin_material` the single definition of
+    what the skin is, without needing the master regenerated to pick up a
+    change to it.
+    """
+    before = bpy.data.materials.get("HELORIA_SKIN")
+    if before is None:
+        raise SystemExit("materials: HELORIA_SKIN is not in the master")
+    after = build_hand_flower.make_skin_material()
+    if after is not before:
+        raise SystemExit("materials: make_skin_material created a new datablock "
+                         "instead of rebuilding the master's; the mesh slots "
+                         "would still point at the old one")
+    print("  HELORIA_SKIN rebuilt from build_hand_flower.make_skin_material")
+
+
+def apply_baked_material_params(mat):
+    """Restore the authored parameters the bake's material rebuild drops."""
+    wanted = BAKED_MATERIAL_PARAMS.get(mat.name)
+    if not wanted:
+        return
+    bsdf = next((n for n in mat.node_tree.nodes if n.type == "BSDF_PRINCIPLED"), None)
+    if bsdf is None:
+        raise SystemExit(f"params: {mat.name} has no Principled node after baking")
+    for key, value in wanted.items():
+        if key not in bsdf.inputs:
+            raise SystemExit(f"params: {mat.name} has no {key!r} input")
+        bsdf.inputs[key].default_value = value
+        print(f"  {mat.name:16s} {key} = {value}")
 
 
 # Material sidedness, decided per material from measured geometry and measured
@@ -238,6 +314,8 @@ def bake_object(ob, sizes, prefix):
     bsdf.inputs["Metallic"].default_value = 0.0
     nt.links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
 
+    apply_baked_material_params(mat)
+
     # Keep only the packed UV set: glTF would otherwise carry the unusable
     # tiled original as a second, dead UV channel.
     for layer in [l.name for l in ob.data.uv_layers if l.name != "bake_uv"]:
@@ -280,6 +358,9 @@ def main():
         if sub:
             sub.levels = 1
             sub.render_levels = 1
+
+    print("re-applying source material definitions")
+    refresh_source_materials()
 
     print("baking skin maps")
     bake_object(hand, BAKE_SIZES["heloria_skin"], "heloria_skin")
