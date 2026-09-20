@@ -413,6 +413,89 @@ CLAUDE.md section 7 sets and it holds.
   526 KB that becomes roughly 51 MB of GPU memory (A-01) is unchanged. That is
   R4.
 
+- **REMEDIATED (R4, 2026-09-20). KTX2 was investigated and found unnecessary.**
+
+  **The memory model, measured not estimated.** Three.js on WebGL 2 allocates
+  through `texStorage2D`, so instrumenting that call gives the real allocation
+  including every mip level. The glTF sampler asks for
+  `LINEAR_MIPMAP_LINEAR` (`minFilter` 9987), so a full chain is generated and
+  mipmaps are genuinely required: the hand is seen at varying distances and
+  minification without them aliases.
+
+  | Texture | Before | Slot | Colour space | Alpha | GPU, level 0 | GPU, with mips |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | `heloria_skin_basecolor` | 2048x2048 | SKIN baseColor | sRGB | unused | 16.00 MB | 21.33 MB |
+  | `heloria_skin_roughness` | 2048x2048 | SKIN metallicRoughness | linear | unused | 16.00 MB | 21.33 MB |
+  | `heloria_skin_normal` | 2048x2048 | SKIN normal | linear | unused | 16.00 MB | 21.33 MB |
+  | `heloria_nail_basecolor` | 512x512 | NAIL baseColor | sRGB | unused | 1.00 MB | 1.33 MB |
+  | `heloria_nail_roughness` | 512x512 | NAIL metallicRoughness | linear | unused | 1.00 MB | 1.33 MB |
+  | `heloria_nail_normal` | 512x512 | NAIL normal | linear | unused | 1.00 MB | 1.33 MB |
+  | **Total** | | | | | **51.00 MB** | **68.00 MB** |
+
+  All six decode to four bytes per texel, so 538 KB of WebP on the wire became
+  a measured **51.00 MB**, or **68.00 MB** once mipped. A-01's figure was right
+  about level 0 and understated the real total by a third. The four flower
+  materials carry no textures at all: their colour is a vertex attribute.
+
+  **Root cause.** Not compression, and not the file format. Every map was baked
+  at one resolution per object regardless of what it carries, and the maps come
+  from procedural sources whose spatial frequency is low. Measuring detail only
+  inside the UV islands, with the packing gutters excluded because averaging
+  across an island edge produces a large error that says nothing about content:
+  halving the skin base colour costs 2.93/255 RMSE, halving its roughness costs
+  1.90/255, and the two normal maps have content in 0.1 and 0.4 per cent of
+  their texels respectively. They are very nearly uniform.
+
+  **Why not KTX2.** The brief's own preference is resizing where the
+  measurement supports it, and it does. Resizing alone reaches single-digit
+  megabytes, which is R4's stated target, with **no compression artefacts at
+  all** on a hero skin texture, no transcoder to host, no GPU-format capability
+  detection and no fallback path. KTX2 would take this further, to roughly
+  1.8 MB, and remains available if a later budget demands it; it is not needed
+  to meet R4.
+
+  **Chosen resolutions**, set per map in `tools/export_glb.py` rather than by
+  editing the GLB, so they are reproducible:
+
+  | Texture | After | GPU with mips | Reason |
+  | --- | --- | --- | --- |
+  | `heloria_skin_basecolor` | 1024x1024 | 5.33 MB | carries the only detail a close-up shows, mottling and palm creases; halving costs 1.1% |
+  | `heloria_skin_roughness` | 512x512 | 1.33 MB | one noise node mapped into 0.34 to 0.56, low frequency by construction |
+  | `heloria_skin_normal` | 256x256 | 0.33 MB | 0.1% of texels carry content; kept so the faint relief survives, not for detail |
+  | `heloria_nail_basecolor` | 512x512 | 1.33 MB | unchanged; highest relative detail of the six and already cheap |
+  | `heloria_nail_roughness` | 256x256 | 0.33 MB | halving costs 0.84/255 |
+  | `heloria_nail_normal` | 256x256 | 0.33 MB | 0.4% of texels carry content |
+  | **Total** | | **9.00 MB** | |
+
+  **Result, measured through `texStorage2D` on the same machine and lighting.**
+  GPU memory **51.00 MB to 6.75 MB at level 0, 68.00 MB to 9.00 MB with mips,
+  an 86.8 per cent reduction**. The calculated model and the measurement agree
+  exactly. Texture bytes on the wire fell from 538,710 to 167,880, and the
+  Draco GLB from 1,511,988 to **1,141,028 bytes**, 24.5 per cent smaller.
+  Asset-ready in the harness moved from 2,421.5 ms to 1,863.1 ms, since there
+  is less to decode.
+
+  **Visual regression.** Four framings rendered from both assets under
+  identical lighting and camera, compared per pixel over the model: open palm
+  RMSE 1.77/255, closed hand 2.42, close skin 0.66, nails 2.07, with 0.2 to
+  0.4 per cent of pixels differing by more than 8/255, those being silhouette
+  edges where mip selection differs at grazing angles. Inspected directly as
+  well as measured: the frames are indistinguishable. Colour-space semantics
+  are unchanged and were verified on the loaded textures, base colour `srgb`
+  and roughness and normal `linear` on both assets.
+
+  **Verified.** Typecheck and build clean; identical bounds
+  (0.104 x 0.1369 x 0.1304), 6 skinned meshes, 2 skeletons, 6 materials, 150
+  tracks at 6.25 s, identical anchor positions at p 0, 0.25, 0.5, 0.75 and 1;
+  no texture or decoder 404s; zero external requests; no CORS errors; no
+  uncaught exceptions; R5 Draco loading intact; R7 disposal returns memory to
+  baseline over two cycles; R14 and R15 both hold; one render loop; no change
+  to the per-frame path.
+
+  **Remaining limitation.** The uncompressed `heloria-hand-flower.glb` is still
+  emitted alongside the Draco build and still ships in `dist/`. It is the
+  reference copy, not loaded at runtime.
+
 ### F-10 Chunk size advisory on `three`
 
 - **FILE/SYSTEM:** build output

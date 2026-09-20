@@ -27,12 +27,42 @@ OUT = os.path.join(OUT_DIR, "heloria-hand-flower.glb")
 OUT_DRACO = os.path.join(OUT_DIR, "heloria-hand-flower.draco.glb")
 
 BAKE_SAMPLES = 24
+
+# Per-map bake resolutions, chosen from measurement rather than convention.
+#
+# Every one of these was 2048 (hand) or 512 (nails), which cost about 53 MB of
+# GPU memory uncompressed, or 71 MB once the mip chain the glTF sampler asks
+# for is generated. The maps were measured by re-sampling each one and
+# comparing only the texels inside the UV islands, with the packing gutters
+# excluded, because averaging across an island edge produces a large error that
+# says nothing about the content:
+#
+#   skin base colour   halving costs 2.93/255 RMSE (1.1%), quartering 4.94
+#   skin roughness     halving costs 1.90/255 (0.7%), quartering 3.64
+#   skin normal        0.1% of texels carry any content at all; it is flat
+#   nail base colour   halving costs 10.14/255, the highest relative detail
+#   nail roughness     halving costs 0.84/255
+#   nail normal        0.4% of texels carry content
+#
+# So the base colour keeps the most resolution because it carries the only
+# detail a close-up actually shows (mottling, palm creases). Roughness is a
+# low-frequency field by construction: it comes from one noise node mapped into
+# 0.34 to 0.56. The normal maps are very nearly uniform, and are kept only so
+# the material's faint relief survives, not because they carry detail.
+BAKE_SIZES = {
+    "heloria_skin": {"basecolor": 1024, "roughness": 512, "normal": 256},
+    "heloria_nail": {"basecolor": 512, "roughness": 256, "normal": 256},
+}
 # Centimetre master -> metre web asset.
 EXPORT_SCALE = 0.01
 
 
-def bake_object(ob, size, prefix):
-    """Bake base colour, roughness and a tangent-space normal for one object."""
+def bake_object(ob, sizes, prefix):
+    """Bake base colour, roughness and a tangent-space normal for one object.
+
+    `sizes` maps each pass name to its own resolution, so a map that carries
+    detail and a map that does not are not forced to the same cost.
+    """
     scene = bpy.context.scene
     scene.render.engine = "CYCLES"
     scene.cycles.device = "CPU"
@@ -65,6 +95,7 @@ def bake_object(ob, size, prefix):
         ("normal", "NORMAL", "Non-Color"),
     )
     for name, bake_type, colorspace in passes:
+        size = sizes[name]
         img = bpy.data.images.new("%s_%s" % (prefix, name), size, size,
                                   alpha=False, float_buffer=False,
                                   is_data=(colorspace != "sRGB"))
@@ -81,7 +112,7 @@ def bake_object(ob, size, prefix):
         bpy.ops.object.bake(type=bake_type, use_clear=True, uv_layer="bake_uv")
         images[name] = img
         nt.nodes.remove(node)
-        print("  baked", prefix, name)
+        print("  baked", prefix, name, "%dx%d" % (size, size))
 
     # Replace the procedural network with a plain glTF-compatible material.
     nt.nodes.clear()
@@ -153,8 +184,8 @@ def main():
             sub.render_levels = 1
 
     print("baking skin maps")
-    bake_object(hand, 2048, "heloria_skin")
-    bake_object(nails, 512, "heloria_nail")
+    bake_object(hand, BAKE_SIZES["heloria_skin"], "heloria_skin")
+    bake_object(nails, BAKE_SIZES["heloria_nail"], "heloria_nail")
 
     # One clip containing both rigs, so a single mixer time drives everything.
     rig.animation_data.action = bpy.data.actions["HELORIA_HAND_REVEAL"]
