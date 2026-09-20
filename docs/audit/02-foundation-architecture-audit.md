@@ -113,6 +113,12 @@ CLAUDE.md section 7 sets and it holds.
 - **SEVERITY:** Medium. It is cheap now and progressively more disruptive later.
 - **REQUIRED CHANGE:** `gsap.ticker` already passes `(time, deltaTime, frame)`.
   Accept them in `tick` and forward them to an update list.
+- **REMEDIATED (R6, 2026-09-20).** `App.tick` now takes the ticker's
+  `(time, deltaMs)`, converts to seconds and clamps at
+  `MAX_DELTA_SECONDS = 0.1`. Elapsed is accumulated from the clamped deltas, so
+  it is always the sum of what systems were given. `app.delta`, `app.elapsed`
+  and `app.frame` expose the values. Verified in a browser: deltas vary between
+  frames, and a forced 350ms main-thread stall was charged as exactly 0.100s.
 
 ### F-03 No update registry: the loop renders but orchestrates nothing
 
@@ -129,6 +135,15 @@ CLAUDE.md section 7 sets and it holds.
 - **SEVERITY:** **High**, as the first thing the next phase will collide with.
 - **REQUIRED CHANGE:** A minimal ordered update list on `App` with an explicit
   render step last, before any progression or stage code is written.
+- **REMEDIATED (R6, 2026-09-20).** `src/core/UpdateRegistry.ts` adds
+  `UpdateRegistry` (`register` / `unregister` / `update` / `clear`) and the
+  `UpdateOrder` slots (Input 100, Animation 200, Scene 300, Post 400,
+  Debug 900), which are positions in the frame, not systems. It is sorted on
+  mutation and never per frame, ties break by registration sequence, and
+  mutations made during iteration are deferred to the end of the frame.
+  `App` owns one instance as `app.updates`; the frame is timing, then
+  `updates.update(delta, elapsed)`, then an explicit `render()`.
+  `App.dispose()` clears the registry.
 
 ### F-04 `toneMappingExposure` is set once by default and never treated as a value
 
@@ -264,6 +279,9 @@ three items that should be settled before progression and stage code is written,
 because they are cheap now and structural later, are F-03 (an ordered update
 registry), F-02 (delta time through the loop) and F-05 (a disposal walker). None
 of them is a repair; all three are the seams the next phase attaches to.
+
+**Update, 2026-09-20: F-02 and F-03 are remediated under R6** (see the notes on
+each). F-05 remains open and is R7.
 
 The remaining items are either genuinely low impact (F-01, F-09, F-10) or
 correctly deferred until the canvas carries content (F-06, F-07).

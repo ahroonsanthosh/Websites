@@ -8,7 +8,19 @@ import {
   WebGLRenderer,
 } from 'three';
 
+import { UpdateRegistry } from '@/core/UpdateRegistry';
 import { Viewport, type ViewportSize } from '@/core/Viewport';
+
+/**
+ * Upper bound on a single frame's delta, in seconds.
+ *
+ * A backgrounded tab stops receiving frames, and GSAP's own lag smoothing only
+ * limits the gap to its threshold, so a resumed tab can still deliver a delta
+ * of several hundred milliseconds. Integrating one step that large is not an
+ * approximation of the motion that was missed, it is a jump. Anything longer
+ * than this is treated as a stall and charged as a single 100ms step.
+ */
+export const MAX_DELTA_SECONDS = 0.1;
 
 export interface AppOptions {
   canvas: HTMLCanvasElement;
@@ -19,8 +31,13 @@ export interface AppOptions {
 }
 
 /**
- * Application shell: owns the renderer, scene, camera, render loop and
- * lifecycle. The scene is intentionally empty — this is the foundation only.
+ * Application shell: owns the renderer, scene, camera, frame loop and
+ * lifecycle. The scene is intentionally empty; this is the foundation only.
+ *
+ * The frame is: compute timing, run the registered systems in order, render.
+ * Rendering is a separate step rather than a registered system, so that the
+ * draw is always last and always explicit. Nothing that belongs to a scene, a
+ * stage or the progression value belongs in this class; they register instead.
  */
 export class App {
   readonly canvas: HTMLCanvasElement;
@@ -29,9 +46,16 @@ export class App {
   readonly camera: PerspectiveCamera;
   readonly viewport: Viewport;
 
+  /** The one ordered per-frame update list. */
+  readonly updates = new UpdateRegistry();
+
   private readonly unsubscribeViewport: () => void;
   private running = false;
   private disposed = false;
+
+  private elapsedSeconds = 0;
+  private deltaSeconds = 0;
+  private frameCount = 0;
 
   constructor({ canvas, maxPixelRatio = 2, clearColor = 0x05070a }: AppOptions) {
     this.canvas = canvas;
@@ -62,6 +86,21 @@ export class App {
     document.addEventListener('visibilitychange', this.handleVisibilityChange, false);
   }
 
+  /** Seconds since the app started, as the sum of the clamped deltas. */
+  get elapsed(): number {
+    return this.elapsedSeconds;
+  }
+
+  /** The most recent clamped delta, in seconds. */
+  get delta(): number {
+    return this.deltaSeconds;
+  }
+
+  /** Frames this app has actually run. Not the ticker's global frame number. */
+  get frame(): number {
+    return this.frameCount;
+  }
+
   start(): void {
     if (this.running || this.disposed) return;
     this.running = true;
@@ -89,6 +128,8 @@ export class App {
     this.unsubscribeViewport();
     this.viewport.dispose();
 
+    this.updates.clear();
+
     this.renderer.dispose();
   }
 
@@ -101,9 +142,33 @@ export class App {
     this.camera.updateProjectionMatrix();
   };
 
-  private readonly tick = (): void => {
-    this.renderer.render(this.scene, this.camera);
+  /**
+   * The frame.
+   *
+   * GSAP's ticker supplies `(time, deltaMs, frame)`. Its `time` is seconds
+   * since the ticker woke and its delta is milliseconds, so the conversion and
+   * the clamp happen here, once, and every system downstream is handed seconds
+   * that are already safe to integrate.
+   *
+   * Elapsed is accumulated from the clamped deltas rather than taken from the
+   * ticker, so that `elapsed` is always exactly the sum of the deltas the
+   * systems were given. A simulation that integrates deltas and a value that
+   * skipped a stall would otherwise disagree.
+   */
+  private readonly tick: gsap.TickerCallback = (_time, deltaMs): void => {
+    const delta = deltaMs * 0.001;
+    this.deltaSeconds = delta < MAX_DELTA_SECONDS ? delta : MAX_DELTA_SECONDS;
+    this.elapsedSeconds += this.deltaSeconds;
+    this.frameCount++;
+
+    this.updates.update(this.deltaSeconds, this.elapsedSeconds);
+    this.render();
   };
+
+  /** The draw. Kept separate from orchestration so it stays the last step. */
+  private render(): void {
+    this.renderer.render(this.scene, this.camera);
+  }
 
   private readonly handleContextLost = (event: Event): void => {
     // Preventing the default lets the browser restore the context for us.
