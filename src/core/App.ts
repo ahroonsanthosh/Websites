@@ -8,6 +8,7 @@ import {
   WebGLRenderer,
 } from 'three';
 
+import { disposeObject } from '@/core/dispose';
 import { UpdateRegistry } from '@/core/UpdateRegistry';
 import { Viewport, type ViewportSize } from '@/core/Viewport';
 
@@ -129,6 +130,15 @@ export class App {
     this.viewport.dispose();
 
     this.updates.clear();
+
+    // Free whatever is still in the scene. Today that is nothing; once stages
+    // exist, each is responsible for its own teardown and this is the backstop
+    // for anything they left behind.
+    //
+    // `scene.background` and `scene.environment` are deliberately not the
+    // walker's business: they are app-owned and shared across stages. When
+    // this class starts setting them, it disposes them here itself.
+    disposeObject(this.scene);
 
     this.renderer.dispose();
   }

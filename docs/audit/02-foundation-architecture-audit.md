@@ -175,6 +175,23 @@ CLAUDE.md section 7 sets and it holds.
 - **REQUIRED CHANGE:** A `disposeObject(root)` utility that walks geometries,
   materials, their textures, and any render targets, written together with the
   stage lifecycle rather than after it.
+- **REMEDIATED (R7, 2026-09-20).** `src/core/dispose.ts` adds `disposeObject`,
+  `disposeGeometry`, `disposeMaterial`, `disposeTexture`, `disposeSkeleton` and
+  `disposeRenderTarget`. Every entry point takes a `seen` set keyed on object
+  identity, so a resource shared by several objects is disposed once per
+  operation. Material textures come from an explicit 26-property list
+  enumerated from the installed Three.js 0.180 sources, plus `ShaderMaterial`
+  uniform values that identify as textures. Two traps found by reading that
+  source are handled: `Sprite` shares one module-level geometry across every
+  sprite, so sprite geometry is never disposed, and `BatchedMesh.dispose()`
+  already frees its own geometry. Skeletons are disposed through
+  `Skeleton.dispose()`, once per skeleton. The walker does not remove children,
+  does not touch the renderer, and does not dispose `scene.background` or
+  `scene.environment`, which are app-owned. `App.dispose()` calls
+  `disposeObject(this.scene)` as the backstop for anything a stage leaves
+  behind. Verified against the real hand/flower GLB: 6 skinned meshes sharing
+  2 skeletons, load and dispose twice, with `renderer.info.memory` returning
+  from 6 geometries and 8 textures to 0 and 0 on both cycles.
 
 ### F-06 No capability detection and no WebGL failure path
 
@@ -280,8 +297,9 @@ because they are cheap now and structural later, are F-03 (an ordered update
 registry), F-02 (delta time through the loop) and F-05 (a disposal walker). None
 of them is a repair; all three are the seams the next phase attaches to.
 
-**Update, 2026-09-20: F-02 and F-03 are remediated under R6** (see the notes on
-each). F-05 remains open and is R7.
+**Update, 2026-09-20: F-02 and F-03 are remediated under R6, and F-05 under
+R7** (see the notes on each). All three seams the verdict named are now in
+place.
 
 The remaining items are either genuinely low impact (F-01, F-09, F-10) or
 correctly deferred until the canvas carries content (F-06, F-07).
