@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Same empty data: icon as index.html. Without it the browser asks for
+         /favicon.ico, which does not exist, and the 404 shows up as a console
+         error in a page whose whole job is to prove the console is clean. -->
+    <link rel="icon" href="data:," />
     <title>Heloria dev: hand and flower</title>
     <style>
       html, body { height: 100%; margin: 0; background: #05070a; color: #c8ccd4;

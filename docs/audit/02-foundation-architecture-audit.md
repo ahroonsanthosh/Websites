@@ -496,6 +496,118 @@ CLAUDE.md section 7 sets and it holds.
   emitted alongside the Draco build and still ships in `dist/`. It is the
   reference copy, not loaded at runtime.
 
+- **REMEDIATED (R12, 2026-09-20), with A-04's premise inverted by measurement.**
+
+  **Correction first.** A-04 states that double-siding "is simply wrong" for
+  the skin and nails because "a closed hand mesh has no visible backfaces", and
+  that it "is correct and necessary" for the petals because a petal is a thin
+  surface. Measured on the evaluated meshes, with modifiers applied, the
+  opposite is true of both halves:
+
+  | Material | Faces | Boundary edges | Inconsistent winding | Watertight |
+  | --- | --- | --- | --- | --- |
+  | `HELORIA_PETAL` | 3,250 | 0 | 0 | yes |
+  | `HELORIA_SEPAL` | 1,250 | 0 | 0 | yes |
+  | `HELORIA_CENTRE` | 2,208 | 0 | 0 | yes |
+  | `HELORIA_STEM` | 112 | 0 | **20** | closed, mis-wound |
+  | `HELORIA_SKIN` | 16,602 | **264** | 0 | no |
+  | `HELORIA_NAIL` | 768 | **180** | 0 | no |
+
+  The petals are not thin sheets in the exported asset. The Solidify modifier
+  runs with `use_rim = True`, so each petal is a closed shell with a rimmed
+  edge, and the same is true of the sepals and the receptacle. The hand is the
+  open one. Its 264 boundary edges form six loops: one 84-edge loop at the
+  forearm cut, which is simply uncapped, and five loops at the fingertips whose
+  centres are identical to the nail shells' five loops. The nail beds are cut
+  out of the skin and plugged by the nail sheets, so neither mesh is closed on
+  its own even though the union nearly is.
+
+  **Then pixels, because geometry alone does not say what the camera sees.**
+  Each material was culled on its own and the asset rendered from a 160-point
+  Fibonacci sphere at five bloom values, 800 renders per material, each
+  compared against the same viewpoint rendered double-sided:
+
+  | Material | Changed px across 52.4M | Worst single frame (of 65,536) |
+  | --- | --- | --- |
+  | `HELORIA_CENTRE` | 50 | 4 |
+  | `HELORIA_STEM` | 42 | 2 |
+  | `HELORIA_SEPAL` | 56 | 2 |
+  | `HELORIA_PETAL` | 186 | 4 |
+  | `HELORIA_NAIL` | 107 | 10 |
+  | `HELORIA_SKIN` | **436,014** | **3,434** |
+
+  The flower's four figures are silhouette antialiasing: isolated pixels on
+  edge-on triangles, never adjacent. The skin's are not. Rendered at 640x640
+  from below, culling the skin opens the forearm stump into a hole 21,468
+  pixels across. The nail's ten worst pixels are a real sliver too, at the
+  seam where the nail rim and the skin rim are coincident but not coplanar.
+
+  **The decision, and why it is not the one A-04 predicted.** Cull exactly the
+  surfaces that are watertight and correctly wound. `HELORIA_PETAL`,
+  `HELORIA_SEPAL` and `HELORIA_CENTRE` become single-sided. `HELORIA_SKIN`,
+  `HELORIA_NAIL` and `HELORIA_STEM` stay double-sided, each for a stated
+  geometric reason rather than as a default. Making the skin single-sided would
+  have traded fragment work on 16,602 faces for a visible hole, which is not a
+  trade this asset can make while the camera envelope is undefined.
+
+  **Two geometry defects, reported rather than masked.** A double-sided
+  material is not a fix for either, and neither is repaired here because both
+  are changes to geometry, which this pass does not make:
+
+  1. **`HELORIA_STEM` is wound inside out.** All 50 source side quads face the
+     axis rather than away from it. The bottom cap in
+     `create_heloria_flower.build_stem` was reversed by hand with a `[::-1]`,
+     which made the cap point outward while leaving it inconsistent with the
+     sides; that inconsistency is the 20 edges in the table. Removing the
+     `[::-1]` takes the count to 0 but leaves the whole tube inverted, so the
+     correct repair is to flip the side quads and drop the reversal together.
+     Until then the stem cannot be culled: it would lose its cap. Solidify runs
+     with `offset = 0.0`, so the repair moves no surface and should cost no
+     pixels, but that has to be verified by rebuilding the master, which is a
+     mesh-generator change and a separate piece of work.
+  2. **The hand's forearm is an open tube.** Capping the 84-edge loop is the
+     prerequisite for culling the skin. It is a topology change.
+
+  **Where the change lives.** `SIDEDNESS` in `tools/export_glb.py`, applied by
+  `apply_sidedness()` against the opened master at export time. The `.blend` is
+  not modified and the GLBs are not hand-edited, so re-running the export is
+  all it takes to change a decision, and the table and the shipped asset cannot
+  drift apart. The function raises if a material in the master has no recorded
+  decision, so a newly added material cannot inherit Blender's default and ship
+  double-sided unnoticed.
+
+  **Verified after re-export, both GLBs.** glTF: six materials, `doubleSided`
+  false on `HELORIA_PETAL`, `HELORIA_SEPAL` and `HELORIA_CENTRE`, true on the
+  other three; `alphaMode` `OPAQUE` on all six, unchanged. In Three.js the same
+  three load as `FrontSide` and the other three as `DoubleSide`. Everything
+  else is byte-identical in structure: 3 meshes, 56 nodes, 6 skinned meshes, 2
+  skeletons, 150 animation channels, 6.25 s, six WebP images at the R4 sizes
+  (skin 1024/512/256, nail 512/256/256) with sRGB base colour and linear
+  roughness and normal, R5 Draco intact. `HeloriaFlowerAnchor` sits at the same
+  world position to six decimal places at p = 0, 0.25, 0.5, 0.75 and 1, and the
+  scene bounds are identical at all five. Uncompressed GLB 3,320,408 to
+  3,320,352 bytes, the 56 bytes being the three removed `doubleSided` keys;
+  Draco 1,141,028 to 1,140,972.
+
+  **Visual regression test.** The pre-R12 and post-R12 Draco assets were
+  rendered side by side over the same 800 viewpoints: 267 differing pixels in
+  52.4M, worst frame 5 of 65,536, all of them single silhouette pixels. No
+  visible change, which is what "no visual change" has to mean if it is to mean
+  anything.
+
+  **One unrelated fix.** `dev/hand-flower.html` had no `<link rel="icon">`, so
+  every load of the harness requested `/favicon.ico`, got a 404 and logged a
+  console error, in the page whose job is to prove the console is clean.
+  `index.html` already carried the empty `data:` icon; the harness now does
+  too. `npm run build` passes, and dev, preview and the harness are all clean.
+
+  **Recorded bounds discrepancy.** The scene bounds measure 0.1681 x 0.2302 x
+  0.0709 m at rest, not the 0.104 x 0.1369 x 0.1304 recorded earlier. The two
+  numbers come from different measurements, not different assets: the figure
+  here is `Box3.setFromObject` over the whole loaded scene. What R12 needs is
+  that the value is unchanged, and it is, at every sampled pose.
+
+
 ### F-10 Chunk size advisory on `three`
 
 - **FILE/SYSTEM:** build output
@@ -544,8 +656,8 @@ registry), F-02 (delta time through the loop) and F-05 (a disposal walker). None
 of them is a repair; all three are the seams the next phase attaches to.
 
 **Update, 2026-09-20: F-02 and F-03 are remediated under R6, F-05 under R7,
-F-06, F-07 and F-08 under R14 and R15, and the startup-timing half of R9 under
-F-09** (see the notes on each). All three seams the verdict named are in place,
+F-06, F-07 and F-08 under R14 and R15, the startup-timing half of R9 under
+F-09, and A-01 and A-04 under R4 and R12** (see the notes on each). All three seams the verdict named are in place,
 and F-10 resolved itself when the dev harness left the build.
 
 The remaining items are either genuinely low impact (F-01, F-09, F-10) or

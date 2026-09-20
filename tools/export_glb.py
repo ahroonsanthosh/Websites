@@ -57,6 +57,104 @@ BAKE_SIZES = {
 EXPORT_SCALE = 0.01
 
 
+# Material sidedness, decided per material from measured geometry and measured
+# pixels, not from convention.
+#
+# glTF has one boolean per material: `doubleSided`. Blender writes it as the
+# inverse of `use_backface_culling`. Every material in the master shipped with
+# culling off, so all six were exported `doubleSided: true`. That is a default
+# nobody chose, and it makes the renderer rasterise back faces that in most
+# cases can never be seen.
+#
+# Two measurements decided this table.
+#
+# 1. Geometry, on the evaluated mesh with modifiers applied. A surface may only
+#    be culled if it is watertight (no boundary edges) and consistently wound;
+#    anything else has an interior the camera can reach.
+#
+#      HELORIA_PETAL    3250 faces   0 boundary edges   0 inconsistent
+#      HELORIA_SEPAL    1250 faces   0 boundary edges   0 inconsistent
+#      HELORIA_CENTRE   2208 faces   0 boundary edges   0 inconsistent
+#      HELORIA_STEM      112 faces   0 boundary edges  20 inconsistent  <- defect
+#      HELORIA_SKIN    16602 faces 264 boundary edges   0 inconsistent  <- open
+#      HELORIA_NAIL      768 faces 180 boundary edges   0 inconsistent  <- open
+#
+#    The skin's 264 boundary edges form six loops: one 84-edge loop at the
+#    forearm cut, which is simply uncapped, and five loops at the fingertips
+#    whose centres are identical to the nail shells' five loops. The nail beds
+#    are cut out of the skin and plugged by the nail sheets, so neither mesh is
+#    closed on its own even though the union nearly is.
+#
+# 2. Pixels. Each material was culled on its own and the asset rendered from a
+#    160-point Fibonacci sphere at five bloom values, 800 renders per material,
+#    each compared against the same viewpoint rendered double-sided:
+#
+#      HELORIA_CENTRE       50 changed px across 52.4M   worst frame  4 px
+#      HELORIA_STEM         42                            worst frame  2 px
+#      HELORIA_SEPAL        56                            worst frame  2 px
+#      HELORIA_PETAL       186                            worst frame  4 px
+#      HELORIA_NAIL        107                            worst frame 10 px
+#      HELORIA_SKIN    436,014                            worst frame 3434 px
+#
+#    The flower's four figures are silhouette antialiasing: single pixels on
+#    edge-on triangles, scattered, never adjacent. The skin's are not. From
+#    below, culling the skin opens the forearm stump into a hole 21,468 pixels
+#    across at 640x640. The nail's ten worst pixels are a real sliver too: the
+#    nail rim and the skin rim are coincident but not coplanar, so at a grazing
+#    underside angle the camera sees through the seam.
+#
+# Hence: cull the three flower surfaces that are provably closed, and keep the
+# three that are not. Nothing here is set single-sided because an audit
+# expected it; skin and nails stay double-sided because the measurement says
+# their back faces are reachable, and making them single-sided would trade a
+# small fill-rate saving for a visible hole.
+#
+# Two geometry defects are recorded rather than papered over, because a
+# double-sided material is not a fix for either of them:
+#
+#   - HELORIA_STEM is wound inside out. All 50 source side quads face the axis
+#     rather than away from it, and the bottom cap was reversed by hand to
+#     compensate, which is where the 20 inconsistent edges come from. Culling
+#     it would drop the cap. It stays double-sided until the winding is
+#     corrected in `create_heloria_flower.build_stem`, which is a change to the
+#     mesh generator and so outside this pass.
+#   - The hand's forearm is an open tube. Capping it is the prerequisite for
+#     culling the skin, and that is a topology change, also outside this pass.
+SIDEDNESS = {
+    "HELORIA_PETAL": True,    # closed shell, Solidify with use_rim
+    "HELORIA_SEPAL": True,    # closed shell
+    "HELORIA_CENTRE": True,   # closed shell
+    "HELORIA_STEM": False,    # closed, but wound inside out: see above
+    "HELORIA_SKIN": False,    # open at the forearm and at five nail beds
+    "HELORIA_NAIL": False,    # open sheets plugging the nail beds
+}
+
+
+def apply_sidedness():
+    """Set back-face culling per material, and fail loudly on a surprise.
+
+    This runs against the opened master at export time rather than being baked
+    into the .blend, so the decision above and the exported asset cannot drift
+    apart, and re-running the export is all it takes to change one.
+    """
+    seen = set()
+    for name, cull in SIDEDNESS.items():
+        mat = bpy.data.materials.get(name)
+        if mat is None:
+            raise SystemExit(f"sidedness: material {name!r} is not in the master")
+        mat.use_backface_culling = cull
+        seen.add(name)
+        print(f"  {name:16s} use_backface_culling={cull}  -> glTF doubleSided={not cull}")
+    # A material added to the master without a decision here would otherwise
+    # inherit Blender's default and ship double-sided unnoticed.
+    used = {ms.material.name
+            for ob in bpy.data.objects if ob.type == "MESH"
+            for ms in ob.material_slots if ms.material}
+    missing = sorted(used - seen)
+    if missing:
+        raise SystemExit(f"sidedness: no decision recorded for {missing}")
+
+
 def bake_object(ob, sizes, prefix):
     """Bake base colour, roughness and a tangent-space normal for one object.
 
@@ -196,6 +294,9 @@ def main():
     for ob in bpy.data.objects:
         if ob.type in {"CAMERA", "LIGHT"}:
             bpy.data.objects.remove(ob, do_unlink=True)
+
+    print("material sidedness")
+    apply_sidedness()
 
     measured = stats()
     print("STATS", json.dumps(measured))
