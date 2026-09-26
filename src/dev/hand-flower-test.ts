@@ -25,6 +25,7 @@ import {
   type Object3D,
 } from 'three';
 import { createGLTFLoader } from '@/core/gltf';
+import { RenderPipeline } from '@/core/RenderPipeline';
 import { mark, Milestone, timeline } from '@/core/timing';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { PMREMGenerator } from 'three';
@@ -34,7 +35,9 @@ const slider = document.querySelector<HTMLInputElement>('#bloom');
 const readout = document.querySelector<HTMLElement>('#readout');
 if (!canvas || !slider || !readout) throw new Error('[dev] missing elements');
 
-const renderer = new WebGLRenderer({ canvas, antialias: true });
+// alpha: true so the pipeline's scene pass can clear to transparent and the
+// page background comes through without being tone mapped. See RenderPipeline.
+const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.outputColorSpace = SRGBColorSpace;
 renderer.toneMapping = ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
@@ -53,6 +56,11 @@ const rim = new DirectionalLight(0xdfe8ff, 1.4);
 rim.position.set(0.5, 0.4, -1.0);
 scene.add(rim);
 
+// `?ao=0` renders straight to the canvas instead, for an A/B against the
+// contact pass without touching anything else in the scene.
+const aoEnabled = new URLSearchParams(location.search).get('ao') !== '0';
+const pipeline = aoEnabled ? new RenderPipeline({ renderer, scene, camera }) : null;
+
 interface Result {
   clip: AnimationClip | null;
   mixer: AnimationMixer | null;
@@ -69,10 +77,12 @@ const result: Result = {
 function resize(): void {
   const w = canvas!.clientWidth || window.innerWidth;
   const h = canvas!.clientHeight || window.innerHeight;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const dpr = Math.min(window.devicePixelRatio, 2);
+  renderer.setPixelRatio(dpr);
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
+  pipeline?.setSize(w, h, dpr);
 }
 window.addEventListener('resize', resize);
 resize();
@@ -133,6 +143,7 @@ createGLTFLoader().load('/models/heloria-hand-flower.draco.glb', (gltf) => {
   // Reported for the headless check, not for humans.
   (window as unknown as Record<string, unknown>).__handFlower = {
     loaded: true,
+    contactAO: aoEnabled,
     animations: gltf.animations.map((a) => ({ name: a.name, duration: a.duration, tracks: a.tracks.length })),
     skinnedMeshes: skinned,
     anchorFound: Boolean(result.anchor),
@@ -164,7 +175,8 @@ slider.addEventListener('input', () => setProgress(Number(slider.value) / 1000))
 
 let firstFrameMarked = false;
 renderer.setAnimationLoop(() => {
-  renderer.render(scene, camera);
+  if (pipeline) pipeline.render();
+  else renderer.render(scene, camera);
   if (!firstFrameMarked) {
     firstFrameMarked = true;
     mark(Milestone.FirstFrame);

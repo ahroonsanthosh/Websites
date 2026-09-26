@@ -9,6 +9,7 @@ import {
 } from 'three';
 
 import { disposeObject } from '@/core/dispose';
+import type { RenderPipeline } from '@/core/RenderPipeline';
 import { mark, Milestone } from '@/core/timing';
 import { UpdateRegistry } from '@/core/UpdateRegistry';
 import { Viewport, type ViewportSize } from '@/core/Viewport';
@@ -62,13 +63,32 @@ export class App {
   /** Plain boolean rather than a lookup, so the render path pays nothing. */
   private firstFrameMarked = false;
 
+  /**
+   * The render pipeline, when one is installed. Null means draw the scene
+   * straight to the canvas, which is what an empty scene should do: a composer
+   * over nothing is three passes of nothing.
+   */
+  private pipeline: RenderPipeline | null = null;
+
   constructor({ canvas, maxPixelRatio = 2, clearColor = 0x05070a }: AppOptions) {
     this.canvas = canvas;
 
     this.renderer = new WebGLRenderer({
       canvas,
       antialias: true,
-      alpha: false,
+      // An alpha channel, so a render pipeline can clear its scene pass to
+      // transparent and let the page background through untouched.
+      //
+      // The reason is tone mapping. Drawing straight to the canvas, Three tone
+      // maps on the way out and never touches the clear colour. Drawing
+      // through a composer, the clear lands in a linear target and the output
+      // pass tone maps it along with everything else, which lifts this
+      // background from (5, 7, 10) to (22, 30, 41). Measured, not guessed.
+      //
+      // Nothing about the first frame changes. With no pipeline installed the
+      // clear is still opaque and still `clearColor`, and the CSS background
+      // is the same value either way, so there is no paint to flash.
+      alpha: true,
       powerPreference: 'high-performance',
       stencil: false,
       depth: true,
@@ -108,6 +128,24 @@ export class App {
     return this.frameCount;
   }
 
+  /**
+   * Install a render pipeline, or pass null to go back to drawing straight to
+   * the canvas.
+   *
+   * Ownership transfers: this class disposes the pipeline when it is replaced
+   * and when the app is disposed. A caller that wants to keep one alive across
+   * an App teardown should not hand it over.
+   */
+  setRenderPipeline(pipeline: RenderPipeline | null): void {
+    if (pipeline === this.pipeline) return;
+    this.pipeline?.dispose();
+    this.pipeline = pipeline;
+    if (pipeline) {
+      const { width, height, pixelRatio } = this.viewport.size;
+      pipeline.setSize(width, height, pixelRatio);
+    }
+  }
+
   start(): void {
     if (this.running || this.disposed) return;
     this.running = true;
@@ -145,6 +183,9 @@ export class App {
 
     this.updates.clear();
 
+    this.pipeline?.dispose();
+    this.pipeline = null;
+
     // Free whatever is still in the scene. Today that is nothing; once stages
     // exist, each is responsible for its own teardown and this is the backstop
     // for anything they left behind.
@@ -164,6 +205,10 @@ export class App {
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
+
+    // Every render target the pipeline owns has to follow the drawing buffer,
+    // or the composed frame is sampled at the wrong scale after a resize.
+    this.pipeline?.setSize(width, height, pixelRatio);
   };
 
   /**
@@ -191,7 +236,10 @@ export class App {
 
   /** The draw. Kept separate from orchestration so it stays the last step. */
   private render(): void {
-    this.renderer.render(this.scene, this.camera);
+    // Still one draw, still last. The pipeline replaces what the draw is, not
+    // when it happens or how many loops drive it.
+    if (this.pipeline) this.pipeline.render();
+    else this.renderer.render(this.scene, this.camera);
 
     if (!this.firstFrameMarked) {
       this.firstFrameMarked = true;

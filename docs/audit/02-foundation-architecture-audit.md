@@ -822,6 +822,251 @@ CLAUDE.md section 7 sets and it holds.
      painted map.
 
 
+- **REMEDIATED (R3, 2026-09-26). Contact ambient occlusion, chosen over a
+  shadow map on measurement.**
+
+  **The defect, and where it actually is.** M-05 and doc 09 observation 20
+  record that nothing darkens where the flower meets the palm, and call it the
+  largest single reason the two do not read as touching. Before choosing a
+  technique the contact itself was measured, on the skinned vertices in world
+  space, per material, at five bloom values, as the minimum distance from each
+  flower vertex to the hand surface:
+
+  | Material | p = 0 | 0.25 | 0.5 | 0.75 | 1 | within 2 mm at p = 0 |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | `HELORIA_SEPAL` | 0.28 mm | 0.18 | 1.10 | 1.96 | 1.96 | 88 vertices |
+  | `HELORIA_PETAL` | 0.15 mm | 0.27 | 9.39 | 10.78 | 8.36 | 147 vertices |
+  | `HELORIA_STEM` | 5.44 mm | 5.47 | 5.98 | 6.16 | 6.16 | 0 |
+  | `HELORIA_CENTRE` | 6.96 mm | 7.07 | 9.22 | 10.49 | 10.49 | 0 |
+
+  Two contacts, not one. The sepals against the palm are the contact that
+  persists through the whole clip. The petal tips against the fingers are a
+  second, real contact that exists only while the hand is closed and is gone by
+  half bloom. The stem never touches anything, which the audit's "resting on
+  the palm" phrasing implies it does. Anything keyed to one pose would have got
+  this wrong in both directions.
+
+  **Why nothing was visible.** The scene is lit almost entirely by an
+  environment map, and image-based lighting assumes every point sees the whole
+  hemisphere. Two surfaces a fraction of a millimetre apart were each lit as if
+  the other were not there. The missing term is ambient occlusion, so that is
+  what was added, rather than a shadow that would have said where the key light
+  is rather than where the flower touches.
+
+  **How the choice was made.** Both candidates were implemented and measured
+  over 35 frames, five bloom values across seven camera angles, each against
+  the same frame with no effect. The measurement splits the hand's pixels by
+  geometry rather than by eye: masks are rendered from the meshes themselves,
+  the flower mask is dilated, and hand pixels within 14 px of the flower's
+  silhouette are the contact band while those beyond 42 px are the far field. A
+  technique that solves the stated problem darkens the first and leaves the
+  second alone.
+
+  | Technique | contact band | far field | worst angle, far field | passes | targets | draw calls |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | Shadow map, PCFSoft 2048 | 0.00981 | **0.00601** | **0.03368** | 2 | 1 | 12 |
+  | SSAO, kernel 16 | 0.00698 | -0.00063 | 0.01010 | 4 | 4 | 16 |
+  | **GTAO, radius 8 mm** | **0.01151** | **-0.00181** | **0.00492** | 4 | 5 | 17 |
+
+  The shadow map darkens the far field by 61% of what it darkens the contact
+  band, and by 0.034 at its worst angle: a cast shadow sweeping the whole hand.
+  The render confirms it as a soft dark blob thrown clear of the flower onto
+  open palm, which is precisely the "dark blob" outcome to avoid, and it would
+  have meant designing the lighting around the shadow. Rejected. SSAO reaches
+  61% of GTAO's contact darkening with twice its worst-angle far-field
+  artefact. Rejected. GTAO's far field goes very slightly *brighter*, and that
+  residue is not the occlusion: a composer with no AO pass at all measures
+  -0.00206 in the same place.
+
+  **Parameters, from the scene rather than from the defaults.**
+
+  | Parameter | Value | Why |
+  | --- | --- | --- |
+  | `radius` | 0.008 m | Contacts are 0.15 to 2 mm, the palm hollow 30 to 40 mm. 0.012 measured within 3%, 0.020 slightly worse on both axes. GTAO's own default is 0.25, which on a 104 x 137 x 130 mm asset occludes the whole hand against itself. |
+  | `thickness` | 0.01 m | How far behind a surface a sample still occludes. The default is 1.0 world unit, so the far side of the palm would occlude the near side. |
+  | `distanceExponent` | 1 | Linear. Every contact here is within a few millimetres; there is nothing for a curve to shape. |
+  | `samples` | 16 | Three's default, with the Poisson denoise that follows it. |
+  | `blendIntensity` | 1 | 0.6 was measured and halves the contact darkening to 0.00468, which is too weak to read. |
+  | intermediate target | RGBA16F, 4x MSAA | A composer bypasses the canvas's own multisampling. Without this the effect would have arrived together with aliased silhouettes. |
+
+  **One unintended change, found and fixed.** Adding a composer moves where
+  tone mapping happens. Rendering straight to the canvas, Three tone maps on
+  the way out and never touches the clear colour; rendering through a composer,
+  the clear lands in a linear target and `OutputPass` tone maps it along with
+  everything else. Measured, this lifted the background from (5, 7, 10) to
+  (22, 30, 41): the whole frame changed for an effect meant to touch one
+  contact region. The scene pass now clears to transparent black and the page's
+  own background supplies the colour, which needs the canvas context to carry
+  an alpha channel, so `App` creates it with `alpha: true`. Tone mapping zero
+  gives zero. Verified: the production page measures (5, 7, 10) at three
+  sampled pixels, unchanged, and the CSS variable that CLAUDE.md ties the clear
+  colour to is untouched.
+
+  **Where it lives.** `src/core/RenderPipeline.ts` owns the composer and every
+  pass. `App` gains one seam, `setRenderPipeline(pipeline | null)`, and its
+  render step becomes "use the pipeline if one is installed, otherwise draw
+  directly". Null is the default and the production scene is still empty, so
+  production runs exactly the render it ran before: a composer over an empty
+  scene is three passes of nothing. The dev harness, which owns the only scene
+  that exists, installs one; `?ao=0` turns it off for an A/B. The seam costs
+  0.28 kB in the production bundle (9.30 to 9.58 kB) and the pass machinery is
+  not bundled at all, because `App` imports only the type.
+
+  The draw is still the last step and `UpdateRegistry` is untouched. No render
+  loop was added or changed: production still runs the one `gsap.ticker`
+  callback, and the dev harness still runs the one `setAnimationLoop` it had
+  before, which is pre-existing and dev-only. Each page has exactly one.
+
+  **Disposal, verified rather than assumed.** `EffectComposer.dispose()` frees
+  its two targets and its internal copy pass and nothing else: passes handed to
+  `addPass` are not its business. Each is therefore disposed by name.
+
+  | | geometries | textures | programs |
+  | --- | --- | --- | --- |
+  | before the pipeline | 13 | 6 | 5 |
+  | pipeline alive | 14 | 14 | 12 |
+  | after two resizes | 14 | 14 | 12 |
+  | after `dispose()` | 13 | 6 | 8 |
+  | after five create/dispose cycles | 13 | 6 | 8 |
+
+  Geometries and textures return exactly to their pre-pipeline counts, the
+  counts do not move across two resizes, and five consecutive create, render
+  and dispose cycles leave them identical, which is the test a single cycle
+  cannot pass on its own. Programs settle at 8 rather than 5 because Three's
+  program cache retains the fullscreen-quad programs; it is stable across
+  cycles, so it is a cache and not a leak. `App.dispose()` disposes whatever
+  pipeline is installed, and `setRenderPipeline` disposes the one it replaces.
+
+  **Stability under animation.** The effect is derived from the rendered depth
+  and normals, so it follows the skinned geometry with no pose-specific setup
+  and no world coordinates anywhere. Measured by stepping the bloom value in
+  0.005 increments and comparing consecutive frames:
+
+  | View | effect off | effect on |
+  | --- | --- | --- |
+  | contact close-up, mean frame-to-frame delta | 0.028309 | 0.028971 |
+  | contact close-up, worst | 0.12522 | 0.128503 |
+  | three-quarter, mean | 0.026031 | 0.026128 |
+  | three-quarter, worst | 0.029719 | 0.029857 |
+
+  Within 2.6% of the scene's own frame-to-frame change at the worst of it. No
+  flicker, no crawl.
+
+  **Result, across the matrix.** Thirty frames, five bloom values by six camera
+  angles, the shipped module against no pipeline, identical camera, lighting,
+  exposure, animation state and resolution. Contact-band darkening ranges
+  0.00177 to 0.01942 with a peak local drop of 0.84; far-field darkening ranges
+  0.00005 to 0.00407. At the contact close-up the ratio between the two is
+  between 40 and 230 to one. Between 0.89% and 9.88% of pixels change.
+
+  The one row that looks weak is the three-quarter view at p = 0 and p = 0.25
+  (contact 0.00199 and 0.00177, far field 0.00368 and 0.00407). That is not a
+  failure: at those bloom values the hand is closed and the flower is inside
+  the fist, so the band around its silhouette is mostly occluded, and what the
+  occlusion is darkening there is between the fingers, which this mask counts
+  as far field. It is the effect working on a contact the mask was not built to
+  measure.
+
+  Visually, at the contact view the flower stops being a bright cutout laid on
+  skin: the overlapping petals gain depth against each other, the sepals darken
+  where they meet the palm, and the far palm is unchanged.
+
+  **Cost.**
+
+  | Metric | Before | After |
+  | --- | --- | --- |
+  | Render passes | 1 | 4: scene, depth/normal, occlusion + denoise, output |
+  | Draw calls per frame | 6 | 17 |
+  | Triangles submitted per frame | 48,536 | 97,077 (the scene is drawn twice, once for the normal buffer) |
+  | Render targets | 0 | 5 |
+  | Textures held (`renderer.info`) | 6 | 14 |
+  | GPU memory for targets, 800x600 | 0 | 42.1 MB, or 92 bytes per viewport pixel |
+  | First WebGL frame, dev harness at 900x700 | 2282 ms | 2831 ms |
+  | Asset-ready, dev harness | 2595 ms | 3097 ms |
+  | Production bundle | 9.30 kB | 9.58 kB |
+  | Production first frame and asset timing | unchanged | unchanged, no pipeline installed |
+
+  The +549 ms on the harness's first frame is shader compilation for the three
+  new programs, under a software rasteriser, before the asset has arrived. It
+  is not a steady-state cost and it is not paid in production.
+
+  **Frame time could not be measured reliably** and is deliberately absent
+  above. `performance.now()` around `render()` measures command submission
+  only, and returned sub-millisecond figures that had the shadow map faster
+  than no shadow map. `gl.finish()` did not fix it. `EXT_disjoint_timer_query_webgl2`
+  is present and gave self-consistent figures at 420 square (369 ms baseline,
+  661 ms with the pass, +78%), but this is SwiftShader: those are a software
+  rasteriser's milliseconds, useful only as ratios between rows measured the
+  same way, and they cannot stand in for a GPU. An attempt to measure the same
+  thing at 1000 square did not complete. There is no real hardware in this
+  environment; this needs measuring on a device before any performance claim
+  is made.
+
+  **Memory, measured by instrumenting `texStorage2D`, `texImage2D` and
+  `renderbufferStorageMultisample` at 800x600.** Computed sizes are a guess
+  about formats; these are what the driver was asked for.
+
+  | samples | AO scale | added | of which MSAA | bytes per viewport pixel |
+  | --- | --- | --- | --- | --- |
+  | 4 | 1.0 | 64.1 MB | 43.9 MB | 140 |
+  | 4 | 0.5 | 54.5 MB | 43.9 MB | 119 |
+  | **2** | **1.0** | **42.1 MB** | **22.0 MB** | **92** |
+  | 2 | 0.5 | 32.5 MB | 22.0 MB | 71 |
+  | 0 | 1.0 | 20.2 MB | 0.0 MB | 44 |
+
+  Most of the cost is multisampling, not occlusion: the three occlusion targets
+  together are under 11 MB of it. That inverts the usual assumption, and it is
+  why the resolution strategy here is the opposite of the obvious one.
+
+  - **`samples` 2, not 4.** 4 costs 22 MB more and buys nothing visible: at 2x
+    magnification on the silhouette the two are indistinguishable, while 0
+    stair-steps plainly. Contact darkening is 0.01263 against 0.01265.
+  - **Occlusion at full resolution, not half.** Half saves 9.6 MB and costs 11%
+    of the contact darkening (0.01265 down to 0.01121), which is the one thing
+    this pass exists to produce. It does not add noise; it loses definition,
+    with high-frequency content in the band falling from 0.02613 to 0.01926. An
+    earlier measurement at a 12 mm radius found the two identical; they are not
+    identical at the 8 mm radius shipped, because a tighter radius has finer
+    detail to lose.
+
+  At the defaults this is roughly 119 MB of render targets at 1440x900. That is
+  the number to bring to any decision about mobile, and `samples` is the lever.
+
+  **Three measurements were wrong before they were right**, recorded so the
+  figures above are read with the right confidence. Draw calls and triangles
+  were first read after the frame, but `info.reset()` runs at the top of every
+  `renderer.render()` and a composer frame calls it more than once, so composer
+  rows reported 1 draw call and 1 triangle. The contact-band figures were first
+  computed against masks rendered with an opaque clear, so every mask was the
+  whole frame and the "contact band" was a whole-frame average. And the GPU
+  timer query returned null for every mode until the polling loop was made to
+  yield, because a synchronous spin never lets the work it is waiting on
+  finish. A silhouette-aliasing metric was also attempted and is not reported:
+  it scored no multisampling *better* than 4x, so it was measuring the
+  occlusion's own edge darkening rather than coverage, and the MSAA decision
+  was made from the rendered crops instead.
+
+  **Remaining limitations.**
+
+  1. **No hardware measurement.** Everything above is SwiftShader. Frame cost
+     and mobile behaviour are both unverified on a real GPU, and the brief's
+     mobile question cannot be answered from here.
+  2. **119 MB of render targets at 1440x900.** Acceptable for a desktop scene
+     of this size and almost certainly not acceptable on a phone. The levers
+     are measured and recorded; the decision needs a device.
+  3. **`GTAOPass` allocates one closure per frame** in `_overrideVisibility`,
+     which also traverses the scene graph looking for points and lines that are
+     not there. That is library code, and removing it would mean forking the
+     pass. Nothing in `RenderPipeline` itself allocates per frame.
+  4. **The canvas keeps its own `antialias: true`.** With a pipeline installed
+     that multisampling is wasted, because the last thing drawn to the default
+     framebuffer is a fullscreen quad with no edges to resolve. Context
+     attributes are fixed at creation and production still needs it while no
+     pipeline is installed, so it stays.
+  5. **Production does not use this yet**, because production has no scene. The
+     capability, its disposal and its cost are in place behind an explicit seam;
+     what installs it is the stage work, which R3 was not asked to do.
+
 ### F-10 Chunk size advisory on `three`
 
 - **FILE/SYSTEM:** build output
@@ -871,8 +1116,8 @@ of them is a repair; all three are the seams the next phase attaches to.
 
 **Update, 2026-09-20: F-02 and F-03 are remediated under R6, F-05 under R7,
 F-06, F-07 and F-08 under R14 and R15, the startup-timing half of R9 under
-F-09, A-01 and A-04 under R4 and R12, and the representable part of M-01
-under R8** (see the notes on each). All three seams the verdict named are in place,
+F-09, A-01 and A-04 under R4 and R12, the representable part of M-01 under
+R8, and M-05 under R3** (see the notes on each). All three seams the verdict named are in place,
 and F-10 resolved itself when the dev harness left the build.
 
 The remaining items are either genuinely low impact (F-01, F-09, F-10) or
