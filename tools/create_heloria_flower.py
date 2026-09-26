@@ -672,6 +672,12 @@ def create_bloom_action(rig, meta):
     if rig.animation_data is None:
         rig.animation_data_create()
     action = bpy.data.actions.new(NAMES["action"])
+    # A fake user, so the action is still in the file after a save.
+    #
+    # When the hand build runs, this rig's action is reassigned a few steps
+    # later to the retimed HELORIA_FLOWER_BLOOM_SYNC, which drops this one to
+    # zero users, and Blender does not write zero-user datablocks.
+    action.use_fake_user = True
     rig.animation_data.action = action
 
     for frame, openness in BLOOM_KEYS:

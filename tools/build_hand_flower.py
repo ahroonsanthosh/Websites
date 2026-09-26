@@ -388,6 +388,49 @@ def blended_pose(rig, openness: float):
         pb.rotation_euler = (0.0, 0.0, math.radians(closed + (opened - closed) * local))
 
 
+# The named actions the master is required to carry. Two of them are the
+# animation the web asset is exported from; the other three are the pose
+# library, which is how the motion gets re-derived or re-timed later without
+# guessing at frame numbers.
+#
+#   HELORIA_HAND_CLOSED        the closed hand, one keyframe
+#   HELORIA_HAND_OPEN          the open hand, one keyframe
+#   HELORIA_HAND_REVEAL        the hand animation, exported
+#   HELORIA_FLOWER_BLOOM       the bloom in its own timing, one keyframe per key
+#   HELORIA_FLOWER_BLOOM_SYNC  the bloom retimed onto the master timeline,
+#                              exported, and lagging the hand
+PERSISTED_ACTIONS = (
+    "HELORIA_HAND_CLOSED",
+    "HELORIA_HAND_OPEN",
+    "HELORIA_HAND_REVEAL",
+    "HELORIA_FLOWER_BLOOM",
+    "HELORIA_FLOWER_BLOOM_SYNC",
+)
+
+
+def verify_persisted_actions():
+    """Fail the build rather than save a master that is missing an action.
+
+    Checked before the file is written, because the failure this guards against
+    is silent: a zero-user action is simply absent from the saved file, and
+    nothing in the build reports it.
+    """
+    missing = [n for n in PERSISTED_ACTIONS if n not in bpy.data.actions]
+    if missing:
+        raise SystemExit(f"actions: not created: {missing}")
+    unprotected = [
+        n for n in PERSISTED_ACTIONS
+        if not bpy.data.actions[n].use_fake_user and bpy.data.actions[n].users == 0
+    ]
+    if unprotected:
+        raise SystemExit(f"actions: would not survive the save: {unprotected}")
+    for n in PERSISTED_ACTIONS:
+        a = bpy.data.actions[n]
+        print(f"  {n:28s} fcurves={len(a.fcurves):4d} "
+              f"frames={a.frame_range[0]:.0f}..{a.frame_range[1]:.0f} "
+              f"users={a.users} fake={a.use_fake_user}")
+
+
 def key_hand(rig, name, frames):
     act = bpy.data.actions.get(name)
     if act:
@@ -395,6 +438,18 @@ def key_hand(rig, name, frames):
     if rig.animation_data is None:
         rig.animation_data_create()
     act = bpy.data.actions.new(name)
+    # A fake user, or this action does not survive the save.
+    #
+    # Each call assigns its new action to the rig, which drops the previous one
+    # to zero users, and Blender does not write zero-user datablocks. The three
+    # actions built here are CLOSED, OPEN and REVEAL, and only the last one to
+    # be assigned was ever in the file: re-opening the master gave no way to
+    # reach the closed or open pose except by scrubbing to frame 1 or 150.
+    #
+    # It is set on all three rather than only the two that happen to be
+    # orphaned, so persistence does not depend on assignment order or on which
+    # action is left active at save time.
+    act.use_fake_user = True
     rig.animation_data.action = act
     for frame, openness in frames:
         bpy.context.scene.frame_set(int(round(frame)))
@@ -511,6 +566,7 @@ def build():
     if flower_rig.animation_data is None:
         flower_rig.animation_data_create()
     sync = bpy.data.actions.new(sync_name)
+    sync.use_fake_user = True
     flower_rig.animation_data.action = sync
     for p, _h, f_open in SYNC:
         frame = int(round(p_to_frame(p)))
@@ -532,6 +588,8 @@ def build():
 
     rig.animation_data.action = reveal
     scene.frame_set(FRAME_START)
+
+    verify_persisted_actions()
 
     return {"hand": hand, "nails": nails, "rig": rig, "flower": flower_ob,
             "flower_rig": flower_rig, "anchor": anchor, "flower_info": info,

@@ -1067,6 +1067,113 @@ CLAUDE.md section 7 sets and it holds.
      capability, its disposal and its cost are in place behind an explicit seam;
      what installs it is the stage work, which R3 was not asked to do.
 
+- **REMEDIATED (R13, 2026-09-26). Five named actions in the master; the web
+  asset byte-for-byte unchanged.**
+
+  **The failure, confirmed against the file rather than the filenames.**
+  Enumerating `bpy.data.actions` in the committed master found two:
+
+  | Action | F-curves | Frames | Users | Fake user | Assigned to |
+  | --- | --- | --- | --- | --- | --- |
+  | `HELORIA_HAND_REVEAL` | 51 | 1..150 | 1 | no | `Heloria_Hand_Rig` |
+  | `HELORIA_FLOWER_BLOOM_SYNC` | 117 | 1..150 | 1 | no | `Heloria_Flower_Rig` |
+
+  `HELORIA_HAND_CLOSED`, `HELORIA_HAND_OPEN` and `HELORIA_FLOWER_BLOOM` were
+  absent. All five are created procedurally: `key_hand` in
+  `build_hand_flower.py` builds the first three, `create_bloom_action` in
+  `create_heloria_flower.py` builds `HELORIA_FLOWER_BLOOM`, and the retimed
+  `HELORIA_FLOWER_BLOOM_SYNC` is built inline. None exists only during export;
+  the export opens the master and assigns by name.
+
+  The mechanism is assignment order. Every one of those functions ends with
+  `rig.animation_data.action = act`, so each new action displaces the previous
+  one, which drops to zero users. Blender does not write zero-user datablocks,
+  so only whichever action happened to be assigned last survived: `REVEAL` for
+  the hand, `BLOOM_SYNC` for the flower. Nothing reported it, because a
+  zero-user action is simply not in the saved file.
+
+  **The fix.** `use_fake_user = True` at the point each action is created, in
+  all three places, plus a `PERSISTED_ACTIONS` tuple and a
+  `verify_persisted_actions()` check that runs before the master is written and
+  fails the build if any of the five is missing or would not survive. The fake
+  user is set on all five rather than only the three that were orphaned, so
+  persistence no longer depends on assignment order or on which action happens
+  to be active at save time.
+
+  **The rebuild reproduces the master exactly.** Before changing anything, the
+  unmodified build was run to a temporary path and fingerprinted against the
+  committed master: object names, types, parents, local matrices, modifiers,
+  material slots, vertex-group counts, mesh vertex and polygon counts, hashed
+  vertex coordinates, armature bone counts and hashed bone rests, pose
+  constraints and influences, every action's per-F-curve data path, array
+  index, keyframe count and hashed keyframe values, and the scene frame range.
+  Identical on every field. Regenerating the master was therefore safe, and any
+  later difference is attributable to the change rather than to build drift.
+
+  **Save, reopen, enumerate.** The fixed build was saved and the file reopened
+  from disk:
+
+  | Action | F-curves | Frames | Users | Fake user | Assigned to |
+  | --- | --- | --- | --- | --- | --- |
+  | `HELORIA_HAND_CLOSED` | 51 | 1..1 | 1 | yes | (library) |
+  | `HELORIA_HAND_OPEN` | 51 | 1..1 | 1 | yes | (library) |
+  | `HELORIA_HAND_REVEAL` | 51 | 1..150 | 2 | yes | `Heloria_Hand_Rig` |
+  | `HELORIA_FLOWER_BLOOM` | 117 | 1..115 | 1 | yes | (library) |
+  | `HELORIA_FLOWER_BLOOM_SYNC` | 117 | 1..150 | 2 | yes | `Heloria_Flower_Rig` |
+
+  Fingerprinted against the committed master, the *only* differences are the
+  three added actions and the two `use_fake_user` flags with their user counts.
+  Every other field is identical, including the `curveHash` of both exported
+  actions, so the animation the web asset is built from is untouched.
+
+  **The pose library is usable, not merely present.** Each pose action was
+  applied to the rig and its bone rotations compared against `REVEAL` evaluated
+  at its own first and last frame:
+
+  - `HELORIA_HAND_CLOSED` against `REVEAL` at frame 1: 21 bones, max delta
+    **0.00000000 rad**.
+  - `HELORIA_HAND_OPEN` against `REVEAL` at frame 150: 21 bones, max delta
+    **0.00000000 rad**.
+  - `CLOSED` against `OPEN`: max delta 1.2566 rad, so they are genuinely two
+    different poses and not the same one twice.
+  - `HELORIA_FLOWER_BLOOM` first frame against `BLOOM_SYNC` first frame: 29
+    bones, max delta 0.00000000 rad. Their last frames differ by 0.00446 rad,
+    which is the retiming: `BLOOM` runs 1..115 in its own timing and
+    `BLOOM_SYNC` is resampled onto 1..150 so the flower lags the hand, so the
+    two endpoints come off different key layouts. A quarter of a degree on one
+    petal, and expected.
+
+  **Export.** `tools/export_glb.py` already chose by name rather than by
+  whatever was active, which is why the web asset was never affected by this
+  defect. It now reads those names from an `EXPORTED_ACTIONS` table, fails with
+  a message naming `PERSISTED_ACTIONS` instead of a bare `KeyError` if one is
+  absent, and prints what it assigned. `export_animation_mode="ACTIVE_ACTIONS"`
+  exports only the assigned actions, so the three pose actions are in the
+  master for authoring and absent from the GLB.
+
+  **Regression: both GLBs are byte-for-byte identical to the pre-R13 exports**
+  (SHA-256 match, 3,356,796 and 1,177,436 bytes). That is the whole regression
+  argument; the runtime checks below merely confirm it.
+
+  One animation, 150 tracks, duration exactly 6.25 s. 53,305 vertices, 145,608
+  indices, 6 skinned meshes, 2 skeletons, 6 materials. R4 sizes and colour
+  spaces (skin 1024/512/256, sRGB base colour, linear roughness and normal).
+  R8's skin still `MeshPhysicalMaterial` at ior 1.40 and specular 0.84. R12
+  sidedness: petal, sepal and centre single-sided, stem, skin and nail
+  double-sided. R5 Draco and the self-hosted decoder, 7 requests, all local.
+  `HeloriaFlowerAnchor` at p = 0, 0.25, 0.5, 0.75 and 1 identical to the
+  recorded values; whole-asset bounds 0.104 x 0.1369 x 0.1304 at every sampled
+  pose; hand bounds constant at 0.10404 x 0.1369 x 0.13039 while the flower's
+  grow from 0.02825 x 0.02289 x 0.03731 to 0.02928 x 0.02718 x 0.04204, which
+  is the bloom. R3's pipeline still builds, renders and disposes, and R7
+  returns geometry and texture counts to zero. Typecheck, build, dev, harness,
+  preview and cold preview all clean, no external request, one render loop.
+
+  **Remaining limitation.** The master is 2.58 MB to 2.74 MB, the cost of
+  carrying three more actions. Nothing else: the pose actions do not reach the
+  web asset, and the export would now fail loudly rather than quietly if one of
+  the two it needs went missing.
+
 ### F-10 Chunk size advisory on `three`
 
 - **FILE/SYSTEM:** build output
@@ -1117,7 +1224,7 @@ of them is a repair; all three are the seams the next phase attaches to.
 **Update, 2026-09-20: F-02 and F-03 are remediated under R6, F-05 under R7,
 F-06, F-07 and F-08 under R14 and R15, the startup-timing half of R9 under
 F-09, A-01 and A-04 under R4 and R12, the representable part of M-01 under
-R8, and M-05 under R3** (see the notes on each). All three seams the verdict named are in place,
+R8, M-05 under R3, and P-01 under R13** (see the notes on each). All three seams the verdict named are in place,
 and F-10 resolved itself when the dev harness left the build.
 
 The remaining items are either genuinely low impact (F-01, F-09, F-10) or

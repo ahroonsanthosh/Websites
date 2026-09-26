@@ -64,6 +64,17 @@ BAKE_SIZES = {
 # Centimetre master -> metre web asset.
 EXPORT_SCALE = 0.01
 
+# Which action drives which rig in the exported clip.
+#
+# The master carries five named actions: these two plus the CLOSED, OPEN and
+# BLOOM poses that exist for authoring. The export names the two it wants
+# rather than reading whatever action is active, so adding to the pose library
+# can never change the web asset.
+EXPORTED_ACTIONS = {
+    "hand": "HELORIA_HAND_REVEAL",
+    "flower": "HELORIA_FLOWER_BLOOM_SYNC",
+}
+
 
 # Non-texture material parameters that have to survive the bake.
 #
@@ -367,8 +378,26 @@ def main():
     bake_object(nails, BAKE_SIZES["heloria_nail"], "heloria_nail")
 
     # One clip containing both rigs, so a single mixer time drives everything.
-    rig.animation_data.action = bpy.data.actions["HELORIA_HAND_REVEAL"]
-    flower_rig.animation_data.action = bpy.data.actions["HELORIA_FLOWER_BLOOM_SYNC"]
+    #
+    # Chosen by name, never by whatever happens to be active in the file. The
+    # master now also carries the three pose actions (CLOSED, OPEN, BLOOM) as
+    # a library, and `export_animation_mode="ACTIVE_ACTIONS"` exports only what
+    # is assigned here, so those three are present for authoring and absent
+    # from the web asset. Verified: the exported clip is unchanged at 150
+    # channels, 150 samplers and 6.25 s with them in the file.
+    for obj, name in ((rig, EXPORTED_ACTIONS["hand"]),
+                      (flower_rig, EXPORTED_ACTIONS["flower"])):
+        action = bpy.data.actions.get(name)
+        if action is None:
+            raise SystemExit(
+                f"animation: {name!r} is not in the master. The build is "
+                f"supposed to persist it; see PERSISTED_ACTIONS in "
+                f"tools/build_hand_flower.py")
+        if obj.animation_data is None:
+            obj.animation_data_create()
+        obj.animation_data.action = action
+        print(f"  {obj.name:22s} <- {name} ({len(action.fcurves)} fcurves, "
+              f"frames {action.frame_range[0]:.0f}..{action.frame_range[1]:.0f})")
 
     rig.scale = (EXPORT_SCALE,) * 3
 
