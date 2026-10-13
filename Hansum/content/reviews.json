@@ -1,0 +1,32 @@
+{
+  "reviews": [
+    {
+      "id": "1",
+      "name": "Sarah M.",
+      "text": "Best chicken in Cork, hands down. The ciabatta is absolutely next level — the piri piri mayo is something else.",
+      "rating": 5,
+      "date": "2024-11-15"
+    },
+    {
+      "id": "2",
+      "name": "James O'C.",
+      "text": "The rotisserie chicken melts in your mouth. I drive across the city every weekend for this. Totally worth it.",
+      "rating": 5,
+      "date": "2024-11-10"
+    },
+    {
+      "id": "3",
+      "name": "Emma K.",
+      "text": "Finally, proper chicken in Cork. The salad with smoked garlic dressing is insane. Became a regular instantly.",
+      "rating": 5,
+      "date": "2024-11-05"
+    },
+    {
+      "id": "4",
+      "name": "Ciarán B.",
+      "text": "Weekend ritual sorted. Hansum is consistently incredible — every single visit. The whole chicken is a bargain.",
+      "rating": 5,
+      "date": "2024-10-28"
+    }
+  ]
+}
