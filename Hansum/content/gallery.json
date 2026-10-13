@@ -1,0 +1,12 @@
+{
+  "images": [
+    { "id": "1", "src": "/uploads/photo-hero.png", "alt": "Hansum ciabatta in front of our sign", "order": 1 },
+    { "id": "2", "src": "/uploads/photo-ciabatta.png", "alt": "Hansum Ciabatta", "order": 2 },
+    { "id": "3", "src": "/uploads/photo-wrap.png", "alt": "Hansum Wrap with wedges", "order": 3 },
+    { "id": "4", "src": "/uploads/photo-salad.png", "alt": "Hansum Salad", "order": 4 },
+    { "id": "5", "src": "/uploads/photo-kitchen-team.png", "alt": "Hansum kitchen team", "order": 5 },
+    { "id": "6", "src": "/uploads/photo-chef-carving.png", "alt": "Chef carving rotisserie chicken", "order": 6 },
+    { "id": "7", "src": "/uploads/photo-chef-counter.png", "alt": "Hansum chefs at the counter", "order": 7 },
+    { "id": "8", "src": "/uploads/photo-branded-bag.png", "alt": "Hansum branded packaging", "order": 8 }
+  ]
+}
