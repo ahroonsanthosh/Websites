@@ -1,0 +1,263 @@
+{
+  "business": {
+    "name": "Uncle's Deli Cork",
+    "tagline": "Rotisserie Chicken \u00b7 The English Market",
+    "address": {
+      "line1": "Unit 12, 13 Grand Parade",
+      "line2": "The English Market",
+      "city": "Cork City",
+      "eircode": "T12 V528",
+      "country": "Ireland"
+    },
+    "instagram": "unclesdelicork",
+    "phone": "",
+    "mapsUrl": "https://maps.google.com/?q=The+English+Market+Cork",
+    "mapsEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2461.5684834786!2d-8.477064!3d51.898214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x484490bce1ba6eef%3A0x75e90e2d2cd50f51!2sThe%20English%20Market!5e0!3m2!1sen!2sie!4v1700000000000!5m2!1sen!2sie"
+  },
+  "hero": {
+    "eyebrow": "The English Market \u00b7 Cork City",
+    "heading": "Uncle's Deli",
+    "subheading": "Scroll to explore",
+    "arcEyebrow": "Rotisserie \u00b7 Deli \u00b7 Cork",
+    "arcHeading": "Fire-Roasted.",
+    "arcHeadingAccent": "For Real.",
+    "arcBody": "Hand-seasoned, slow-roasted rotisserie chicken. Find us in the heart of The English Market."
+  },
+  "marquee": {
+    "items": [
+      "Slow Roasted",
+      "Cork City",
+      "Since 2026",
+      "Open Daily",
+      "Rotisserie",
+      "English Market",
+      "Family Recipe",
+      "Cork's Favourite"
+    ]
+  },
+  "hours": [
+    {
+      "day": "Monday",
+      "time": "9:00 \u2013 17:30",
+      "closed": false
+    },
+    {
+      "day": "Tuesday",
+      "time": "9:00 \u2013 17:30",
+      "closed": false
+    },
+    {
+      "day": "Wednesday",
+      "time": "9:00 \u2013 17:30",
+      "closed": false
+    },
+    {
+      "day": "Thursday",
+      "time": "9:00 \u2013 17:30",
+      "closed": false
+    },
+    {
+      "day": "Friday",
+      "time": "9:00 \u2013 17:30",
+      "closed": false
+    },
+    {
+      "day": "Saturday",
+      "time": "9:00 \u2013 17:30",
+      "closed": false
+    },
+    {
+      "day": "Sunday",
+      "time": "Closed",
+      "closed": true
+    }
+  ],
+  "about": {
+    "heading": "Born in the heart of Cork.",
+    "pullQuote": "No shortcuts. No timers. Just fire.",
+    "paragraphs": [
+      "We started Uncle's with one simple idea: rotisserie chicken the way it should be \u2014 hand-seasoned, slow-roasted over an open flame, and served fresh every single day.",
+      "Tucked inside Cork's legendary English Market, we're proud to be part of Ireland's most iconic food destination. Every bird is sourced locally, every recipe is made with love, and every customer leaves with a full belly and a smile.",
+      "Whether you're grabbing a quick lunch or feeding the whole crew, Uncle's has you covered. No fuss. Just fire."
+    ],
+    "stats": [
+      {
+        "value": "2026",
+        "label": "Est."
+      },
+      {
+        "value": "100%",
+        "label": "Cork Raised"
+      },
+      {
+        "value": "#1",
+        "label": "English Market"
+      }
+    ],
+    "images": [
+      {
+        "src": "/images/deli-4.png",
+        "alt": "Uncle's Deli storefront in The English Market"
+      },
+      {
+        "src": "/images/deli-1.png",
+        "alt": "Rotisserie chicken wrap"
+      }
+    ]
+  },
+  "menu": {
+    "note": "All prices include VAT \u00b7 Menu subject to seasonal change \u00b7 Ask about daily specials",
+    "categories": [
+      "Rotisserie",
+      "Wraps & Rolls",
+      "Sides",
+      "Drinks"
+    ],
+    "items": {
+      "Rotisserie": [
+        {
+          "name": "Whole Chicken",
+          "description": "Full fire-roasted bird, crispy skin, juicy meat. Serves 3\u20134.",
+          "price": "\u20ac14.00",
+          "tag": "Best Value"
+        },
+        {
+          "name": "Half Chicken",
+          "description": "Half bird with leg and breast. Perfect for one.",
+          "price": "\u20ac8.00",
+          "tag": ""
+        },
+        {
+          "name": "Quarter \u2014 Leg",
+          "description": "Juicy thigh and drumstick. Our most popular cut.",
+          "price": "\u20ac5.50",
+          "tag": "Fan Fave"
+        },
+        {
+          "name": "Quarter \u2014 Breast",
+          "description": "Lean breast with crispy skin and rich seasoning.",
+          "price": "\u20ac6.00",
+          "tag": ""
+        }
+      ],
+      "Wraps & Rolls": [
+        {
+          "name": "Uncle's Classic Wrap",
+          "description": "Rotisserie chicken, house slaw, smoky mayo, iceberg.",
+          "price": "\u20ac10.00",
+          "tag": "Signature"
+        },
+        {
+          "name": "BBQ Chicken Roll",
+          "description": "Crusty roll loaded with BBQ chicken and pickled red onion.",
+          "price": "\u20ac8.50",
+          "tag": ""
+        },
+        {
+          "name": "Caesar Chicken Wrap",
+          "description": "Romaine, parmesan, house Caesar dressing, crispy chicken.",
+          "price": "\u20ac9.50",
+          "tag": ""
+        },
+        {
+          "name": "Veggie Market Wrap",
+          "description": "Roasted market veg, hummus, feta, fresh leaves.",
+          "price": "\u20ac8.00",
+          "tag": ""
+        }
+      ],
+      "Sides": [
+        {
+          "name": "Roast Potatoes",
+          "description": "Crispy gold potatoes seasoned with rosemary and sea salt.",
+          "price": "\u20ac3.50",
+          "tag": ""
+        },
+        {
+          "name": "Coleslaw",
+          "description": "House-made creamy coleslaw. Classic.",
+          "price": "\u20ac2.50",
+          "tag": ""
+        },
+        {
+          "name": "Side Salad",
+          "description": "Fresh leaves, cherry tomato, cucumber, lemon dressing.",
+          "price": "\u20ac3.00",
+          "tag": ""
+        },
+        {
+          "name": "Stuffing",
+          "description": "Herb-packed homemade stuffing. Pure comfort.",
+          "price": "\u20ac2.00",
+          "tag": "Must Try"
+        },
+        {
+          "name": "Gravy",
+          "description": "Rich chicken gravy from the spit drippings.",
+          "price": "\u20ac1.50",
+          "tag": ""
+        }
+      ],
+      "Drinks": [
+        {
+          "name": "Fresh Lemonade",
+          "description": "Hand-squeezed, lightly sparkling.",
+          "price": "\u20ac3.50",
+          "tag": ""
+        },
+        {
+          "name": "Cork Craft Cola",
+          "description": "Local craft cola, ice cold.",
+          "price": "\u20ac2.50",
+          "tag": ""
+        },
+        {
+          "name": "Still / Sparkling Water",
+          "description": "500ml bottle.",
+          "price": "\u20ac1.50",
+          "tag": ""
+        },
+        {
+          "name": "Organic Juice",
+          "description": "Apple or orange, pressed daily.",
+          "price": "\u20ac3.00",
+          "tag": ""
+        }
+      ]
+    }
+  },
+  "gallery": [
+    {
+      "src": "/images/deli-4.png",
+      "alt": "Uncle's Deli \u2014 The English Market"
+    },
+    {
+      "src": "/images/deli-1.png",
+      "alt": "Rotisserie chicken wrap"
+    },
+    {
+      "src": "/images/deli-3.png",
+      "alt": "Rotisserie chicken roll"
+    },
+    {
+      "src": "/images/deli-2.png",
+      "alt": "Chicken roll on white paper"
+    },
+    {
+      "src": "/images/deli-1.png",
+      "alt": "Rotisserie chicken wrap"
+    },
+    {
+      "src": "/images/deli-4.png",
+      "alt": "Uncle's Deli storefront"
+    },
+    {
+      "src": "/images/deli-2.png",
+      "alt": "Fresh chicken roll"
+    },
+    {
+      "src": "/images/deli-3.png",
+      "alt": "Chicken roll, close up"
+    }
+  ]
+}

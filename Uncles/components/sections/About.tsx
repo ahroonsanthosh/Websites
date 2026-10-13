@@ -1,0 +1,144 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import content from "@/lib/content";
+import { assetPath } from "@/lib/asset";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { GradientText } from "@/components/ui/gradient-text";
+import { BouncyWords } from "@/components/ui/bouncy-text";
+
+const { about } = content;
+
+export default function About() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section id="about" ref={ref} className="bg-[#FDF6EB] py-16 md:py-28">
+      <div className="max-w-7xl mx-auto px-5 md:px-10">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-20 items-start">
+
+          {/* Left — image stack, sticky on desktop */}
+          <div className="md:sticky md:top-28 self-start">
+            <div className="relative h-[280px] sm:h-[360px] md:h-[500px]">
+              <motion.div
+                initial={{ opacity: 0, x: -30, rotate: -3 }}
+                animate={inView ? { opacity: 1, x: 0, rotate: -3 } : {}}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ scale: 1.03, rotate: -1, transition: { type: "spring", stiffness: 250, damping: 20 } }}
+                className="absolute top-0 left-0 w-[65%] h-[75%] rounded-2xl overflow-hidden shadow-xl cursor-pointer"
+              >
+                <img
+                  src={assetPath(about.images[0].src)}
+                  alt={about.images[0].alt}
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1A0C05]/40 to-transparent" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 30, rotate: 4 }}
+                animate={inView ? { opacity: 1, x: 0, rotate: 4 } : {}}
+                transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ scale: 1.03, rotate: 2, transition: { type: "spring", stiffness: 250, damping: 20 } }}
+                className="absolute bottom-0 right-0 w-[60%] h-[65%] rounded-2xl overflow-hidden shadow-xl border-4 border-[#FDF6EB] cursor-pointer"
+              >
+                <img
+                  src={assetPath(about.images[1].src)}
+                  alt={about.images[1].alt}
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.6, delay: 0.35 }}
+                whileHover={{ scale: 1.12, rotate: 5, transition: { type: "spring", stiffness: 400, damping: 15 } }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#EE1C1C] flex flex-col items-center justify-center text-center shadow-2xl border-4 border-[#FDF6EB] cursor-pointer"
+              >
+                <span className="font-display italic text-white text-[9px] leading-tight font-bold">Est.</span>
+                <AnimatedCounter value={about.stats[0].value} className="font-accent text-white text-base md:text-lg font-bold" />
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Right — text content */}
+          <div className="space-y-8 md:space-y-12 md:py-4">
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5 }}
+                className="font-accent text-[11px] tracking-[0.3em] uppercase text-[#EE1C1C] mb-4"
+              >
+                Our Story
+              </motion.p>
+
+              <h2 className="font-display italic text-[clamp(1.5rem,7vw,3rem)] md:text-5xl font-bold text-[#1A0C05] leading-tight mb-5">
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <BouncyWords text="Born in the heart of" />
+                </motion.div>
+                <motion.div
+                  className="text-[#EE1C1C]"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <BouncyWords text="Cork." />
+                </motion.div>
+              </h2>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="space-y-3 text-[#1A0C05]/70 leading-relaxed text-sm md:text-[15px]"
+              >
+                {about.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+              </motion.div>
+            </div>
+
+            {/* Pull-quote */}
+            <motion.div
+              initial={{ opacity: 0, x: -16 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="border-l-2 border-[#EE1C1C]/40 pl-5"
+            >
+              <p className="font-display italic text-xl md:text-2xl font-bold leading-snug">
+                <GradientText>{about.pullQuote}</GradientText>
+              </p>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="flex gap-6 md:gap-10"
+            >
+              {about.stats.map((s) => (
+                <motion.div
+                  key={s.label}
+                  className="flex flex-col cursor-default"
+                  whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 14 } }}
+                >
+                  <span className="font-display italic text-2xl md:text-3xl font-bold text-[#EE1C1C]">
+                    <AnimatedCounter value={s.value} />
+                  </span>
+                  <span className="font-accent text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-[#1A0C05]/50 mt-1">{s.label}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
