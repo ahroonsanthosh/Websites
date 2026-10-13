@@ -1,0 +1,197 @@
+# 09 Current visual quality examination
+
+**Audit only. Nothing was changed to improve any of the observations below.**
+
+Scope: only what currently exists. The missing website systems are not evaluated
+here; they are in doc 10.
+
+Evidence base: Cycles renders from `tools/render_tests.py` at bloomProgress
+0.00 / 0.50 / 1.00, and Three.js captures from the dev harness at 0.00 / 0.25 /
+0.50 / 0.75 / 1.00 in headless Chromium.
+
+---
+
+## The question
+
+**Does the current asset work look like it belongs in a serious creative-WebGL
+project?**
+
+**In Blender, at the open state: yes.** The final Cycles frame, a right hand
+presenting a small white flower against near-black with the left third of the
+frame deliberately empty, is a composed image with a real idea in it.
+
+**In the browser, across the full range: not yet.** The same asset in Three.js
+is a pale hand with a white shape on it, and at the midpoint of the reveal it is
+a pale hand with a crumpled white shape on it.
+
+The gap between those two sentences is the honest summary of where this project
+is, and it is almost entirely a shading, lighting and mid-state problem rather
+than a modelling one.
+
+---
+
+## Observations
+
+Numbered for reference. Each states what was seen and, where it is known, why.
+
+### Composition and camera
+
+**1. The framing has a real idea.** Hand right of centre, occupying roughly two
+thirds of frame height, with the left third held empty for the typography that
+is planned to sit behind it. The negative space is deliberate and it reads as
+deliberate, which is rare in a first pass.
+
+**2. The camera distance is correct and was arrived at by correction.** The
+first attempt sat 47 units from a 23-unit subject with a 105 mm lens and cropped
+the hand badly. The current 85 mm at about 120 units gives a close-up that does
+not fill the viewport, which is what the brief asked for.
+
+**3. There is no depth in the frame.** One subject, one flat black void. No
+atmosphere, no floor, no falloff, no second plane. The hand floats in nothing.
+The benchmark never shows an object against nothing; even its loader has a
+seven-stop gradient behind it.
+
+**4. Depth of field is set up in Blender and absent in the browser.** The
+Blender camera has f/2.8 with focus locked to the flower, which is the right
+instinct: after the reveal the flower should be the focal point. The Three.js
+harness has no post-processing at all, so everything is uniformly sharp and the
+visual hierarchy the Blender shot establishes is lost.
+
+**5. The forearm stump is a liability.** A flat cut with no interior. It is
+currently handled by keeping it low in frame, which constrains every future
+camera move.
+
+### The hand
+
+**6. The silhouette is good.** Finger proportions, the arch of the palm and the
+thumb's opposition all read as a real hand rather than a mannequin, at both
+subdivision levels.
+
+**7. The surface reads as vinyl, not skin.** No subsurface scattering in the web
+asset (doc 08 M-01). Fingers do not glow at the edges; the shadow terminator is
+neutral and hard where skin's should be soft and reddened.
+
+**8. Palm creases look drawn.** They come from the baked colour map only, so
+they do not catch light on one side or occlude on the other. At close range they
+read as ink.
+
+**9. Knuckles have no anatomy.** The source cage carries none and the normal map
+carries almost none, so fingers read as smooth tubes. Subdivision smooths the
+facets; it cannot invent the structure.
+
+**10. The colour is slightly too pink and too uniform.** Real hands vary
+markedly between palm, back and fingertips. The current mottling is one noise
+field at one contrast across the whole mesh.
+
+**11. The closed hand is a claw, not a cup.** Fingertips stay 7.17 units from
+the palm centre against 10.43 open, only a 31% reduction, with visible gaps
+between adjacent fingers and the thumb sitting behind rather than across them.
+It does not communicate protecting something.
+
+**12. There is no skin compression anywhere.** Nothing deforms where the flower
+rests, and no fingertip flattens against anything. The hand holds its shape as
+if nothing is in it.
+
+### The flower
+
+**13. The open flower is convincing.** Eight recurved primary petals with a
+visible median ridge, no radial symmetry, believable taper and a real edge from
+the 0.22 mm solidify. In the Cycles render it reads as a specific plant rather
+than as "a flower".
+
+**14. The mid-bloom is the worst frame in the sequence.** At bloomProgress 0.50
+the flower is an unreadable crumpled mass. This is the exact moment the design
+calls "first clear glimpse".
+
+**15. The petals are opaque in the browser.** Subsurface 0.34 exists in Blender
+and does not survive glTF export. A white flower without translucency is white
+card.
+
+**16. The stamens are weak in WebGL.** 36 filaments with distinct anther
+colouring in the vertex attribute; on screen they read as an undifferentiated
+pale cluster.
+
+**17. The sepals read as detached leaves.** Generated by the petal function with
+a negative pitch, so they have a petal's silhouette and sit beside the flower
+rather than clasping it.
+
+**18. The flower's scale is right.** About 55 mm across in a 90 mm palm. The
+earlier 40 mm version read as a brooch pinned to the hand; this reads as
+something held.
+
+**19. The flower is visible through the finger gap when closed.** White petal
+and green sepal appear between the middle and ring fingers from a three-quarter
+camera. The reveal is undermined before it starts.
+
+### Light and material
+
+**20. There is no contact shadow anywhere.** Not under the flower, not between
+the fingers, not in the cup of the palm. This is the largest single reason the
+two objects do not read as touching.
+
+**21. The environment is a placeholder.** `RoomEnvironment`, a generated studio
+box. It is characterless by design: no directional intent, no colour story, no
+relationship to the brand.
+
+**22. The Blender studio lighting is genuinely considered.** Key, fill, rim and
+an explicit bounce card under the hand, added specifically because the underside
+of the fingers went black without it. That thinking has not been transferred to
+the web renderer, which has three directional lights and an environment box.
+
+**23. Exposure is inconsistent across three surfaces.** Blender uses AgX Base
+Contrast; the production entry leaves exposure at default; the dev harness sets
+1.05. The same asset therefore has three different looks depending on where it
+is viewed.
+
+**24. Nothing in the frame is out of focus, grained, or tone-mapped with
+intent.** The browser output is a raw render. The benchmark applies film grain
+and a single deliberate tone-mapping stage as the last pass of an eight-pass
+chain, and composites text after tone mapping specifically to keep it crisp.
+
+### Motion
+
+**25. The opening has real sequencing.** Between 0.50 and 0.75 the index has
+travelled 96% of its range while the ring finger is at 78% and the thumb at 71%.
+It is not a block rotation and it does not snap.
+
+**26. The flower's lag is correct and measurable.** No radial change at all
+until after 0.25; 2.225 at 0.75; 2.869 at 1.00. The hand leads, the flower
+follows, which is the choreography the brief specified.
+
+**27. A quarter of the range does almost nothing.** 7% of the index finger's
+travel occurs in the first 25% of progress, and nothing at all after 0.75. In a
+hold interaction the first quarter of the user's input will produce almost no
+visible response.
+
+**28. There is no secondary motion.** No settle on the hand, no sway, no breath,
+no weight. The flower's bloom has a small settling key; the hand has none.
+
+---
+
+## Where this sits against the benchmark
+
+Not a claim that Heloria should look like Zero. A comparison of craft level.
+
+| | Zero | Heloria now |
+| --- | --- | --- |
+| Object against | a designed, gradient-lit environment | black void |
+| Hand surface | baked, art-directed lighting in an atlas, crossfaded per keyframe | real-time PBR with no subsurface and a flat normal map |
+| Contact and occlusion | present throughout | absent |
+| Post-processing | eight deliberate passes, grain and one tone-mapping stage | none |
+| Focal hierarchy | depth of field, tier-gated | none in the browser |
+| Mid-states | every frame of every gate is designed | the midpoint is the weakest frame |
+
+---
+
+## Verdict
+
+The **modelling, rigging, scale, composition and motion choreography** are at a
+credible level for a serious project. The open-state Cycles render would not
+look out of place in a portfolio.
+
+The **shading, lighting, compositing and mid-state readability** are not. In the
+browser, which is the only place that ultimately counts, the asset currently
+presents as a well-modelled object with placeholder surfacing.
+
+The three observations that account for most of the visible gap are **20**
+(no contact shadow), **7** (no subsurface) and **14** (unreadable mid-bloom).

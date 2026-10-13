@@ -1,0 +1,115 @@
+/* Foundation styles only: no design system yet.
+   The background colour matches the renderer clear colour so there is never a
+   white pre-paint flash before the first WebGL frame. */
+
+:root {
+  --bg: #05070a;
+  /* Provisional. The design system will replace these; they exist so the
+     content and failure layers are legible if they are ever shown. */
+  --fg: #f2f0f6;
+  --fg-muted: #8b8798;
+  --font-system: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The experience owns the viewport, so the document does not scroll. When the
+   canvas is hidden the page is ordinary content again and must. */
+body:has(#webgl[hidden]) {
+  overflow: auto;
+}
+
+#webgl {
+  position: fixed;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  touch-action: none;
+}
+
+/* Content layer ------------------------------------------------------------
+   The page's real text. While the experience runs it is offscreen, present in
+   the accessibility tree and nowhere else, so the rendered page is unchanged.
+   The failure path and the no-script path both reveal it. */
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: clamp(24px, 8vh, 96px) max(20px, env(safe-area-inset-left, 0px));
+  color: var(--fg);
+  font-family: var(--font-system);
+  line-height: 1.6;
+}
+
+.content h1 {
+  margin: 0 0 0.6em;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.content p {
+  margin: 0 0 0.8em;
+}
+
+.content a {
+  color: var(--fg);
+  text-underline-offset: 0.2em;
+}
+
+/* The standard visually-hidden pattern: clipped to a single pixel, never
+   `display: none`, so the text stays in the accessibility tree. */
+.is-offscreen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Failure notice -----------------------------------------------------------
+   Deliberately plain. The branded failure screen is a later decision; this
+   exists so that a browser which cannot run the experience is told so instead
+   of being shown a black rectangle. */
+
+.fatal {
+  position: relative;
+  z-index: 2;
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: 0 max(20px, env(safe-area-inset-left, 0px)) clamp(24px, 8vh, 96px);
+  color: var(--fg-muted);
+  font-family: var(--font-system);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.fatal[hidden] {
+  display: none;
+}

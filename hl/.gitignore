@@ -1,0 +1,18 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+.env
+.env.*
+!.env.example
+npm-debug.log*
+yarn-error.log*
+
+# Blender autosave / temp
+*.blend1
+
+# Python bytecode from the Blender tooling
+__pycache__/
+*.pyc
