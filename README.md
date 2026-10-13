@@ -10,7 +10,7 @@ Consolidated monorepo. Each top-level folder is a formerly standalone GitHub rep
 | [`5points`](5points/) | `claude/5-points-cafe-website-jzvbhx` | Next.js | https://5points-lovat.vercel.app |
 | [`balance`](balance/) | `main` | Static (build script) |  |
 | [`bayou`](bayou/) | `claude/bayou-cafe-website-qc8vbd` | Next.js | https://bayou-puce.vercel.app |
-| [`blondie`](blondie/) | `main` | Images only (site build is on tag `archive/blondie/claude/blondie-cafe-site-9h3db6`) |  |
+| [`blondie`](blondie/) | `main` | Images only (the full site is on archived branch `claude/blondie-cafe-site-9h3db6`, see below) |  |
 | [`Brightside`](Brightside/) | `main` | Next.js |  |
 | [`cafejane`](cafejane/) | `claude/cafe-jane-website-nf0t7v` | Next.js | https://cafejane.vercel.app |
 | [`chapelgate`](chapelgate/) | `main` | Static (build script) |  |
@@ -45,14 +45,30 @@ The original repositories `Sanity` and `decaf` were empty (no commits), so they 
 
 ## Archived branches
 
-Work that lived on other branches of the original repositories and was never merged into the imported branch is kept as tags named `archive/<folder>/<branch>`. These tags contain the original repository's history, with files at the repository root (not inside the folder).
+Some original repositories had branches that were never merged into the branch imported here. So that nothing was lost when those repositories were deleted, each one is kept reachable from this repository's history by the commit "Preserve unmerged branches from the original repositories" (a merge that records them as parents without changing any files). Their files sit at the root of each commit, as in the original repository, not inside the folder.
 
-```bash
-git fetch --tags
-git tag -l 'archive/*'
-git log archive/bayou/claude/menu-text-conversion-4ezty5
-git checkout archive/bayou/claude/menu-text-conversion-4ezty5   # inspect it
-```
+To look at one: `git log <commit>` or `git checkout <commit>`. To restore one as a branch: `git branch <name> <commit>`.
+
+| Folder | Original branch | Commit |
+| --- | --- | --- |
+| `5points` | `claude/image-replacement-tp31pg` | `8174c161ba9a` |
+| `Brightside` | `claude/bright-side-cafe-site-4s80jj` | `bc5d548d2c73` |
+| `CoolBeans` | `gh-pages` | `c9546d132f4f` |
+| `Hansum` | `claude/hansum-rotisserie-build-qwe6nt` | `e849962108d1` |
+| `Somedose` | `claude/delete-repo-data-gxgz72` | `7b84882677ae` |
+| `Somedose` | `claude/some-dose-coffee-site-vj2l61` | `73077aeb6ae5` |
+| `Uncles` | `claude/site-review-g0rzhi` | `1277e6d6f24c` |
+| `Web` | `claude/friendly-galileo-a07rzz` | `1675fde33ffe` |
+| `Webs` | `main` | `e579a6c5490f` |
+| `balance` | `claude/balance-cafe-site-k32mjc` | `1cf8b2e412df` |
+| `bayou` | `claude/menu-text-conversion-4ezty5` | `bc840fee0261` |
+| `blondie` | `claude/blondie-cafe-site-9h3db6` | `6d95bd25c687` |
+| `chapelgate` | `claude/chapel-gate-cafe-site-931h7y` | `9a565d0f4cd0` |
+| `hl` | `claude/project-thread-84klyx` | `71679cc2bfd6` |
+| `loka` | `claude/current-site-review-7x55fb` | `d1d129408406` |
+| `lough` | `claude/lough-cafe-website-7l84o4` | `358fc4f048ae` |
+| `somedosev2` | `claude/some-dose-cafe-site-ofy1be` | `9233ea156396` |
+| `velo` | `claude/cafe-velo-website-c42snx` | `8e7e04bb2f66` |
 
 ## Deploying a project
 
