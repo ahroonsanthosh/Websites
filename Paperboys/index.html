@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F5F1E8" />
+  <title>Paperboys — Brunch · Cork City</title>
+  <meta name="description" content="Paperboys is a brunch room in the heart of Cork City. Considered plates, properly pulled coffee, served daily 10–4 on Tobin Street." />
+  <link rel="canonical" href="https://ahroonsanthosh.github.io/Paperboys/" />
+  <meta property="og:title" content="Paperboys — Brunch, Cork City" />
+  <meta property="og:description" content="A brunch room on Tobin Street, Cork. Open daily 10–4." />
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:url" content="https://ahroonsanthosh.github.io/Paperboys/" />
+  <meta property="og:image" content="https://ahroonsanthosh.github.io/Paperboys/assets/pbb4.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Paperboys — Brunch, Cork City" />
+  <meta name="twitter:description" content="A brunch room on Tobin Street, Cork. Open daily 10–4." />
+  <meta name="twitter:image" content="https://ahroonsanthosh.github.io/Paperboys/assets/pbb4.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/mascot.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Paperboys",
+    "description": "A brunch room in the heart of Cork City.",
+    "servesCuisine": "Brunch",
+    "priceRange": "€€",
+    "image": "https://ahroonsanthosh.github.io/Paperboys/assets/pbb4.webp",
+    "url": "https://ahroonsanthosh.github.io/Paperboys/",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Tobin Street",
+      "addressLocality": "Cork",
+      "addressRegion": "Munster",
+      "addressCountry": "IE"
+    },
+    "sameAs": ["https://www.instagram.com/paperboys_cork"],
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "10:00",
+      "closes": "16:00"
+    }]
+  }
+  </script>
+</head>
+<body>
+  <a href="#story" class="skip-link">Skip to content</a>
+
+  <!-- Scroll progress — coffee cup fill -->
+  <div class="cupfill" id="cupfill" aria-hidden="true">
+    <svg viewBox="0 0 44 44" width="40" height="40">
+      <defs>
+        <clipPath id="cupClip">
+          <path d="M9 16h22l-2.2 19.5a4 4 0 0 1-4 3.5H15.2a4 4 0 0 1-4-3.5L9 16z"/>
+        </clipPath>
+      </defs>
+      <path class="cupfill__outline" d="M9 16h22l-2.2 19.5a4 4 0 0 1-4 3.5H15.2a4 4 0 0 1-4-3.5L9 16z"/>
+      <path class="cupfill__handle" d="M31 19c5-1.2 7.5 5.8 1.7 8.2-1.3.5-2.7.6-3.2.6"/>
+      <rect class="cupfill__liquid" id="cupfillLiquid" x="7" y="39" width="28" height="0" clip-path="url(#cupClip)" />
+      <path class="cupfill__lid" d="M7.5 16h23a1.4 1.4 0 0 0 0-2.8h-23a1.4 1.4 0 0 0 0 2.8z"/>
+    </svg>
+  </div>
+
+  <!-- Announcement bar -->
+  <div class="announce" id="announce" role="banner">
+    <p>We're open every day 10–4 on Tobin Street. <a href="#menu">Peep the menu →</a></p>
+    <button class="announce__close" id="announceClose" aria-label="Dismiss announcement">×</button>
+  </div>
+
+  <!-- Nav -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__brand">
+      <span class="nav__logowrap">
+        <img src="assets/mascot.svg" alt="" class="nav__logo" />
+        <span class="wink-lid" aria-hidden="true"></span>
+      </span>
+      <span>Paperboys</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#story">Our Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">The Room</a>
+      <a href="#whatson">What's On</a>
+      <a href="#hire">Events</a>
+      <a href="#visit">Find Us</a>
+    </nav>
+    <a class="nav__cta" href="#hire">Plan Your Event</a>
+    <button class="nav__burger" id="burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <main id="top">
+
+    <!-- Hero — type led -->
+    <section class="hero">
+      <div class="hero__content">
+        <div class="hero__titlewrap">
+          <div class="hero__mascot-bg" aria-hidden="true">
+            <img src="assets/mascot.svg" alt="" />
+          </div>
+          <h1 id="heroTitle" class="hero__title">Paperboys</h1>
+        </div>
+        <p id="heroSub" class="hero__sub">Cork's favourite brunch room — Tobin Street, open every single day.</p>
+        <div class="hero__actions">
+          <a id="heroCta1" href="#menu" class="btn btn--fill">See the menu</a>
+          <a id="heroCta2" href="#visit" class="btn btn--outline">Find us <span class="btn__arrow">→</span></a>
+        </div>
+      </div>
+      <div class="hero__badge" aria-hidden="true">
+        <svg viewBox="0 0 100 100" width="110" height="110">
+          <path id="badgePath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"/>
+          <text font-family="Manrope,sans-serif" font-weight="700" font-size="11.5" fill="#1A1918" letter-spacing="2">
+            <textPath href="#badgePath">OPEN DAILY · 10–4 · TOBIN ST · </textPath>
+          </text>
+        </svg>
+        <img src="assets/mascot.svg" alt="" class="hero__badge-mark" />
+      </div>
+    </section>
+
+    <!-- Ticker -->
+    <div class="ticker" aria-hidden="true">
+      <div id="tickerTrack" class="ticker__track">
+        <span>Flat Whites</span><i>✦</i><span>Tobin Street</span><i>✦</i><span>Daily Brunch</span><i>✦</i><span>Cork City</span><i>✦</i><span>Good Plates</span><i>✦</i><span>Est. 2023</span><i>✦</i>
+        <span>Flat Whites</span><i>✦</i><span>Tobin Street</span><i>✦</i><span>Daily Brunch</span><i>✦</i><span>Cork City</span><i>✦</i><span>Good Plates</span><i>✦</i><span>Est. 2023</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- Story -->
+    <section class="story" id="story">
+      <div class="story__inner">
+        <div class="story__text">
+          <p class="label reveal">Who we are</p>
+          <h2 id="storyHeading" class="reveal" data-delay="80">Small room.<br/>Big plates.<br/><em>Very Cork.</em></h2>
+          <p id="storyPara1" class="reveal" data-delay="160">We squeezed ourselves onto Tobin Street and never looked back. Tight menu, serious coffee, and two paperboys keeping watch over the whole thing.</p>
+          <p id="storyPara2" class="reveal" data-delay="220">No fuss. No pretence. Just the good stuff — served every day from 10 till 4.</p>
+          <div class="story__stats reveal" data-delay="280">
+            <div class="story__stat"><span>10–4</span><small>Every day</small></div>
+            <div class="story__stat"><span>Cork</span><small>City centre</small></div>
+            <div class="story__stat"><span>No.1</span><small>Tobin Street</small></div>
+          </div>
+        </div>
+        <figure class="story__visual reveal" data-delay="140">
+          <img src="assets/storefront.webp" alt="The Paperboys storefront on Tobin Street" loading="lazy" />
+          <figcaption id="storefrontQuote">"Two faces over the door, and the best reason to leave the house before noon."</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Menu -->
+    <section class="menu" id="menu">
+      <div class="menu__head">
+        <p class="label label--light reveal">Bites · Brunch &amp; Sambos · Est. 2023</p>
+        <h2 class="reveal" data-delay="80"><em>The menu</em></h2>
+        <p id="menuIntro" class="menu__intro reveal" data-delay="140">Served all day. Allergen numbers in brackets — full key at the foot of the list.</p>
+        <div class="menu__tip reveal" data-delay="200">
+          <img src="assets/mascot.svg" alt="" class="menu__tip-mark" />
+          <span class="menu__tip-bubble">Psst — try the Bahn Mi.</span>
+        </div>
+      </div>
+
+      <div class="menu__group reveal">
+        <h3 class="menu__cat">Brunch</h3>
+        <div id="breakfastList" class="menu__list">
+          <article class="dish">
+            <div class="dish__row"><h4>Halloumi Florentine <em>(1,3,7,10)</em></h4><span class="dot"></span><span class="dish__price">€15</span></div>
+            <p>Brioche, halloumi, sautéed spinach, tomato relish, poached eggs.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Avo Smash <em>(1,3,7)</em></h4><span class="dot"></span><span class="dish__price">€13</span></div>
+            <p>Smashed avocado, confit cherry tomatoes, goats cheese and jalapeño on toasted brioche. Add 2 poached eggs €3.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Black Pudding Hash <em>(1,3,7,9,10)</em></h4><span class="dot"></span><span class="dish__price">€15.50</span></div>
+            <p>Squashed baby potatoes, black pudding, caramelised onions, jalapeño salsa and poached eggs.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Rosti Benedict <em>(1,3,7)</em></h4><span class="dot"></span><span class="dish__price">€15.50</span></div>
+            <p>Potato rosti, slow cooked ham, poached eggs &amp; brown butter hollandaise.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Courgette Fritters <em>(3,7)</em></h4><span class="dot"></span><span class="dish__price">€15</span></div>
+            <p>Courgette &amp; chickpea fritters, spiced yogurt, pickles, herb salad &amp; poached eggs.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Maple Bacon French Toast <em>(1)</em></h4><span class="dot"></span><span class="dish__price">€14</span></div>
+            <p>Double stack of brioche French toast, served with streaky bacon &amp; maple syrup.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Strawberry and Cream French Toast <em>(1,3,7)</em></h4><span class="dot"></span><span class="dish__price">€13.50</span></div>
+            <p>Cinnamon sugar coated vanilla French toast, Irish strawberries, strawberry Chantilly cream.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="menu__group reveal">
+        <h3 class="menu__cat">Sambos</h3>
+        <div id="sandwichesList" class="menu__list">
+          <article class="dish">
+            <div class="dish__row"><h4>Bacon and Egg Roll <em>(1,3,7,10,12)</em></h4><span class="dot"></span><span class="dish__price">€13</span></div>
+            <p>Toasted brioche bun, streaky bacon, fried eggs, caramelised onion, cheese and spicy mayo.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Ham and Cheese Toastie <em>(1,7)</em></h4><span class="dot"></span><span class="dish__price">€12.50</span></div>
+            <p>ABC burnt crust bread, slow cooked ham, smoked Irish cheddar, homemade tomato relish.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Bahn Mi <em>(1,2,10)</em></h4><span class="dot"></span><span class="dish__price">€13</span></div>
+            <p>Vietnamese style pork belly, pickled carrot and daikon, fresh chilli, coriander, vietmayo, baguette. Veggie option: crispy chilli garlic tofu.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Mediterranean Baguette <em>(1,7,8)</em></h4><span class="dot"></span><span class="dish__price">€11.50</span></div>
+            <p>Pesto, roasted peppers, tomato, smoked scamorza and rocket on rustic sourdough baguette. Add roast chicken €3.5.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>Korean Fried Chicken Burger <em>(1,3,7,11)</em></h4><span class="dot"></span><span class="dish__price">€14</span></div>
+            <p>Gochujang glazed fried chicken thigh, homemade spring onion kimchi slaw, on a toasted brioche bun. Add fries €4.</p>
+          </article>
+          <article class="dish">
+            <div class="dish__row"><h4>B.R.A.T <em>(1,10,12)</em></h4><span class="dot"></span><span class="dish__price">€12.50</span></div>
+            <p>Bacon, rocket, avocado, tomato &amp; mayo on toasted ABC loaf. Add fried eggs €3.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="menu__group menu__group--split">
+        <div class="reveal">
+          <h3 class="menu__cat">Sides &amp; Add-ons</h3>
+          <ul id="sidesList" class="menu__mini">
+            <li><span>2 Poached / Fried Eggs</span><b>€3</b></li>
+            <li><span>Smashed Avo</span><b>€4</b></li>
+            <li><span>Bacon</span><b>€3.50</b></li>
+            <li><span>Black Pudding</span><b>€3</b></li>
+            <li><span>Extra Sauces / Mayo</span><b>€1</b></li>
+            <li><span>Halloumi</span><b>€4</b></li>
+            <li><span>Fries</span><b>€4.50</b></li>
+            <li><span>ABC Burnt Crust Loaf or Brioche</span><b>€2.50</b></li>
+          </ul>
+        </div>
+        <div class="reveal" data-delay="100">
+          <h3 class="menu__cat">Drinks</h3>
+          <ul id="drinksList" class="menu__mini menu__mini--cols">
+            <li><span>Espresso</span><b>€3</b></li>
+            <li><span>Americano</span><b>€3.30</b></li>
+            <li><span>Flat White</span><b>€3.50</b></li>
+            <li><span>Cappuccino</span><b>€3.50</b></li>
+            <li><span>Latte</span><b>€3.50</b></li>
+            <li><span>Dirty Chai</span><b>€4</b></li>
+            <li><span>Mocha</span><b>€3.60</b></li>
+            <li><span>Tea</span><b>€2</b></li>
+            <li><span>Chai</span><b>€3.70</b></li>
+            <li><span>Matcha</span><b>€4</b></li>
+            <li><span>Hot Choco</span><b>€3.50</b></li>
+            <li><span>OJ</span><b>€2.50</b></li>
+            <li><span>Coke / Zero</span><b>€2.50</b></li>
+            <li><span>Sprite / Zero</span><b>€2.50</b></li>
+            <li><span>Fanta</span><b>€2.50</b></li>
+            <li><span>Ginger Beer</span><b>€4.50</b></li>
+            <li><span>Mimosa</span><b>€9</b></li>
+            <li><span>Hugo Spritz</span><b>€12.50</b></li>
+            <li><span>Aperol Spritz</span><b>€12.50</b></li>
+            <li><span>Limoncello Spritz</span><b>€12.50</b></li>
+            <li><span>Beamish</span><b>€5.70</b></li>
+            <li><span>Heineken</span><b>€6.20</b></li>
+            <li><span>Orchard Thieves</span><b>€6.20</b></li>
+            <li><span>Cab Sav</span><b>€8</b></li>
+            <li><span>Sav Blanc</span><b>€8</b></li>
+          </ul>
+        </div>
+      </div>
+      <p id="allergenNote" class="menu__note reveal">Allergens — 1 Gluten · 2 Crustaceans · 3 Eggs · 4 Fish · 5 Peanuts · 6 Soy · 7 Milk · 8 Nuts · 9 Celery · 10 Mustard · 11 Sesame · 12 Sulphites · 13 Lupin · 14 Molluscs.</p>
+    </section>
+
+    <!-- Plan Your Event -->
+    <section class="planevent" id="hire">
+      <div class="planevent__ticker" aria-hidden="true">
+        <div class="planevent__track">
+          <span>Plan Your Event</span><i>✦</i><span>Plan Your Event</span><i>✦</i><span>Plan Your Event</span><i>✦</i>
+          <span>Plan Your Event</span><i>✦</i><span>Plan Your Event</span><i>✦</i><span>Plan Your Event</span><i>✦</i>
+        </div>
+      </div>
+      <div id="planEventCards" class="planevent__cards">
+        <article class="ecard ecard--warm reveal">
+          <div class="ecard__inner">
+            <h2><em>Private<br/>Hire</em></h2>
+            <p>Birthday brunch, work do, family celebration — we take over the whole room for you. Bespoke menu, coffee sorted, up to 40 guests. You bring the people. Hosting something bigger? We've also got a garden out back available to hire for larger events.</p>
+            <p class="ecard__sub">More info and shots of the space at the link below.</p>
+            <a href="mailto:hello@paperboys.ie?subject=Private%20Hire%20Enquiry" class="btn btn--fill btn--dark">Get in touch ↗</a>
+          </div>
+        </article>
+        <article class="ecard ecard--cyan reveal" data-delay="120">
+          <div class="ecard__inner">
+            <h2><em>Events &amp;<br/>Pop-ups</em></h2>
+            <p>Looking to host a supper club, pop-up collab or brand activation? We've got the space, the kitchen and the crowd to make it work.</p>
+            <p class="ecard__sub">Press the button to see more info and get the conversation started :)</p>
+            <a href="mailto:hello@paperboys.ie?subject=Event%20Enquiry" class="btn btn--fill btn--dark">Have a look ↗</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery" id="gallery">
+      <div class="gallery__head">
+        <p class="label reveal">The room &amp; the plates</p>
+        <h2 class="reveal" data-delay="80"><em>Warm light,<br/>good company.</em></h2>
+      </div>
+      <div class="gallery__grid" id="galleryGrid">
+        <figure class="tile tile--a reveal"><img src="assets/pbb5.webp" alt="Inside Paperboys — the counter, hanging glassware and coffee board under slatted timber" loading="lazy" /><figcaption>The counter</figcaption></figure>
+        <figure class="tile tile--b reveal" data-delay="80"><img src="assets/pbb4.webp" alt="Two brunch plates" loading="lazy" /><figcaption>On the plate</figcaption></figure>
+        <figure class="tile tile--c reveal" data-delay="160"><img src="assets/pbb2.webp" alt="A flat white with latte art" loading="lazy" /><figcaption>Coffee, all day</figcaption></figure>
+        <figure class="tile tile--d reveal" data-delay="120"><img src="assets/pbb3.webp" alt="Egg tostadas topped with micro-herbs and salsa" loading="lazy" /><figcaption>Egg tostadas</figcaption></figure>
+        <figure class="tile tile--e reveal" data-delay="140"><img src="assets/pbb1.webp" alt="Prawn baguette with seasoned fries" loading="lazy" /><figcaption>Prawn baguette</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- What's On -->
+    <section class="whatson" id="whatson">
+      <div class="whatson__left">
+        <p class="label reveal">Coming up</p>
+        <h2 class="reveal" data-delay="60"><em>What's<br/>On</em></h2>
+        <div class="whatson__btns reveal" data-delay="140">
+          <a href="#menu" class="btn btn--fill">Full Menu</a>
+          <a href="https://www.instagram.com/paperboys_cork" target="_blank" rel="noopener" class="btn btn--outline">Instagram</a>
+        </div>
+        <p id="whatsonNote" class="whatson__note reveal" data-delay="200">Follow us on Instagram for the latest specials and pop-ups — we keep things fresh :)</p>
+      </div>
+      <div id="whatsonCards" class="whatson__cards">
+        <article class="wcard reveal">
+          <span class="wcard__day">Every day</span>
+          <h3>Daily Brunch</h3>
+          <p>Full menu on from 10 till 4. Breakfast dishes, sambos, coffee — the whole lot.</p>
+          <span class="wcard__tag">10:00 – 16:00</span>
+        </article>
+        <article class="wcard reveal" data-delay="100">
+          <span class="wcard__day">Weekend</span>
+          <h3>Saturday &amp; Sunday Special</h3>
+          <p>Weekend plates drop every Saturday and Sunday — something a little extra alongside the usual.</p>
+          <span class="wcard__tag">Ask inside</span>
+        </article>
+        <article class="wcard reveal" data-delay="200">
+          <span class="wcard__day">Monthly</span>
+          <h3>Pop-up Guests</h3>
+          <p>We occasionally hand the kitchen over to guest chefs and producers. Watch the Instagram for dates.</p>
+          <span class="wcard__tag">@paperboys_cork</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- Soundtrack -->
+    <section class="soundtrack">
+      <div class="soundtrack__bg" aria-hidden="true">
+        <!-- smiley pattern -->
+        <svg class="smiley-pattern" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <pattern id="smileys" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+              <circle cx="40" cy="40" r="28" fill="none" stroke="currentColor" stroke-width="3"/>
+              <circle cx="30" cy="34" r="4" fill="currentColor"/>
+              <circle cx="50" cy="34" r="4" fill="currentColor"/>
+              <path d="M29 48 Q40 58 51 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#smileys)"/>
+        </svg>
+      </div>
+      <div class="soundtrack__inner">
+        <div class="soundtrack__text reveal">
+          <p class="label label--dark">The vibe</p>
+          <h2 id="soundtrackHeading"><em>Paperboys<br/>HiFi</em></h2>
+          <p id="soundtrackPara1">We've been slowly building a playlist that pretty much runs in the background of everything we do.</p>
+          <p id="soundtrackPara2">Somewhere between soul, jazz, and whatever mood we're in that morning — stick it on.</p>
+          <a id="soundtrackCta" href="https://open.spotify.com/user/paperboys_cork" target="_blank" rel="noopener" class="btn btn--fill btn--white reveal" data-delay="120">Save on Spotify</a>
+        </div>
+        <div class="soundtrack__embed reveal" data-delay="100">
+          <iframe id="spotifyEmbed" style="border-radius:16px"
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0SM0LYsmbMT?utm_source=generator&theme=0"
+            width="100%" height="380" frameborder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title="Paperboys playlist on Spotify">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Useful Links -->
+    <section class="links-section">
+      <div class="links-ticker" aria-hidden="true">
+        <div class="links-ticker__track">
+          <span>Useful Links</span><i>✦</i><span>Useful Links</span><i>✦</i><span>Useful Links</span><i>✦</i>
+          <span>Useful Links</span><i>✦</i><span>Useful Links</span><i>✦</i><span>Useful Links</span><i>✦</i>
+        </div>
+      </div>
+      <div class="links-section__inner">
+        <figure class="links-section__photo reveal">
+          <img src="assets/pbb5.webp" alt="Inside Paperboys — the room" loading="lazy" />
+        </figure>
+        <div class="links-section__list reveal" data-delay="100">
+          <ul id="usefulLinksList">
+            <li><a href="#menu">Full Menu ↗</a></li>
+            <li><a href="https://www.instagram.com/paperboys_cork" target="_blank" rel="noopener">Instagram ↗</a></li>
+            <li><a href="https://www.google.com/maps/search/?api=1&query=Paperboys+Tobin+Street+Cork" target="_blank" rel="noopener">Get Directions ↗</a></li>
+            <li><a href="#visit">Opening Hours ↗</a></li>
+            <li><a href="mailto:hello@paperboys.ie">hello@paperboys.ie ↗</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA strip -->
+    <section class="cta-strip">
+      <div class="cta-strip__inner">
+        <p id="ctaStripTitle" class="cta-strip__title"><em>Good plates. Serious coffee.</em></p>
+        <p id="ctaStripSub" class="cta-strip__sub">We're on Tobin Street every day — come find us :)</p>
+        <a id="ctaStripBtn" href="#visit" class="btn btn--fill btn--white">Find the room</a>
+      </div>
+      <img class="cta-strip__mascot" src="assets/mascot.svg" alt="" aria-hidden="true" />
+    </section>
+
+    <!-- Visit -->
+    <section class="visit" id="visit">
+      <div class="visit__info">
+        <p id="visitLabel" class="label reveal">Come say hello</p>
+        <h2 id="visitHeading" class="reveal" data-delay="80"><em>Find the room.</em></h2>
+        <address class="reveal" data-delay="140">
+          Paperboys<br />Tobin Street, City Centre<br />Cork, Ireland
+        </address>
+        <div class="hours reveal" data-delay="200">
+          <h3>Opening hours</h3>
+          <ul id="hoursList">
+            <li data-day="1"><span>Monday</span><span>10:00 – 16:00</span></li>
+            <li data-day="2"><span>Tuesday</span><span>10:00 – 16:00</span></li>
+            <li data-day="3"><span>Wednesday</span><span>10:00 – 16:00</span></li>
+            <li data-day="4"><span>Thursday</span><span>10:00 – 16:00</span></li>
+            <li data-day="5"><span>Friday</span><span>10:00 – 16:00</span></li>
+            <li data-day="6"><span>Saturday</span><span>10:00 – 16:00</span></li>
+            <li data-day="0"><span>Sunday</span><span>10:00 – 16:00</span></li>
+          </ul>
+        </div>
+        <div class="visit__actions reveal" data-delay="240">
+          <a class="btn btn--fill" href="https://www.google.com/maps/search/?api=1&query=Paperboys+Tobin+Street+Cork" target="_blank" rel="noopener">Get directions</a>
+          <a class="btn btn--outline" href="https://www.instagram.com/paperboys_cork" target="_blank" rel="noopener">@paperboys_cork</a>
+        </div>
+      </div>
+      <div class="visit__map reveal" data-delay="160">
+        <iframe title="Map to Paperboys, Tobin Street, Cork"
+          src="https://www.google.com/maps?q=Tobin%20Street%2C%20Cork%2C%20Ireland&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+
+    <!-- Sister restaurant -->
+    <section class="sister-strip">
+      <p>We've also got a spot in Dublin — <a href="https://www.hensteethdublin.com/" target="_blank" rel="noopener">Hensteeth ↗</a></p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="assets/mascot.svg" alt="" />
+        <span>Paperboys</span>
+      </div>
+      <nav class="footer__nav">
+        <a href="#story">Our Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">The Room</a>
+        <a href="#visit">Find Us</a>
+        <a href="https://www.instagram.com/paperboys_cork" target="_blank" rel="noopener">Instagram</a>
+      </nav>
+    </div>
+    <div class="footer__base">
+      <small>© <span id="year"></span> Paperboys · Tobin Street, Cork City</small>
+      <small>Brunch daily, 10–4</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="cms.js"></script>
+</body>
+</html>
